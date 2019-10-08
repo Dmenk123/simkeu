@@ -1,80 +1,63 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Trans_order extends CI_Controller {
+class Pengeluaran extends CI_Controller {
 	
 	public function __construct()
 	{
 		parent::__construct();
-		//cek apablia session kosong
-		if ($this->session->userdata('username') === null) {
-			//direct ke controller login
-			redirect('login');
-		}
-		$this->load->model('mod_trans_order','t_order');
-		$this->load->model('pesan/mod_pesan','psn');
 		//profil data
 		$this->load->model('profil/mod_profil','prof');
-		//pesan stok dibawah rop
-		$this->load->model('Mod_home');
-		$barang = $this->Mod_home->get_barang();
-
-		foreach ($barang as $key) {
-			if ($key->stok_barang < $key->rop_barang) {
-				$this->session->set_flashdata('cek_stok', 'Terdapat Stok Barang dibawah nilai Reorder Point, Mohon di cek ulang / melakukan permintaan');
-			}
-		}
+		$this->load->model('mod_pengeluaran','m_out');
 	}
 
 	public function index()
 	{	
 		$id_user = $this->session->userdata('id_user'); 
-		$query = $this->prof->get_detail_pengguna($id_user);
+		$data_user = $this->prof->get_detail_pengguna($id_user);
 
-		$jumlah_notif = $this->psn->notif_count($id_user);  //menghitung jumlah post
-		$notif= $this->psn->get_notifikasi($id_user); //menampilkan isi postingan
-
-		//simpan data pada array
 		$data = array(
-			'content'=>'view_list_trans_order',
-			'css'=>'cssTransOrder',
-			'modal'=>'modalTransOrder',
-			'js'=>'jsTransOrder',
-			'title' => 'PT.Surya Putra Barutama',
-			'data_user' => $query,
-			'qty_notif' => $jumlah_notif,
-			'isi_notif' => $notif,
+			'data_user' => $data_user
 		);
-		//parsing data ke file view home
-		$this->load->view('view_home',$data);
 
+		$content = [
+			'css' 	=> 'cssPengeluaran',
+			'modal' => 'modalPengeluaran',
+			'js'	=> 'jsPengeluaran',
+			'view'	=> 'view_list_pengeluaran'
+		];
+
+		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_trans_order()
+	public function list_pengeluaran()
 	{
-		$list = $this->t_order->get_datatables();
+		$list = $this->m_out->get_datatables();
 		$data = array();
 		$no =$_POST['start'];
-		foreach ($list as $listTransOrder) {
-			$link_detail = site_url('trans_order/trans_order_detail/').$listTransOrder->id_trans_order;
+		foreach ($list as $listOut) {
+			$link_detail = site_url('pengeluaran/pengeluaran_detail/').$listOut->id;
 			$no++;
 			$row = array();
-			//loop value tabel db
-			$row[] = $listTransOrder->id_trans_order;
-			$row[] = $listTransOrder->username;
-			$row[] = $listTransOrder->tgl_trans_order;
-			//add html for action button
-			$row[] = '<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Order Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i> '.$listTransOrder->jml.' Items</a>
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editTransOrder('."'".$listTransOrder->id_trans_order."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deleteTransOrder('."'".$listTransOrder->id_trans_order."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>';
+			$row[] = $listOut->id;
+			$row[] = date('d-m-Y', strtotime($listOut->tanggal));
+			$row[] = $listOut->username;
+			$row[] = $listOut->pemohon;
+			
+			$row[] = '
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Order Detail" id="btn_detail" onclick="">
+					<i class="glyphicon glyphicon-info-sign"></i> Detail</a>
+				<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+			';
 
 			$data[] = $row;
 		}//end loop
 
 		$output = array(
 						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->t_order->count_all(),
-						"recordsFiltered" => $this->t_order->count_filtered(),
+						"recordsTotal" => $this->m_out->count_all(),
+						"recordsFiltered" => $this->m_out->count_filtered(),
 						"data" => $data,
 					);
 		//output to json format
@@ -115,12 +98,12 @@ class Trans_order extends CI_Controller {
 
 	public function edit_trans_order($id)
 	{
-		// $data = $this->t_order->get_by_id($id);
+		// $data = $this->m_out->get_by_id($id);
 		// echo json_encode($data);
 		
 		$data = array(
-			'data_header' => $this->t_order->get_detail_header($id),
-			'data_isi' => $this->t_order->get_detail($id),
+			'data_header' => $this->m_out->get_detail_header($id),
+			'data_isi' => $this->m_out->get_detail($id),
 		);
 
 		echo json_encode($data);
@@ -155,7 +138,7 @@ class Trans_order extends CI_Controller {
 			}
 
 								
-		$insert = $this->t_order->save($data_order, $data_order_detail);
+		$insert = $this->m_out->save($data_order, $data_order_detail);
 		//var_dump($data_order);
 		echo json_encode(array(
 			"status" => TRUE,
@@ -169,13 +152,13 @@ class Trans_order extends CI_Controller {
 		//delete id order in tabel detail
 		$id = $this->input->post('fieldIdOrder');
 		$initiated_date = date('Y-m-d H:i:s');
-		$hapus_data_order_detail = $this->t_order->hapus_data_order_detail($id);
+		$hapus_data_order_detail = $this->m_out->hapus_data_order_detail($id);
 
 		//update header
 		$data_header = array(
 			'tgl_trans_order' => $this->input->post('fieldTanggalOrder'),
 		); 
-		$this->t_order->update_data_header_detail(array('id_trans_order' => $id), $data_header);
+		$this->m_out->update_data_header_detail(array('id_trans_order' => $id), $data_header);
 
 		//proses insert ke tabel detail
 		$hitung_detail = count($this->input->post('fieldIdBarangOrder'));
@@ -194,12 +177,12 @@ class Trans_order extends CI_Controller {
 				);
 			}
 
-		$insert_update = $this->t_order->insert_update($data_order_detail);
+		$insert_update = $this->m_out->insert_update($data_order_detail);
 
 		//update tbl_trans_beli_detail
-		$id_t_order = $this->input->post('fieldIdOrder');
-		$result_id_order_detail = $this->t_order->get_id_trans_order_detail($id_t_order);
-		$result_id_beli_detail = $this->t_order->get_id_trans_beli_detail($id_t_order);
+		$id_m_out = $this->input->post('fieldIdOrder');
+		$result_id_order_detail = $this->m_out->get_id_trans_order_detail($id_m_out);
+		$result_id_beli_detail = $this->m_out->get_id_trans_beli_detail($id_m_out);
 
 		$data_id_order_detail = array();
 		//cek apablia array bernilai kosong
@@ -227,7 +210,7 @@ class Trans_order extends CI_Controller {
 
 	public function delete_trans_order($id)
 	{
-		$this->t_order->delete_by_id($id);
+		$this->m_out->delete_by_id($id);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Data Transaksi Order Barang No.'.$id.' Berhasil dihapus'
@@ -243,8 +226,8 @@ class Trans_order extends CI_Controller {
 		$notif= $this->psn->get_notifikasi($id_user); //menampilkan isi postingan
 
 		$id_trans_order = $this->uri->segment(3); 
-		$query_header = $this->t_order->get_detail_header($id_trans_order);
-		$query = $this->t_order->get_detail($id_trans_order);
+		$query_header = $this->m_out->get_detail_header($id_trans_order);
+		$query = $this->m_out->get_detail($id_trans_order);
 
 		$data = array(
 			'css'=>'cssTransOrder',
@@ -265,8 +248,8 @@ class Trans_order extends CI_Controller {
 		$this->load->library('Pdf_gen');
 
 		$id_trans_order = $this->uri->segment(3);
-		$query_header = $this->t_order->get_detail_header($id_trans_order);
-		$query = $this->t_order->get_detail($id_trans_order);
+		$query_header = $this->m_out->get_detail_header($id_trans_order);
+		$query = $this->m_out->get_detail($id_trans_order);
 
 		$data = array(
 			'title' => 'Report Transaksi Permintaan',
@@ -283,7 +266,7 @@ class Trans_order extends CI_Controller {
 	public function ajax_get_header_form()
 	{
 		$data = array(
-			'kode_trans_order'=> $this->t_order->getKodeTransOrder(),
+			'kode_trans_order'=> $this->m_out->getKodeTransOrder(),
 		);
 
 		echo json_encode($data);
@@ -334,7 +317,7 @@ class Trans_order extends CI_Controller {
 	{
 		// $q = $this->input->post('kode',TRUE);
 		$q = strtolower($_GET['term']);
-		$query = $this->t_order->lookup($q);
+		$query = $this->m_out->lookup($q);
 		//$barang = array();
 
 		foreach ($query as $row) {
@@ -350,7 +333,7 @@ class Trans_order extends CI_Controller {
 
 	public function get_data_barang($rowIdBrg)
 	{
-		$query = $this->t_order->lookup2($rowIdBrg);
+		$query = $this->m_out->lookup2($rowIdBrg);
 		echo json_encode($query);
 	}
 
