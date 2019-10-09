@@ -1,61 +1,83 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Mod_trans_order extends CI_Model
+class Mod_pengeluaran extends CI_Model
 {
-	/*var $column_order = array('id_trans_order','tbl_trans_order.id_user',null,null,null);
-	var $column_search = array('id_trans_order','tbl_user.username'); 
-	var $order = array('id_trans_order' => 'desc'); // default order */
+	var $column_search = array(
+		"tk.id",
+		"tk.tanggal",
+		"tu.username",
+		"tk.pemohon"
+	);
+
+	var $column_order = array(
+		"tk.id",
+		"tk.tanggal",
+		"tu.username",
+		"tk.pemohon",
+		null,
+	);
+
+	var $order = array('tr.id_pembelian' => 'desc'); // default order
 
 	public function __construct()
 	{
 		parent::__construct();
-		//alternative load library from config
 		$this->load->database();
 	}
 
-	private function _get_datatables_query($term='') //term is value of $_REQUEST['search']
+	private function _get_datatable_query($term='') //term is value of $_REQUEST['search']
 	{
 		$column = array(
-			'tbl_trans_order.id_trans_order',
-			'tbl_user.username',
-			'tbl_trans_order.tgl_trans_order',
-			);
-
-		$this->db->select('
-			tbl_trans_order.id_trans_order,
-			tbl_trans_order_detail.id_trans_order_detail,
-			tbl_barang.nama_barang,
-			tbl_user.username,
-			tbl_trans_order.tgl_trans_order,
-			COUNT(tbl_barang.id_barang) AS jml
-			');
-
-		$this->db->from('tbl_trans_order');
-		//join 'tbl', on 'tbl = tbl' , type join
-		$this->db->join(
-			'tbl_trans_order_detail',
-			'tbl_trans_order.id_trans_order = tbl_trans_order_detail.id_trans_order','left');
-		$this->db->join(
-			'tbl_barang',
-			'tbl_trans_order_detail.id_barang = tbl_barang.id_barang','left');
-		$this->db->join(
-			'tbl_user',
-			'tbl_trans_order.id_user = tbl_user.id_user','left');
-
-		$this->db->like('tbl_trans_order.id_trans_order',$term);
-		$this->db->or_like('tbl_barang.nama_barang',$term);
-		$this->db->or_like('tbl_user.username',$term);
-		$this->db->or_like('tbl_trans_order.tgl_trans_order',$term);
-		$this->db->group_by('tbl_trans_order.id_trans_order');
+			"tk.id",
+			"tk.tanggal",
+			"tu.username",
+			"tk.pemohon",
+			null,
+		);
+		
+		$this->db->select("
+			tk.id,
+			tk.user_id,
+			tu.username,
+			tk.pemohon,
+			tk.tanggal,
+			tk.status,
+			tk.created_at,
+			tk.updated_at
+		");
+		
+		$this->db->from('tbl_trans_keluar as tk');
+		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
+		//$this->db->where('tr.status_penarikan', '1');
+		
+		$i = 0;
+		foreach ($this->column_search as $item) 
+		{
+			if($_POST['search']['value']) 
+			{
+				if($i===0) 
+				{
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				}
+				else
+				{
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if(count($this->column_search) - 1 == $i) 
+					$this->db->group_end(); //close bracket
+			}
+			$i++;
+		}
 
 		if(isset($_POST['order'])) // here order processing
 		{
-			$this->db->order_by($column[$_REQUEST['order']['0']['column']], $_REQUEST['order']['0']['dir']);
+			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
 		} 
 		else if(isset($this->order))
 		{
 			$order = $this->order;
-			$this->db->order_by(key($order), $order[key($order)]);
+            $this->db->order_by(key($order), $order[key($order)]);
 		}
 	}
 
@@ -79,9 +101,22 @@ class Mod_trans_order extends CI_Model
 		return $query->num_rows();
 	}
 
-	public function count_all()
+	public function count_all($id_vendor="")
 	{
-		$this->db->from('tbl_trans_order');
+		$this->db->select("
+			tk.id,
+			tk.user_id,
+			tu.username,
+			tk.pemohon,
+			tk.tanggal,
+			tk.status,
+			tk.created_at,
+			tk.updated_at
+		");
+		
+		$this->db->from('tbl_trans_keluar as tk');
+		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
+		//$this->db->where('tr.status_penarikan', '1');
 		return $this->db->count_all_results();
 	}
 

@@ -2,12 +2,12 @@
     <section class="content-header">
       <h1>
         Transaksi
-        <small>Order Barang</small>
+        <small>Pengeluaran Harian</small>
       </h1>
 
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Data Transaksi</a></li>
-        <li class="active">Order Barang</li>
+        <li class="active">Pengeluaran Harian</li>
       </ol>
     </section>
 
@@ -23,13 +23,14 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                <table id="tabelTransOrder" class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <table id="tabelPengeluaran" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>ID Transaksi</th>
-                      <th>Nama User</th>
+                      <th>ID Pencatatan</th>
                       <th>Tanggal</th>
-                      <th style="width: 200px;">Action</th>
+                      <th>Nama User</th>
+                      <th>Pemohon</th>
+                      <th style="width: 10%;">Aksi</th>
                     </tr>
                   </thead>
                   <tbody>

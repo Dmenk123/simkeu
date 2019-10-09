@@ -64,14 +64,14 @@ $(document).ready(function() {
 
   //datatables  
   // tabel trans order
-	table = $('#tabelTransOrder').DataTable({
+	table = $('#tabelPengeluaran').DataTable({
 		
 		"processing": true, 
 		"serverSide": true, 
 		"order":[[ 2, 'desc' ]], 
 		//load data for table content from ajax source
 		"ajax": {
-			"url": "<?php echo site_url('trans_order/list_trans_order') ?>",
+			"url": "<?php echo site_url('pengeluaran/list_pengeluaran') ?>",
 			"type": "POST" 
 		},
 
