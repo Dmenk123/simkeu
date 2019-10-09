@@ -1,7 +1,7 @@
 <!-- Bootstrap modal -->
 <!-- modal_form_order -->
 <div class="modal fade" id="modal_pengeluaran" role="dialog">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -18,40 +18,45 @@
                         <input type="text" class="form-control" id="form_username" name="fieldUsername" value="<?php echo $this->session->userdata('username');?>" readonly>
                         <input type="hidden" class="form-control" id="form_userid" name="fieldUserid" value="<?php echo $this->session->userdata('id_user');?>" readonly>
                      </div>
-                     <br />
+                     <br /><br />
                     <div class="form-group" style="padding-bottom: 20px;">
                        <table id="tabel_pengeluaran" class="table table-bordered table-hover">
                             <thead>
                               <tr>
-                                  <th style="text-align:center" width="20%">Pemohon</th>
-                                  <th style="text-align:center" width="30%">Keterangan</th>
-                                  <th style="text-align:center" width="5%">Jumlah</th>
-                                  <th style="text-align:center" width="5%">Satuan</th>
-                                  <th style="text-align:center" width="5%">AKSI</th>
+                                  <th style="text-align:center; width: 30%">Pemohon</th>
+                                  <th style="text-align:center; width: 50%">Keterangan</th>
+                                  <th style="text-align:center; width: 5%">Jumlah</th>
+                                  <th style="text-align:center; width: 10%">Satuan</th>
+                                  <th style="text-align:center; width: 5%">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
                               <tr>
-                                 <td>
-                                    <div class="form-group">
-                                        <input type="text" name="formPemohonTbl" class="form-control" id="form_pemohon_tbl"  placeholder="Pemohon"/>
+                                 <td style="width: 30%;">
+                                    <div class="form-group" style="width: 100%;">
+                                        <input type="text" name="formPemohonTbl" class="form-control" id="form_pemohon_tbl"  placeholder="Pemohon" style="width: 100%;"/>
                                         <input type="hidden" name="formIdTbl" class="form-control" id="form_id_tbl"/>
                                     </div>
                                  </td>
-                                 <td>
-                                    <div class="form-group">
-                                        <input type="text" name="formKeteranganTbl" class="form-control" id="form_keterangan_tbl" placeholder="Keterangan"/>
+                                 <td style="width: 50%;">
+                                    <div class="form-group" style="width: 100%;">
+                                        <input type="text" name="formKeteranganTbl" class="form-control" id="form_keterangan_tbl" placeholder="Keterangan" style="width: 100%;"/>
                                     </div>    
                                  </td>
-                                 <td>
-                                    <div class="form-group">
-                                        <input type="text" name="formJumlahTbl" class="form-control numberinput" id="form_jumlah_tbl" placeholder="Jumlah"/>
+                                 <td style="width: 5%;">
+                                    <div class="form-group" style="width: 100%;">
+                                        <input type="text" name="formJumlahTbl" class="form-control numberinput" id="form_jumlah_tbl" placeholder="Jumlah" style="width: 100%;"/>
                                     </div>
                                  </td>
-                                 <td>
-                                    <div class="form-group">
-                                        <input type="text" name="formSatuanTbl" class="form-control" id="form_satuan_tbl" placeholder="Satuan" />
-                                        <input type="hidden" name="formIdSatuanOrder" class="form-control" id="form_id_satuan_order"/>
+                                 <td style="width: 10%;">
+                                    <div class="form-group" style="width: 100%;">
+                                        <select name="formSatuanTbl" id="form_satuan_tbl" class="form-control" style="width: 100%;">
+                                            <option value=""> - </option>
+                                            <option value="1">121</option>
+                                            <option value="4">111</option>
+                                            <option value="2">151</option>
+                                            <option value="1">121</option>
+                                        </select>
                                     </div>    
                                  </td>
                                  <td>

@@ -12,33 +12,39 @@ $(document).ready(function() {
   var i = randString(5);
 	//addrow field inside modal
   $('#btn_add_row').click(function() {
-    var ambilNama = $('#form_nama_barang_order').val();
-    var ambilIdNama = $('#form_id_barang_order').val();
-    var ambilSatuan = $('#form_nama_satuan_order').val();
-    var ambilIdSatuan = $('#form_id_satuan_order').val();
-    var ambilJumlah = $('#form_jumlah_barang_order').val();
-    var ambilKeterangan = $('#form_keterangan_barang_order').val();
-      if (ambilNama == "" || ambilSatuan == "" || ambilJumlah == "" || ambilIdNama == "" ) {
+    var ambilPemohon = $('#form_pemohon_tbl').val();
+    var ambilId = $('#form_id_tbl').val();
+    var ambilKeterangan = $('#form_keterangan_tbl').val();
+    var ambilIJumlah = $('#form_jumlah_tbl').val();
+    var ambilSatuan = $('#form_satuan_tbl').val();
+      if (ambilPemohon == "" || ambilKeterangan == "" || ambilIJumlah == "" || ambilSatuan == "" ) {
         alert('ada field yang tidak diisi, Mohon cek lagi!!');
       }else{
-         $('#tabel_order').append('<tr class="tbl_modal_row" id="row'+i+'">'
-                                +'<td><input type="text" name="fieldNamaBarangOrder[]" value="'+ambilNama+'" id="field_nama_barang_order" class="form-control" required readonly>'
-                                +'<input type="hidden" name="fieldIdBeli[]" value="0" id="field_id_beli" class="form-control">'
-                                +'<input type="hidden" name="fieldIdBarangOrder[]" value="'+ambilIdNama+'" id="field_id_barang_order" class="form-control"></td>'
-                                +'<td><input type="text" name="fieldNamaSatuanOrder[]" value="'+ambilSatuan+'" id="field_nama_satuan_order" class="form-control" required readonly>'
-                                +'<input type="hidden" name="fieldIdSatuanOrder[]" value="'+ambilIdSatuan+'" id="field_id_satuan_order" class="form-control"></td>'
-                                +'<td><input type="text" name="fieldJumlahBarangOrder[]" value="'+ambilJumlah+'" id="field_jumlah_barang_order" class="form-control" required readonly></td>'
-                                +'<td><input type="text" name="fieldKeteranganBarangOrder[]" value="'+ambilKeterangan+'" id="field_keterangan_barang_order" class="form-control" required readonly></td>'
-                                +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>'
-                                +'</tr>');
+         $('#tabel_pengeluaran').append(
+            '<tr class="tbl_modal_row" id="row'+i+'">'
+              +'<td>'
+                +'<input type="text" name="i_namapemohon[]" value="'+ambilPemohon+'" id="i_namapemohon" class="form-control" required readonly>'
+                +'<input type="hidden" name="i_id[]" value="'+ambilId+'" id="i_id" class="form-control">'
+              +'</td>'
+              +'<td>'
+                +'<input type="text" name="i_keterangan[]" value="'+ambilKeterangan+'" id="i_keterangan" class="form-control" required readonly>'
+              +'</td>'
+              +'<td>'
+                +'<input type="text" name="i_jumlah[]" value="'+ambilIJumlah+'" id="i_jumlah" class="form-control" required readonly>'
+              +'</td>'
+              +'<td>'
+                +'<input type="text" name="i_satuan[]" value="'+ambilSatuan+'" id="i_satuan" class="form-control" required readonly>'
+              +'</td>'
+              +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>'
+            +'</tr>');
         i = randString(5);
+
         //kosongkan field setelah append row
-        $('#form_nama_barang_order').val("");
-        $('#form_id_barang_order').val("");
-        $('#form_nama_satuan_order').val("");
-        $('#form_id_satuan_order').val("");
-        $('#form_jumlah_barang_order').val("");
-        $('#form_keterangan_barang_order').val("");
+        $('#form_pemohon_tbl').val("");
+        $('#form_id_tbl').val("");
+        $('#form_keterangan_tbl').val("");
+        $('#form_jumlah_tbl').val("");
+        $('#form_satuan_tbl').val("");
       } 
   });
 
