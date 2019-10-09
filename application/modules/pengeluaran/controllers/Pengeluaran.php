@@ -263,10 +263,10 @@ class Pengeluaran extends CI_Controller {
 	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
 	}
 
-	public function ajax_get_header_form()
+	public function get_header_modal_form()
 	{
 		$data = array(
-			'kode_trans_order'=> $this->m_out->getKodeTransOrder(),
+			'kode_pencatatan'=> $this->m_out->getKodePengeluaran(),
 		);
 
 		echo json_encode($data);

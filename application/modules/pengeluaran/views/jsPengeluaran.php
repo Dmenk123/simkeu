@@ -165,22 +165,22 @@ setInterval(function(){
     $("#load_data").load('<?=base_url()?>pesan/load_data_notif')
 }, 2000); //yang ini untuk selalu cek isi data notifikasinya sama setiap 2 detik diambil dari controller notifikasi fungsi load_data
 
-function addTransOrder() 
+function addPengeluaran() 
 {
 	save_method = 'add';
 	$('#form')[0].reset(); //reset form on modals
 	$('.form-group').removeClass('has-error');//clear error class
 	$('.help-block').empty(); //clear error string
-	$('#modal_form_order').modal('show'); //show bootstrap modal
-	$('.modal-title').text('Transaksi Pemesanan Barang'); //set title modal
+	$('#modal_pengeluaran').modal('show'); //show bootstrap modal
+	$('.modal-title').text('Transaksi Pencatatan Pengeluaran'); //set title modal
   $.ajax({
-        url : "<?php echo site_url('trans_order/ajax_get_header_form/')?>",
+        url : "<?php echo site_url('pengeluaran/get_header_modal_form/')?>",
         type: "GET",
         dataType: "JSON",
         success: function(data)
           {
             //header
-            $('[name="fieldIdOrder"]').val(data.kode_trans_order);
+            $('[name="fieldId"]').val(data.kode_pencatatan);
           }
       });
 }

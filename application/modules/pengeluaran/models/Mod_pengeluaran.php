@@ -250,8 +250,8 @@ class Mod_pengeluaran extends CI_Model
             return "ORD".date('my').$kd;
     }*/
 
-    function getKodeTransOrder(){
-            $q = $this->db->query("SELECT MAX(RIGHT(id_trans_order,5)) as kode_max from tbl_trans_order WHERE DATE_FORMAT(tgl_trans_order, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
+    function getKodePengeluaran(){
+            $q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_keluar WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
             $kd = "";
             if($q->num_rows()>0){
                 foreach($q->result() as $k){
@@ -261,7 +261,7 @@ class Mod_pengeluaran extends CI_Model
             }else{
                 $kd = "00001";
             }
-            return "ORD".date('my').$kd;
+            return "OUT".date('my').$kd;
     }
 
     function satuan(){

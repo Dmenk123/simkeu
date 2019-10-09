@@ -17,7 +17,7 @@
         <div class="col-xs-s12">
           <div class="box">
             <div class="box-header">
-              <button class="btn btn-success" onclick="addTransOrder()"><i class="glyphicon glyphicon-plus"></i> Tambah Order</button>
+              <button class="btn btn-success" onclick="addPengeluaran()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
               <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
             </div>
             <!-- /.box-header -->
