@@ -9,16 +9,16 @@
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-inline">
-                     <div class="form-group">
+                    <div class="form-group">
                         <label class="lbl-modal">ID Pencatatan : </label>
                         <input type="text" class="form-control" id="form_id" name="fieldId" readonly="">
-                     </div>
-                      <div class="form-group">
+                    </div>
+                    <div class="form-group">
                         <label class="lbl-modal">User : </label>
                         <input type="text" class="form-control" id="form_username" name="fieldUsername" value="<?php echo $this->session->userdata('username');?>" readonly>
                         <input type="hidden" class="form-control" id="form_userid" name="fieldUserid" value="<?php echo $this->session->userdata('id_user');?>" readonly>
-                     </div>
-                     <br /><br />
+                    </div>
+                    <br /><br />
                     <div class="form-group" style="padding-bottom: 20px;">
                        <table id="tabel_pengeluaran" class="table table-bordered table-hover">
                             <thead>
@@ -35,27 +35,28 @@
                                  <td style="width: 30%;">
                                     <div class="form-group" style="width: 100%;">
                                         <input type="text" name="formPemohonTbl" class="form-control" id="form_pemohon_tbl"  placeholder="Pemohon" style="width: 100%;"/>
-                                        <input type="hidden" name="formIdTbl" class="form-control" id="form_id_tbl"/>
                                     </div>
                                  </td>
-                                 <td style="width: 50%;">
+                                 <td style="width: 40%;">
                                     <div class="form-group" style="width: 100%;">
                                         <input type="text" name="formKeteranganTbl" class="form-control" id="form_keterangan_tbl" placeholder="Keterangan" style="width: 100%;"/>
                                     </div>    
                                  </td>
-                                 <td style="width: 5%;">
+                                 <td style="width: 10%;">
                                     <div class="form-group" style="width: 100%;">
                                         <input type="text" name="formJumlahTbl" class="form-control numberinput" id="form_jumlah_tbl" placeholder="Jumlah" style="width: 100%;"/>
                                     </div>
                                  </td>
-                                 <td style="width: 10%;">
+                                 <td style="width: 15%;">
                                     <div class="form-group" style="width: 100%;">
                                         <select name="formSatuanTbl" id="form_satuan_tbl" class="form-control" style="width: 100%;">
-                                            <option value=""> - </option>
-                                            <option value="1">121</option>
-                                            <option value="4">111</option>
-                                            <option value="2">151</option>
-                                            <option value="1">121</option>
+                                            <?php
+                                                $arr_satuan = $this->db->get('tbl_satuan')->result();
+                                                echo '<option value=""> - </option>';
+                                                foreach ($arr_satuan as $key => $val) {
+                                                    echo '<option value="'.$val->id.'">'.$val->nama.'</option>';
+                                                }
+                                            ?>
                                         </select>
                                     </div>    
                                  </td>

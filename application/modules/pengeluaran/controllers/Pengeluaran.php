@@ -45,10 +45,10 @@ class Pengeluaran extends CI_Controller {
 			$row[] = $listOut->pemohon;
 			
 			$row[] = '
-				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Order Detail" id="btn_detail" onclick="">
-					<i class="glyphicon glyphicon-info-sign"></i> Detail</a>
-				<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+					<i class="glyphicon glyphicon-info-sign"></i></a>
+				<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
 			';
 
 			$data[] = $row;
@@ -64,36 +64,55 @@ class Pengeluaran extends CI_Controller {
 		echo json_encode($output);
 	}
 
-	public function list_peramalan()
+	public function add_pengeluaran()
 	{
-		$this->load->model('forecasting/Mod_forecasting','m_ramal');
-		$list = $this->m_ramal->get_datatables();
-		$data = array();
-		$no =$_POST['start'];
-		foreach ($list as $listPeramalan) {
-			$no++;
-			$row = array();
-			//loop value tabel db
-			$row[] = '<span class="row_idBrg_'.$listPeramalan->id_forecast.'">'.$listPeramalan->id_barang.'</span>';
-			$row[] = $listPeramalan->nama_barang;
-			$row[] = $listPeramalan->tgl_forecast;
-			$row[] = $listPeramalan->alpha_forecast;
-			$row[] = '<span class="row_ft_'.$listPeramalan->id_forecast.'">'.$listPeramalan->hasil_forecast.'</span>';
-			$row[] = $listPeramalan->mape_forecast;
-			//add html for action button
-			$row[] = '<a class="btn btn-sm btn-default" href="javascript:void(0)" title="Ambil Data" onclick="ambilData('."'".$listPeramalan->id_forecast."'".')"> Ambil Data</a>';
+		//$this->_validate();
+		$timestamp = date('Y-m-d H:i:s');
+		$id = $this->input->post('fieldId');
+		$userid = $this->input->post('fieldUserid');
+		$tanggal = date('Y-m-d');
+		$pemohon = $this->input->post('i_namapemohon')[0];
 
-			$data[] = $row;
-		}//end loop
+		$this->db->trans_begin();
 
-		$output = array(
-						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->m_ramal->count_all(),
-						"recordsFiltered" => $this->m_ramal->count_filtered(),
-						"data" => $data,
-					);
-		//output to json format
-		echo json_encode($output);
+		$data_header = array(
+			'id' 			=> $id,
+			'user_id' 		=> $userid,
+			'pemohon'		=> $pemohon,
+			'tanggal' 		=> $tanggal,
+			'status' 		=> 1,
+			'created_at' 	=> $timestamp, 
+		);
+
+		//for table trans_order_detail
+		$hitung = count($this->input->post('i_namapemohon'));
+		$data_detail = [];
+		for ($i=0; $i < $hitung; $i++) 
+		{
+			$data_detail[$i] = array(
+				'id_trans_keluar' => $id,
+				'keterangan' => $this->input->post('i_keterangan')[$i],
+				'satuan' => $this->input->post('i_satuan')[$i],
+				'qty' => $this->input->post('i_jumlah')[$i],
+			);
+		}
+							
+		$insert = $this->m_out->save($data_header, $data_detail);
+		
+		if ($this->db->trans_status() === FALSE) {
+        	$this->db->trans_rollback();
+        	echo json_encode(array(
+				"status" => FALSE,
+				"pesan_tambah" => 'Data Transaksi Pengeluaran Gagal ditambahkan'
+			));
+		}
+		else {
+		    $this->db->trans_commit();
+		    echo json_encode(array(
+				"status" => TRUE,
+				"pesan_tambah" => 'Data Transaksi Pengeluaran Barang Berhasil ditambahkan'
+			));
+		}
 	}
 
 	public function edit_trans_order($id)
@@ -107,43 +126,6 @@ class Pengeluaran extends CI_Controller {
 		);
 
 		echo json_encode($data);
-	}
-
-	public function add_trans_order()
-	{
-		$this->_validate();
-		$initiated_date = date('Y-m-d H:i:s');
-		//for table trans_order
-		$data_order = array(			
-				'id_trans_order' => $this->input->post('fieldIdOrder'),
-				'id_user' => $this->input->post('fieldIdUserOrder'),
-				'tgl_trans_order' => $this->input->post('fieldTanggalOrder'),
-				'timestamp_trans_order' => $initiated_date, 
-			);
-
-		//for table trans_order_detail
-		$hitung = count($this->input->post('fieldIdBarangOrder'));
-		$data_order_detail = array();
-			for ($i=0; $i < $hitung; $i++) 
-			{
-				$data_order_detail[$i] = array(
-					'id_trans_order' => $this->input->post('fieldIdOrder'),
-					'id_barang' => $this->input->post('fieldIdBarangOrder')[$i],
-					'id_satuan' => $this->input->post('fieldIdSatuanOrder')[$i],
-					'qty_order' => $this->input->post('fieldJumlahBarangOrder')[$i],
-					'keterangan_order' => $this->input->post('fieldKeteranganBarangOrder')[$i],
-					'tgl_trans_order_detail' => $this->input->post('fieldTanggalOrder'),
-					'timestamp' => $initiated_date, 
-				);
-			}
-
-								
-		$insert = $this->m_out->save($data_order, $data_order_detail);
-		//var_dump($data_order);
-		echo json_encode(array(
-			"status" => TRUE,
-			"pesan_tambah" => 'Data Transaksi Order Barang Berhasil ditambahkan'
-			));
 	}
 
 	public function update_trans_order()

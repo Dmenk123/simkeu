@@ -25,7 +25,7 @@ class Mod_pengeluaran extends CI_Model
 		$this->load->database();
 	}
 
-	private function _get_datatable_query($term='') //term is value of $_REQUEST['search']
+	private function _get_datatables_query($term='') //term is value of $_REQUEST['search']
 	{
 		$column = array(
 			"tk.id",
@@ -129,14 +129,10 @@ class Mod_pengeluaran extends CI_Model
 		return $query->row();
 	}
 
-	public function save($data_order, $data_order_detail)
-	{
-		//insert into tbl_trans_order 
-		$this->db->insert('tbl_trans_order',$data_order);
-
-		//insert into tbl_trans_order_detail 
-		$this->db->insert_batch('tbl_trans_order_detail',$data_order_detail);
-		// return $this->db->insert_id();
+	public function save($data_header, $data_detail)
+	{ 
+		$this->db->insert('tbl_trans_keluar',$data_header);
+		$this->db->insert_batch('tbl_trans_keluar_detail',$data_detail);
 	}
 
 	public function update_data_header_detail($where, $data_header)

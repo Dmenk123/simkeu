@@ -17,23 +17,24 @@ $(document).ready(function() {
     var ambilKeterangan = $('#form_keterangan_tbl').val();
     var ambilIJumlah = $('#form_jumlah_tbl').val();
     var ambilSatuan = $('#form_satuan_tbl').val();
-      if (ambilPemohon == "" || ambilKeterangan == "" || ambilIJumlah == "" || ambilSatuan == "" ) {
-        alert('ada field yang tidak diisi, Mohon cek lagi!!');
-      }else{
-         $('#tabel_pengeluaran').append(
+    var ambilSatuanText = $( "#form_satuan_tbl option:selected" ).text();
+    if (ambilPemohon == "" || ambilKeterangan == "" || ambilIJumlah == "" || ambilSatuan == "" ) {
+      alert('ada field yang tidak diisi, Mohon cek lagi!!');
+    }else{
+      $('#tabel_pengeluaran').append(
             '<tr class="tbl_modal_row" id="row'+i+'">'
-              +'<td>'
-                +'<input type="text" name="i_namapemohon[]" value="'+ambilPemohon+'" id="i_namapemohon" class="form-control" required readonly>'
-                +'<input type="hidden" name="i_id[]" value="'+ambilId+'" id="i_id" class="form-control">'
+              +'<td style="width: 30%;">'
+                +'<input type="text" name="i_namapemohon[]" value="'+ambilPemohon+'" id="i_namapemohon" class="form-control" required readonly style="width: 100%;">'
               +'</td>'
-              +'<td>'
-                +'<input type="text" name="i_keterangan[]" value="'+ambilKeterangan+'" id="i_keterangan" class="form-control" required readonly>'
+              +'<td style="width: 40%;">'
+                +'<input type="text" name="i_keterangan[]" value="'+ambilKeterangan+'" id="i_keterangan" class="form-control" required readonly style="width: 100%;">'
               +'</td>'
-              +'<td>'
-                +'<input type="text" name="i_jumlah[]" value="'+ambilIJumlah+'" id="i_jumlah" class="form-control" required readonly>'
+              +'<td style="width: 10%;">'
+                +'<input type="text" name="i_jumlah[]" value="'+ambilIJumlah+'" id="i_jumlah" class="form-control" required readonly style="width: 100%;">'
               +'</td>'
-              +'<td>'
-                +'<input type="text" name="i_satuan[]" value="'+ambilSatuan+'" id="i_satuan" class="form-control" required readonly>'
+              +'<td style="width: 15%;">'
+                +'<input type="text" name="i_satuan_text[]" value="'+ambilSatuanText+'" id="i_satuan_text" class="form-control" required readonly style="width: 100%;">'
+                +'<input type="hidden" name="i_satuan[]" value="'+ambilSatuan+'" id="i_satuan" class="form-control" required readonly style="width: 100%;">'
               +'</td>'
               +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>'
             +'</tr>');
@@ -59,13 +60,12 @@ $(document).ready(function() {
   });
 
   // select class modal apabila bs.modal hidden
-  $("#modal_form_order").on("hidden.bs.modal", function(){
+  $("#modal_pengeluaran").on("hidden.bs.modal", function(){
     $('#form')[0].reset(); 
     //clear tr append in modal
     $('tr').remove('.tbl_modal_row'); 
-    $('#form_tanggal_order').datepicker('setDate', null); 
-    $('.form-group').removeClass('has-error');//clear error class
-    $('.help-block').empty(); //clear error string
+    $('.form-group').removeClass('has-error');
+    $('.help-block').empty();
   });
 
   //datatables  
@@ -89,28 +89,6 @@ $(document).ready(function() {
 			},
 		],
 	});
-
-  //tabel peramalan
-  table2 = $('#tabelforecasting').DataTable({
-        
-    "processing": true, //feature control the processing indicator
-    "serverSide": true, //feature control DataTables server-side processing mode
-    "order":[[ 0, 'desc' ]], //index for order, 0 is first column
-
-    //load data for table content from ajax source
-    "ajax": {
-       "url": "<?php echo site_url('trans_order/list_peramalan') ?>",
-       "type": "POST" 
-    },
-
-    //set column definition initialisation properties
-    "columnDefs": [
-      {
-        "targets": [-1], //last column
-        "orderable": false, //set not orderable
-      },
-    ],
-  });
 
   $('#tabelTransOrderDetail').DataTable({
   });
@@ -143,33 +121,8 @@ $(document).ready(function() {
 		$(this).next().empty();
 	});
 
-  //update dt_read after click
-  $(document).on('click', '.linkNotif', function(){
-    var id = $(this).attr('id');
-    $.ajax({
-      url : "<?php echo site_url('inbox/update_read/')?>/" + id,
-      type: "POST",
-      dataType: "JSON",
-      success: function(data)
-      {
-        location.href = "<?php echo site_url('inbox/index')?>";
-      },
-        error: function (jqXHR, textStatus, errorThrown)
-      {
-        alert('Error get data from ajax');
-      }
-    });
-  });
 //end jquery
 });	
-
-setInterval(function(){
-    $("#load_row").load('<?=base_url()?>pesan/load_row_notif')
-}, 2000); //menggunakan setinterval jumlah notifikasi akan selalu update setiap 2 detik diambil dari controller notifikasi fungsi load_row
- 
-setInterval(function(){
-    $("#load_data").load('<?=base_url()?>pesan/load_data_notif')
-}, 2000); //yang ini untuk selalu cek isi data notifikasinya sama setiap 2 detik diambil dari controller notifikasi fungsi load_data
 
 function addPengeluaran() 
 {
@@ -191,17 +144,17 @@ function addPengeluaran()
       });
 }
 
-function editTransOrder(id)
+function editPengeluaran(id)
 {
     save_method = 'update';
-    $('#form')[0].reset(); // reset form on modals
+    $('#form')[0].reset();
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
-    $('#modal_form_order').modal('show'); // show bootstrap modal when complete loaded
-    $('.modal-title').text('Edit Transaksi Order');
+    $('#modal_pengeluaran').modal('show'); // show bootstrap modal when complete loaded
+    $('.modal-title').text('Edit Transaksi Pencatatan Pengeluaran');
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('trans_order/edit_trans_order/')?>" + id,
+        url : "<?php echo site_url('pengeluaran/edit_pengeluaran/')?>" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -209,10 +162,10 @@ function editTransOrder(id)
             /*alert(rec); //mkyong*/
             //ambil data ke json->modal
             //header
-            $('[name="fieldIdOrder"]').val(data.data_header[0].id_trans_order);
-            $('[name="fieldTanggalOrder"]').val(data.data_header[0].tgl_trans_order);
-            $('[name="fieldUserOrder"]').val(data.data_header[0].username);
-            $('[name="fieldIdUserOrder"]').val(data.data_header[0].id_user);
+            $('[name="form_id"]').val(data.data_header[0].id_trans_order);
+            $('[name="form_username"]').val(data.data_header[0].tgl_trans_order);
+            $('[name="form_userid"]').val(data.data_header[0].username);
+            
             //isi
             var i = randString(5);
             var key_isi = 1;
@@ -269,11 +222,6 @@ function reload_table()
     table.ajax.reload(null,false); //reload datatable ajax 
 }
 
-function reload_table2()
-{
-    table2.ajax.reload(null,false); //reload datatable ajax 
-}
-
 function save()
 {
     $('#btnSave').text('saving...'); //change button text
@@ -282,10 +230,10 @@ function save()
     var tipe_simpan;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('trans_order/add_trans_order')?>";
+        url = "<?php echo site_url('pengeluaran/add_pengeluaran')?>";
         tipe_simpan = 'tambah';
     } else {
-        url = "<?php echo site_url('trans_order/update_trans_order')?>";
+        url = "<?php echo site_url('pengeluaran/update_pengeluaran')?>";
         tipe_simpan = 'update';
     }
 
@@ -307,8 +255,7 @@ function save()
                   alert(data.pesan_update);
                 }
 
-                $('#modal_form_order').modal('hide'); 
-                //call function
+                $('#modal_pengeluaran').modal('hide'); 
                 reload_table();
             }
             else

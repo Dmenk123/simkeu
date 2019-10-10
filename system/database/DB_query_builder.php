@@ -156,7 +156,6 @@ abstract class CI_DB_query_builder extends CI_DB_driver {
 	 */
 	protected $qb_set_ub			= array();
 
-	/**
 	protected $qb_aliased_tables		= array();
 
 	/**
