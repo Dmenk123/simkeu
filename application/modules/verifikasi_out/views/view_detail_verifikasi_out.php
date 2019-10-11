@@ -44,7 +44,7 @@
                     <?php if (count($hasil_data) != 0): ?>
                     <?php $no = 1; ?>
                         <?php foreach ($hasil_data as $val ) : ?>
-                          <tr>
+                        <tr>
                         <td><?php echo $no++; ?></td>  
                         <td><?php echo $val->id_trans_order; ?></td>
                         <td><?php echo $val->nama_barang; ?></td>

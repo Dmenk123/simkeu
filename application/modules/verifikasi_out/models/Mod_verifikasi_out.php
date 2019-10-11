@@ -48,7 +48,7 @@ class Mod_verifikasi_out extends CI_Model
 		
 		$this->db->from('tbl_trans_keluar as tk');
 		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
-		//$this->db->where('tr.status_penarikan', '1');
+		$this->db->where('tk.status', '1');
 		
 		$i = 0;
 		foreach ($this->column_search as $item) 
@@ -122,8 +122,8 @@ class Mod_verifikasi_out extends CI_Model
 
 	public function get_by_id($id)
 	{
-		$this->db->from('tbl_trans_order');
-		$this->db->where('id_trans_order',$id);
+		$this->db->from('tbl_trans_keluar');
+		$this->db->where('id',$id);
 		$query = $this->db->get();
 
 		return $query->row();

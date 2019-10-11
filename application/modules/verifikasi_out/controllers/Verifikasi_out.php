@@ -30,102 +30,59 @@ class Verifikasi_out extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_pengeluaran()
+	public function list_verifikasi()
 	{
 		$list = $this->m_vout->get_datatables();
 		$data = array();
 		$no =$_POST['start'];
-		foreach ($list as $listOut) {
-			$link_detail = site_url('pengeluaran/pengeluaran_detail/').$listOut->id;
+		foreach ($list as $listV) {
+			$link_detail = site_url('verifikasi_out/verifikasi_detail/').$listV->id;
+			$link_verifikasi = site_url('verifikasi_out/proses/').$listV->id;
 			$no++;
 			$row = array();
-			$row[] = $listOut->id;
-			$row[] = date('d-m-Y', strtotime($listOut->tanggal));
-			$row[] = $listOut->username;
-			$row[] = $listOut->pemohon;
+			$row[] = $listV->id;
+			$row[] = date('d-m-Y', strtotime($listV->tanggal));
+			$row[] = $listV->username;
+			$row[] = $listV->pemohon;
 			
 			$row[] = '
 				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
 					<i class="glyphicon glyphicon-info-sign"></i></a>
-				<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+				<a class="btn btn-sm btn-primary" href="'.$link_verifikasi.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
 			';
 
 			$data[] = $row;
 		}//end loop
 
 		$output = array(
-						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->m_vout->count_all(),
-						"recordsFiltered" => $this->m_vout->count_filtered(),
-						"data" => $data,
-					);
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->m_vout->count_all(),
+			"recordsFiltered" => $this->m_vout->count_filtered(),
+			"data" => $data,
+		);
 		//output to json format
 		echo json_encode($output);
 	}
 
-	public function add_pengeluaran()
+	public function proses($id)
 	{
-		//$this->_validate();
-		$timestamp = date('Y-m-d H:i:s');
-		$id = $this->input->post('fieldId');
-		$userid = $this->input->post('fieldUserid');
-		$tanggal = date('Y-m-d');
-		$pemohon = $this->input->post('i_namapemohon')[0];
+		$id_user = $this->session->userdata('id_user'); 
+		$data_user = $this->prof->get_detail_pengguna($id_user);
+		$data_pengeluaran = $this->m_vout->get_by_id($id);
 
-		$this->db->trans_begin();
-
-		$data_header = array(
-			'id' 			=> $id,
-			'user_id' 		=> $userid,
-			'pemohon'		=> $pemohon,
-			'tanggal' 		=> $tanggal,
-			'status' 		=> 1,
-			'created_at' 	=> $timestamp, 
-		);
-
-		//for table trans_order_detail
-		$hitung = count($this->input->post('i_namapemohon'));
-		$data_detail = [];
-		for ($i=0; $i < $hitung; $i++) 
-		{
-			$data_detail[$i] = array(
-				'id_trans_keluar' => $id,
-				'keterangan' => $this->input->post('i_keterangan')[$i],
-				'satuan' => $this->input->post('i_satuan')[$i],
-				'qty' => $this->input->post('i_jumlah')[$i],
-			);
-		}
-							
-		$insert = $this->m_vout->save($data_header, $data_detail);
-		
-		if ($this->db->trans_status() === FALSE) {
-        	$this->db->trans_rollback();
-        	echo json_encode(array(
-				"status" => FALSE,
-				"pesan_tambah" => 'Data Transaksi Pengeluaran Gagal ditambahkan'
-			));
-		}
-		else {
-		    $this->db->trans_commit();
-		    echo json_encode(array(
-				"status" => TRUE,
-				"pesan_tambah" => 'Data Transaksi Pengeluaran Barang Berhasil ditambahkan'
-			));
-		}
-	}
-
-	public function edit_trans_order($id)
-	{
-		// $data = $this->m_vout->get_by_id($id);
-		// echo json_encode($data);
-		
 		$data = array(
-			'data_header' => $this->m_vout->get_detail_header($id),
-			'data_isi' => $this->m_vout->get_detail($id),
+			'data_user'	 => $data_user,
+			'data_form'	 => $data_pengeluaran
 		);
 
-		echo json_encode($data);
+		$content = [
+			'css' 	=> 'cssVerifikasiOut',
+			'modal' => 'modalVerifikasiOut',
+			'js'	=> 'jsVerifikasiOut',
+			'view'	=> 'view_list_verifikasi_out_proses'
+		];
+
+		$this->template_view->load_view($content, $data);
 	}
 
 	public function update_trans_order()
