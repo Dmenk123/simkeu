@@ -16,14 +16,8 @@ $(document).ready(function() {
     return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
   });
 
-  // select class modal apabila bs.modal hidden
-  $("#modal_pengeluaran").on("hidden.bs.modal", function(){
-    $('#form')[0].reset(); 
-    //clear tr append in modal
-    $('tr').remove('.tbl_modal_row'); 
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
-  });
+  
+
 
   //datatables  
   // tabel trans order
@@ -46,9 +40,6 @@ $(document).ready(function() {
 			},
 		],
 	});
-
-  $('#tabelTransOrderDetail').DataTable({
-  });
 
   //datepicker
 	$('#form_tanggal_order').datepicker({
@@ -80,6 +71,22 @@ $(document).ready(function() {
 
 //end jquery
 });	
+
+function readURL(input) {
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    
+    reader.onload = function(e) {
+      $('#blah').attr('src', e.target.result);
+    }
+    
+    reader.readAsDataURL(input.files[0]);
+  }
+}
+
+$("#imgInp").change(function() {
+  readURL(this);
+});
 
 function randString(angka) 
 {

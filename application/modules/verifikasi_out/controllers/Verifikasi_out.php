@@ -69,10 +69,12 @@ class Verifikasi_out extends CI_Controller {
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 		$data_pengeluaran = $this->m_vout->get_by_id($id);
+		$data_detail = $this->m_vout->get_detail_by_id($id);
 
 		$data = array(
 			'data_user'	 => $data_user,
-			'data_form'	 => $data_pengeluaran
+			'data_form'	 => $data_pengeluaran,
+			'data_detail' => $data_detail
 		);
 
 		$content = [

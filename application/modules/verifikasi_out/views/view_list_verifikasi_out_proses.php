@@ -16,9 +16,6 @@
       <div class="row">
         <div class="col-xs-s12">
           <div class="box">
-            <div class="box-header">
-              <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
-            </div>
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
@@ -43,22 +40,53 @@
                   </tbody>
                 </table>
               </div>  
+              <?php 
+              foreach ($data_detail as $key => $value) {
+              echo ' 
+                <div class="form-group col-md-3">
+                  <label>Keterangan : </label>
+                  <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
+                </div>
 
-              <div class="form-group col-md-4">
-                <label>Keterangan : </label>
-                <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
-              </div>
+                <div class="form-group col-md-1">
+                  <label>Satuan : </label>
+                  <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
+                </div>
 
-              <div class="form-group col-md-2">
-                <label>Satuan : </label>
-                <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
-              </div>
+                <div class="form-group col-md-1">
+                  <label>Qty : </label>
+                  <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
+                </div>
 
-              <div class="form-group col-md-2">
-                <label>Qty : </label>
-                <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
-              </div>
+                <div class="form-group col-md-2">
+                  <label>harga Satuan : </label>
+                  <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
+                </div>
 
+                <div class="form-group col-md-2">
+                  <label>Harga Total : </label>
+                  <input type="text" class="form-control" id="form_username" name="fieldUsername" value="">
+                </div>
+
+                <div class="form-group col-md-1">
+                  <label>Bukti : </label>
+                  <input type="file" id="imgInp" />
+                </div>
+
+                <div class="form-group col-md-1">
+                  <img id="blah" src="#" alt="your image" height="75" width="75" class="pull-right"/>
+                </div>
+
+                <div class="form-group col-md-1">
+                <label></label>
+                  <div class="checkbox">
+                      <label>
+                        <input type="checkbox"> Setuju
+                      </label>
+                    </div>
+                </div>';
+              }
+              ?>
             </div>
             <!-- /.box-body -->
           </div>

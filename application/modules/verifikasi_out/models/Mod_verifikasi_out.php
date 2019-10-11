@@ -129,6 +129,16 @@ class Mod_verifikasi_out extends CI_Model
 		return $query->row();
 	}
 
+	public function get_detail_by_id($id)
+	{
+		$this->db->select('tkd.*,ts.nama');
+		$this->db->from('tbl_trans_keluar_detail as tkd');
+		$this->db->join('tbl_satuan as ts', 'tkd.satuan = ts.id', 'left');
+		$this->db->where('tkd.id_trans_keluar',$id);
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function save($data_header, $data_detail)
 	{ 
 		$this->db->insert('tbl_trans_keluar',$data_header);
