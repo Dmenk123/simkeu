@@ -145,6 +145,38 @@ class Mod_verifikasi_out extends CI_Model
 		$this->db->insert_batch('tbl_trans_keluar_detail',$data_detail);
 	}
 
+	public function lookup_kode_akun($keyword="")
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_master_kode_akun');
+		$this->db->like('nama',$keyword);
+		$this->db->order_by('kode, sub_1, sub_2', 'asc');
+		
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function getKodePengeluaran(){
+		$q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_keluar WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
+		$kd = "";
+		if($q->num_rows()>0){
+			foreach($q->result() as $k){
+				$tmp = ((int)$k->kode_max)+1;
+				$kd = sprintf("%05s", $tmp);
+			}
+		}else{
+			$kd = "00001";
+		}
+		return "OUT".date('my').$kd;
+    }
+
+    function satuan(){
+		$this->db->order_by('name','ASC');
+		$namaSatuan= $this->db->get('tbl_satuan,tbl_barang');
+		return $namaSatuan->result_array();
+	}
+	//==================================================================================================
+
 	public function update_data_header_detail($where, $data_header)
 	{
 		$this->db->update('tbl_trans_order', $data_header, $where);
@@ -255,39 +287,6 @@ class Mod_verifikasi_out extends CI_Model
             }
             return "ORD".date('my').$kd;
     }*/
-
-    function getKodePengeluaran(){
-            $q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_keluar WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
-            $kd = "";
-            if($q->num_rows()>0){
-                foreach($q->result() as $k){
-                    $tmp = ((int)$k->kode_max)+1;
-                    $kd = sprintf("%05s", $tmp);
-                }
-            }else{
-                $kd = "00001";
-            }
-            return "OUT".date('my').$kd;
-    }
-
-    function satuan(){
-		$this->db->order_by('name','ASC');
-		$namaSatuan= $this->db->get('tbl_satuan,tbl_barang');
-		return $namaSatuan->result_array();
-	}
-
-
-	public function lookup($keyword)
-	{
-		$this->db->select('tbl_barang.nama_barang,tbl_barang.id_barang,tbl_satuan.id_satuan,tbl_satuan.nama_satuan,tbl_barang.status');
-		$this->db->from('tbl_barang');
-		$this->db->join('tbl_satuan','tbl_barang.id_satuan = tbl_satuan.id_satuan','left');
-		$this->db->like('tbl_barang.nama_barang',$keyword);
-		$this->db->where('tbl_barang.status', 'aktif');
-		$this->db->limit(5);
-		$query = $this->db->get();
-		return $query->result();
-	}
 
 	public function lookup2($rowIdBrg)
 	{

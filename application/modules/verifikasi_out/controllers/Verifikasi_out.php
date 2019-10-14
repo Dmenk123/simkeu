@@ -87,6 +87,27 @@ class Verifikasi_out extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
+	public function suggest_kode_akun()
+	{
+		if (isset($_GET['term'])) {
+			$q = strtolower($_GET['term']);
+		}else{
+			$q = '';
+		}
+		
+		$query = $this->m_vout->lookup_kode_akun($q);
+		
+		foreach ($query as $row) {
+			$akun[] = array(
+				'id' => $row->tipe.'-'.$row->kode_in_text,
+				'text' => $row->kode_in_text.' - '.$row->nama
+			);
+		}
+		echo json_encode($akun);
+	}
+
+	// ===========================================================
+
 	public function update_trans_order()
 	{
 		$this->_validate();
@@ -252,24 +273,6 @@ class Verifikasi_out extends CI_Controller {
             echo json_encode($data);
             exit();
         }
-	}
-
-	public function suggest_barang()
-	{
-		// $q = $this->input->post('kode',TRUE);
-		$q = strtolower($_GET['term']);
-		$query = $this->m_vout->lookup($q);
-		//$barang = array();
-
-		foreach ($query as $row) {
-			$barang[] = array(
-						'label' => $row->nama_barang,
-						'id_barang' => $row->id_barang,
-						'nama_satuan' => $row->nama_satuan,
-						'id_satuan' => $row->id_satuan
-					);
-		}
-		echo json_encode($barang);
 	}
 
 	public function get_data_barang($rowIdBrg)

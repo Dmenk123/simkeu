@@ -6,7 +6,9 @@
 	var save_method; //for save method string
 	var table;
   var table2;
-
+  var acc = document.getElementsByClassName("accordion");
+  var acr;
+  
 $(document).ready(function() {
   //declare variable for row count
   var i = randString(5);
@@ -15,9 +17,6 @@ $(document).ready(function() {
   $('input.numberinput').bind('keypress', function (e) {
     return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
   });
-
-  
-
 
   //datatables  
   // tabel trans order
@@ -39,7 +38,22 @@ $(document).ready(function() {
 				"orderable": false, //set not orderable
 			},
 		],
-	});
+  });
+  
+  //select2
+  $( ".i_akun" ).select2({ 
+    ajax: {
+      url: '<?php echo site_url('verifikasi_out/suggest_kode_akun'); ?>/',
+      dataType: 'json',
+      delay: 250,
+      processResults: function (data) {
+          return {
+              results: data
+          };
+      },
+      cache: true
+    },
+  });
 
   //datepicker
 	$('#form_tanggal_order').datepicker({
@@ -72,20 +86,23 @@ $(document).ready(function() {
 //end jquery
 });	
 
-function readURL(input) {
+function readURL(input, id) {
+  var idImg = id +'-img';
   if (input.files && input.files[0]) {
     var reader = new FileReader();
-    
+    console.log(reader);
     reader.onload = function(e) {
-      $('#blah').attr('src', e.target.result);
+      $('#'+ idImg).attr('src', e.target.result);
     }
     
     reader.readAsDataURL(input.files[0]);
   }
 }
 
-$("#imgInp").change(function() {
-  readURL(this);
+$(".i_gambar").change(function() {
+  //console.log(this);
+  var id = this.id;
+  readURL(this, id);
 });
 
 function randString(angka) 
@@ -98,6 +115,7 @@ function randString(angka)
 
   return text;
 }
+
 function reloadPage() 
 {
   location.reload();
@@ -105,7 +123,7 @@ function reloadPage()
 
 function reload_table()
 {
-    table.ajax.reload(null,false); //reload datatable ajax 
+  table.ajax.reload(null,false); //reload datatable ajax 
 }
 
 function save()
@@ -192,32 +210,15 @@ function deleteTransOrder(id)
     }
 }
 
-function ambilData(id) 
-{
-  if(confirm('Ambil data peramalan ?'))
-    {
-        $('#modal_peramalan').modal('hide');      
-        var rowIdBrg = $('.row_idBrg_'+id+'').text();
-        var rowQty = $('.row_ft_'+id+'').text();
-
-        $('#form_id_barang_order').val(rowIdBrg);
-        $('#form_jumlah_barang_order').val(rowQty);
-        
-        $.ajax({
-          url : "<?php echo site_url('trans_order/get_data_barang')?>/"+rowIdBrg,
-          type: "GET",
-          dataType: "JSON",
-          success: function(data)
-          {
-              $('#form_nama_barang_order').val(data[0].nama_barang);
-              $('#form_nama_satuan_order').val(data[0].nama_satuan);
-              $('#form_id_satuan_order').val(data[0].id_satuan);
-          },
-          error: function (jqXHR, textStatus, errorThrown)
-          {
-              alert('Error get data from ajax');
-          }
-      });  
+for (acr = 0; acr < acc.length; acr++) {
+  acc[acr].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.display === "block") {
+      panel.style.display = "none";
+    } else {
+      panel.style.display = "block";
     }
-}    
+  });
+}
 </script>	

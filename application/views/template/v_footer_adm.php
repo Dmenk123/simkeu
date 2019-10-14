@@ -47,6 +47,7 @@
     <script src="<?php echo config_item('assets')?>datatables/jquery.dataTables.min.js"></script>
     <script src="<?php echo config_item('assets')?>datatables/dataTables.bootstrap.min.js"></script>
     <script src="<?php echo config_item('assets')?>js/sweetalert.min.js"></script>
+    <script src="<?php echo config_item('assets')?>js/jquery-maskmoney.min.js"></script>
     <!-- load js per modul -->
     <?php
     if(isset($js)){
