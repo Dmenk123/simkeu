@@ -8,6 +8,7 @@
   var table2;
   var acc = document.getElementsByClassName("accordion");
   var acr;
+  var grandTotal = 0;
   
 $(document).ready(function() {
   //declare variable for row count
@@ -215,13 +216,44 @@ function deleteTransOrder(id)
 
 function hargaTotal(key) {  
   var harga = $('#i_harga-'+key).maskMoney('unmasked')[0];
-  var hargaTotal =  harga * parseInt($('#i_qty-'+key).val());
+  var totalHarga =  harga * parseInt($('#i_qty-'+key).val());
   //set harga total masked
-  $('#i_harga_total-'+key).maskMoney('mask', hargaTotal);
+  $('#i_harga_total-'+key).maskMoney('mask', totalHarga);
   //set harga raw
   $('#i_harga_raw-'+key).val(harga);
-  $('#i_harga_total_raw-'+key).val(hargaTotal);
+  $('#i_harga_total_raw-'+key).val(totalHarga);
 } 
+
+function eventCeklis(checkbox, key) {
+  if(checkbox.checked == true)
+  {
+    if ($('#i_harga_total_raw-'+key).val() == '') {
+      grandTotal = parseInt(grandTotal) + 0;
+    }else{
+      grandTotal = parseInt(grandTotal) + parseInt($('#i_harga_total_raw-'+key).val());
+    }
+    
+    $('#i_harga-'+key).prop('readonly', true);
+  }
+  else
+  {
+    if ($('#i_harga_total_raw-'+key).val() == '') {
+      grandTotal = parseInt(grandTotal) - 0;
+    }else{
+      grandTotal = parseInt(grandTotal) - parseInt($('#i_harga_total_raw-'+key).val());
+    }
+    
+    $('#i_harga-'+key).prop('readonly', false);
+  }
+
+  $('#grand_total').text(numberWithCommas(grandTotal));
+  //$('#grand_total').text('Rp. ' + grandTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1."));
+}
+
+function numberWithCommas(x) {
+  var parts = x.toFixed(2).split(".");
+  return 'Rp. ' + parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + (parts[1] ? "," + parts[1] : "");
+}
 
 for (acr = 0; acr < acc.length; acr++) {
   acc[acr].addEventListener("click", function() {

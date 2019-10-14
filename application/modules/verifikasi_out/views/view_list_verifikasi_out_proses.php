@@ -43,65 +43,71 @@
               
               <?php 
               foreach ($data_detail as $key => $value) {
-              $urut = $key+1;
-              echo '<button class="accordion button-acr">Transaksi Detail no. '.$urut.' | Keterangan : '.$value->keterangan.'</button>';
-                echo '<div class="panel">';
-                  echo ' 
-                    <div class="form-group col-md-12">
-                      <label>Keterangan : </label>
-                      <input type="text" class="form-control" id="i_keterangan" name="i_keterangan[]" value="'.$value->keterangan.'" readonly>
-                    </div>
+                $urut = $key+1;
+                echo '<button class="accordion button-acr">Transaksi Detail no. '.$urut.' | Keterangan : '.$value->keterangan.'</button>';
+                  echo '<div class="panel">';
+                    echo ' 
+                      <div class="form-group col-md-12">
+                        <label>Keterangan : </label>
+                        <input type="text" class="form-control" id="i_keterangan" name="i_keterangan[]" value="'.$value->keterangan.'" readonly>
+                      </div>
 
-                    <div class="form-group col-md-6">
-                      <label>Satuan : </label>
-                      <input type="text" class="form-control" id="i_satuan" name="i_satuan[]" value="'.$value->nama.'" readonly>
-                      <input type="hidden" class="form-control" id="id_satuan" name="id_satuan[]" value="'.$value->satuan.'" readonly>
-                      <input type="hidden" class="form-control" id="id_detail" name="id_detail[]" value="'.$value->id.'" readonly>
-                      <input type="hidden" class="form-control" id="id_header" name="id_header[]" value="'.$value->id_trans_keluar.'" readonly>
-                    </div>
+                      <div class="form-group col-md-6">
+                        <label>Satuan : </label>
+                        <input type="text" class="form-control" id="i_satuan" name="i_satuan[]" value="'.$value->nama.'" readonly>
+                        <input type="hidden" class="form-control" id="id_satuan" name="id_satuan[]" value="'.$value->satuan.'" readonly>
+                        <input type="hidden" class="form-control" id="id_detail" name="id_detail[]" value="'.$value->id.'" readonly>
+                        <input type="hidden" class="form-control" id="id_header" name="id_header[]" value="'.$value->id_trans_keluar.'" readonly>
+                      </div>
 
-                    <div class="form-group col-md-6">
-                      <label>Qty : </label>
-                      <input type="text" class="form-control" id="i_qty-'.$key.'" name="i_qty[]" value="'.$value->qty.'" readonly>
-                    </div>
+                      <div class="form-group col-md-6">
+                        <label>Qty : </label>
+                        <input type="text" class="form-control" id="i_qty-'.$key.'" name="i_qty[]" value="'.$value->qty.'" readonly>
+                      </div>
 
-                    <div class="form-group col-md-6">
-                      <label>harga Satuan : </label>
-                      <input type="text" class="form-control mask-currency" id="i_harga-'.$key.'" name="i_harga[]" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="hargaTotal('.$key.');"/>
-                      <input type="hidden" class="form-control" id="i_harga_raw-'.$key.'" name="i_harga_raw[]" value=""/>
-                    </div>
+                      <div class="form-group col-md-6">
+                        <label>harga Satuan : </label>
+                        <input type="text" class="form-control mask-currency" id="i_harga-'.$key.'" name="i_harga[]" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="hargaTotal('.$key.');"/>
+                        <input type="hidden" class="form-control" id="i_harga_raw-'.$key.'" name="i_harga_raw[]" value=""/>
+                      </div>
 
-                    <div class="form-group col-md-6">
-                      <label>Harga Total : </label>
-                      <input type="text" class="form-control mask-currency" id="i_harga_total-'.$key.'" name="i_harga_total[]" data-thousands="." data-decimal="," data-prefix="Rp. " readonly/>
-                      <input type="hidden" class="form-control" id="i_harga_total_raw-'.$key.'" name="i_harga_total_raw[]" value=""/>
-                    </div>
+                      <div class="form-group col-md-6">
+                        <label>Harga Total : </label>
+                        <input type="text" class="form-control mask-currency" id="i_harga_total-'.$key.'" name="i_harga_total[]" data-thousands="." data-decimal="," data-prefix="Rp. " readonly/>
+                        <input type="hidden" class="form-control" id="i_harga_total_raw-'.$key.'" name="i_harga_total_raw[]" value=""/>
+                      </div>
 
-                    <div class="form-group col-md-12">
-                      <label>Kode Akun : </label>
-                        <select class="form-control i_akun" id="i_akun" name="i_akun" required></select>
-                    </div>
+                      <div class="form-group col-md-12">
+                        <label>Kode Akun : </label>
+                          <select class="form-control i_akun" id="i_akun-'.$key.'" name="i_akun[]" required></select>
+                      </div>
 
-                    <div class="form-group col-md-9">
-                      <label>Bukti : </label>
-                      <input type="file" id="i_gambar-'.$key.'" class="i_gambar" name="i_gambar['.$key.']";/>
-                    </div>
+                      <div class="form-group col-md-9">
+                        <label>Bukti : </label>
+                        <input type="file" id="i_gambar-'.$key.'" class="i_gambar" name="i_gambar['.$key.']";/>
+                      </div>
 
-                    <div class="form-group col-md-3">
-                      <img id="i_gambar-'.$key.'-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
-                    </div>
+                      <div class="form-group col-md-3">
+                        <img id="i_gambar-'.$key.'-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
+                      </div>
 
-                    <div class="form-group col-md-12">
-                    <label><strong>Ceklist Pilihan Setuju Apabila Data Sudah di Verifikasi</strong></label>
-                      <div class="checkbox">
-                          <label>
-                            <input type="checkbox"> Setuju, Saya Sudah Memastikan data Telah Benar
-                          </label>
-                        </div>
-                    </div>';
-                echo '</div>';
+                      <div class="form-group col-md-12">
+                      <label><strong>Ceklist Pilihan Setuju Apabila Data Sudah di Verifikasi</strong></label>
+                        <div class="checkbox">
+                            <label>
+                              <input type="checkbox" onchange="eventCeklis(this, '.$key.')" value="t"> Setuju, Saya Sudah Memastikan data Telah Benar
+                            </label>
+                          </div>
+                      </div>';
+                  echo '</div>';
               }
               ?>
+              <div class="col-md-6">
+                <h3>Grand Total : </h3>
+              </div>
+              <div class="col-md-6 pull-right">
+                <h3 id="grand_total"></h3>
+              </div>
             </div>
             <!-- /.box-body -->
           </div>
