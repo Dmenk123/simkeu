@@ -62,17 +62,19 @@
 
                     <div class="form-group col-md-6">
                       <label>Qty : </label>
-                      <input type="text" class="form-control" id="i_qty" name="i_qty[]" value="'.$value->qty.'" readonly>
+                      <input type="text" class="form-control" id="i_qty-'.$key.'" name="i_qty[]" value="'.$value->qty.'" readonly>
                     </div>
 
                     <div class="form-group col-md-6">
                       <label>harga Satuan : </label>
-                      <input type="text" class="form-control" id="i_harga" name="i_harga[]" value="">
+                      <input type="text" class="form-control mask-currency" id="i_harga-'.$key.'" name="i_harga[]" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="hargaTotal('.$key.');"/>
+                      <input type="hidden" class="form-control" id="i_harga_raw-'.$key.'" name="i_harga_raw[]" value=""/>
                     </div>
 
                     <div class="form-group col-md-6">
                       <label>Harga Total : </label>
-                      <input type="text" class="form-control" id="i_harga_total" name="i_harga_total[]" value="">
+                      <input type="text" class="form-control mask-currency" id="i_harga_total-'.$key.'" name="i_harga_total[]" data-thousands="." data-decimal="," data-prefix="Rp. " readonly/>
+                      <input type="hidden" class="form-control" id="i_harga_total_raw-'.$key.'" name="i_harga_total_raw[]" value=""/>
                     </div>
 
                     <div class="form-group col-md-12">

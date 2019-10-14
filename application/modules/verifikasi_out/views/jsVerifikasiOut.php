@@ -83,6 +83,9 @@ $(document).ready(function() {
 		$(this).next().empty();
 	});
 
+  //mask money
+  $('.mask-currency').maskMoney();
+
 //end jquery
 });	
 
@@ -209,6 +212,16 @@ function deleteTransOrder(id)
         });
     }
 }
+
+function hargaTotal(key) {  
+  var harga = $('#i_harga-'+key).maskMoney('unmasked')[0];
+  var hargaTotal =  harga * parseInt($('#i_qty-'+key).val());
+  //set harga total masked
+  $('#i_harga_total-'+key).maskMoney('mask', hargaTotal);
+  //set harga raw
+  $('#i_harga_raw-'+key).val(harga);
+  $('#i_harga_total_raw-'+key).val(hargaTotal);
+} 
 
 for (acr = 0; acr < acc.length; acr++) {
   acc[acr].addEventListener("click", function() {
