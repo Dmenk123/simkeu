@@ -11,7 +11,7 @@
  Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 11/10/2019 15:43:43
+ Date: 14/10/2019 16:38:39
 */
 
 SET NAMES utf8mb4;
@@ -182,7 +182,7 @@ INSERT INTO `tbl_master_kode_akun` VALUES ('workshop', 1, 8, 7, 1, '8.7.1');
 INSERT INTO `tbl_master_kode_akun` VALUES ('IHT', 1, 8, 7, 2, '8.7.2');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Pelatihan', 1, 8, 7, 3, '8.7.3');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Study banding', 1, 8, 7, 4, '8.7.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, NULL, NULL, NULL, '2');
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, 2, NULL, NULL, '2');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Alat tulis kantor', 2, 2, 1, NULL, '2.1');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Bahan dan alat habis pakai', 2, 2, 2, NULL, '2.2');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Pegawai', 2, 2, 3, NULL, '2.3');
@@ -380,6 +380,7 @@ CREATE TABLE `tbl_trans_keluar_detail`  (
   `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `satuan` int(4) NULL DEFAULT NULL,
   `qty` int(32) NULL DEFAULT NULL,
+  `status` int(1) NULL DEFAULT 0 COMMENT '1: selesai, 0: belum selesai',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_trans_keluar`(`id_trans_keluar`) USING BTREE,
   INDEX `satuan`(`satuan`) USING BTREE,
@@ -390,8 +391,8 @@ CREATE TABLE `tbl_trans_keluar_detail`  (
 -- ----------------------------
 -- Records of tbl_trans_keluar_detail
 -- ----------------------------
-INSERT INTO `tbl_trans_keluar_detail` VALUES (1, 'OUT101900001', 'sasa', 4, 12);
-INSERT INTO `tbl_trans_keluar_detail` VALUES (2, 'OUT101900001', 'afas', 5, 12);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (1, 'OUT101900001', 'sasa', 4, 12, 0);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (2, 'OUT101900001', 'afas', 5, 12, 0);
 
 -- ----------------------------
 -- Table structure for tbl_user
@@ -413,7 +414,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-11 10:13:17', '2019-10-05 21:34:14', '2019-10-11 10:13:17');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-14 13:27:16', '2019-10-05 21:34:14', '2019-10-14 13:27:16');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
