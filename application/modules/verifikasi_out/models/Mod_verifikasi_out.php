@@ -135,6 +135,7 @@ class Mod_verifikasi_out extends CI_Model
 		$this->db->from('tbl_trans_keluar_detail as tkd');
 		$this->db->join('tbl_satuan as ts', 'tkd.satuan = ts.id', 'left');
 		$this->db->where('tkd.id_trans_keluar',$id);
+		$this->db->where('tkd.status', 0);
 		$query = $this->db->get();
 		return $query->result();
 	}

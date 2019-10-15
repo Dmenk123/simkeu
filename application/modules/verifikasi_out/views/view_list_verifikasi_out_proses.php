@@ -41,7 +41,7 @@
                 </table>
               </div>  
 
-              <form class="form-horizontal" method="post" action="<?= base_url('verifikasi_out/proses_verifikasi'); ?>">
+              <form method="post" enctype="multipart/form-data" action="<?= base_url('verifikasi_out/proses_verifikasi'); ?>">
                 <?php 
                 foreach ($data_detail as $key => $value) {
                   $urut = $key+1;
@@ -85,7 +85,7 @@
 
                         <div class="form-group col-md-9">
                           <label>Bukti : </label>
-                          <input type="file" id="i_gambar-'.$key.'" class="i_gambar" name="i_gambar['.$key.']";/>
+                          <input type="file" id="i_gambar-'.$key.'" class="i_gambar" name="i_gambar'.$key.'";/>
                         </div>
 
                         <div class="form-group col-md-3">

@@ -108,106 +108,108 @@ class Verifikasi_out extends CI_Controller {
 
 	public function proses_verifikasi()
 	{
+		$flag_update_out_header = TRUE;
 		$timestamp = date('Y-m-d H:i:s');
+		$this->db->trans_begin();
+		$nama_file_bukti = '';
 		for ($i=0; $i <count($this->input->post('id_detail')); $i++) { 
 			if ($this->input->post('ceklis')[$i] == 't' ) {
-				//load konfig upload
-				$this->konfigurasi_upload_bukti($nmfile);
-				if ($this->gbr_bukti->do_upload('buktiConfirm')) 
+				//konfigurasi gambar dan resize
+				if(!empty($_FILES['i_gambar'.$i]['name']))
 				{
-					$gbrBukti = $this->gbr_bukti->data();
-					//inisiasi variabel u/ digunakan pada fungsi config img bukti
-					$nama_file_bukti = $gbrBukti['file_name'];
-					//call email config 
-					$this->konfigurasi_email($this->input->post('i_gambar')[$i]);
-					//add attachment pada konfigurasi email
-					$this->email->attach($gbrBukti['full_path']);
-					//send email
-					$this->email->send();
-					//load config img bukti
-					$this->konfigurasi_image_bukti($nama_file_bukti);
-					//data input array
-					$nama_file_gambar = $gbrBukti['file_name'];
-					//clear img lib after resize
-					$this->image_lib->clear();
-				} //end 
+					$this->konfigurasi_upload_bukti($this->input->post('i_gambar')[$i]);
+					//get detail extension
+					$pathDet = $_FILES['i_gambar'.$i]['name'];
+					$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
+					if ($this->gbr_bukti->do_upload('i_gambar'.$i)) 
+					{
+						$gbrBukti = $this->gbr_bukti->data();
+						//inisiasi variabel u/ digunakan pada fungsi config img bukti
+						$nama_file_bukti = $gbrBukti['file_name'];
+						//load config img bukti
+						$this->konfigurasi_image_resize($nama_file_bukti);
+						//clear img lib after resize
+						$this->image_lib->clear();
+					} //end
+				}else{
+					var_dump($nama_file_bukti);exit;
+				} 
+				
+				//set tipe akun
+				$arr_akun1 = explode("-",$this->input->post('i_akun')[$i]);
+				$tipe_akun = $arr_akun1[0]; 
+				//set kode dan sub akun
+				$kode_akun = null;
+				$sub1_akun = null;
+				$sub2_akun = null;
+				$arr_akun2 = explode(".", $arr_akun1[1]);
+				for ($z=0; $z <count($arr_akun2); $z++) { 
+					if ($z == 0) {
+						$kode_akun = $arr_akun2[$z];
+					}elseif($z == 1){
+						$sub1_akun = $arr_akun2[$z];
+					}elseif($z == 2){
+						$sub2_akun = $arr_akun2[$z];
+					}
+				}
 
-				$this->db->trans_begin();
 				$data = [
 					'id' => $this->m_vout->getKodeVerifikasi(),
 					'id_out' => $this->input->post('id_header')[$i],
 					'id_out_detail' => $this->input->post('id_detail')[$i],
+					'tanggal' => date("Y-m-d"),
 					'user_id' => $this->session->userdata('id_user'),
-					'gambar_bukti' => $this->input->post('id_detail')[$i],
-					'harga_satuan' => $this->input->post('id_detail')[$i],
-					'harga_total' => $this->input->post('id_detail')[$i],
-					'status' => $this->input->post('id_detail')[$i],
+					'gambar_bukti' => $nama_file_bukti,
+					'harga_satuan' => $this->input->post('i_harga_raw')[$i],
+					'harga_total' => $this->input->post('i_harga_total_raw')[$i],
+					'status' => 1,
+					'tipe_akun' => $tipe_akun,
+					'kode_akun' => $kode_akun,
+					'sub1_akun' => $sub1_akun,
+					'sub2_akun' => $sub2_akun,
 					'created_at' => $timestamp
 				];
+
+				$this->db->insert('tbl_verifikasi', $data);
+				
+				//update trans keluar detail status 1 (selesai)
+				$data_trans_keluar_detail = [
+					'status' => 1	
+				];
+				
+				$this->db->update('tbl_trans_keluar_detail', $data_trans_keluar_detail, ['id' => $this->input->post('id_detail')[$i]]);
+				//end update data detail
 			}
 		}
 
+		//cek apakah sudah selesai semua detil transaksi pengeluaran, update pengeluaran header apabila sudah selesai semua
+		$arr_data_detail_pengeluaran = [];
+		$data_detail_pengeluaran = $this->m_vout->get_detail_by_id($this->input->post('id_header')[0]);
 		
-		
-		
-		
-		//delete id order in tabel detail
-		$id = $this->input->post('fieldIdOrder');
-		$initiated_date = date('Y-m-d H:i:s');
-		$hapus_data_order_detail = $this->m_vout->hapus_data_order_detail($id);
-
-		//update header
-		$data_header = array(
-			'tgl_trans_order' => $this->input->post('fieldTanggalOrder'),
-		); 
-		$this->m_vout->update_data_header_detail(array('id_trans_order' => $id), $data_header);
-
-		//proses insert ke tabel detail
-		$hitung_detail = count($this->input->post('fieldIdBarangOrder'));
-		$data_order_detail = array();
-			for ($i=0; $i < $hitung_detail; $i++) 
-			{
-			$data_order_detail[$i] = array(
-				'id_trans_order' =>$id,
-				'id_barang' => $this->input->post('fieldIdBarangOrder')[$i],
-				'id_satuan' => $this->input->post('fieldIdSatuanOrder')[$i],
-				'id_trans_beli' => $this->input->post('fieldIdBeli')[$i],
-				'qty_order' => $this->input->post('fieldJumlahBarangOrder')[$i],
-				'keterangan_order' => $this->input->post('fieldKeteranganBarangOrder')[$i],
-				'tgl_trans_order_detail' => $this->input->post('fieldTanggalOrder'),
-				'timestamp' => $initiated_date, 
-				);
-			}
-
-		$insert_update = $this->m_vout->insert_update($data_order_detail);
-
-		//update tbl_trans_beli_detail
-		$id_m_vout = $this->input->post('fieldIdOrder');
-		$result_id_order_detail = $this->m_vout->get_id_trans_order_detail($id_m_vout);
-		$result_id_beli_detail = $this->m_vout->get_id_trans_beli_detail($id_m_vout);
-
-		$data_id_order_detail = array();
-		//cek apablia array bernilai kosong
-		if (count($result_id_beli_detail) != 0) {
-			//ambil variabel isi array untuk di foreach
-			foreach ($result_id_beli_detail as $key => $val) {
-				//jika tdk terdapat data kosong, eksekusi loop
-				if ($val['id_trans_beli_detail'] != null) {
-					// loop dengan batas key pada hasil foreach, key bernilai dinamis berdasarkan statement if diatas
-					for ($i=0; $i <= $key; $i++) { 		
-						$data_id_order_detail[$i] = array(
-							'id_trans_beli_detail' => $result_id_beli_detail[$i]['id_trans_beli_detail'],
-							'id_trans_order_detail' => $result_id_order_detail[$i]['id_trans_order_detail'],
-						);
-					}		
-				}			
-			}
-			$this->db->update_batch('tbl_trans_beli_detail',$data_id_order_detail,'id_trans_beli_detail');
+		foreach ($data_detail_pengeluaran as $out_detil) {
+			$arr_data_detail_pengeluaran[] = $out_detil->status;
 		}
-		echo json_encode(array(
-			"status" => TRUE,
-			"pesan_update" => 'Data Transaksi Order Barang No.'.$id.' Berhasil diupdate'
-		));
+
+		if (in_array("0", $arr_data_detail_pengeluaran)){
+			$flag_update_out_header = FALSE;
+		}
+
+		if ($flag_update_out_header) {
+			//update status data header
+			$this->db->update('tbl_trans_keluar', ['status' => 0], ['id' => $this->input->post('id_header')[0]]);
+		}
+
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_gagal','Gagal verifikasi data.'); 
+			redirect($this->uri->segment(1));
+		}
+		else {
+			$this->db->trans_commit();
+			$this->session->set_flashdata('feedback_success','Berhasil Verifikasi data.'); 
+			redirect($this->uri->segment(1));
+		}
+
 	}
 
 	public function konfigurasi_upload_bukti($nmfile)
@@ -223,6 +225,22 @@ class Verifikasi_out extends CI_Controller {
 		//load library with custom object name alias
 		$this->load->library('upload', $config, 'gbr_bukti');
 		$this->gbr_bukti->initialize($config);
+	}
+
+	public function konfigurasi_image_resize($filename)
+	{
+		//konfigurasi image lib
+	    $config['image_library'] = 'gd2';
+	    $config['source_image'] = './assets/img/bukti_verifikasi/'.$filename;
+	    $config['create_thumb'] = FALSE;
+	    $config['maintain_ratio'] = FALSE;
+	    $config['new_image'] = './assets/img/bukti_verifikasi/'.$filename;
+	    $config['overwrite'] = TRUE;
+	    $config['width'] = 450; //resize
+	    $config['height'] = 500; //resize
+	    $this->load->library('image_lib',$config); //load image library
+	    $this->image_lib->initialize($config);
+	    $this->image_lib->resize();
 	}
 
 	// ===========================================================
