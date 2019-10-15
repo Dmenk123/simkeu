@@ -156,8 +156,8 @@ class Mod_verifikasi_out extends CI_Model
 		return $query->result();
 	}
 
-	function getKodePengeluaran(){
-		$q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_keluar WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
+	function getKodeVerifikasi(){
+		$q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_verifikasi WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
 		$kd = "";
 		if($q->num_rows()>0){
 			foreach($q->result() as $k){
@@ -167,7 +167,7 @@ class Mod_verifikasi_out extends CI_Model
 		}else{
 			$kd = "00001";
 		}
-		return "OUT".date('my').$kd;
+		return "VRY".date('my').$kd;
     }
 
     function satuan(){

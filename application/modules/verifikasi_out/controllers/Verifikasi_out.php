@@ -106,11 +106,51 @@ class Verifikasi_out extends CI_Controller {
 		echo json_encode($akun);
 	}
 
-	// ===========================================================
-
-	public function update_trans_order()
+	public function proses_verifikasi()
 	{
-		$this->_validate();
+		$timestamp = date('Y-m-d H:i:s');
+		for ($i=0; $i <count($this->input->post('id_detail')); $i++) { 
+			if ($this->input->post('ceklis')[$i] == 't' ) {
+				//load konfig upload
+				$this->konfigurasi_upload_bukti($nmfile);
+				if ($this->gbr_bukti->do_upload('buktiConfirm')) 
+				{
+					$gbrBukti = $this->gbr_bukti->data();
+					//inisiasi variabel u/ digunakan pada fungsi config img bukti
+					$nama_file_bukti = $gbrBukti['file_name'];
+					//call email config 
+					$this->konfigurasi_email($this->input->post('i_gambar')[$i]);
+					//add attachment pada konfigurasi email
+					$this->email->attach($gbrBukti['full_path']);
+					//send email
+					$this->email->send();
+					//load config img bukti
+					$this->konfigurasi_image_bukti($nama_file_bukti);
+					//data input array
+					$nama_file_gambar = $gbrBukti['file_name'];
+					//clear img lib after resize
+					$this->image_lib->clear();
+				} //end 
+
+				$this->db->trans_begin();
+				$data = [
+					'id' => $this->m_vout->getKodeVerifikasi(),
+					'id_out' => $this->input->post('id_header')[$i],
+					'id_out_detail' => $this->input->post('id_detail')[$i],
+					'user_id' => $this->session->userdata('id_user'),
+					'gambar_bukti' => $this->input->post('id_detail')[$i],
+					'harga_satuan' => $this->input->post('id_detail')[$i],
+					'harga_total' => $this->input->post('id_detail')[$i],
+					'status' => $this->input->post('id_detail')[$i],
+					'created_at' => $timestamp
+				];
+			}
+		}
+
+		
+		
+		
+		
 		//delete id order in tabel detail
 		$id = $this->input->post('fieldIdOrder');
 		$initiated_date = date('Y-m-d H:i:s');
@@ -169,6 +209,23 @@ class Verifikasi_out extends CI_Controller {
 			"pesan_update" => 'Data Transaksi Order Barang No.'.$id.' Berhasil diupdate'
 		));
 	}
+
+	public function konfigurasi_upload_bukti($nmfile)
+	{ 
+		//konfigurasi upload img display
+		$config['upload_path'] = './assets/img/bukti_verifikasi/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
+		$config['overwrite'] = TRUE;
+		$config['max_size'] = '4000';//in KB (4MB)
+		$config['max_width']  = '0';//zero for no limit 
+		$config['max_height']  = '0';//zero for no limit
+		$config['file_name'] = $nmfile;
+		//load library with custom object name alias
+		$this->load->library('upload', $config, 'gbr_bukti');
+		$this->gbr_bukti->initialize($config);
+	}
+
+	// ===========================================================
 
 	public function delete_trans_order($id)
 	{
