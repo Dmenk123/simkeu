@@ -90,7 +90,7 @@ ul.ui-autocomplete {
   transition: 0.4s;
 }
 
-.active, .accordion:hover {
+.accordion.active, .accordion:hover {
   background-color: #ccc; 
 }
 

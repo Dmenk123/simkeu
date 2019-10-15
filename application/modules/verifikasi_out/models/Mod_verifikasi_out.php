@@ -19,6 +19,27 @@ class Mod_verifikasi_out extends CI_Model
 
 	var $order = array('tr.id_pembelian' => 'desc'); // default order
 
+	// ===============================================================
+
+	var $column_search2 = array(
+		"tv.id",
+		"tk.id_out",
+		"tu.username",
+		"tkd.keterangan",
+		"tv.harga_total"
+	);
+
+	var $column_order2 = array(
+		"tv.id",
+		"tk.id_out",
+		"tu.username",
+		"tkd.keterangan",
+		"tv.harga_total",
+		null,
+	);
+
+	var $order2 = array('tr.id_pembelian' => 'desc'); // default order
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -101,7 +122,7 @@ class Mod_verifikasi_out extends CI_Model
 		return $query->num_rows();
 	}
 
-	public function count_all($id_vendor="")
+	public function count_all()
 	{
 		$this->db->select("
 			tk.id,
@@ -119,6 +140,105 @@ class Mod_verifikasi_out extends CI_Model
 		//$this->db->where('tr.status_penarikan', '1');
 		return $this->db->count_all_results();
 	}
+
+	// ================================================================================
+	
+	private function _get_datatables_query_finish($term='') //term is value of $_REQUEST['search']
+	{
+		$column = array(
+			"tv.id",
+			"tk.id_out",
+			"tu.username",
+			"tkd.keterangan",
+			"tv.harga_total",
+			null,
+		);
+		
+		$this->db->select("
+			tv.*,
+			tu.username,
+			tkd.qty,
+			tkd.keterangan,
+			ts.nama
+		");
+		
+		$this->db->from('tbl_verifikasi as tv');
+		$this->db->join('tbl_user as tu', 'tv.user_id = tu.id_user', 'left');
+		$this->db->join('tbl_trans_keluar_detail as tkd', 'tv.id_out_detail = tkd.id', 'left');
+		$this->db->join('tbl_satuan as ts', 'tkd.satuan = ts.id', 'left');
+		$this->db->where('tv.status', '1');
+		
+		$i = 0;
+		foreach ($this->column_search2 as $item) 
+		{
+			if($_POST['search']['value']) 
+			{
+				if($i===0) 
+				{
+					$this->db->group_start();
+					$this->db->like($item, $_POST['search']['value']);
+				}
+				else
+				{
+					$this->db->or_like($item, $_POST['search']['value']);
+				}
+				if(count($this->column_search2) - 1 == $i) 
+					$this->db->group_end(); //close bracket
+			}
+			$i++;
+		}
+
+		if(isset($_POST['order'])) // here order processing
+		{
+			$this->db->order_by($this->column_order2[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
+		} 
+		else if(isset($this->order2))
+		{
+			$order = $this->order2;
+            $this->db->order_by(key($order), $order[key($order)]);
+		}
+	}
+
+	function get_datatables_finish()
+	{
+		$term = $_REQUEST['search']['value'];
+		$this->_get_datatables_query_finish($term);
+
+		if($_REQUEST['length'] != -1)
+		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
+
+		$query = $this->db->get();
+		return $query->result();
+	}
+
+	function count_filtered_finish()
+	{
+		$term = $_REQUEST['search']['value'];
+		$this->_get_datatables_query_finish($term);
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function count_all_finish()
+	{
+		$this->db->select("
+			tv.*,
+			tu.username,
+			tkd.qty,
+			tkd.keterangan,
+			ts.nama
+		");
+		
+		$this->db->from('tbl_verifikasi as tv');
+		$this->db->join('tbl_user as tu', 'tv.user_id = tu.id_user', 'left');
+		$this->db->join('tbl_trans_keluar_detail as tkd', 'tv.id_out_detail = tkd.id', 'left');
+		$this->db->join('tbl_satuan as ts', 'tkd.satuan = ts.id', 'left');
+		$this->db->where('tv.status', '1');
+		
+		return $this->db->count_all_results();
+	}
+
+	// ================================================================================
 
 	public function get_by_id($id)
 	{

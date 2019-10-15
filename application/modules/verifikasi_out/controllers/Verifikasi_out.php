@@ -244,7 +244,46 @@ class Verifikasi_out extends CI_Controller {
 	}
 
 	// ===========================================================
+	public function list_verifikasi_finish()
+	{
+		$list = $this->m_vout->get_datatables_finish();
+		$data = array();
+		$no =$_POST['start'];
+		foreach ($list as $listFinish) {
+			$link_detail = site_url('verifikasi_out/verifikasi_detail/').$listFinish->id;
+			$link_verifikasi = site_url('verifikasi_out/proses/').$listFinish->id;
+			$no++;
+			$row = array();
+			$row[] = $listFinish->id;
+			$row[] = $listFinish->id_out;
+			$row[] = $listFinish->username;
+			$row[] = $listFinish->keterangan;
+			$row[] = '
+						<div>
+							<span class="pull-left">Rp. </span>
+							<span class="pull-right">'.number_format($listFinish->harga_total,2,",",".").'</span>
+						</div>';
+			$row[] = '
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+					<i class="glyphicon glyphicon-info-sign"></i></a>
+				<a class="btn btn-sm btn-primary" href="'.$link_verifikasi.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
+			';
 
+			$data[] = $row;
+		}//end loop
+
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->m_vout->count_all_finish(),
+			"recordsFiltered" => $this->m_vout->count_filtered_finish(),
+			"data" => $data,
+		);
+		//output to json format
+		echo json_encode($output);
+	}
+
+
+	// ============================================================
 	public function delete_trans_order($id)
 	{
 		$this->m_vout->delete_by_id($id);

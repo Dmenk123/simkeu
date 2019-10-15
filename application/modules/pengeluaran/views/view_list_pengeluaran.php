@@ -23,7 +23,7 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive">
-                <table id="tabelPengeluaran" class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <table id="tabelPengeluaran" class="table table-bordered" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th>ID Pencatatan</th>

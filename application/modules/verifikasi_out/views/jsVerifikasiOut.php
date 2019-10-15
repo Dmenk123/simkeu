@@ -20,7 +20,7 @@ $(document).ready(function() {
   });
 
   //datatables  
-  // tabel trans order
+  // tabel verifikasi
 	table = $('#tabelVerifikasi').DataTable({
 		
 		"processing": true, 
@@ -39,6 +39,27 @@ $(document).ready(function() {
 				"orderable": false, //set not orderable
 			},
 		],
+  });
+
+  // tabel verifikasi
+  table2 = $('#tabelVerifikasiFinish').DataTable({
+    
+    "processing": true, 
+    "serverSide": true, 
+    "order":[[ 2, 'desc' ]], 
+    //load data for table content from ajax source
+    "ajax": {
+      "url": "<?php echo site_url('verifikasi_out/list_verifikasi_finish') ?>",
+      "type": "POST" 
+    },
+
+    //set column definition initialisation properties
+    "columnDefs": [
+      {
+        "targets": [-1], //last column
+        "orderable": false, //set not orderable
+      },
+    ],
   });
   
   //select2
@@ -128,6 +149,11 @@ function reloadPage()
 function reload_table()
 {
   table.ajax.reload(null,false); //reload datatable ajax 
+}
+
+function reload_table2()
+{
+  table2.ajax.reload(null,false); //reload datatable ajax 
 }
 
 function save()
