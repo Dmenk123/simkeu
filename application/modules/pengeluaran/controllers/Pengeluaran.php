@@ -43,14 +43,25 @@ class Pengeluaran extends CI_Controller {
 			$row[] = date('d-m-Y', strtotime($listOut->tanggal));
 			$row[] = $listOut->username;
 			$row[] = $listOut->pemohon;
+			if ($listOut->status == 1) {
+				//belum di verifikasi
+				$row[] = '<span style="color:red">Belum Di Verifikasi</span>';
+			}else{
+				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';
+			}
 			
-			$row[] = '
-				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
-					<i class="glyphicon glyphicon-info-sign"></i></a>
-				<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
-			';
-
+			if ($listOut->status == 1) {
+				//belum di verifikasi
+				$row[] = '
+					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+						<i class="glyphicon glyphicon-info-sign"></i></a>
+					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+				';
+			}else{
+				$row[] = '<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
+			}
+			
 			$data[] = $row;
 		}//end loop
 
@@ -115,11 +126,8 @@ class Pengeluaran extends CI_Controller {
 		}
 	}
 
-	public function edit_trans_order($id)
+	public function edit_pengeluaran($id)
 	{
-		// $data = $this->m_out->get_by_id($id);
-		// echo json_encode($data);
-		
 		$data = array(
 			'data_header' => $this->m_out->get_detail_header($id),
 			'data_isi' => $this->m_out->get_detail($id),
@@ -128,67 +136,98 @@ class Pengeluaran extends CI_Controller {
 		echo json_encode($data);
 	}
 
-	public function update_trans_order()
+	public function update_pengeluaran()
 	{
-		$this->_validate();
+		// $this->_validate();
+		$this->db->trans_begin();
 		//delete id order in tabel detail
-		$id = $this->input->post('fieldIdOrder');
-		$initiated_date = date('Y-m-d H:i:s');
-		$hapus_data_order_detail = $this->m_out->hapus_data_order_detail($id);
+		$id = $this->input->post('fieldId');
+		$timestamp = date('Y-m-d H:i:s');
+		$hapus_data_detail = $this->m_out->hapus_data_detail($id);
 
 		//update header
 		$data_header = array(
-			'tgl_trans_order' => $this->input->post('fieldTanggalOrder'),
+			'updated_at' => $timestamp
 		); 
-		$this->m_out->update_data_header_detail(array('id_trans_order' => $id), $data_header);
+		$this->m_out->update_data_header(array('id' => $id), $data_header);
 
 		//proses insert ke tabel detail
-		$hitung_detail = count($this->input->post('fieldIdBarangOrder'));
-		$data_order_detail = array();
-			for ($i=0; $i < $hitung_detail; $i++) 
-			{
-			$data_order_detail[$i] = array(
-				'id_trans_order' =>$id,
-				'id_barang' => $this->input->post('fieldIdBarangOrder')[$i],
-				'id_satuan' => $this->input->post('fieldIdSatuanOrder')[$i],
-				'id_trans_beli' => $this->input->post('fieldIdBeli')[$i],
-				'qty_order' => $this->input->post('fieldJumlahBarangOrder')[$i],
-				'keterangan_order' => $this->input->post('fieldKeteranganBarangOrder')[$i],
-				'tgl_trans_order_detail' => $this->input->post('fieldTanggalOrder'),
-				'timestamp' => $initiated_date, 
-				);
-			}
-
-		$insert_update = $this->m_out->insert_update($data_order_detail);
-
-		//update tbl_trans_beli_detail
-		$id_m_out = $this->input->post('fieldIdOrder');
-		$result_id_order_detail = $this->m_out->get_id_trans_order_detail($id_m_out);
-		$result_id_beli_detail = $this->m_out->get_id_trans_beli_detail($id_m_out);
-
-		$data_id_order_detail = array();
-		//cek apablia array bernilai kosong
-		if (count($result_id_beli_detail) != 0) {
-			//ambil variabel isi array untuk di foreach
-			foreach ($result_id_beli_detail as $key => $val) {
-				//jika tdk terdapat data kosong, eksekusi loop
-				if ($val['id_trans_beli_detail'] != null) {
-					// loop dengan batas key pada hasil foreach, key bernilai dinamis berdasarkan statement if diatas
-					for ($i=0; $i <= $key; $i++) { 		
-						$data_id_order_detail[$i] = array(
-							'id_trans_beli_detail' => $result_id_beli_detail[$i]['id_trans_beli_detail'],
-							'id_trans_order_detail' => $result_id_order_detail[$i]['id_trans_order_detail'],
-						);
-					}		
-				}			
-			}
-			$this->db->update_batch('tbl_trans_beli_detail',$data_id_order_detail,'id_trans_beli_detail');
+		$hitung_detail = count($this->input->post('i_satuan'));
+		$data_detail = array();
+		for ($i=0; $i < $hitung_detail; $i++) 
+		{
+			$data_detail[$i] = array(
+				'id_trans_keluar' => $id,
+				'keterangan' => $this->input->post('i_keterangan')[$i],
+				'satuan' => $this->input->post('i_satuan')[$i],
+				'qty' => $this->input->post('i_jumlah')[$i]
+			);
 		}
-		echo json_encode(array(
-			"status" => TRUE,
-			"pesan_update" => 'Data Transaksi Order Barang No.'.$id.' Berhasil diupdate'
-		));
+
+		$insert_update = $this->m_out->insert_update($data_detail);
+
+		if ($this->db->trans_status() === FALSE) {
+        	$this->db->trans_rollback();
+        	echo json_encode(array(
+				"status" => FALSE,
+				"pesan_tambah" => 'Data Transaksi Pengeluaran Gagal Diupdate'
+			));
+		}
+		else {
+		    $this->db->trans_commit();
+		    echo json_encode(array(
+				"status" => TRUE,
+				"pesan_tambah" => 'Data Transaksi Pengeluaran Berhasil Diupdate'
+			));
+		}
 	}
+
+	public function pengeluaran_detail()
+	{
+		$id_user = $this->session->userdata('id_user'); 
+		$query_user = $this->prof->get_detail_pengguna($id_user);
+
+		$id = $this->uri->segment(3); 
+		$query_header = $this->m_out->get_detail_header($id);
+		$query = $this->m_out->get_detail($id);
+
+		$data = array(
+			'data_user' => $query_user,
+			'hasil_header' => $query_header,
+			'hasil_data' => $query
+		);
+
+		$content = [
+			'css' 	=> 'cssPengeluaran',
+			'modal' => null,
+			'js'	=> 'jsPengeluaran',
+			'view'	=> 'view_detail_pengeluaran'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
+	public function cetak_nota_pengeluaran()
+	{
+		$this->load->library('Pdf_gen');
+
+		$id = $this->uri->segment(3);
+		$query_header = $this->m_out->get_detail_header($id);
+		$query = $this->m_out->get_detail($id);
+
+		$data = array(
+			'title' => 'Report Pencatatan Pengeluaran',
+			'hasil_header' => $query_header,
+			'hasil_data' => $query, 
+		);
+
+	    $html = $this->load->view('view_detail_pengeluaran_report', $data, true);
+	    
+	    $filename = 'nota_pengeluaran_'.$id.'_'.time();
+	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
+	}
+
+	// ====================================================================================================
 
 	public function delete_trans_order($id)
 	{
@@ -199,51 +238,9 @@ class Pengeluaran extends CI_Controller {
 		));
 	}
 
-	public function trans_order_detail()
-	{
-		$id_user = $this->session->userdata('id_user'); 
-		$query_user = $this->prof->get_detail_pengguna($id_user);
+	
 
-		$jumlah_notif = $this->psn->notif_count($id_user);  //menghitung jumlah post
-		$notif= $this->psn->get_notifikasi($id_user); //menampilkan isi postingan
-
-		$id_trans_order = $this->uri->segment(3); 
-		$query_header = $this->m_out->get_detail_header($id_trans_order);
-		$query = $this->m_out->get_detail($id_trans_order);
-
-		$data = array(
-			'css'=>'cssTransOrder',
-			'js'=>'jsTransOrder',
-			'content' => 'view_detail_trans_order',
-			'title' => 'PT.Surya Putra Barutama',
-			'hasil_header' => $query_header,
-			'data_user' => $query_user, 
-			'hasil_data' => $query,
-			'qty_notif' => $jumlah_notif,
-			'isi_notif' => $notif,
-			);
-		$this->load->view('view_home',$data);
-	}
-
-	public function cetak_report_trans_order_detail()
-	{
-		$this->load->library('Pdf_gen');
-
-		$id_trans_order = $this->uri->segment(3);
-		$query_header = $this->m_out->get_detail_header($id_trans_order);
-		$query = $this->m_out->get_detail($id_trans_order);
-
-		$data = array(
-			'title' => 'Report Transaksi Permintaan',
-			'hasil_header' => $query_header,
-			'hasil_data' => $query, 
-			);
-
-	    $html = $this->load->view('view_detail_trans_order_report', $data, true);
-	    
-	    $filename = 'report_permintaan_'.$id_trans_order.'_'.time();
-	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
-	}
+	
 
 	public function get_header_modal_form()
 	{

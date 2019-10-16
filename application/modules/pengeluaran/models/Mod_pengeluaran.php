@@ -120,6 +120,59 @@ class Mod_pengeluaran extends CI_Model
 		return $this->db->count_all_results();
 	}
 
+	public function save($data_header, $data_detail)
+	{ 
+		$this->db->insert('tbl_trans_keluar',$data_header);
+		$this->db->insert_batch('tbl_trans_keluar_detail',$data_detail);
+	}
+
+	public function get_detail_header($id_pengeluaran)
+	{
+		$this->db->select('tp.*,tu.username');
+		$this->db->from('tbl_trans_keluar tp');
+		$this->db->join('tbl_user tu', 'tp.user_id = tu.id_user','left');
+        $this->db->where('tp.id', $id_pengeluaran);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+	}
+
+	public function get_detail($id_pengeluaran)
+	{
+		$this->db->select('tkd.*, ts.nama as nama_satuan');
+		$this->db->from('tbl_trans_keluar_detail tkd');
+		$this->db->join('tbl_satuan ts', 'tkd.satuan = ts.id','left');
+        $this->db->where('tkd.id_trans_keluar', $id_pengeluaran);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+	}
+
+	public function hapus_data_detail($id)
+	{
+		$this->db->where('id_trans_keluar', $id);
+		$this->db->delete('tbl_trans_keluar_detail');
+	}
+
+	public function update_data_header($where, $data_header)
+	{
+		$this->db->update('tbl_trans_keluar', $data_header, $where);
+		return $this->db->affected_rows();
+	}
+
+	public function insert_update($data_order_detail)
+	{
+		$this->db->insert_batch('tbl_trans_keluar_detail',$data_order_detail);
+	}
+
+	// ============================================================================================
+
 	public function get_by_id($id)
 	{
 		$this->db->from('tbl_trans_order');
@@ -129,28 +182,11 @@ class Mod_pengeluaran extends CI_Model
 		return $query->row();
 	}
 
-	public function save($data_header, $data_detail)
-	{ 
-		$this->db->insert('tbl_trans_keluar',$data_header);
-		$this->db->insert_batch('tbl_trans_keluar_detail',$data_detail);
-	}
+	
 
-	public function update_data_header_detail($where, $data_header)
-	{
-		$this->db->update('tbl_trans_order', $data_header, $where);
-		return $this->db->affected_rows();
-	}
+	
 
-	public function insert_update($data_order_detail)
-	{
-		$this->db->insert_batch('tbl_trans_order_detail',$data_order_detail);
-	}
-
-	public function hapus_data_order_detail($id)
-	{
-		$this->db->where('id_trans_order', $id);
-		$this->db->delete('tbl_trans_order_detail');
-	}
+	
 
 	public function delete_by_id($id)
 	{
@@ -161,32 +197,7 @@ class Mod_pengeluaran extends CI_Model
 		$this->db->delete('tbl_trans_order_detail');
 	}
 
-	public function get_detail($id_trans_order)
-	{
-		//$this->db->select('tbl_trans_order.id_trans_order,
-		$this->db->select(' tbl_barang.id_barang,
-							tbl_barang.nama_barang,
-							tbl_satuan.nama_satuan,
-							tbl_satuan.id_satuan,
-							tbl_trans_order.tgl_trans_order,
-							tbl_trans_order_detail.id_trans_beli,
-							tbl_trans_order_detail.id_trans_order_detail,
-							tbl_trans_order_detail.id_trans_order,
-							tbl_trans_order_detail.qty_order,
-							tbl_trans_order_detail.keterangan_order');
-		$this->db->from('tbl_trans_order_detail');
-		$this->db->join('tbl_trans_order', 'tbl_trans_order.id_trans_order = tbl_trans_order_detail.id_trans_order','left');
-		$this->db->join('tbl_barang', 'tbl_barang.id_barang = tbl_trans_order_detail.id_barang','left');
-		$this->db->join('tbl_satuan', 'tbl_satuan.id_satuan = tbl_trans_order_detail.id_satuan','left');
-
-        $this->db->where('tbl_trans_order.id_trans_order', $id_trans_order);
-
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        }
-	}
+	
 
 	public function get_id_trans_beli_detail($id_t_order)
 	{
@@ -213,38 +224,6 @@ class Mod_pengeluaran extends CI_Model
             return $query->result_array();
         }
 	}
-
-	public function get_detail_header($id_trans_order)
-	{
-		$this->db->select('tbl_trans_order.id_trans_order,
-							tbl_user.id_user,
-							tbl_user.username,
-							tbl_user_detail.nama_lengkap_user,
-							tbl_trans_order.tgl_trans_order');
-		$this->db->from('tbl_trans_order');
-		$this->db->join('tbl_user', 'tbl_user.id_user = tbl_trans_order.id_user','left');
-		$this->db->join('tbl_user_detail', 'tbl_user_detail.id_user = tbl_trans_order.id_user','left');
-        $this->db->where('tbl_trans_order.id_trans_order', $id_trans_order);
-
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        }
-	}
-    /*function getKodeTransOrder(){
-            $q = $this->db->query("SELECT MAX(RIGHT(id_trans_order,5)) as kode_max from tbl_trans_order WHERE MONTH(tgl_trans_order) = MONTH(CURRENT_DATE())");
-            $kd = "";
-            if($q->num_rows()>0){
-                foreach($q->result() as $k){
-                    $tmp = ((int)$k->kode_max)+1;
-                    $kd = sprintf("%05s", $tmp);
-                }
-            }else{
-                $kd = "00001";
-            }
-            return "ORD".date('my').$kd;
-    }*/
 
     function getKodePengeluaran(){
             $q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_keluar WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");

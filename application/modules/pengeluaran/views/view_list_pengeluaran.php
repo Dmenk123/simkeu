@@ -30,6 +30,7 @@
                       <th>Tanggal</th>
                       <th>Nama User</th>
                       <th>Pemohon</th>
+                      <th>Status</th>
                       <th style="width: 13%;">Aksi</th>
                     </tr>
                   </thead>

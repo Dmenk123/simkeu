@@ -21,19 +21,19 @@ $(document).ready(function() {
       alert('ada field yang tidak diisi, Mohon cek lagi!!');
     }else{
       $('#tabel_pengeluaran').append(
-            '<tr class="tbl_modal_row" id="row'+i+'">'
-              +'<td style="width: 40%;">'
-                +'<input type="text" name="i_keterangan[]" value="'+ambilKeterangan+'" id="i_keterangan" class="form-control" required readonly style="width: 100%;">'
-              +'</td>'
-              +'<td style="width: 10%;">'
-                +'<input type="text" name="i_jumlah[]" value="'+ambilIJumlah+'" id="i_jumlah" class="form-control" required readonly style="width: 100%;">'
-              +'</td>'
-              +'<td style="width: 15%;">'
-                +'<input type="text" name="i_satuan_text[]" value="'+ambilSatuanText+'" id="i_satuan_text" class="form-control" required readonly style="width: 100%;">'
-                +'<input type="hidden" name="i_satuan[]" value="'+ambilSatuan+'" id="i_satuan" class="form-control" required readonly style="width: 100%;">'
-              +'</td>'
-              +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>'
-            +'</tr>');
+        '<tr class="tbl_modal_row" id="row'+i+'">'
+          +'<td style="width: 40%;">'
+            +'<input type="text" name="i_keterangan[]" value="'+ambilKeterangan+'" id="i_keterangan" class="form-control" required readonly style="width: 100%;">'
+          +'</td>'
+          +'<td style="width: 10%;">'
+            +'<input type="text" name="i_jumlah[]" value="'+ambilIJumlah+'" id="i_jumlah" class="form-control" required readonly style="width: 100%;">'
+          +'</td>'
+          +'<td style="width: 15%;">'
+            +'<input type="text" name="i_satuan_text[]" value="'+ambilSatuanText+'" id="i_satuan_text" class="form-control" required readonly style="width: 100%;">'
+            +'<input type="hidden" name="i_satuan[]" value="'+ambilSatuan+'" id="i_satuan" class="form-control" required readonly style="width: 100%;">'
+          +'</td>'
+          +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>'
+        +'</tr>');
         i = randString(5);
 
         //kosongkan field setelah append row
@@ -155,34 +155,39 @@ function editPengeluaran(id)
         dataType: "JSON",
         success: function(data)
         {
-            /*alert(rec); //mkyong*/
-            //ambil data ke json->modal
+            console.log(data.date_header);
             //header
-            $('[name="form_id"]').val(data.data_header[0].id_trans_order);
-            $('[name="form_username"]').val(data.data_header[0].tgl_trans_order);
-            $('[name="form_userid"]').val(data.data_header[0].username);
-            
+            $('[name="fieldId"]').val(data.data_header[0].id);
+            $('[name="fieldUsername"]').val(data.data_header[0].username);
+            $('[name="fieldUserid"]').val(data.data_header[0].user_id);
+            $('[name="fieldPemohon"]').val(data.data_header[0].pemohon);
+
             //isi
             var i = randString(5);
             var key_isi = 1;
-            Object.keys(data.data_isi).forEach(function(){         
-              $('#tabel_order').append('<tr class="tbl_modal_row" id="row'+i+'">'
-                              +'<td><input type="text" name="fieldNamaBarangOrder[]" value="'+data.data_isi[key_isi-1].nama_barang+'" id="field_nama_barang_order" class="form-control" required readonly>'
-                              +'<input type="hidden" name="fieldIdBeli[]" value="'+data.data_isi[key_isi-1].id_trans_beli+'" id="field_id_beli" class="form-control">'
-                              +'<input type="hidden" name="fieldIdOrderDetail[]" value="'+data.data_isi[key_isi-1].id_trans_order_detail+'" id="field_id_order_detail" class="form-control">'
-                              +'<input type="hidden" name="fieldIdBarangOrder[]" value="'+data.data_isi[key_isi-1].id_barang+'" id="field_id_barang_order" class="form-control"></td>'
-                              +'<td><input type="text" name="fieldNamaSatuanOrder[]" value="'+data.data_isi[key_isi-1].nama_satuan+'" id="field_nama_satuan_order" class="form-control" required readonly>'
-                              +'<input type="hidden" name="fieldIdSatuanOrder[]" value="'+data.data_isi[key_isi-1].id_satuan+'" id="field_id_satuan_order" class="form-control"></td>'
-                              +'<td><input type="text" name="fieldJumlahBarangOrder[]" value="'+data.data_isi[key_isi-1].qty_order+'" id="field_jumlah_barang_order" class="form-control" required></td>'
-                              +'<td><input type="text" name="fieldKeteranganBarangOrder[]" value="'+data.data_isi[key_isi-1].keterangan_order+'" id="field_keterangan_barang_order" class="form-control" required></td>'
-                              +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove" disabled>X</button></td>'
-                              +'</tr>');
+            Object.keys(data.data_isi).forEach(function(){
+              $('#tabel_pengeluaran').append(
+                '<tr class="tbl_modal_row" id="row'+i+'">'
+                  +'<td style="width: 40%;">'
+                    +'<input type="text" name="i_keterangan[]" value="'+data.data_isi[key_isi-1].keterangan+'" id="i_keterangan" class="form-control" required readonly style="width: 100%;">'
+                  +'</td>'
+                  +'<td style="width: 10%;">'
+                    +'<input type="text" name="i_jumlah[]" value="'+data.data_isi[key_isi-1].qty+'" id="i_jumlah" class="form-control" required readonly style="width: 100%;">'
+                  +'</td>'
+                  +'<td style="width: 15%;">'
+                    +'<input type="text" name="i_satuan_text[]" value="'+data.data_isi[key_isi-1].nama_satuan+'" id="i_satuan_text" class="form-control" required readonly style="width: 100%;">'
+                    +'<input type="hidden" name="i_satuan[]" value="'+data.data_isi[key_isi-1].satuan+'" id="i_satuan" class="form-control" required readonly style="width: 100%;">'
+                  +'</td>'
+                  +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>'
+                +'</tr>'
+              );
+
               key_isi++;  
               i = randString(5);             
             });
 
             // select class modal apabila bs.modal hidden
-            $("#modal_form_order").on("hidden.bs.modal", function(){
+            $("#modal_pengeluaran").on("hidden.bs.modal", function(){
               //reset form value on modals
               $('#form')[0].reset(); 
               $('tr').remove('.tbl_modal_row'); 
@@ -192,7 +197,7 @@ function editPengeluaran(id)
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
-            alert('Error get data from ajax');
+          alert('Error get data from ajax');
         }
     });
    
@@ -208,6 +213,7 @@ function randString(angka)
 
   return text;
 }
+
 function reloadPage() 
 {
   location.reload();
@@ -301,33 +307,4 @@ function deleteTransOrder(id)
         });
     }
 }
-
-function ambilData(id) 
-{
-  if(confirm('Ambil data peramalan ?'))
-    {
-        $('#modal_peramalan').modal('hide');      
-        var rowIdBrg = $('.row_idBrg_'+id+'').text();
-        var rowQty = $('.row_ft_'+id+'').text();
-
-        $('#form_id_barang_order').val(rowIdBrg);
-        $('#form_jumlah_barang_order').val(rowQty);
-        
-        $.ajax({
-          url : "<?php echo site_url('trans_order/get_data_barang')?>/"+rowIdBrg,
-          type: "GET",
-          dataType: "JSON",
-          success: function(data)
-          {
-              $('#form_nama_barang_order').val(data[0].nama_barang);
-              $('#form_nama_satuan_order').val(data[0].nama_satuan);
-              $('#form_id_satuan_order').val(data[0].id_satuan);
-          },
-          error: function (jqXHR, textStatus, errorThrown)
-          {
-              alert('Error get data from ajax');
-          }
-      });  
-    }
-}    
 </script>	
