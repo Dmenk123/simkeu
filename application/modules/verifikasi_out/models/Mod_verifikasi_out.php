@@ -242,8 +242,10 @@ class Mod_verifikasi_out extends CI_Model
 
 	public function get_by_id($id)
 	{
+		$this->db->select('tbl_trans_keluar.*, tbl_user_detail.nama_lengkap_user');
 		$this->db->from('tbl_trans_keluar');
-		$this->db->where('id',$id);
+		$this->db->join('tbl_user_detail', 'tbl_trans_keluar.user_id = tbl_user_detail.id_user', 'left');
+		$this->db->where('tbl_trans_keluar.id',$id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -376,38 +378,6 @@ class Mod_verifikasi_out extends CI_Model
             return $query->result_array();
         }
 	}
-
-	public function get_detail_header($id_trans_order)
-	{
-		$this->db->select('tbl_trans_order.id_trans_order,
-							tbl_user.id_user,
-							tbl_user.username,
-							tbl_user_detail.nama_lengkap_user,
-							tbl_trans_order.tgl_trans_order');
-		$this->db->from('tbl_trans_order');
-		$this->db->join('tbl_user', 'tbl_user.id_user = tbl_trans_order.id_user','left');
-		$this->db->join('tbl_user_detail', 'tbl_user_detail.id_user = tbl_trans_order.id_user','left');
-        $this->db->where('tbl_trans_order.id_trans_order', $id_trans_order);
-
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        }
-	}
-    /*function getKodeTransOrder(){
-            $q = $this->db->query("SELECT MAX(RIGHT(id_trans_order,5)) as kode_max from tbl_trans_order WHERE MONTH(tgl_trans_order) = MONTH(CURRENT_DATE())");
-            $kd = "";
-            if($q->num_rows()>0){
-                foreach($q->result() as $k){
-                    $tmp = ((int)$k->kode_max)+1;
-                    $kd = sprintf("%05s", $tmp);
-                }
-            }else{
-                $kd = "00001";
-            }
-            return "ORD".date('my').$kd;
-    }*/
 
 	public function lookup2($rowIdBrg)
 	{

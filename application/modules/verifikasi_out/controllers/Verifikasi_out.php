@@ -243,6 +243,31 @@ class Verifikasi_out extends CI_Controller {
 	    $this->image_lib->resize();
 	}
 
+	public function verifikasi_detail()
+	{
+		$id_user = $this->session->userdata('id_user'); 
+		$query_user = $this->prof->get_detail_pengguna($id_user);
+
+		$id = $this->uri->segment(3); 
+		$query_header = $this->m_vout->get_by_id($id);
+		$query = $this->m_vout->get_detail_by_id($id);
+
+		$data = array(
+			'data_user' => $query_user,
+			'hasil_header' => $query_header,
+			'hasil_data' => $query
+		);
+
+		$content = [
+			'css' 	=> 'cssVerifikasiOut',
+			'modal' => null,
+			'js'	=> 'jsVerifikasiOut',
+			'view'	=> 'view_detail_verifikasi_out'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
 	// ===========================================================
 	public function list_verifikasi_finish()
 	{
@@ -291,32 +316,6 @@ class Verifikasi_out extends CI_Controller {
 			"status" => TRUE,
 			"pesan" => 'Data Transaksi Order Barang No.'.$id.' Berhasil dihapus'
 		));
-	}
-
-	public function trans_order_detail()
-	{
-		$id_user = $this->session->userdata('id_user'); 
-		$query_user = $this->prof->get_detail_pengguna($id_user);
-
-		$jumlah_notif = $this->psn->notif_count($id_user);  //menghitung jumlah post
-		$notif= $this->psn->get_notifikasi($id_user); //menampilkan isi postingan
-
-		$id_trans_order = $this->uri->segment(3); 
-		$query_header = $this->m_vout->get_detail_header($id_trans_order);
-		$query = $this->m_vout->get_detail($id_trans_order);
-
-		$data = array(
-			'css'=>'cssTransOrder',
-			'js'=>'jsTransOrder',
-			'content' => 'view_detail_trans_order',
-			'title' => 'PT.Surya Putra Barutama',
-			'hasil_header' => $query_header,
-			'data_user' => $query_user, 
-			'hasil_data' => $query,
-			'qty_notif' => $jumlah_notif,
-			'isi_notif' => $notif,
-			);
-		$this->load->view('view_home',$data);
 	}
 
 	public function cetak_report_trans_order_detail()
