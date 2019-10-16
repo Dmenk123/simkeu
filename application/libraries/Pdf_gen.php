@@ -2,13 +2,18 @@
 
 require_once("./vendor/dompdf/dompdf/autoload.inc.php");
 use Dompdf\Dompdf;
+use Dompdf\Options;
 
 
 class Pdf_gen
 {
   public function generate($html, $filename='', $stream=TRUE, $paper = 'A4', $orientation = "portrait")
   {
-    $dompdf = new Dompdf();
+    $options = new Options();
+    $options->set('isHtml5ParserEnabled', true);
+    $options->set('isRemoteEnabled', true);
+    
+    $dompdf = new Dompdf($options);
     $dompdf->loadHtml($html);
     $dompdf->setPaper($paper, $orientation);
     $dompdf->set_base_path("./assets/bootstrap/css/bootstrap.min.css");
