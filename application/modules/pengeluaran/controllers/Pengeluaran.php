@@ -71,7 +71,7 @@ class Pengeluaran extends CI_Controller {
 		$id = $this->input->post('fieldId');
 		$userid = $this->input->post('fieldUserid');
 		$tanggal = date('Y-m-d');
-		$pemohon = $this->input->post('i_namapemohon')[0];
+		$pemohon = $this->input->post('fieldPemohon');
 
 		$this->db->trans_begin();
 
@@ -85,7 +85,7 @@ class Pengeluaran extends CI_Controller {
 		);
 
 		//for table trans_order_detail
-		$hitung = count($this->input->post('i_namapemohon'));
+		$hitung = count($this->input->post('i_jumlah'));
 		$data_detail = [];
 		for ($i=0; $i < $hitung; $i++) 
 		{

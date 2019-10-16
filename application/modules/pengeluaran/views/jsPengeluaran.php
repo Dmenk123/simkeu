@@ -12,20 +12,16 @@ $(document).ready(function() {
   var i = randString(5);
 	//addrow field inside modal
   $('#btn_add_row').click(function() {
-    var ambilPemohon = $('#form_pemohon_tbl').val();
     var ambilId = $('#form_id_tbl').val();
     var ambilKeterangan = $('#form_keterangan_tbl').val();
     var ambilIJumlah = $('#form_jumlah_tbl').val();
     var ambilSatuan = $('#form_satuan_tbl').val();
     var ambilSatuanText = $( "#form_satuan_tbl option:selected" ).text();
-    if (ambilPemohon == "" || ambilKeterangan == "" || ambilIJumlah == "" || ambilSatuan == "" ) {
+    if (ambilKeterangan == "" || ambilIJumlah == "" || ambilSatuan == "" ) {
       alert('ada field yang tidak diisi, Mohon cek lagi!!');
     }else{
       $('#tabel_pengeluaran').append(
             '<tr class="tbl_modal_row" id="row'+i+'">'
-              +'<td style="width: 30%;">'
-                +'<input type="text" name="i_namapemohon[]" value="'+ambilPemohon+'" id="i_namapemohon" class="form-control" required readonly style="width: 100%;">'
-              +'</td>'
               +'<td style="width: 40%;">'
                 +'<input type="text" name="i_keterangan[]" value="'+ambilKeterangan+'" id="i_keterangan" class="form-control" required readonly style="width: 100%;">'
               +'</td>'
@@ -109,10 +105,10 @@ $(document).ready(function() {
     delay: 0,
     source: '<?php echo site_url('trans_order/suggest_barang'); ?>',
     select:function(event, ui) {
-              $('#form_id_barang_order').val(ui.item.id_barang);
-              $('#form_nama_satuan_order').val(ui.item.nama_satuan);
-              $('#form_id_satuan_order').val(ui.item.id_satuan);
-            }     
+      $('#form_id_barang_order').val(ui.item.id_barang);
+      $('#form_nama_satuan_order').val(ui.item.nama_satuan);
+      $('#form_id_satuan_order').val(ui.item.id_satuan);
+    }     
   });
 
   //set input/textarea/select event when change value, remove class error and remove text help block

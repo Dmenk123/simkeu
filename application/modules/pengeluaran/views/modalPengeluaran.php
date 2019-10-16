@@ -18,36 +18,34 @@
                         <input type="text" class="form-control" id="form_username" name="fieldUsername" value="<?php echo $this->session->userdata('username');?>" readonly>
                         <input type="hidden" class="form-control" id="form_userid" name="fieldUserid" value="<?php echo $this->session->userdata('id_user');?>" readonly>
                     </div>
+                    <div class="form-group" style="width:100%">
+                        <label class="lbl-modal">Pemohon : </label>
+                        <input type="text" class="form-control" id="form_pemohon" name="fieldPemohon" value="" style="width:61.5%">
+                    </div>
                     <br /><br />
                     <div class="form-group" style="padding-bottom: 20px;">
                        <table id="tabel_pengeluaran" class="table table-bordered table-hover">
                             <thead>
                               <tr>
-                                  <th style="text-align:center; width: 30%">Pemohon</th>
-                                  <th style="text-align:center; width: 50%">Keterangan</th>
-                                  <th style="text-align:center; width: 5%">Jumlah</th>
-                                  <th style="text-align:center; width: 10%">Satuan</th>
-                                  <th style="text-align:center; width: 5%">AKSI</th>
+                                  <th style="text-align:center; width: 500px">Keterangan</th>
+                                  <th style="text-align:center; width: 200px">Jumlah</th>
+                                  <th style="text-align:center; width: 200px">Satuan</th>
+                                  <th style="text-align:center; width: 20px">AKSI</th>
                                 </tr>
                             </thead>
                             <tbody>
                               <tr>
-                                 <td style="width: 30%;">
-                                    <div class="form-group" style="width: 100%;">
-                                        <input type="text" name="formPemohonTbl" class="form-control" id="form_pemohon_tbl"  placeholder="Pemohon" style="width: 100%;"/>
-                                    </div>
-                                 </td>
-                                 <td style="width: 40%;">
+                                 <td style="width: 50%;">
                                     <div class="form-group" style="width: 100%;">
                                         <input type="text" name="formKeteranganTbl" class="form-control" id="form_keterangan_tbl" placeholder="Keterangan" style="width: 100%;"/>
                                     </div>    
                                  </td>
-                                 <td style="width: 10%;">
+                                 <td style="width: 20%;">
                                     <div class="form-group" style="width: 100%;">
                                         <input type="text" name="formJumlahTbl" class="form-control numberinput" id="form_jumlah_tbl" placeholder="Jumlah" style="width: 100%;"/>
                                     </div>
                                  </td>
-                                 <td style="width: 15%;">
+                                 <td style="width: 20%;">
                                     <div class="form-group" style="width: 100%;">
                                         <select name="formSatuanTbl" id="form_satuan_tbl" class="form-control" style="width: 100%;">
                                             <?php
