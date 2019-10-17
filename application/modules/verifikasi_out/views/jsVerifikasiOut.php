@@ -227,22 +227,19 @@ function save()
     });
 }
 
-function deleteTransOrder(id)
+function deleteVerifyFinish(id)
 {
-    if(confirm('Are you sure delete this data?'))
+    if(confirm('Anda yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('trans_order/delete_trans_order')?>/"+id,
+            url : "<?php echo site_url('verifikasi_out/hapus_verifikasi_out_finish')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
-                //if success reload ajax table
-                $('#modal_form_order').modal('hide');
                 alert(data.pesan);
-                //call function
-                reload_table();
+                reload_table2();
             },
             error: function (jqXHR, textStatus, errorThrown)
             {

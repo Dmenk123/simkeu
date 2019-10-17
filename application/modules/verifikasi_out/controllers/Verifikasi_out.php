@@ -132,7 +132,9 @@ class Verifikasi_out extends CI_Controller {
 						$this->image_lib->clear();
 					} //end
 				}else{
-					var_dump($nama_file_bukti);exit;
+					$this->db->trans_rollback();
+					$this->session->set_flashdata('feedback_gagal','Mohon Lengkapi Kelengkapan Data'); 
+					redirect($this->uri->segment(1));
 				} 
 				
 				//set tipe akun
@@ -268,6 +270,44 @@ class Verifikasi_out extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
+	// ===========================================================
+	public function list_verifikasi_finish()
+	{
+		$list = $this->m_vout->get_datatables_finish();
+		$data = array();
+		$no =$_POST['start'];
+		foreach ($list as $listFinish) {
+			$link_detail = site_url('verifikasi_out/verifikasi_detail_finish/').$listFinish->id;
+			$no++;
+			$row = array();
+			$row[] = $listFinish->id;
+			$row[] = $listFinish->id_out;
+			$row[] = $listFinish->username;
+			$row[] = $listFinish->keterangan;
+			$row[] = '
+						<div>
+							<span class="pull-left">Rp. </span>
+							<span class="pull-right">'.number_format($listFinish->harga_total,2,",",".").'</span>
+						</div>';
+			$row[] = '
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+					<i class="glyphicon glyphicon-info-sign"></i></a>
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deleteVerifyFinish('."'".$listFinish->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+			';
+
+			$data[] = $row;
+		}//end loop
+
+		$output = array(
+			"draw" => $_POST['draw'],
+			"recordsTotal" => $this->m_vout->count_all_finish(),
+			"recordsFiltered" => $this->m_vout->count_filtered_finish(),
+			"data" => $data,
+		);
+		//output to json format
+		echo json_encode($output);
+	}
+
 	public function verifikasi_detail_finish()
 	{
 		$id_user = $this->session->userdata('id_user'); 
@@ -291,55 +331,38 @@ class Verifikasi_out extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	// ===========================================================
-	public function list_verifikasi_finish()
+	public function hapus_verifikasi_out_finish($id)
 	{
-		$list = $this->m_vout->get_datatables_finish();
-		$data = array();
-		$no =$_POST['start'];
-		foreach ($list as $listFinish) {
-			$link_detail = site_url('verifikasi_out/verifikasi_detail_finish/').$listFinish->id;
-			$link_verifikasi = site_url('verifikasi_out/proses/').$listFinish->id;
-			$no++;
-			$row = array();
-			$row[] = $listFinish->id;
-			$row[] = $listFinish->id_out;
-			$row[] = $listFinish->username;
-			$row[] = $listFinish->keterangan;
-			$row[] = '
-						<div>
-							<span class="pull-left">Rp. </span>
-							<span class="pull-right">'.number_format($listFinish->harga_total,2,",",".").'</span>
-						</div>';
-			$row[] = '
-				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
-					<i class="glyphicon glyphicon-info-sign"></i></a>
-				<a class="btn btn-sm btn-primary" href="'.$link_verifikasi.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
-			';
+		$this->db->trans_begin();
 
-			$data[] = $row;
-		}//end loop
+		//ambil data dan hapus data verifikasi
+		$data_lawas = $this->db->query("select * from tbl_verifikasi where id = '".$id."'")->row();
+		$this->m_vout->delete_ver_by_id($id);
+		//update pengeluaran detil
+		$this->db->update('tbl_trans_keluar_detail', ['status' => 0], ['id' => $data_lawas->id_out_detail]);
+		//update pengeluaran detil
+		$this->db->update('tbl_trans_keluar', ['status' => 1], ['id' => $data_lawas->id_out]);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			echo json_encode(array(
+				"status" => FALSE,
+				"pesan" => 'Data gagal dihapus'
+			));
+		}
+		else {
+			$this->db->trans_commit();
+			echo json_encode(array(
+				"status" => TRUE,
+				"pesan" => 'Data Sukses dihapus'
+			));
+		}
 
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->m_vout->count_all_finish(),
-			"recordsFiltered" => $this->m_vout->count_filtered_finish(),
-			"data" => $data,
-		);
-		//output to json format
-		echo json_encode($output);
+		
 	}
-
 
 	// ============================================================
-	public function delete_trans_order($id)
-	{
-		$this->m_vout->delete_by_id($id);
-		echo json_encode(array(
-			"status" => TRUE,
-			"pesan" => 'Data Transaksi Order Barang No.'.$id.' Berhasil dihapus'
-		));
-	}
+	
 
 	public function cetak_report_trans_order_detail()
 	{
@@ -353,7 +376,7 @@ class Verifikasi_out extends CI_Controller {
 			'title' => 'Report Transaksi Permintaan',
 			'hasil_header' => $query_header,
 			'hasil_data' => $query, 
-			);
+		);
 
 	    $html = $this->load->view('view_detail_trans_order_report', $data, true);
 	    

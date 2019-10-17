@@ -322,6 +322,13 @@ class Mod_verifikasi_out extends CI_Model
 		return $query->row();
 	}
 
+	public function delete_ver_by_id($id)
+	{
+		$this->db->where('id', $id);
+		$this->db->delete('tbl_verifikasi');
+	}
+
+
 	//==================================================================================================
 
 	public function update_data_header_detail($where, $data_header)
