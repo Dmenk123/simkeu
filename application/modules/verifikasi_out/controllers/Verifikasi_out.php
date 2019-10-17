@@ -268,6 +268,29 @@ class Verifikasi_out extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
+	public function verifikasi_detail_finish()
+	{
+		$id_user = $this->session->userdata('id_user'); 
+		$query_user = $this->prof->get_detail_pengguna($id_user);
+
+		$id = $this->uri->segment(3); 
+		$query = $this->m_vout->get_verifikasi_by_id($id);
+
+		$data = array(
+			'data_user' => $query_user,
+			'hasil_data' => $query
+		);
+
+		$content = [
+			'css' 	=> 'cssVerifikasiOut',
+			'modal' => null,
+			'js'	=> 'jsVerifikasiOut',
+			'view'	=> 'view_detail_verifikasi_out_finish'
+		];
+		
+		$this->template_view->load_view($content, $data);
+	}
+
 	// ===========================================================
 	public function list_verifikasi_finish()
 	{
@@ -275,7 +298,7 @@ class Verifikasi_out extends CI_Controller {
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $listFinish) {
-			$link_detail = site_url('verifikasi_out/verifikasi_detail/').$listFinish->id;
+			$link_detail = site_url('verifikasi_out/verifikasi_detail_finish/').$listFinish->id;
 			$link_verifikasi = site_url('verifikasi_out/proses/').$listFinish->id;
 			$no++;
 			$row = array();

@@ -298,6 +298,30 @@ class Mod_verifikasi_out extends CI_Model
 		$namaSatuan= $this->db->get('tbl_satuan,tbl_barang');
 		return $namaSatuan->result_array();
 	}
+
+	public function get_verifikasi_by_id($id)
+	{
+		$this->db->select('
+			tv.*,
+			tud.nama_lengkap_user,
+			tk.pemohon as nama_pemohon,
+			tk.tanggal as tanggal_permintaan,
+			tkd.keterangan,
+			tkd.qty,
+			ts.nama as nama_satuan
+		');
+		$this->db->from('tbl_verifikasi tv');
+		$this->db->join('tbl_user_detail tud', 'tv.user_id = tud.id_user', 'left');
+		$this->db->join('tbl_trans_keluar tk', 'tv.id_out = tk.id', 'left');
+		$this->db->join('tbl_trans_keluar_detail tkd', 'tv.id_out_detail = tkd.id', 'left');
+		$this->db->join('tbl_satuan ts', 'tkd.satuan = ts.id', 'left');
+		
+		$this->db->where('tv.id',$id);
+		$query = $this->db->get();
+
+		return $query->row();
+	}
+
 	//==================================================================================================
 
 	public function update_data_header_detail($where, $data_header)
