@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 14/10/2019 16:38:39
+ Date: 17/10/2019 23:47:45
 */
 
 SET NAMES utf8mb4;
@@ -42,6 +42,7 @@ INSERT INTO `tbl_hak_akses` VALUES (1, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (100, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (101, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (102, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (103, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (99, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (98, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (97, 1, 1, 1, 1);
@@ -182,7 +183,7 @@ INSERT INTO `tbl_master_kode_akun` VALUES ('workshop', 1, 8, 7, 1, '8.7.1');
 INSERT INTO `tbl_master_kode_akun` VALUES ('IHT', 1, 8, 7, 2, '8.7.2');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Pelatihan', 1, 8, 7, 3, '8.7.3');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Study banding', 1, 8, 7, 4, '8.7.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, 2, NULL, NULL, '2');
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, NULL, NULL, NULL, '2');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Alat tulis kantor', 2, 2, 1, NULL, '2.1');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Bahan dan alat habis pakai', 2, 2, 2, NULL, '2.2');
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Pegawai', 2, 2, 3, NULL, '2.3');
@@ -328,6 +329,7 @@ INSERT INTO `tbl_menu` VALUES (99, 0, 'Setting (Administrator)', 'Setting', NULL
 INSERT INTO `tbl_menu` VALUES (100, 0, 'Transaksi', 'Transaksi', ' ', 'fa fa-retweet', 1, 1, 2, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (101, 100, 'Pengeluaran Harian', 'Pengeluaran Harian', 'pengeluaran', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (102, 100, 'Verifikasi Pengeluaran', 'Verifikasi Pengeluaran', 'verifikasi_out', '', 1, 2, 2, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (103, 100, 'Penerimaan', 'Transaksi Penerimaan', 'penerimaan', '', 1, 2, 3, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -368,7 +370,8 @@ CREATE TABLE `tbl_trans_keluar`  (
 -- ----------------------------
 -- Records of tbl_trans_keluar
 -- ----------------------------
-INSERT INTO `tbl_trans_keluar` VALUES ('OUT101900001', 'USR00001', 'asas', '2019-10-11', 1, '2019-10-11 10:18:12', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT101900001', 'USR00001', 'asas', '2019-10-11', 0, '2019-10-11 10:18:12', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT101900002', 'USR00001', 'Bambang', '2019-10-15', 1, '2019-10-15 23:34:41', NULL);
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar_detail
@@ -380,19 +383,55 @@ CREATE TABLE `tbl_trans_keluar_detail`  (
   `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `satuan` int(4) NULL DEFAULT NULL,
   `qty` int(32) NULL DEFAULT NULL,
-  `status` int(1) NULL DEFAULT 0 COMMENT '1: selesai, 0: belum selesai',
+  `status` int(1) NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_trans_keluar`(`id_trans_keluar`) USING BTREE,
   INDEX `satuan`(`satuan`) USING BTREE,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_1` FOREIGN KEY (`id_trans_keluar`) REFERENCES `tbl_trans_keluar` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_2` FOREIGN KEY (`satuan`) REFERENCES `tbl_satuan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_trans_keluar_detail
 -- ----------------------------
-INSERT INTO `tbl_trans_keluar_detail` VALUES (1, 'OUT101900001', 'sasa', 4, 12, 0);
-INSERT INTO `tbl_trans_keluar_detail` VALUES (2, 'OUT101900001', 'afas', 5, 12, 0);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (1, 'OUT101900001', 'sasa', 4, 12, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (2, 'OUT101900001', 'afas', 5, 12, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (3, 'OUT101900002', 'Beli Sabun', 2, 3, 0);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (4, 'OUT101900002', 'Beli Nasgor', 1, 8, 0);
+
+-- ----------------------------
+-- Table structure for tbl_trans_masuk
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_trans_masuk`;
+CREATE TABLE `tbl_trans_masuk`  (
+  `id` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `user_id` varchar(15) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tanggal` date NULL DEFAULT NULL,
+  `status` int(1) NULL DEFAULT 0 COMMENT '0: Belum diverifikasi, 1: sudah diverifikasi',
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `user_id`(`user_id`) USING BTREE,
+  CONSTRAINT `tbl_trans_masuk_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for tbl_trans_masuk_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_trans_masuk_detail`;
+CREATE TABLE `tbl_trans_masuk_detail`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_trans_masuk` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `satuan` int(10) NULL DEFAULT NULL,
+  `qty` int(10) NULL DEFAULT NULL,
+  `status` int(1) NULL DEFAULT NULL COMMENT '0: Belum diverifikasi, 1: Sudah diverifikasi',
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id_trans_masuk`(`id_trans_masuk`) USING BTREE,
+  INDEX `satuan`(`satuan`) USING BTREE,
+  CONSTRAINT `tbl_trans_masuk_detail_ibfk_1` FOREIGN KEY (`id_trans_masuk`) REFERENCES `tbl_trans_masuk` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `tbl_trans_masuk_detail_ibfk_2` FOREIGN KEY (`satuan`) REFERENCES `tbl_satuan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for tbl_user
@@ -414,7 +453,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-14 13:27:16', '2019-10-05 21:34:14', '2019-10-14 13:27:16');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-17 22:00:17', '2019-10-05 21:34:14', '2019-10-17 22:00:17');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
@@ -452,12 +491,18 @@ CREATE TABLE `tbl_verifikasi`  (
   `id_out` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `id_out_detail` int(32) NULL DEFAULT NULL,
   `user_id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tanggal` date NULL DEFAULT NULL,
   `gambar_bukti` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `harga_satuan` double(20, 2) NULL DEFAULT NULL,
   `harga_total` double(20, 2) NULL DEFAULT NULL,
   `status` int(1) NULL DEFAULT NULL,
+  `tipe_akun` int(1) NULL DEFAULT NULL,
+  `kode_akun` int(1) NULL DEFAULT NULL,
+  `sub1_akun` int(1) NULL DEFAULT NULL,
+  `sub2_akun` int(1) NULL DEFAULT NULL,
   `created_at` timestamp(0) NULL DEFAULT NULL,
   `updated_at` timestamp(0) NULL DEFAULT NULL,
+  `tipe_transaksi` int(1) NULL DEFAULT 2 COMMENT '1: Penerimaan, 2: Pengeluaran',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_out`(`id_out`) USING BTREE,
   INDEX `id_out_detail`(`id_out_detail`) USING BTREE,
@@ -466,5 +511,11 @@ CREATE TABLE `tbl_verifikasi`  (
   CONSTRAINT `tbl_verifikasi_ibfk_2` FOREIGN KEY (`id_out_detail`) REFERENCES `tbl_trans_keluar_detail` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_verifikasi_ibfk_3` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_verifikasi
+-- ----------------------------
+INSERT INTO `tbl_verifikasi` VALUES ('VRY101900001', 'OUT101900001', 1, 'USR00001', '2019-10-15', 'img_USR000055.JPG', 32000.00, 384000.00, 1, 1, 1, 3, NULL, '2019-10-15 21:31:09', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY101900002', 'OUT101900001', 2, 'USR00001', '2019-10-15', 'img_USR00002.jpg', 4500.00, 54000.00, 1, 2, 2, 1, NULL, '2019-10-15 21:31:50', NULL, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
