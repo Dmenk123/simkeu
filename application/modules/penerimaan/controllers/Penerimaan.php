@@ -9,6 +9,7 @@ class Penerimaan extends CI_Controller {
 		//profil data
 		$this->load->model('profil/mod_profil','prof');
 		$this->load->model('mod_penerimaan','m_in');
+		$this->load->model('verifikasi_out/mod_verifikasi_out','m_vout');
 	}
 
 	public function index()
@@ -48,6 +49,149 @@ class Penerimaan extends CI_Controller {
 
 		$this->template_view->load_view($content, $data);
 	}
+
+	public function proses_penerimaan()
+	{
+		$timestamp = date('Y-m-d H:i:s');
+		$keterangan = $this->input->post('i_keterangan');
+		$satuan = $this->input->post('i_satuan');
+		$qty = $this->input->post('i_qty');
+		$harga_raw = $this->input->post('i_harga_raw');
+		$harga_total_raw = $this->input->post('i_harga_total_raw');
+		$akun = $this->input->post('i_akun');
+		$gambar = $this->input->post('i_gambar');
+		$ceklis = $this->input->post('ceklis');
+
+		$this->db->trans_begin();
+		if ($this->input->post('ceklis') == 't' ) {
+			if(!empty($_FILES['i_gambar']['name']))
+			{
+				$this->konfigurasi_upload_bukti($this->input->post('i_gambar'));
+				//get detail extension
+				$pathDet = $_FILES['i_gambar']['name'];
+				$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
+				if ($this->gbr_bukti->do_upload('i_gambar')) 
+				{
+					$gbrBukti = $this->gbr_bukti->data();
+					//inisiasi variabel u/ digunakan pada fungsi config img bukti
+					$nama_file_bukti = $gbrBukti['file_name'];
+					//load config img bukti
+					$this->konfigurasi_image_resize($nama_file_bukti);
+					//clear img lib after resize
+					$this->image_lib->clear();
+				} //end
+
+				$kode = $this->m_in->getKodePenerimaan();
+				$kode_detail = $this->m_in->getKodePenerimaanDetail();
+
+				//set tipe akun
+				$arr_akun1 = explode("-", $akun);
+				$tipe_akun = $arr_akun1[0]; 
+				//set kode dan sub akun
+				$kode_akun = null;
+				$sub1_akun = null;
+				$sub2_akun = null;
+				$arr_akun2 = explode(".", $arr_akun1[1]);
+				for ($z=0; $z <count($arr_akun2); $z++) { 
+					if ($z == 0) {
+						$kode_akun = $arr_akun2[$z];
+					}elseif($z == 1){
+						$sub1_akun = $arr_akun2[$z];
+					}elseif($z == 2){
+						$sub2_akun = $arr_akun2[$z];
+					}
+				}
+
+				$data_header = [
+					'id' => $kode,
+					'user_id' => $this->session->userdata('id_user'),
+					'tanggal' => date('Y-m-d'),
+					'status' => 1,
+					'created_at' => $timestamp
+				];
+
+				$data_isi = [
+					'id' => $kode_detail,
+					'id_trans_masuk' => $kode,
+					'keterangan' => date('Y-m-d'),
+					'satuan' => $satuan,
+					'qty' => $qty,
+					'status' => 1
+				];
+
+				$data_verifikasi = [
+					'id' => $this->m_vout->getKodeVerifikasi(),
+					'id_out' => $kode,
+					'id_out_detail' => $kode_detail,
+					'tanggal' => date("Y-m-d"),
+					'user_id' => $this->session->userdata('id_user'),
+					'gambar_bukti' => $nama_file_bukti,
+					'harga_satuan' => $harga_raw,
+					'harga_total' => $harga_total_raw,
+					'status' => 1,
+					'tipe_akun' => $tipe_akun,
+					'kode_akun' => $kode_akun,
+					'sub1_akun' => $sub1_akun,
+					'sub2_akun' => $sub2_akun,
+					'created_at' => $timestamp
+				];
+
+				$this->m_in->save($data_header, $data_isi, $data_verifikasi);
+
+				if ($this->db->trans_status() === FALSE){
+					$this->db->trans_rollback();
+					$this->session->set_flashdata('feedback_gagal','Gagal Input dan Verifikasi data.'); 
+					redirect($this->uri->segment(1));
+				}
+				else {
+					$this->db->trans_commit();
+					$this->session->set_flashdata('feedback_success','Berhasil Input dan Verifikasi data.'); 
+					redirect($this->uri->segment(1));
+				}
+			}else{
+				$this->db->trans_rollback();
+				$this->session->set_flashdata('feedback_gagal','Mohon Lengkapi Kelengkapan Data'); 
+				redirect($this->uri->segment(1));
+			}
+		}else{
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_gagal','Mohon centang pilihan setuju'); 
+			redirect($this->uri->segment(1));
+		}
+	}
+
+	public function konfigurasi_upload_bukti($nmfile)
+	{ 
+		//konfigurasi upload img display
+		$config['upload_path'] = './assets/img/bukti_verifikasi/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
+		$config['overwrite'] = TRUE;
+		$config['max_size'] = '4000';//in KB (4MB)
+		$config['max_width']  = '0';//zero for no limit 
+		$config['max_height']  = '0';//zero for no limit
+		$config['file_name'] = $nmfile;
+		//load library with custom object name alias
+		$this->load->library('upload', $config, 'gbr_bukti');
+		$this->gbr_bukti->initialize($config);
+	}
+
+	public function konfigurasi_image_resize($filename)
+	{
+		//konfigurasi image lib
+	    $config['image_library'] = 'gd2';
+	    $config['source_image'] = './assets/img/bukti_verifikasi/'.$filename;
+	    $config['create_thumb'] = FALSE;
+	    $config['maintain_ratio'] = FALSE;
+	    $config['new_image'] = './assets/img/bukti_verifikasi/'.$filename;
+	    $config['overwrite'] = TRUE;
+	    $config['width'] = 450; //resize
+	    $config['height'] = 500; //resize
+	    $this->load->library('image_lib',$config); //load image library
+	    $this->image_lib->initialize($config);
+	    $this->image_lib->resize();
+	}
+
+	// =====================================================================================================================
 
 	public function list_pengeluaran()
 	{
@@ -92,57 +236,6 @@ class Penerimaan extends CI_Controller {
 					);
 		//output to json format
 		echo json_encode($output);
-	}
-
-	public function add_pengeluaran()
-	{
-		//$this->_validate();
-		$timestamp = date('Y-m-d H:i:s');
-		$id = $this->input->post('fieldId');
-		$userid = $this->input->post('fieldUserid');
-		$tanggal = date('Y-m-d');
-		$pemohon = $this->input->post('fieldPemohon');
-
-		$this->db->trans_begin();
-
-		$data_header = array(
-			'id' 			=> $id,
-			'user_id' 		=> $userid,
-			'pemohon'		=> $pemohon,
-			'tanggal' 		=> $tanggal,
-			'status' 		=> 1,
-			'created_at' 	=> $timestamp, 
-		);
-
-		//for table trans_order_detail
-		$hitung = count($this->input->post('i_jumlah'));
-		$data_detail = [];
-		for ($i=0; $i < $hitung; $i++) 
-		{
-			$data_detail[$i] = array(
-				'id_trans_keluar' => $id,
-				'keterangan' => $this->input->post('i_keterangan')[$i],
-				'satuan' => $this->input->post('i_satuan')[$i],
-				'qty' => $this->input->post('i_jumlah')[$i],
-			);
-		}
-							
-		$insert = $this->m_in->save($data_header, $data_detail);
-		
-		if ($this->db->trans_status() === FALSE) {
-        	$this->db->trans_rollback();
-        	echo json_encode(array(
-				"status" => FALSE,
-				"pesan_tambah" => 'Data Transaksi Pengeluaran Gagal ditambahkan'
-			));
-		}
-		else {
-		    $this->db->trans_commit();
-		    echo json_encode(array(
-				"status" => TRUE,
-				"pesan_tambah" => 'Data Transaksi Pengeluaran Barang Berhasil ditambahkan'
-			));
-		}
 	}
 
 	public function edit_pengeluaran($id)
@@ -256,7 +349,6 @@ class Penerimaan extends CI_Controller {
 			"pesan" => 'Data Transaksi Order Barang No.'.$id.' Berhasil dihapus'
 		));
 	}
-
 
 	private function _validate()
 	{

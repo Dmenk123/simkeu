@@ -120,11 +120,37 @@ class Mod_Penerimaan extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	public function save($data_header, $data_detail)
+	public function save($data_header, $data_detail, $data_verifikasi)
 	{ 
-		$this->db->insert('tbl_trans_keluar',$data_header);
-		$this->db->insert_batch('tbl_trans_keluar_detail',$data_detail);
+		$this->db->insert('tbl_trans_masuk',$data_header);
+		$this->db->insert('tbl_trans_masuk_detail',$data_detail);
+		$this->db->insert('tbl_verifikasi',$data_verifikasi);
 	}
+
+	function getKodePenerimaan(){
+		$q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_masuk WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
+		$kd = "";
+		if($q->num_rows()>0){
+			foreach($q->result() as $k){
+				$tmp = ((int)$k->kode_max)+1;
+				$kd = sprintf("%05s", $tmp);
+			}
+		}else{
+			$kd = "00001";
+		}
+		return "MSK".date('my').$kd;
+	}
+	
+	function getKodePenerimaanDetail(){
+		$q = $this->db->query("SELECT MAX(id) as kode_detail from tbl_trans_masuk_detail")->row();
+		if ($q) {
+			$kode = (int)$q->kode_detail + 1;
+		}else{
+			$kode = 1;
+		}
+
+		return $kode;
+    }
 
 	public function get_detail_header($id_pengeluaran)
 	{
@@ -221,19 +247,7 @@ class Mod_Penerimaan extends CI_Model
         }
 	}
 
-    function getKodePenerimaan(){
-            $q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_masuk WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
-            $kd = "";
-            if($q->num_rows()>0){
-                foreach($q->result() as $k){
-                    $tmp = ((int)$k->kode_max)+1;
-                    $kd = sprintf("%05s", $tmp);
-                }
-            }else{
-                $kd = "00001";
-            }
-            return "MSK".date('my').$kd;
-    }
+   
 
     function satuan(){
 		$this->db->order_by('name','ASC');

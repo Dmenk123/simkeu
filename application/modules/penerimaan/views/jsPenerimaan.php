@@ -6,62 +6,17 @@
 	var save_method; //for save method string
 	var table;
   var table2;
+  var grandTotal = 0;
 
 $(document).ready(function() {
   //declare variable for row count
   var i = randString(5);
 	//addrow field inside modal
-  $('#btn_add_row').click(function() {
-    var ambilId = $('#form_id_tbl').val();
-    var ambilKeterangan = $('#form_keterangan_tbl').val();
-    var ambilIJumlah = $('#form_jumlah_tbl').val();
-    var ambilSatuan = $('#form_satuan_tbl').val();
-    var ambilSatuanText = $( "#form_satuan_tbl option:selected" ).text();
-    if (ambilKeterangan == "" || ambilIJumlah == "" || ambilSatuan == "" ) {
-      alert('ada field yang tidak diisi, Mohon cek lagi!!');
-    }else{
-      $('#tabel_pengeluaran').append(
-        '<tr class="tbl_modal_row" id="row'+i+'">'
-          +'<td style="width: 40%;">'
-            +'<input type="text" name="i_keterangan[]" value="'+ambilKeterangan+'" id="i_keterangan" class="form-control" required readonly style="width: 100%;">'
-          +'</td>'
-          +'<td style="width: 10%;">'
-            +'<input type="text" name="i_jumlah[]" value="'+ambilIJumlah+'" id="i_jumlah" class="form-control" required readonly style="width: 100%;">'
-          +'</td>'
-          +'<td style="width: 15%;">'
-            +'<input type="text" name="i_satuan_text[]" value="'+ambilSatuanText+'" id="i_satuan_text" class="form-control" required readonly style="width: 100%;">'
-            +'<input type="hidden" name="i_satuan[]" value="'+ambilSatuan+'" id="i_satuan" class="form-control" required readonly style="width: 100%;">'
-          +'</td>'
-          +'<td><button name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></td>'
-        +'</tr>');
-        i = randString(5);
-
-        //kosongkan field setelah append row
-        $('#form_pemohon_tbl').val("");
-        $('#form_id_tbl').val("");
-        $('#form_keterangan_tbl').val("");
-        $('#form_jumlah_tbl').val("");
-        $('#form_satuan_tbl').val("");
-      } 
-  });
+  
 
   //force integer input in textfield
   $('input.numberinput').bind('keypress', function (e) {
     return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
-  });
-
-  $(document).on('click', '.btn_remove', function(){
-    var button_id = $(this).attr('id');
-    $('#row'+button_id+'').remove();
-  });
-
-  // select class modal apabila bs.modal hidden
-  $("#modal_penerimaan").on("hidden.bs.modal", function(){
-    $('#form')[0].reset(); 
-    //clear tr append in modal
-    $('tr').remove('.tbl_modal_row'); 
-    $('.form-group').removeClass('has-error');
-    $('.help-block').empty();
   });
 
   //datatables  
@@ -117,27 +72,44 @@ $(document).ready(function() {
 		$(this).next().empty();
 	});
 
+   //select2
+  $( ".i_akun" ).select2({ 
+    ajax: {
+      url: '<?php echo site_url('verifikasi_out/suggest_kode_akun'); ?>/',
+      dataType: 'json',
+      delay: 250,
+      processResults: function (data) {
+          return {
+              results: data
+          };
+      },
+      cache: true
+    },
+  });
+
+  $(".i_gambar").change(function() {
+    //console.log(this);
+    var id = this.id;
+    readURL(this, id);
+  });
+
+  //mask money
+  $('.mask-currency').maskMoney();
+
 //end jquery
 });	
 
-function addPenerimaan() 
-{
-	save_method = 'add';
-	$('#form')[0].reset(); //reset form on modals
-	$('.form-group').removeClass('has-error');//clear error class
-	$('.help-block').empty(); //clear error string
-	$('#modal_penerimaan').modal('show'); //show bootstrap modal
-	$('.modal-title').text('Transaksi Pencatatan Penerimaan'); //set title modal
-  $.ajax({
-        url : "<?php echo site_url('penerimaan/get_header_modal_form/')?>",
-        type: "GET",
-        dataType: "JSON",
-        success: function(data)
-          {
-            //header
-            $('[name="fieldId"]').val(data.kode_pencatatan);
-          }
-      });
+function readURL(input, id) {
+  var idImg =  id+'-img';
+  if (input.files && input.files[0]) {
+    var reader = new FileReader();
+    console.log(reader);
+    reader.onload = function(e) {
+      $('#'+ idImg).attr('src', e.target.result);
+    }
+    
+    reader.readAsDataURL(input.files[0]);
+  }
 }
 
 function editPengeluaran(id)
@@ -221,7 +193,7 @@ function reloadPage()
 
 function reload_table()
 {
-    table.ajax.reload(null,false); //reload datatable ajax 
+  table.ajax.reload(null,false); //reload datatable ajax 
 }
 
 function save()
@@ -306,5 +278,46 @@ function deleteTransOrder(id)
             }
         });
     }
+}
+
+function hargaTotal() {  
+  var harga = $('#i_harga').maskMoney('unmasked')[0];
+  var totalHarga =  harga * parseInt($('#i_qty').val());
+  //set harga total masked
+  $('#i_harga_total').maskMoney('mask', totalHarga);
+  //set harga raw
+  $('#i_harga_raw').val(harga);
+  $('#i_harga_total_raw').val(totalHarga);
+} 
+
+function eventCeklis(checkbox) {
+  if(checkbox.checked == true)
+  {
+    if ($('#i_harga_total_raw').val() == '') {
+      grandTotal = parseInt(grandTotal) + 0;
+    }else{
+      grandTotal = parseInt(grandTotal) + parseInt($('#i_harga_total_raw').val());
+    }
+    
+    $('#i_harga').prop('readonly', true);
+  }
+  else
+  {
+    if ($('#i_harga_total_raw').val() == '') {
+      grandTotal = parseInt(grandTotal) - 0;
+    }else{
+      grandTotal = parseInt(grandTotal) - parseInt($('#i_harga_total_raw').val());
+    }
+    
+    $('#i_harga').prop('readonly', false);
+  }
+
+  $('#grand_total').text(numberWithCommas(grandTotal));
+  //$('#grand_total').text('Rp. ' + grandTotal.toFixed(2).replace(/(\d)(?=(\d\d\d)+(?!\d))/g, "$1."));
+}
+
+function numberWithCommas(x) {
+  var parts = x.toFixed(2).split(".");
+  return 'Rp. ' + parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + (parts[1] ? "," + parts[1] : "");
 }
 </script>	
