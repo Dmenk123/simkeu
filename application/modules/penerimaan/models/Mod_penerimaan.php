@@ -3,17 +3,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mod_Penerimaan extends CI_Model
 {
 	var $column_search = array(
-		"tk.id",
-		"tk.tanggal",
-		"tu.username",
-		"tk.pemohon"
+		"tm.id",
+		"tm.tanggal",
+		"tud.nama_lengkap_user"
 	);
 
 	var $column_order = array(
-		"tk.id",
-		"tk.tanggal",
-		"tu.username",
-		"tk.pemohon",
+		"tm.id",
+		"tm.tanggal",
+		"tud.nama_lengkap_user",
 		null,
 	);
 
@@ -28,27 +26,25 @@ class Mod_Penerimaan extends CI_Model
 	private function _get_datatables_query($term='') //term is value of $_REQUEST['search']
 	{
 		$column = array(
-			"tk.id",
-			"tk.tanggal",
-			"tu.username",
-			"tk.pemohon",
+			"tm.id",
+			"tm.tanggal",
+			"tud.nama_lengkap_user",
 			null,
 		);
 		
 		$this->db->select("
-			tk.id,
-			tk.user_id,
-			tu.username,
-			tk.pemohon,
-			tk.tanggal,
-			tk.status,
-			tk.created_at,
-			tk.updated_at
+			tm.id,
+			tm.user_id,
+			tud.nama_lengkap_user,
+			tm.tanggal,
+			tm.status,
+			tm.created_at,
+			tm.updated_at
 		");
 		
-		$this->db->from('tbl_trans_keluar as tk');
-		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
-		//$this->db->where('tr.status_penarikan', '1');
+		$this->db->from('tbl_trans_masuk as tm');
+		$this->db->join('tbl_user as tu', 'tm.user_id = tu.id_user', 'left');
+		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
 		
 		$i = 0;
 		foreach ($this->column_search as $item) 
@@ -104,18 +100,18 @@ class Mod_Penerimaan extends CI_Model
 	public function count_all($id_vendor="")
 	{
 		$this->db->select("
-			tk.id,
-			tk.user_id,
-			tu.username,
-			tk.pemohon,
-			tk.tanggal,
-			tk.status,
-			tk.created_at,
-			tk.updated_at
+			tm.id,
+			tm.user_id,
+			tud.nama_lengkap_user,
+			tm.tanggal,
+			tm.status,
+			tm.created_at,
+			tm.updated_at
 		");
-		
-		$this->db->from('tbl_trans_keluar as tk');
-		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
+
+		$this->db->from('tbl_trans_masuk as tm');
+		$this->db->join('tbl_user as tu', 'tm.user_id = tu.id_user', 'left');
+		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
 		//$this->db->where('tr.status_penarikan', '1');
 		return $this->db->count_all_results();
 	}

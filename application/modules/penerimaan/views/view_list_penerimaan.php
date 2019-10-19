@@ -2,12 +2,12 @@
     <section class="content-header">
       <h1>
         Transaksi
-        <small>Pengeluaran Harian</small>
+        <small>Pencatatan Penerimaan</small>
       </h1>
 
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Data Transaksi</a></li>
-        <li class="active">Pengeluaran Harian</li>
+        <li class="active">Pencatatan Penerimaan</li>
       </ol>
     </section>
 

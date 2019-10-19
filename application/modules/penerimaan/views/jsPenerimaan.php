@@ -28,7 +28,7 @@ $(document).ready(function() {
 		"order":[[ 2, 'desc' ]], 
 		//load data for table content from ajax source
 		"ajax": {
-			"url": "<?php echo site_url('pengeluaran/list_pengeluaran') ?>",
+			"url": "<?php echo site_url('penerimaan/list_penerimaan') ?>",
 			"type": "POST" 
 		},
 

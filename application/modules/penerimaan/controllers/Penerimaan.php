@@ -31,6 +31,75 @@ class Penerimaan extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
+	public function list_penerimaan()
+	{
+		$list = $this->m_in->get_datatables();
+		$data = array();
+		$no =$_POST['start'];
+		foreach ($list as $list_in) {
+			$link_detail = site_url('penerimaan/penerimaan_detail/').$list_in->id;
+			$no++;
+			$row = array();
+			$row[] = $list_in->id;
+			$row[] = date('d-m-Y', strtotime($list_in->tanggal));
+			$row[] = $list_in->nama_lengkap_user;
+			if ($list_in->status == 1) {
+				//belum di verifikasi
+				$row[] = '<span style="color:red">Belum Di Verifikasi</span>';
+			}else{
+				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';
+			}
+			
+			if ($list_in->status == 1) {
+				//belum di verifikasi
+				$row[] = '
+					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+						<i class="glyphicon glyphicon-info-sign"></i></a>
+					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPenerimaan('."'".$list_in->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan('."'".$list_in->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+				';
+			}else{
+				$row[] = '<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
+			}
+			
+			$data[] = $row;
+		}//end loop
+
+		$output = array(
+						"draw" => $_POST['draw'],
+						"recordsTotal" => $this->m_in->count_all(),
+						"recordsFiltered" => $this->m_in->count_filtered(),
+						"data" => $data,
+					);
+		//output to json format
+		echo json_encode($output);
+	}
+
+	public function penerimaan_detail()
+	{
+		$id_user = $this->session->userdata('id_user'); 
+		$query_user = $this->prof->get_detail_pengguna($id_user);
+
+		$id = $this->uri->segment(3); 
+		$query_header = $this->m_in->get_detail_header($id);
+		$query = $this->m_in->get_detail($id);
+
+		$data = array(
+			'data_user' => $query_user,
+			'hasil_header' => $query_header,
+			'hasil_data' => $query
+		);
+
+		$content = [
+			'css' 	=> 'cssPenerimaan',
+			'modal' => null,
+			'js'	=> 'jsPenerimaan',
+			'view'	=> 'view_detail_penerimaan'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
 	public function add_penerimaan()
 	{
 		$id_user = $this->session->userdata('id_user'); 
@@ -121,8 +190,8 @@ class Penerimaan extends CI_Controller {
 
 				$data_verifikasi = [
 					'id' => $this->m_vout->getKodeVerifikasi(),
-					'id_out' => $kode,
-					'id_out_detail' => $kode_detail,
+					'id_in' => $kode,
+					'id_in_detail' => $kode_detail,
 					'tanggal' => date("Y-m-d"),
 					'user_id' => $this->session->userdata('id_user'),
 					'gambar_bukti' => $nama_file_bukti,
@@ -133,6 +202,7 @@ class Penerimaan extends CI_Controller {
 					'kode_akun' => $kode_akun,
 					'sub1_akun' => $sub1_akun,
 					'sub2_akun' => $sub2_akun,
+					'tipe_transaksi' => 1,
 					'created_at' => $timestamp
 				];
 
@@ -193,50 +263,7 @@ class Penerimaan extends CI_Controller {
 
 	// =====================================================================================================================
 
-	public function list_pengeluaran()
-	{
-		$list = $this->m_in->get_datatables();
-		$data = array();
-		$no =$_POST['start'];
-		foreach ($list as $listOut) {
-			$link_detail = site_url('pengeluaran/pengeluaran_detail/').$listOut->id;
-			$no++;
-			$row = array();
-			$row[] = $listOut->id;
-			$row[] = date('d-m-Y', strtotime($listOut->tanggal));
-			$row[] = $listOut->username;
-			$row[] = $listOut->pemohon;
-			if ($listOut->status == 1) {
-				//belum di verifikasi
-				$row[] = '<span style="color:red">Belum Di Verifikasi</span>';
-			}else{
-				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';
-			}
-			
-			if ($listOut->status == 1) {
-				//belum di verifikasi
-				$row[] = '
-					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
-						<i class="glyphicon glyphicon-info-sign"></i></a>
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
-				';
-			}else{
-				$row[] = '<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
-			}
-			
-			$data[] = $row;
-		}//end loop
-
-		$output = array(
-						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->m_in->count_all(),
-						"recordsFiltered" => $this->m_in->count_filtered(),
-						"data" => $data,
-					);
-		//output to json format
-		echo json_encode($output);
-	}
+	
 
 	public function edit_pengeluaran($id)
 	{
@@ -294,30 +321,7 @@ class Penerimaan extends CI_Controller {
 		}
 	}
 
-	public function pengeluaran_detail()
-	{
-		$id_user = $this->session->userdata('id_user'); 
-		$query_user = $this->prof->get_detail_pengguna($id_user);
-
-		$id = $this->uri->segment(3); 
-		$query_header = $this->m_in->get_detail_header($id);
-		$query = $this->m_in->get_detail($id);
-
-		$data = array(
-			'data_user' => $query_user,
-			'hasil_header' => $query_header,
-			'hasil_data' => $query
-		);
-
-		$content = [
-			'css' 	=> 'cssPengeluaran',
-			'modal' => null,
-			'js'	=> 'jsPengeluaran',
-			'view'	=> 'view_detail_pengeluaran'
-		];
-
-		$this->template_view->load_view($content, $data);
-	}
+	
 
 	public function cetak_nota_pengeluaran()
 	{
