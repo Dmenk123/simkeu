@@ -30,7 +30,7 @@
                 </div>
                 <?php endforeach ?>
                 <hr>
-                  <table id="tabelTransOrderDetail" class="table table-bordered table-hover" cellspacing="0" width="100%">
+                  <table id="tabelTransMasukDetail" class="table table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                       <tr>
                         <th style="width: 10px; text-align: center;">No</th>

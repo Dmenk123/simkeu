@@ -20,7 +20,7 @@ $(document).ready(function() {
   });
 
   //datatables  
-  // tabel trans order
+  // tabel trans masuk
 	table = $('#tabelPenerimaan').DataTable({
 		
 		"processing": true, 
@@ -41,7 +41,28 @@ $(document).ready(function() {
 		],
 	});
 
-  $('#tabelTransOrderDetail').DataTable({
+  $('#tabelTransMasukDetail').DataTable({
+  });
+
+  // tabel verifikasi
+  table2 = $('#tabelVerifikasiFinish').DataTable({
+    
+    "processing": true, 
+    "serverSide": true, 
+    "order":[[ 2, 'desc' ]], 
+    //load data for table content from ajax source
+    "ajax": {
+      "url": "<?php echo site_url('penerimaan/list_penerimaan/1') ?>",
+      "type": "POST" 
+    },
+
+    //set column definition initialisation properties
+    "columnDefs": [
+      {
+        "targets": [-1], //last column
+        "orderable": false, //set not orderable
+      },
+    ],
   });
 
   //datepicker
@@ -95,6 +116,18 @@ $(document).ready(function() {
 
   //mask money
   $('.mask-currency').maskMoney();
+
+  //tabs
+  var hash = window.location.hash;
+  hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+  $('.nav-tabs a').click(function (e) {
+    $(this).tab('show');
+    var scrollmem = $('body').scrollTop();
+    window.location.hash = this.hash;
+    $('html,body').scrollTop(scrollmem);
+  });
+
 
 //end jquery
 });	
@@ -196,6 +229,11 @@ function reload_table()
   table.ajax.reload(null,false); //reload datatable ajax 
 }
 
+function reload_table2()
+{
+  table2.ajax.reload(null,false); //reload datatable ajax 
+}
+
 function save()
 {
     $('#btnSave').text('saving...'); //change button text
@@ -255,22 +293,19 @@ function save()
     });
 }
 
-function deleteTransOrder(id)
+function deletePenerimaan(id)
 {
-    if(confirm('Are you sure delete this data?'))
+    if(confirm('Anda yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('trans_order/delete_trans_order')?>/"+id,
+            url : "<?php echo site_url('penerimaan/hapus_penerimaan_finish')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
-                //if success reload ajax table
-                $('#modal_form_order').modal('hide');
                 alert(data.pesan);
-                //call function
-                reload_table();
+                reload_table2();
             },
             error: function (jqXHR, textStatus, errorThrown)
             {

@@ -31,15 +31,19 @@ class Penerimaan extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_penerimaan()
+	public function list_penerimaan($status=0)
 	{
-		$list = $this->m_in->get_datatables();
+		$list = $this->m_in->get_datatables($status);
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $list_in) {
 			$link_detail = site_url('penerimaan/penerimaan_detail/').$list_in->id;
+			$link_edit = site_url('penerimaan/penerimaan_edit/').$list_in->id;
 			$no++;
 			$row = array();
+			if ($status == 1) {
+				$row[] = $list_in->id_verifikasi;
+			}
 			$row[] = $list_in->id;
 			$row[] = date('d-m-Y', strtotime($list_in->tanggal));
 			$row[] = $list_in->nama_lengkap_user;
@@ -55,11 +59,13 @@ class Penerimaan extends CI_Controller {
 				$row[] = '
 					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
 						<i class="glyphicon glyphicon-info-sign"></i></a>
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPenerimaan('."'".$list_in->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan('."'".$list_in->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+					<a class="btn btn-sm btn-primary" href="'.$link_edit.'" title="Edit" id="btn_edit" onclick=""><i class="glyphicon glyphicon-pencil"></i></a>
 				';
 			}else{
-				$row[] = '<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
+				$row[] = '
+					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan('."'".$list_in->id_verifikasi."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+				';
 			}
 			
 			$data[] = $row;
@@ -67,8 +73,8 @@ class Penerimaan extends CI_Controller {
 
 		$output = array(
 						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->m_in->count_all(),
-						"recordsFiltered" => $this->m_in->count_filtered(),
+						"recordsTotal" => $this->m_in->count_all($status),
+						"recordsFiltered" => $this->m_in->count_filtered($status),
 						"data" => $data,
 					);
 		//output to json format
@@ -261,19 +267,62 @@ class Penerimaan extends CI_Controller {
 	    $this->image_lib->resize();
 	}
 
+	public function hapus_penerimaan_finish($id)
+	{
+		$this->db->trans_begin();
+
+		//ambil data dan hapus data verifikasi
+		$data_lawas = $this->db->query("select * from tbl_verifikasi where id = '".$id."'")->row();
+		$this->m_vout->delete_ver_by_id($id);
+		//update penerimaan detil
+		$this->db->update('tbl_trans_masuk_detail', ['status' => 0], ['id' => $data_lawas->id_in_detail]);
+		//update penerimaan
+		$this->db->update('tbl_trans_masuk', ['status' => 0], ['id' => $data_lawas->id_in]);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			echo json_encode(array(
+				"status" => FALSE,
+				"pesan" => 'Data gagal dihapus'
+			));
+		}
+		else {
+			$this->db->trans_commit();
+			echo json_encode(array(
+				"status" => TRUE,
+				"pesan" => 'Data Sukses dihapus'
+			));
+		}
+		
+	}
+
+	public function penerimaan_edit($id)
+	{
+		$id_user = $this->session->userdata('id_user'); 
+		$data_user = $this->prof->get_detail_pengguna($id_user);
+
+		$query = $this->m_in->get_detail($id, 'edit');
+
+		$data = array(
+			'data_user' => $data_user,
+			'hasil_data' => $query
+		);
+
+		$content = [
+			'css' 	=> 'cssPenerimaan',
+			'modal' =>  null,
+			'js'	=> 'jsPenerimaan',
+			'view'	=> 'view_edit_penerimaan'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
 	// =====================================================================================================================
 
 	
 
-	public function edit_pengeluaran($id)
-	{
-		$data = array(
-			'data_header' => $this->m_in->get_detail_header($id),
-			'data_isi' => $this->m_in->get_detail($id),
-		);
-
-		echo json_encode($data);
-	}
+	
 
 	public function update_pengeluaran()
 	{
@@ -344,15 +393,6 @@ class Penerimaan extends CI_Controller {
 	}
 
 	// ====================================================================================================
-
-	public function delete_trans_order($id)
-	{
-		$this->m_in->delete_by_id($id);
-		echo json_encode(array(
-			"status" => TRUE,
-			"pesan" => 'Data Transaksi Order Barang No.'.$id.' Berhasil dihapus'
-		));
-	}
 
 	private function _validate()
 	{

@@ -53,7 +53,7 @@
                             <th>Tanggal</th>
                             <th>Nama User</th>
                             <th>Status</th>
-                            <th style="width: 13%;">Aksi</th>
+                            <th>Aksi</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -68,7 +68,7 @@
                 <!-- tab finish -->
                 <div class="tab-pane" id="tab_finish">
                   <div class="box-header">
-                    <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
+                    <button class="btn btn-default" onclick="reload_table2()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
                   </div>
                   <!-- /.box-header -->
                   <div class="box-body">
@@ -92,12 +92,12 @@
                       <table id="tabelVerifikasiFinish" class="table table-bordered" cellspacing="0" width="100%">
                         <thead>
                           <tr>
-                            <th style="width: 15%;">ID Pencatatan</th>
-                            <th style="width: 15%;">Tanggal</th>
-                            <th style="width: 20%;">Nama User</th>
-                            <th style="width: 20%;">Pemohon</th>
-                            <th style="width: 15%;">Total Biaya</th>
-                            <th style="width: 10%;">Aksi</th>
+                            <th>ID</th>
+                            <th>ID Pencatatan</th>
+                            <th>Tanggal</th>
+                            <th>Nama User</th>
+                            <th>Status</th>
+                            <th>Aksi</th>
                           </tr>
                         </thead>
                         <tbody>

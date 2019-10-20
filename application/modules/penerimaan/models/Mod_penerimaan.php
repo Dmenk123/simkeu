@@ -23,28 +23,71 @@ class Mod_Penerimaan extends CI_Model
 		$this->load->database();
 	}
 
-	private function _get_datatables_query($term='') //term is value of $_REQUEST['search']
-	{
-		$column = array(
-			"tm.id",
-			"tm.tanggal",
-			"tud.nama_lengkap_user",
-			null,
-		);
+	private function _get_datatables_query($term='', $status) //term is value of $_REQUEST['search']
+	{		
+		if ($status == 1) {
+			$column_search = array(
+				"tv.id as id_verifikasi",
+				"tm.id",
+				"tm.tanggal",
+				"tud.nama_lengkap_user"
+			);
+
+			$column_order = array(
+				"tv.id as id_verifikasi",
+				"tm.id",
+				"tm.tanggal",
+				"tud.nama_lengkap_user",
+				null,
+			);
+
+			$column = array(
+				"tv.id as id_verifikasi",
+				"tm.id",
+				"tm.tanggal",
+				"tud.nama_lengkap_user",
+				null,
+			);
+
+			$this->db->select("
+				tm.id,
+				tv.id as id_verifikasi,
+				tm.user_id,
+				tud.nama_lengkap_user,
+				tm.tanggal,
+				tm.status,
+				tm.created_at,
+				tm.updated_at
+			");
+		}
+		else
+		{
+			$column = array(
+				"tm.id",
+				"tm.tanggal",
+				"tud.nama_lengkap_user",
+				null,
+			);
+
+			$this->db->select("
+				tm.id,
+				tm.user_id,
+				tud.nama_lengkap_user,
+				tm.tanggal,
+				tm.status,
+				tm.created_at,
+				tm.updated_at
+			");
+		}
 		
-		$this->db->select("
-			tm.id,
-			tm.user_id,
-			tud.nama_lengkap_user,
-			tm.tanggal,
-			tm.status,
-			tm.created_at,
-			tm.updated_at
-		");
 		
 		$this->db->from('tbl_trans_masuk as tm');
 		$this->db->join('tbl_user as tu', 'tm.user_id = tu.id_user', 'left');
 		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
+		if ($status == 1) {
+			$this->db->join('tbl_verifikasi tv', 'tm.id = tv.id_in');
+		}
+		$this->db->where('tm.status', $status);
 		
 		$i = 0;
 		foreach ($this->column_search as $item) 
@@ -77,10 +120,10 @@ class Mod_Penerimaan extends CI_Model
 		}
 	}
 
-	function get_datatables()
+	function get_datatables($status = 0)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term);
+		$this->_get_datatables_query($term, $status);
 
 		if($_REQUEST['length'] != -1)
 		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
@@ -89,30 +132,47 @@ class Mod_Penerimaan extends CI_Model
 		return $query->result();
 	}
 
-	function count_filtered()
+	function count_filtered($status)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term);
+		$this->_get_datatables_query($term, $status);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all($id_vendor="")
+	public function count_all($status)
 	{
-		$this->db->select("
-			tm.id,
-			tm.user_id,
-			tud.nama_lengkap_user,
-			tm.tanggal,
-			tm.status,
-			tm.created_at,
-			tm.updated_at
-		");
+		if ($status == 1) {
+			$this->db->select("
+				tm.id,
+				tv.id as id_verifikasi,
+				tm.user_id,
+				tud.nama_lengkap_user,
+				tm.tanggal,
+				tm.status,
+				tm.created_at,
+				tm.updated_at
+			");
+		}else{
+			$this->db->select("
+				tm.id,
+				tm.user_id,
+				tud.nama_lengkap_user,
+				tm.tanggal,
+				tm.status,
+				tm.created_at,
+				tm.updated_at
+			");
+		}
+		
 
 		$this->db->from('tbl_trans_masuk as tm');
 		$this->db->join('tbl_user as tu', 'tm.user_id = tu.id_user', 'left');
 		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
-		//$this->db->where('tr.status_penarikan', '1');
+		if ($status == 1) {
+			$this->db->join('tbl_verifikasi tv', 'tm.id = tv.id_in');
+		}
+		$this->db->where('tm.status', $status);
 		return $this->db->count_all_results();
 	}
 
@@ -163,18 +223,30 @@ class Mod_Penerimaan extends CI_Model
         }
 	}
 
-	public function get_detail($id_header)
+	public function get_detail($id_header, $edit='')
 	{
-		$this->db->select('tmd.*, tv.*, ts.nama as nama_satuan');
-		$this->db->from('tbl_trans_masuk_detail tmd');
-		$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
-		$this->db->join('tbl_verifikasi tv', 'tv.id_in = tmd.id_trans_masuk');
+		if ($edit = '') {
+			$this->db->select('tmd.*, tv.*, ts.nama as nama_satuan');
+			$this->db->from('tbl_trans_masuk_detail tmd');
+			$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
+			$this->db->join('tbl_verifikasi tv', 'tv.id_in = tmd.id_trans_masuk');
+		}else{
+			$this->db->select('tm.*, tmd.*, ts.nama as nama_satuan');
+			$this->db->from('tbl_trans_masuk tm');
+			$this->db->join('tbl_trans_masuk_detail tmd', 'tm.id = tmd.id_trans_masuk');
+			$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
+		}
+				
         $this->db->where('tmd.id_trans_masuk', $id_header);
 
         $query = $this->db->get();
-
+        
         if ($query->num_rows() > 0) {
-            return $query->result();
+            if ($edit = '') {
+            	return $query->result();
+            }else{
+            	return $query->row();
+            }
         }
 	}
 
