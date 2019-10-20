@@ -43,14 +43,14 @@ class Penerimaan extends CI_Controller {
 			$row[] = $list_in->id;
 			$row[] = date('d-m-Y', strtotime($list_in->tanggal));
 			$row[] = $list_in->nama_lengkap_user;
-			if ($list_in->status == 1) {
+			if ($list_in->status == 0) {
 				//belum di verifikasi
 				$row[] = '<span style="color:red">Belum Di Verifikasi</span>';
 			}else{
 				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';
 			}
 			
-			if ($list_in->status == 1) {
+			if ($list_in->status == 0) {
 				//belum di verifikasi
 				$row[] = '
 					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
@@ -182,7 +182,7 @@ class Penerimaan extends CI_Controller {
 				$data_isi = [
 					'id' => $kode_detail,
 					'id_trans_masuk' => $kode,
-					'keterangan' => date('Y-m-d'),
+					'keterangan' => $keterangan,
 					'satuan' => $satuan,
 					'qty' => $qty,
 					'status' => 1

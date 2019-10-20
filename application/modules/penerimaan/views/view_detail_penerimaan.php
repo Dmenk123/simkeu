@@ -2,11 +2,11 @@
     <section class="content-header">
       <h1>
         Transaksi
-        <small>Pengeluaran Harian</small>
+        <small>Penerimaan Harian</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Data Transaksi</a></li>
-        <li class="active">Pengeluaran Harian Detail</li>
+        <li class="active">Penerimaan Harian Detail</li>
       </ol>
     </section>
 
@@ -20,15 +20,12 @@
               <div class="table-responsive">
                 <?php foreach ($hasil_header as $val ) : ?>
                 <div class="col-xs-12">
-                  <h4 style="text-align: center;"><strong>Detail Pengeluaran Harian - SMP. Darul Ulum Surabaya</strong></h4>
+                  <h4 style="text-align: center;"><strong>Detail Penerimaan - SMP. Darul Ulum Surabaya</strong></h4>
                 </div>
-                <div class="col-xs-4">
-                  <h4 style="text-align: left;">Nama Petugas : <?php echo $val->username; ?></h4>
+                <div class="col-xs-6">
+                  <h4 style="text-align: left;">Nama Petugas : <?php echo $val->nama_lengkap_user; ?></h4>
                 </div>
-                <div class="col-xs-4">
-                  <h4 style="text-align: center;">Nama Pemohon : <?php echo $val->pemohon; ?></h4>
-                </div>
-                <div class="col-xs-4">
+                <div class="col-xs-6">
                   <h4 style="text-align: right;">Tanggal Pencatatan: <?php echo date('d-m-Y',strtotime($val->tanggal)); ?></h4>
                 </div>
                 <?php endforeach ?>
@@ -37,9 +34,11 @@
                     <thead>
                       <tr>
                         <th style="width: 10px; text-align: center;">No</th>
-                        <th style="width: 20px; text-align: center;">Kode</th>
-                        <th style="width: 100px; text-align: center;">Jumlah</th>
-                        <th style="width: 80px; text-align: center;">Satuan</th>
+                        <th style="width: 50px; text-align: center;">Kode</th>
+                        <th style="width: 30px; text-align: center;">Jumlah</th>
+                        <th style="width: 30px; text-align: center;">Satuan</th>
+                        <th style="width: 100px; text-align: center;">Harga</th>
+                        <th style="width: 100px; text-align: center;">Total</th>
                         <th style="text-align: center;">Keterangan</th>
                       </tr>
                     </thead>
@@ -49,9 +48,21 @@
                         <?php foreach ($hasil_data as $val ) : ?>
                         <tr>
                         <td><?php echo $no++; ?></td>  
-                        <td><?php echo $val->id_trans_keluar; ?></td>
+                        <td><?php echo $val->id_trans_masuk; ?></td>
                         <td><?php echo $val->qty; ?></td>
                         <td><?php echo $val->nama_satuan; ?></td>
+                        <td>
+                          <div>
+                            <span class="pull-left">Rp. </span>
+                            <span class="pull-right"><?= number_format($val->harga_satuan,2,",",".");?></span>
+                          </div>
+                        </td>
+                        <td>
+                          <div>
+                            <span class="pull-left">Rp. </span>
+                            <span class="pull-right"><?= number_format($val->harga_total,2,",",".");?></span>
+                          </div>
+                        </td>
                         <td><?php echo $val->keterangan; ?></td>
                         </tr>
                         <?php endforeach ?>

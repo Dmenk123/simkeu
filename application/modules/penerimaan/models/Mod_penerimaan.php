@@ -148,12 +148,13 @@ class Mod_Penerimaan extends CI_Model
 		return $kode;
     }
 
-	public function get_detail_header($id_pengeluaran)
+	public function get_detail_header($id)
 	{
-		$this->db->select('tp.*,tu.username');
-		$this->db->from('tbl_trans_keluar tp');
-		$this->db->join('tbl_user tu', 'tp.user_id = tu.id_user','left');
-        $this->db->where('tp.id', $id_pengeluaran);
+		$this->db->select('tm.*,tud.nama_lengkap_user');
+		$this->db->from('tbl_trans_masuk tm');
+		$this->db->join('tbl_user tu', 'tm.user_id = tu.id_user','left');
+		$this->db->join('tbl_user_detail tud', 'tu.id_user = tud.id_user', 'left');
+        $this->db->where('tm.id', $id);
 
         $query = $this->db->get();
 
@@ -162,12 +163,13 @@ class Mod_Penerimaan extends CI_Model
         }
 	}
 
-	public function get_detail($id_pengeluaran)
+	public function get_detail($id_header)
 	{
-		$this->db->select('tkd.*, ts.nama as nama_satuan');
-		$this->db->from('tbl_trans_keluar_detail tkd');
-		$this->db->join('tbl_satuan ts', 'tkd.satuan = ts.id','left');
-        $this->db->where('tkd.id_trans_keluar', $id_pengeluaran);
+		$this->db->select('tmd.*, tv.*, ts.nama as nama_satuan');
+		$this->db->from('tbl_trans_masuk_detail tmd');
+		$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
+		$this->db->join('tbl_verifikasi tv', 'tv.id_in = tmd.id_trans_masuk');
+        $this->db->where('tmd.id_trans_masuk', $id_header);
 
         $query = $this->db->get();
 
