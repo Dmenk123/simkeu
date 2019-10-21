@@ -37,35 +37,37 @@
                         <th style="width: 50px; text-align: center;">Kode</th>
                         <th style="width: 30px; text-align: center;">Jumlah</th>
                         <th style="width: 30px; text-align: center;">Satuan</th>
-                        <th style="width: 100px; text-align: center;">Harga</th>
-                        <th style="width: 100px; text-align: center;">Total</th>
+                        <?php if ($sts == 'finish') { ?>
+                          <th style="width: 100px; text-align: center;">Harga</th>
+                          <th style="width: 100px; text-align: center;">Total</th>
+                        <?php } ?>
                         <th style="text-align: center;">Keterangan</th>
                       </tr>
                     </thead>
                     <tbody>
-                    <?php if (count($hasil_data) != 0): ?>
+                    <?php if ($hasil_data): ?>
                     <?php $no = 1; ?>
-                        <?php foreach ($hasil_data as $val ) : ?>
                         <tr>
                         <td><?php echo $no++; ?></td>  
-                        <td><?php echo $val->id_trans_masuk; ?></td>
-                        <td><?php echo $val->qty; ?></td>
-                        <td><?php echo $val->nama_satuan; ?></td>
+                        <td><?php echo $hasil_data->id_trans_masuk; ?></td>
+                        <td><?php echo $hasil_data->qty; ?></td>
+                        <td><?php echo $hasil_data->nama_satuan; ?></td>
+                        <?php if ($sts == 'finish') { ?>
                         <td>
                           <div>
                             <span class="pull-left">Rp. </span>
-                            <span class="pull-right"><?= number_format($val->harga_satuan,2,",",".");?></span>
+                              <span class="pull-right"><?= number_format($hasil_data->harga_satuan,2,",",".");?></span>
                           </div>
                         </td>
-                        <td>
+                         <td>
                           <div>
                             <span class="pull-left">Rp. </span>
-                            <span class="pull-right"><?= number_format($val->harga_total,2,",",".");?></span>
+                            <span class="pull-right"><?= number_format($hasil_data->harga_total,2,",",".");?></span>
                           </div>
                         </td>
-                        <td><?php echo $val->keterangan; ?></td>
+                        <?php } ?>
+                        <td><?php echo $hasil_data->keterangan; ?></td>
                         </tr>
-                        <?php endforeach ?>
                     <?php endif ?>     
                     </tbody>
                   </table>

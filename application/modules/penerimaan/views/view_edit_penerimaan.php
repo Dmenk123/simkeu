@@ -18,11 +18,13 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <form method="post" enctype="multipart/form-data" action="<?= base_url('penerimaan/proses_penerimaan'); ?>">
+              <form method="post" enctype="multipart/form-data" action="<?= base_url('penerimaan/update_penerimaan'); ?>">
                 
                 <div class="form-group col-md-12">
                   <label>Keterangan : </label>
                   <input type="text" class="form-control" id="i_keterangan" name="i_keterangan" value="<?= $hasil_data->keterangan; ?>">
+                  <input type="hidden" class="form-control" id="i_id_header" name="i_id_header" value="<?= $hasil_data->id; ?>">
+                  <input type="hidden" class="form-control" id="i_id_detail" name="i_id_detail" value="<?= $hasil_data->id_detail; ?>">
                 </div>
 
                 <div class="form-group col-md-6">

@@ -37,7 +37,6 @@ class Penerimaan extends CI_Controller {
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $list_in) {
-			$link_detail = site_url('penerimaan/penerimaan_detail/').$list_in->id;
 			$link_edit = site_url('penerimaan/penerimaan_edit/').$list_in->id;
 			$no++;
 			$row = array();
@@ -55,6 +54,7 @@ class Penerimaan extends CI_Controller {
 			}
 			
 			if ($list_in->status == 0) {
+				$link_detail = site_url('penerimaan/penerimaan_detail/').$list_in->id.'/awal';
 				//belum di verifikasi
 				$row[] = '
 					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
@@ -62,6 +62,7 @@ class Penerimaan extends CI_Controller {
 					<a class="btn btn-sm btn-primary" href="'.$link_edit.'" title="Edit" id="btn_edit" onclick=""><i class="glyphicon glyphicon-pencil"></i></a>
 				';
 			}else{
+				$link_detail = site_url('penerimaan/penerimaan_detail/').$list_in->id;
 				$row[] = '
 					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>
 					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan('."'".$list_in->id_verifikasi."'".')"><i class="glyphicon glyphicon-trash"></i></a>
@@ -87,15 +88,20 @@ class Penerimaan extends CI_Controller {
 		$query_user = $this->prof->get_detail_pengguna($id_user);
 
 		$id = $this->uri->segment(3); 
-		$query_header = $this->m_in->get_detail_header($id);
-		$query = $this->m_in->get_detail($id);
+		$status = $this->uri->segment(4);
+		$query_header = $this->m_in->get_detail_header($id, $status);
+		$query = $this->m_in->get_detail($id, $status);
+		$sts = ($status == 'awal') ? 'awal' : 'finish';
 
 		$data = array(
 			'data_user' => $query_user,
 			'hasil_header' => $query_header,
-			'hasil_data' => $query
+			'hasil_data' => $query,
+			'sts' => $sts
 		);
 
+		// echo $this->db->last_query();
+		
 		$content = [
 			'css' 	=> 'cssPenerimaan',
 			'modal' => null,
@@ -318,57 +324,117 @@ class Penerimaan extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	// =====================================================================================================================
-
-	
-
-	
-
-	public function update_pengeluaran()
+	public function update_penerimaan()
 	{
-		// $this->_validate();
-		$this->db->trans_begin();
-		//delete id order in tabel detail
-		$id = $this->input->post('fieldId');
 		$timestamp = date('Y-m-d H:i:s');
-		$hapus_data_detail = $this->m_in->hapus_data_detail($id);
+		$kode = $this->input->post('i_id_header');
+		$kode_detail = $this->input->post('i_id_detail');  
+		$keterangan = $this->input->post('i_keterangan');
+		$satuan = $this->input->post('i_satuan');
+		$qty = $this->input->post('i_qty');
+		$harga_raw = $this->input->post('i_harga_raw');
+		$harga_total_raw = $this->input->post('i_harga_total_raw');
+		$akun = $this->input->post('i_akun');
+		$gambar = $this->input->post('i_gambar');
+		$ceklis = $this->input->post('ceklis');
 
-		//update header
-		$data_header = array(
-			'updated_at' => $timestamp
-		); 
-		$this->m_in->update_data_header(array('id' => $id), $data_header);
+		$this->db->trans_begin();
+		if ($this->input->post('ceklis') == 't' ) {
+			if(!empty($_FILES['i_gambar']['name']))
+			{
+				$this->konfigurasi_upload_bukti($this->input->post('i_gambar'));
+				//get detail extension
+				$pathDet = $_FILES['i_gambar']['name'];
+				$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
+				if ($this->gbr_bukti->do_upload('i_gambar')) 
+				{
+					$gbrBukti = $this->gbr_bukti->data();
+					//inisiasi variabel u/ digunakan pada fungsi config img bukti
+					$nama_file_bukti = $gbrBukti['file_name'];
+					//load config img bukti
+					$this->konfigurasi_image_resize($nama_file_bukti);
+					//clear img lib after resize
+					$this->image_lib->clear();
+				} //end
 
-		//proses insert ke tabel detail
-		$hitung_detail = count($this->input->post('i_satuan'));
-		$data_detail = array();
-		for ($i=0; $i < $hitung_detail; $i++) 
-		{
-			$data_detail[$i] = array(
-				'id_trans_keluar' => $id,
-				'keterangan' => $this->input->post('i_keterangan')[$i],
-				'satuan' => $this->input->post('i_satuan')[$i],
-				'qty' => $this->input->post('i_jumlah')[$i]
-			);
-		}
+				//set tipe akun
+				$arr_akun1 = explode("-", $akun);
+				$tipe_akun = $arr_akun1[0]; 
+				//set kode dan sub akun
+				$kode_akun = null;
+				$sub1_akun = null;
+				$sub2_akun = null;
+				$arr_akun2 = explode(".", $arr_akun1[1]);
+				for ($z=0; $z <count($arr_akun2); $z++) { 
+					if ($z == 0) {
+						$kode_akun = $arr_akun2[$z];
+					}elseif($z == 1){
+						$sub1_akun = $arr_akun2[$z];
+					}elseif($z == 2){
+						$sub2_akun = $arr_akun2[$z];
+					}
+				}
 
-		$insert_update = $this->m_in->insert_update($data_detail);
+				$data_header = [
+					'user_id' => $this->session->userdata('id_user'),
+					'status' => 1,
+					'updated_at' => $timestamp
+				];
 
-		if ($this->db->trans_status() === FALSE) {
-        	$this->db->trans_rollback();
-        	echo json_encode(array(
-				"status" => FALSE,
-				"pesan_tambah" => 'Data Transaksi Pengeluaran Gagal Diupdate'
-			));
-		}
-		else {
-		    $this->db->trans_commit();
-		    echo json_encode(array(
-				"status" => TRUE,
-				"pesan_tambah" => 'Data Transaksi Pengeluaran Berhasil Diupdate'
-			));
+				$this->m_in->update_data(['id' => $kode], $data_header, 'tbl_trans_masuk');
+
+				$data_isi = [
+					'keterangan' => $keterangan,
+					'satuan' => $satuan,
+					'qty' => $qty,
+					'status' => 1
+				];
+
+				$this->m_in->update_data(['id' => $kode_detail], $data_isi, 'tbl_trans_masuk_detail');
+								
+				$data_verifikasi = [
+					'id' => $this->m_vout->getKodeVerifikasi(),
+					'id_in' => $kode,
+					'id_in_detail' => $kode_detail,
+					'tanggal' => date("Y-m-d"),
+					'user_id' => $this->session->userdata('id_user'),
+					'gambar_bukti' => $nama_file_bukti,
+					'harga_satuan' => $harga_raw,
+					'harga_total' => $harga_total_raw,
+					'status' => 1,
+					'tipe_akun' => $tipe_akun,
+					'kode_akun' => $kode_akun,
+					'sub1_akun' => $sub1_akun,
+					'sub2_akun' => $sub2_akun,
+					'tipe_transaksi' => 1,
+					'created_at' => $timestamp
+				];
+				
+				$this->m_in->save(null, null, $data_verifikasi);
+
+				if ($this->db->trans_status() === FALSE){
+					$this->db->trans_rollback();
+					$this->session->set_flashdata('feedback_failed','Gagal Input dan Verifikasi data.'); 
+					redirect($this->uri->segment(1));
+				}
+				else {
+					$this->db->trans_commit();
+					$this->session->set_flashdata('feedback_success','Berhasil Input dan Verifikasi data.'); 
+					redirect($this->uri->segment(1));
+				}
+			}else{
+				$this->db->trans_rollback();
+				$this->session->set_flashdata('feedback_failed','Mohon Lengkapi Kelengkapan Data'); 
+				redirect($this->uri->segment(1));
+			}
+		}else{
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_failed','Mohon centang pilihan setuju'); 
+			redirect($this->uri->segment(1));
 		}
 	}
+
+	// =====================================================================================================================
 
 	
 

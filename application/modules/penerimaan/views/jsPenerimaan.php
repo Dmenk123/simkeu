@@ -128,6 +128,8 @@ $(document).ready(function() {
     $('html,body').scrollTop(scrollmem);
   });
 
+  $("#myMultipleSelect2").val(5).trigger('change');
+
 
 //end jquery
 });	

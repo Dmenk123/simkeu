@@ -176,11 +176,19 @@ class Mod_Penerimaan extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	public function save($data_header, $data_detail, $data_verifikasi)
+	public function save($data_header=null, $data_detail=null, $data_verifikasi=null)
 	{ 
-		$this->db->insert('tbl_trans_masuk',$data_header);
-		$this->db->insert('tbl_trans_masuk_detail',$data_detail);
-		$this->db->insert('tbl_verifikasi',$data_verifikasi);
+		if ($data_header != null) {
+			$this->db->insert('tbl_trans_masuk',$data_header);
+		}
+		
+		if ($data_detail != null) {
+			$this->db->insert('tbl_trans_masuk_detail',$data_detail);
+		}
+
+		if ($data_verifikasi != null) {
+			$this->db->insert('tbl_verifikasi',$data_verifikasi);
+		}
 	}
 
 	function getKodePenerimaan(){
@@ -225,13 +233,13 @@ class Mod_Penerimaan extends CI_Model
 
 	public function get_detail($id_header, $edit='')
 	{
-		if ($edit = '') {
+		if ($edit == '') {
 			$this->db->select('tmd.*, tv.*, ts.nama as nama_satuan');
 			$this->db->from('tbl_trans_masuk_detail tmd');
 			$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
 			$this->db->join('tbl_verifikasi tv', 'tv.id_in = tmd.id_trans_masuk');
 		}else{
-			$this->db->select('tm.*, tmd.*, ts.nama as nama_satuan');
+			$this->db->select('tm.*, tmd.id as id_detail, tmd.id_trans_masuk, tmd.keterangan, tmd.satuan, tmd.qty, ts.nama as nama_satuan');
 			$this->db->from('tbl_trans_masuk tm');
 			$this->db->join('tbl_trans_masuk_detail tmd', 'tm.id = tmd.id_trans_masuk');
 			$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
@@ -250,15 +258,9 @@ class Mod_Penerimaan extends CI_Model
         }
 	}
 
-	public function hapus_data_detail($id)
+	public function update_data($where, $data, $table)
 	{
-		$this->db->where('id_trans_keluar', $id);
-		$this->db->delete('tbl_trans_keluar_detail');
-	}
-
-	public function update_data_header($where, $data_header)
-	{
-		$this->db->update('tbl_trans_keluar', $data_header, $where);
+		$this->db->update($table, $data, $where);
 		return $this->db->affected_rows();
 	}
 
