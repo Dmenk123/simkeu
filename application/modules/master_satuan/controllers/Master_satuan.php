@@ -92,44 +92,40 @@ class Master_satuan extends CI_Controller {
 
 	public function edit($id)
 	{
-		$data = $this->m_sat->get_by_id($id);
-
-		$pass_string = $data->password;
-		$hasil_password = $this->enkripsi->decrypt($pass_string);
-		$data->password = $hasil_password;
-		
+		$data = $this->m_sat->get_by_id($id);		
 		echo json_encode($data);
 	}
 
-	
-
-	public function update_pengguna()
+	public function update()
 	{
-		$this->load->library('Enkripsi');
-		$this->_validate();
-
-		$pass_string = $this->input->post('password');
-		$hasil_password = $this->enkripsi->encrypt($pass_string);
-
+		//$this->_validate();
 		$data = array(
-				'username' => $this->input->post('username'),
-				'password' => $hasil_password,
-				'last_login' => $this->input->post('last_login'),
-				'status' => $this->input->post('statusUser'),
-			);
-		$this->user->update(array('id_user' => $this->input->post('id')), $data);
+			'nama' => $this->input->post('nama'),
+			'keterangan' => $this->input->post('keterangan')		
+		);
+
+		if ($this->input->post('nama') == '' || $this->input->post('keterangan') == '') {
+			echo json_encode(array(
+				"status" => TRUE,
+				"pesan" => 'Mohon Lengkapi isian pada form',
+			));
+
+			return;
+		}
+
+		$this->m_sat->update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan_update" => 'Master Pengguna Berhasil diupdate',
-			));
+			"pesan" => 'Master Satuan Berhasil diupdate',
+		));
 	}
 
-	public function delete_pengguna($id)
+	public function delete($id)
 	{
-		$this->user->delete_by_id($id);
+		$this->m_sat->delete_by_id($id);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Data Master Supplier No.'.$id.' Berhasil dihapus',
+			"pesan" => 'Data Master Satuan Berhasil dihapus',
 		));
 	}
 

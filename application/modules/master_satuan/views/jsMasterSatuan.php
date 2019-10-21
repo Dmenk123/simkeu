@@ -79,11 +79,11 @@ function edit_satuan(id)
         success: function(data)
         {
             //ambil data ke json->modal
-            $('[name="id"]').val(data.id_user);
-            $('[name="nama"]').val(data.username);
-            $('[name="keterangan"]').val(data.password);
+            $('[name="id"]').val(data.id);
+            $('[name="nama"]').val(data.nama);
+            $('[name="keterangan"]').val(data.keterangan);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Pengguna'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit Master Satuan'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -165,13 +165,13 @@ function save()
     });
 }
 
-function delete_user(id)
+function delete_satuan(id)
 {
-    if(confirm('Are you sure delete this data?'))
+    if(confirm('Yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('pengguna/delete_pengguna')?>/"+id,
+            url : "<?php echo site_url('master_satuan/delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

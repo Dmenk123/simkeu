@@ -93,7 +93,7 @@ class Mod_satuan extends CI_Model
 	public function get_by_id($id)
 	{
 		$this->db->from($this->table);
-		$this->db->where('id_user',$id);
+		$this->db->where('id',$id);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -112,39 +112,7 @@ class Mod_satuan extends CI_Model
 
 	public function delete_by_id($id)
 	{
-		$this->db->where('id_user', $id);
-		$this->db->delete('tbl_user');
-
-		$this->db->where('id_user', $id);
-		$this->db->delete('tbl_user_detail');
+		$this->db->where('id', $id);
+		$this->db->delete($this->table);
 	}
-
-	//dibutuhkan di contoller login untuk ambil data user
-	function login($data){
-		return $this->db->select('username,password,last_login,id_user,id_level_user,status')
-			->where('username',$data['data_user'])
-			->where('password',$data['data_password'])
-			->where('status', 1 )
-			->get('tbl_user')->result_array();
-	}
-
-	//dibutuhkan di contoller login untuk set last login
-	function set_lastlogin($id){
-		$this->db->where('id_user',$id)
-				->update('tbl_user',array('last_login'=>date('Y-m-d H:i:s')));			
-	}
-
-	function getKodeUser(){
-            $q = $this->db->query("select MAX(RIGHT(id_user,5)) as kode_max from tbl_user");
-            $kd = "";
-            if($q->num_rows()>0){
-                foreach($q->result() as $k){
-                    $tmp = ((int)$k->kode_max)+1;
-                    $kd = sprintf("%05s", $tmp);
-                }
-            }else{
-                $kd = "00001";
-            }
-            return "USR".$kd;
-    }
 }
