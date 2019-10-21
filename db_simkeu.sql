@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : lokal
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100131
+ Source Server Version : 100129
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100131
+ Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 17/10/2019 23:47:45
+ Date: 21/10/2019 16:44:50
 */
 
 SET NAMES utf8mb4;
@@ -39,6 +39,8 @@ CREATE TABLE `tbl_hak_akses`  (
 INSERT INTO `tbl_hak_akses` VALUES (1, 3, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (1, 4, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (1, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (104, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (105, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (100, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (101, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (102, 1, 1, 1, 1);
@@ -326,10 +328,12 @@ INSERT INTO `tbl_menu` VALUES (1, 0, 'Dashboard', 'Dashboard', 'home', 'fa fa-da
 INSERT INTO `tbl_menu` VALUES (97, 99, 'Setting Menu', 'Setting Menu', 'set_menu_adm', NULL, 1, 2, 2, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (98, 99, 'Setting Role', 'Setting Role', 'set_role_adm', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (99, 0, 'Setting (Administrator)', 'Setting', NULL, 'fa fa-gear', 1, 1, 5, 0, 0, 0);
-INSERT INTO `tbl_menu` VALUES (100, 0, 'Transaksi', 'Transaksi', ' ', 'fa fa-retweet', 1, 1, 2, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (100, 0, 'Transaksi', 'Transaksi', ' ', 'fa fa-retweet', 1, 1, 3, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (101, 100, 'Pengeluaran Harian', 'Pengeluaran Harian', 'pengeluaran', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (102, 100, 'Verifikasi Pengeluaran', 'Verifikasi Pengeluaran', 'verifikasi_out', '', 1, 2, 2, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (103, 100, 'Penerimaan', 'Transaksi Penerimaan', 'penerimaan', '', 1, 2, 3, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (104, 0, 'Master', 'Master', ' ', 'fa fa-database', 1, 1, 2, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (105, 104, 'Master Satuan', 'Master Satuan', 'master_satuan', '', 1, 2, 1, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -338,17 +342,19 @@ DROP TABLE IF EXISTS `tbl_satuan`;
 CREATE TABLE `tbl_satuan`  (
   `id` int(32) NOT NULL AUTO_INCREMENT,
   `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_satuan
 -- ----------------------------
-INSERT INTO `tbl_satuan` VALUES (1, 'PCS');
-INSERT INTO `tbl_satuan` VALUES (2, 'PACK');
-INSERT INTO `tbl_satuan` VALUES (3, 'BOX');
-INSERT INTO `tbl_satuan` VALUES (4, 'KG');
-INSERT INTO `tbl_satuan` VALUES (5, 'DUZ');
+INSERT INTO `tbl_satuan` VALUES (1, 'PCS', 'Pieces');
+INSERT INTO `tbl_satuan` VALUES (2, 'PACK', 'Pack');
+INSERT INTO `tbl_satuan` VALUES (3, 'BOX', 'Box');
+INSERT INTO `tbl_satuan` VALUES (4, 'KG', 'Kilogram');
+INSERT INTO `tbl_satuan` VALUES (5, 'DUZ', 'Duz');
+INSERT INTO `tbl_satuan` VALUES (6, 'LBR', 'Lembar');
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar
@@ -416,6 +422,11 @@ CREATE TABLE `tbl_trans_masuk`  (
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
+-- Records of tbl_trans_masuk
+-- ----------------------------
+INSERT INTO `tbl_trans_masuk` VALUES ('MSK101900001', 'USR00001', '2019-10-21', 1, '2019-10-21 10:33:29', '2019-10-21 15:33:50');
+
+-- ----------------------------
 -- Table structure for tbl_trans_masuk_detail
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_trans_masuk_detail`;
@@ -431,7 +442,12 @@ CREATE TABLE `tbl_trans_masuk_detail`  (
   INDEX `satuan`(`satuan`) USING BTREE,
   CONSTRAINT `tbl_trans_masuk_detail_ibfk_1` FOREIGN KEY (`id_trans_masuk`) REFERENCES `tbl_trans_masuk` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_trans_masuk_detail_ibfk_2` FOREIGN KEY (`satuan`) REFERENCES `tbl_satuan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_trans_masuk_detail
+-- ----------------------------
+INSERT INTO `tbl_trans_masuk_detail` VALUES (1, 'MSK101900001', 'Pendapatan dana BOS NASIONAL', 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_user
@@ -453,7 +469,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-17 22:00:17', '2019-10-05 21:34:14', '2019-10-17 22:00:17');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-21 13:37:19', '2019-10-05 21:34:14', '2019-10-21 13:37:19');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
@@ -490,6 +506,8 @@ CREATE TABLE `tbl_verifikasi`  (
   `id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
   `id_out` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `id_out_detail` int(32) NULL DEFAULT NULL,
+  `id_in` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `id_in_detail` int(32) NULL DEFAULT NULL,
   `user_id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `tanggal` date NULL DEFAULT NULL,
   `gambar_bukti` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
@@ -515,7 +533,8 @@ CREATE TABLE `tbl_verifikasi`  (
 -- ----------------------------
 -- Records of tbl_verifikasi
 -- ----------------------------
-INSERT INTO `tbl_verifikasi` VALUES ('VRY101900001', 'OUT101900001', 1, 'USR00001', '2019-10-15', 'img_USR000055.JPG', 32000.00, 384000.00, 1, 1, 1, 3, NULL, '2019-10-15 21:31:09', NULL, 2);
-INSERT INTO `tbl_verifikasi` VALUES ('VRY101900002', 'OUT101900001', 2, 'USR00001', '2019-10-15', 'img_USR00002.jpg', 4500.00, 54000.00, 1, 2, 2, 1, NULL, '2019-10-15 21:31:50', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY101900001', 'OUT101900001', 1, NULL, NULL, 'USR00001', '2019-10-15', 'img_USR000055.JPG', 32000.00, 384000.00, 1, 1, 1, 3, NULL, '2019-10-15 21:31:09', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY101900002', 'OUT101900001', 2, NULL, NULL, 'USR00001', '2019-10-15', 'img_USR00002.jpg', 4500.00, 54000.00, 1, 2, 2, 1, NULL, '2019-10-15 21:31:50', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY101900003', NULL, NULL, 'MSK101900001', 1, 'USR00001', '2019-10-21', '75406.jpg', 50000000.00, 50000000.00, 1, 1, 3, 2, 2, '2019-10-21 15:33:50', NULL, 1);
 
 SET FOREIGN_KEY_CHECKS = 1;
