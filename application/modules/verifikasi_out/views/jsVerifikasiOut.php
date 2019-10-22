@@ -93,10 +93,10 @@ $(document).ready(function() {
     delay: 0,
     source: '<?php echo site_url('trans_order/suggest_barang'); ?>',
     select:function(event, ui) {
-              $('#form_id_barang_order').val(ui.item.id_barang);
-              $('#form_nama_satuan_order').val(ui.item.nama_satuan);
-              $('#form_id_satuan_order').val(ui.item.id_satuan);
-            }     
+      $('#form_id_barang_order').val(ui.item.id_barang);
+      $('#form_nama_satuan_order').val(ui.item.nama_satuan);
+      $('#form_id_satuan_order').val(ui.item.id_satuan);
+    }     
   });
 
   //set input/textarea/select event when change value, remove class error and remove text help block
