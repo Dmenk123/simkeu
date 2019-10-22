@@ -11,7 +11,7 @@
  Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 21/10/2019 16:44:50
+ Date: 22/10/2019 16:36:33
 */
 
 SET NAMES utf8mb4;
@@ -41,6 +41,8 @@ INSERT INTO `tbl_hak_akses` VALUES (1, 4, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (1, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (104, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (105, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (106, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (107, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (100, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (101, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (102, 1, 1, 1, 1);
@@ -219,8 +221,8 @@ CREATE TABLE `tbl_master_kode_akun_internal`  (
 -- ----------------------------
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Alat Tulis Sekolah', 1, NULL, NULL, 2, 2, 1, NULL, '1');
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('spidol boardmarker', 1, 1, NULL, NULL, NULL, NULL, NULL, '1.1');
-INSERT INTO `tbl_master_kode_akun_internal` VALUES ('bolpoin', 1, 2, NULL, NULL, NULL, NULL, NULL, '1.2');
-INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Penghapus Whaite board', 1, 3, NULL, NULL, NULL, NULL, NULL, '1.3');
+INSERT INTO `tbl_master_kode_akun_internal` VALUES ('bolpoints', 1, 2, NULL, NULL, NULL, NULL, NULL, '1.2');
+INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Penghapus White board', 1, 3, NULL, NULL, NULL, NULL, NULL, '1.3');
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('FD Kingston 16 GB', 1, 4, NULL, NULL, NULL, NULL, NULL, '1.4');
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('FD Kingston 8 GB', 1, 5, NULL, NULL, NULL, NULL, NULL, '1.5');
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Mouse', 1, 6, NULL, NULL, NULL, NULL, NULL, '1.6');
@@ -300,6 +302,7 @@ INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Rekening listrik', 13, 2, N
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Biaya Upah /Gaji /Honorarium tenaga pendidik dan tenaga kependidikan', 14, NULL, NULL, 2, 2, 3, NULL, '14');
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Honorarium Guru dan karyawan', 14, 1, NULL, NULL, NULL, NULL, NULL, '14.1');
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Honorarium Pemb.ekstra,satpam,pak bon', 14, 2, NULL, NULL, NULL, NULL, NULL, '14.2');
+INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Coba ya', 7, 1, NULL, NULL, NULL, NULL, NULL, '7.1');
 
 -- ----------------------------
 -- Table structure for tbl_menu
@@ -334,6 +337,8 @@ INSERT INTO `tbl_menu` VALUES (102, 100, 'Verifikasi Pengeluaran', 'Verifikasi P
 INSERT INTO `tbl_menu` VALUES (103, 100, 'Penerimaan', 'Transaksi Penerimaan', 'penerimaan', '', 1, 2, 3, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (104, 0, 'Master', 'Master', ' ', 'fa fa-database', 1, 1, 2, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (105, 104, 'Master Satuan', 'Master Satuan', 'master_satuan', '', 1, 2, 1, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (106, 104, 'Master Akun Internal', 'Master Akun Internal', 'master_akun_internal', '', 1, 2, 2, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (107, 104, 'Master Akun Eksternal', 'Master Akun Eksternal', 'masterk_akun_eksternal', '', 1, 2, 3, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -344,7 +349,7 @@ CREATE TABLE `tbl_satuan`  (
   `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_satuan
@@ -469,7 +474,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-21 13:37:19', '2019-10-05 21:34:14', '2019-10-21 13:37:19');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-22 08:35:48', '2019-10-05 21:34:14', '2019-10-22 08:35:48');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
