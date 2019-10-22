@@ -41,7 +41,7 @@ class Mod_master_akun_internal extends CI_Model
               WHERE sub_1 is null and sub_2 is null) tblsub','tmkai.kode_in_text = tblsub.kode_in_text', 'left'
 		);
 		$this->db->order_by('tmkai.kode , tmkai.sub_1 , tmkai.sub_2 , tmkai.nama');
-			
+
 		$i = 0;
 		foreach ($this->column_search as $item) 
 		{
@@ -124,10 +124,10 @@ class Mod_master_akun_internal extends CI_Model
         }
 	}
 	
-	public function get_by_id($id)
+	public function get_by_id($kode_in_text)
 	{
 		$this->db->from($this->table);
-		$this->db->where('id',$id);
+		$this->db->where('kode_in_text',$kode_in_text);
 		$query = $this->db->get();
 
 		return $query->row();
@@ -135,7 +135,7 @@ class Mod_master_akun_internal extends CI_Model
 
 	public function save($data)
 	{
-		$this->db->insert('tbl_satuan',$data);
+		$this->db->insert('tbl_master_kode_akun_internal',$data);
 	}
 
 	public function update($where, $data)

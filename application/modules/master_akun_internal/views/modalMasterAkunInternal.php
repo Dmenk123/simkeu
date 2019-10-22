@@ -19,17 +19,10 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Nama</label>
                             <div class="col-md-9">
-                                <input name="nama" placeholder="User Name" class="form-control" type="text">
+                                <input name="nama" placeholder="Nama Akun" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
-                        <!-- <div class="form-group">
-                            <label class="control-label col-md-3">Keterangan</label>
-                            <div class="col-md-9">
-                                <input name="keterangan" placeholder="Password" class="form-control" type="text">
-                                <span class="help-block"></span>
-                            </div>
-                        </div> -->
                     </div>
                 </form>
             </div>

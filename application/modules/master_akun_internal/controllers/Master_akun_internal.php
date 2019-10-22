@@ -54,8 +54,8 @@ class Master_akun_internal extends CI_Controller {
 
 			//add html for action
 			$row[] = '
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_akun_internal('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_akun_internal('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
 			';
 
 			$data[] = $row;
@@ -74,10 +74,10 @@ class Master_akun_internal extends CI_Controller {
 	public function add()
 	{
 		// $this->_validate();
+		$kat_akun = $this->input->post('kat_akun');
 		$nama = $this->input->post('nama');
-		$keterangan = $this->input->post('keterangan');
 		
-		if ($nama == '' || $keterangan == '') {
+		if ($nama == '' || $kat_akun == '') {
 			echo json_encode(array(
 				"status" => TRUE,
 				"pesan" => 'Mohon Lengkapi isian pada form',
@@ -86,16 +86,33 @@ class Master_akun_internal extends CI_Controller {
 			return;
 		}
 
-		//for table tbl_user
+		$arr_akun = explode("-",$kat_akun);
+		$kode = $arr_akun[0];
+		$kode_in_text = $arr_akun[1];
+
+		$q = $this->db->query("select max(sub_1) as last_sub1 from tbl_master_kode_akun_internal where kode = '".$kode."'")->row();
+		if ($q->last_sub1 == null) {
+			$kode_sub1_final = 1;
+		}else{
+			$kode_sub1_final = (int)$q->last_sub1 + 1;
+		}
+		
 		$data = array(
 			'nama' => $nama,
-			'keterangan' => $keterangan
+			'kode' => $kode,
+			'sub_1' => $kode_sub1_final,
+			'sub_2' => null,
+			'tipe_bos' => null,
+			'kode_bos' => null,
+			'kode_bos_sub1' => null,
+			'kode_bos_sub2' => null,
+			'kode_in_text' => $kode.'.'.$kode_sub1_final
 		);
 
-		$insert = $this->m_sat->save($data);
+		$insert = $this->akun_i->save($data);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Master Satuan Berhasil ditambahkan',
+			"pesan" => 'Master Akun Internal Berhasil ditambahkan',
 		));
 	}
 
@@ -119,19 +136,50 @@ class Master_akun_internal extends CI_Controller {
 
 	public function edit($id)
 	{
-		$data = $this->m_sat->get_by_id($id);		
-		echo json_encode($data);
+		$data = $this->akun_i->get_by_id($id);
+		$q = $this->db->query("select * from tbl_master_kode_akun_internal where kode = '".$data->kode."' and sub_1 is null and sub_2 is null")->row();
+		
+		$hasil = [
+			'nama' => $data->nama,
+			'id' => $data->kode_in_text,
+			'kat_id' => $q->kode.'-'.$data->kode_in_text,
+			'kat_text' => $q->kode_in_text.' - '.$q->nama
+		];
+		
+		echo json_encode($hasil);
 	}
 
 	public function update()
 	{
 		//$this->_validate();
+		$arr_akun = explode("-", $this->input->post('kat_akun'));
+		
+		$kode = $arr_akun[0];
+		$kode_in_text = $arr_akun[1];
+
+		$kode_akun = null;
+		$sub1_akun = null;
+		$sub2_akun = null;
+		$arr_akun2 = explode(".", $arr_akun[1]);
+		for ($z=0; $z <count($arr_akun2); $z++) { 
+			if ($z == 0) {
+				$kode_akun = $arr_akun2[$z];
+			}elseif($z == 1){
+				$sub1_akun = $arr_akun2[$z];
+			}elseif($z == 2){
+				$sub2_akun = $arr_akun2[$z];
+			}
+		}
+
 		$data = array(
 			'nama' => $this->input->post('nama'),
-			'keterangan' => $this->input->post('keterangan')		
+			'kode' => $kode,
+			'sub_1' => $sub1_akun,
+			'sub_2' => $sub2_akun,
+			'kode_in_text' => $arr_akun[1]
 		);
 
-		if ($this->input->post('nama') == '' || $this->input->post('keterangan') == '') {
+		if ($this->input->post('nama') == '' || $this->input->post('kat_akun') == '') {
 			echo json_encode(array(
 				"status" => TRUE,
 				"pesan" => 'Mohon Lengkapi isian pada form',
@@ -140,7 +188,7 @@ class Master_akun_internal extends CI_Controller {
 			return;
 		}
 
-		$this->m_sat->update(array('id' => $this->input->post('id')), $data);
+		$this->akun_i->update(array('kode_in_text' => $this->input->post('id')), $data);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Master Satuan Berhasil diupdate',
@@ -149,7 +197,7 @@ class Master_akun_internal extends CI_Controller {
 
 	public function delete($id)
 	{
-		$this->m_sat->delete_by_id($id);
+		$this->akun_i->delete_by_id($id);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Data Master Satuan Berhasil dihapus',

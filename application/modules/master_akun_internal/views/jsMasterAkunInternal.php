@@ -79,7 +79,7 @@ function add_akun()
     $('.modal-title').text('Add Akun'); //set title modal
 }
 
-function edit_satuan(id)
+function edit_akun(id)
 {
     save_method = 'update';
     $('#form')[0].reset(); // reset form on modals
@@ -88,7 +88,7 @@ function edit_satuan(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('master_satuan/edit/')?>/" + id,
+        url : "<?php echo site_url('master_akun_internal/edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -96,9 +96,12 @@ function edit_satuan(id)
             //ambil data ke json->modal
             $('[name="id"]').val(data.id);
             $('[name="nama"]').val(data.nama);
-            $('[name="keterangan"]').val(data.keterangan);
+            
+            var $newOption = $("<option selected='selected'></option>").val(data.kat_id).text(data.kat_text)
+            $('[name="kat_akun"]').append($newOption).trigger('change');
+            
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Master Satuan'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit Master Akun Internal'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -128,10 +131,10 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('master_satuan/add')?>";
+        url = "<?php echo site_url('master_akun_internal/add')?>";
         tipe_simpan = 'tambah';
     } else {
-        url = "<?php echo site_url('master_satuan/update')?>";
+        url = "<?php echo site_url('master_akun_internal/update')?>";
         tipe_simpan = 'update';
     }
 
