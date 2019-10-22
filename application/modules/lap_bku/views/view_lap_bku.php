@@ -1,11 +1,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Laporan Mutasi Barang
+        Laporan Buku Kas Umum
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Laporan</a></li>
-        <li class="active">Laporan Mutasi</li>
+        <li class="active">Laporan Buku Kas Umum</li>
       </ol>
     </section>
 
@@ -18,16 +18,29 @@
               <label class="control-label">Pilih periode tanggal Laporan pada field dibawah ini</label>
               <form class="form-inline" method="post" action="<?php echo site_url('laporan_mutasi/laporan_mutasi_detail') ?>">
                 <div class="form-group">
-                  <input type="text" class="form-control" id="tgl_mutasi_awal" name="tanggalMutasiAwal" placeholder="Pilih Tanggal Mulai" required="">
+                  <select name="bln_awal" class="form-control" id="bln_awal" required="">
+                    <option value="">Pilih Bulan Awal</option>
+                    <?php for ($i=1; $i <= 12; $i++) { 
+                      echo "<option value='$i'>$arr_bulan[$i]</option>";
+                    } ?>
+                  </select>
                 </div>
                 <div class="form-group">
-                  <input type="text" class="form-control" id="tgl_mutasi_akhir" name="tanggalMutasiAkhir" placeholder="Sampai Tanggal" required="">
+                  <select name="bln_akhir" class="form-control" id="bln_akhir" required="">
+                    <option value="">Pilih Bulan Akhir</option>
+                    <?php for ($i=1; $i <= 12; $i++) { 
+                      echo "<option value='$i'>$arr_bulan[$i]</option>";
+                    } ?>
+                  </select>
                 </div>
                 <div class="form-group">
-                 <select name="tampilMutasi" class="form-control" required="">
-                    <option value="">-- Pilih Tampilan Laporan --</option>
-                    <option value="semua">Semua</option>
-                    <option value="hanya-mutasi">Hanya yang terdapat mutasi</option>
+                  <select name="tahun" class="form-control" id="tahun" required="">
+                    <option value="">Pilih Tahun</option>
+                    <?php
+                      $thn = date('Y'); 
+                      for ($z=$thn; $z <= (int)$thn + 3; $z++) { 
+                      echo "<option value='$z'>$z</option>";
+                    } ?>
                   </select>
                 </div>
                 <button type="submit" class="btn btn-info">Cari</button>

@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Mod_lap_mutasi extends CI_Model
+class Mod_lap_bku extends CI_Model
 {
 	public function __construct()
 	{

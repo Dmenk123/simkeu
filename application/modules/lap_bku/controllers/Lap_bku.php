@@ -1,54 +1,34 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Laporan_mutasi extends CI_Controller {
+class Lap_bku extends CI_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		//cek apablia session kosong
-		if ($this->session->userdata('username') === null) {
-			//direct ke controller login
-			redirect('login');
-		}elseif ($this->session->userdata('id_level_user') != '1' && $this->session->userdata('id_level_user') != '2' && $this->session->userdata('id_level_user') != '3') {
-			redirect('home/oops');
-		}
-		$this->load->model('mod_lap_mutasi','lap_mutasi');
-		$this->load->model('pengguna/mod_pengguna');
-		$this->load->model('pesan/mod_pesan','psn');
-		//pesan stok dibawah rop
-		$this->load->model('Mod_home');
-		$barang = $this->Mod_home->get_barang();
-
-		foreach ($barang as $key) {
-			if ($key->stok_barang < $key->rop_barang) {
-				$this->session->set_flashdata('cek_stok', 'Terdapat Stok Barang dibawah nilai Reorder Point, Mohon di cek ulang / melakukan permintaan');
-			}
-		}
+		//profil data
+		$this->load->model('profil/mod_profil','prof');
+		$this->load->model('mod_lap_bku','lap');
 	}
 
 	public function index()
 	{
 		$id_user = $this->session->userdata('id_user'); 
-		$query = $this->mod_pengguna->get_detail_user($id_user);
+		$data_user = $this->prof->get_detail_pengguna($id_user);
 
-		$jumlah_notif = $this->psn->notif_count($id_user);  //menghitung jumlah post
-		$notif= $this->psn->get_notifikasi($id_user); //menampilkan isi postingan
+		$data = array(
+			'data_user' => $data_user,
+			'arr_bulan' => $this->bulan_indo()
+		);
 
-		if ($this->session->userdata('id_level_user') == 1 || $this->session->userdata('id_level_user') == 2 || $this->session->userdata('id_level_user') == 3 ) {
-			$data = array(
-				'content'=>'view_lap_mutasi',
-				'css'=>'cssLapMutasi',
-				'js'=>'jsLapMutasi',
-				'title' => 'PT.Surya Putra Barutama',
-				'data_user' => $query,
-				'qty_notif' => $jumlah_notif,
-				'isi_notif' => $notif,
-			);
-		}
+		$content = [
+			'css' 	=> 'cssLapBku',
+			'modal' => null,
+			'js'	=> 'jsLapBku',
+			'view'	=> 'view_lap_bku'
+		];
 
-		//parsing data ke file view home
-		$this->load->view('view_home',$data);
+		$this->template_view->load_view($content, $data);
 	}
 
 	public function laporan_mutasi_detail()
@@ -118,6 +98,13 @@ class Laporan_mutasi extends CI_Controller {
 	    
 	    $filename = 'laporan_mutasi_'.time();
 	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
+	}
+
+	public function bulan_indo()
+	{
+		return [
+			1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+		];
 	}
 
 }

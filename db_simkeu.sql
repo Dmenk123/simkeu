@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 22/10/2019 16:36:33
+ Date: 23/10/2019 00:27:48
 */
 
 SET NAMES utf8mb4;
@@ -47,6 +47,8 @@ INSERT INTO `tbl_hak_akses` VALUES (100, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (101, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (102, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (103, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (108, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (109, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (99, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (98, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (97, 1, 1, 1, 1);
@@ -338,7 +340,9 @@ INSERT INTO `tbl_menu` VALUES (103, 100, 'Penerimaan', 'Transaksi Penerimaan', '
 INSERT INTO `tbl_menu` VALUES (104, 0, 'Master', 'Master', ' ', 'fa fa-database', 1, 1, 2, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (105, 104, 'Master Satuan', 'Master Satuan', 'master_satuan', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (106, 104, 'Master Akun Internal', 'Master Akun Internal', 'master_akun_internal', '', 1, 2, 2, 1, 1, 1);
-INSERT INTO `tbl_menu` VALUES (107, 104, 'Master Akun Eksternal', 'Master Akun Eksternal', 'masterk_akun_eksternal', '', 1, 2, 3, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (107, 104, 'Master Akun Eksternal', 'Master Akun Eksternal', 'master_akun_eksternal', '', 1, 2, 3, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (108, 0, 'Laporan', 'Laporan', ' ', 'fa fa-line-chart', 1, 1, 4, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (109, 108, 'Buku Kas Umum', 'Buku Kas Umum', 'lap_bku', '', 1, 2, 2, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for tbl_satuan
