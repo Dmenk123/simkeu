@@ -78,14 +78,18 @@ class Lap_bku extends CI_Controller {
 					if ($val->tipe_transaksi == 1) {
 						$arr_data[$key]['penerimaan'] = number_format($val->harga_total,2,",",".");
 						$arr_data[$key]['pengeluaran'] = '0,00';
+						$in_raw = $val->harga_total;
+						$out_raw = 0;
 					}else{
 						$arr_data[$key]['penerimaan'] = '0,00';
 						$arr_data[$key]['pengeluaran'] = number_format($val->harga_total,2,",",".");
+						$in_raw = 0;
+						$out_raw = $val->harga_total;
 					}
 					
 					//saldo
 					$saldo_awal += (int)$query_saldo;
-					$arr_data[$key]['saldo'] = (int)$saldo_awal + (int)$query_saldo;
+					$arr_data[$key]['saldo'] = (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
 				}
 			}
 			else
