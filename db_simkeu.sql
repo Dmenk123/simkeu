@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : lokal
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100131
+ Source Server Version : 100129
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100131
+ Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 23/10/2019 00:27:48
+ Date: 23/10/2019 17:23:13
 */
 
 SET NAMES utf8mb4;
@@ -54,6 +54,43 @@ INSERT INTO `tbl_hak_akses` VALUES (98, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (97, 1, 1, 1, 1);
 
 -- ----------------------------
+-- Table structure for tbl_lap_bku
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_lap_bku`;
+CREATE TABLE `tbl_lap_bku`  (
+  `kode` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+  `bulan` varchar(2) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tahun` varchar(4) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `saldo_awal` double(20, 2) NULL DEFAULT NULL,
+  `saldo_akhir` double(20, 2) NULL DEFAULT NULL,
+  `created` datetime(0) NULL DEFAULT NULL,
+  `updated` datetime(0) NULL DEFAULT NULL,
+  `is_delete` int(1) NULL DEFAULT 0,
+  `is_kunci` int(1) NULL DEFAULT 0,
+  PRIMARY KEY (`kode`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for tbl_lap_bku_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_lap_bku_detail`;
+CREATE TABLE `tbl_lap_bku_detail`  (
+  `kode_header` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `bulan` varchar(2) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tahun` varchar(4) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tanggal` date NULL DEFAULT NULL,
+  `bukti` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `penerimaan` double(20, 2) NULL DEFAULT NULL,
+  `pengeluaran` double(20, 2) NULL DEFAULT NULL,
+  `saldo` double(20, 2) NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL,
+  `is_delete` int(1) NULL DEFAULT 0,
+  `is_kunci` int(1) NULL DEFAULT 0
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
 -- Table structure for tbl_level_user
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_level_user`;
@@ -73,6 +110,19 @@ INSERT INTO `tbl_level_user` VALUES (2, 'tu', 'Untuk Tata Usaha', 1);
 INSERT INTO `tbl_level_user` VALUES (3, 'keuangan', 'Untuk Keuangan', 1);
 INSERT INTO `tbl_level_user` VALUES (4, 'kepsek', 'Untuk Kepala Sekolah', 1);
 INSERT INTO `tbl_level_user` VALUES (5, 'guru', 'Untuk Guru', 1);
+
+-- ----------------------------
+-- Table structure for tbl_log_kunci
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_log_kunci`;
+CREATE TABLE `tbl_log_kunci`  (
+  `bulan` varchar(2) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tahun` varchar(4) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `user_id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `is_kunci` int(1) NULL DEFAULT 0,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for tbl_master_kode_akun
@@ -478,7 +528,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-22 08:35:48', '2019-10-05 21:34:14', '2019-10-22 08:35:48');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-23 08:53:25', '2019-10-05 21:34:14', '2019-10-23 08:53:25');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail

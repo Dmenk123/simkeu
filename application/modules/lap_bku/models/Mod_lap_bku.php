@@ -26,6 +26,23 @@ class Mod_lap_bku extends CI_Model
        
 	}
 
+	public function get_detail_laporan($bulan, $tahun)
+	{
+		$tanggal_awal = date('Y-m-d', strtotime($tahun.'-'.$bulan.'-01'));
+		$tanggal_akhir = date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01'));
+
+		$query = $this->db->query("
+			SELECT 
+				tv.*, CASE WHEN (tmd.keterangan is null) THEN tkd.keterangan ELSE tmd.keterangan END AS keterangan
+			FROM tbl_verifikasi tv
+			left join tbl_trans_masuk_detail tmd on concat(tv.id_in,'-',tv.id_in_detail) = concat(tmd.id_trans_masuk,'-',tmd.id)
+			left join tbl_trans_keluar_detail tkd on concat(tv.id_out,'-',tv.id_out_detail) = concat(tkd.id_trans_keluar,'-',tkd.id)
+			where tanggal between '$tanggal_awal' and '$tanggal_akhir' order by tv.tipe_transaksi, tv.tanggal, tv.id
+		");
+
+        return $query->result();
+	}
+
 	public function get_saldo_awal()
 	{
 		# code...

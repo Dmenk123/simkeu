@@ -60,8 +60,8 @@ class Lap_bku extends CI_Controller {
 			$q_cek = $this->db->query("SELECT * FROM lap_bku WHERE is_kunci = '1' and bulan = '".$value->month_raw."' and tahun = '".$value->year_raw."'")->row();
 
 			if (!$q_cek) {
-				//get detail laporan  jika belum dikunci
-				$query = $this->lap->get_detail($value->month_raw, $tahun);
+				//get detail laporan jika belum dikunci
+				$query = $this->lap->get_detail($value->month_raw, $value->year_raw);
 
 				foreach ($query as $key => $val) {
 					$arr_data[$key]['tanggal'] = date('d-m-Y', strtotime($val->tanggal));
@@ -85,7 +85,31 @@ class Lap_bku extends CI_Controller {
 					$arr_data[$key]['saldo'] = '';
 				}
 			}else{
-				
+				//get detail laporan
+				$get_lap_header = $this->db->query("select * from tbl_lap_bku where bulan = '".$value->month_raw."' and tahun = '".$value->year_raw."'");
+				$query = $this->lap->get_detail_laporan($value->month_raw, $tahun);
+
+				foreach ($query as $key => $val) {
+					$arr_data[$key]['tanggal'] = date('d-m-Y', strtotime($val->tanggal));
+					if ($val->tipe_transaksi == 1) {
+						$arr_data[$key]['kode'] = $val->id_in.'-'.$val->id_in_detail;
+					}else{
+						$arr_data[$key]['kode'] = $val->id_in.'-'.$val->id_out_detail;
+					}
+					
+					$arr_data[$key]['tanggal'] = $val->keterangan;
+					
+					if ($val->tipe_transaksi == 1) {
+						$arr_data[$key]['penerimaan'] = number_format($val->harga_total,2,",",".");
+						$arr_data[$key]['pengeluaran'] = '0,00';
+					}else{
+						$arr_data[$key]['penerimaan'] = '0,00';
+						$arr_data[$key]['pengeluaran'] = number_format($val->harga_total,2,",",".");
+					}
+					
+					//saldo
+					$arr_data[$key]['saldo'] = '';
+				}
 			}
 			
 
