@@ -57,11 +57,13 @@ class Lap_bku extends CI_Controller {
 
 		foreach ($arr_bulan as $keys => $value) {
 			//cek bulan sudah dikunci atau belum
-			$q_cek = $this->db->query("SELECT * FROM lap_bku WHERE is_kunci = '1' and bulan = '".$value->month_raw."' and tahun = '".$value->year_raw."'")->row();
-
-			if (!$q_cek) {
+			$q_cek = $this->db->query("SELECT * FROM tbl_lap_bku WHERE is_kunci = '1' and bulan = '".$value['month_raw']."' and tahun = '".$value['year_raw']."'")->row();
+			
+			if ($q_cek == null) {
 				//get detail laporan jika belum dikunci
-				$query = $this->lap->get_detail($value->month_raw, $value->year_raw);
+				$query = $this->lap->get_detail($value['month_raw'], $value['year_raw']);
+				//ambil saldo akhir bulan sebelumnya
+				$query_saldo = $this->lap->get_saldo_awal($value['month_raw'], $value['year_raw']);
 
 				foreach ($query as $key => $val) {
 					$arr_data[$key]['tanggal'] = date('d-m-Y', strtotime($val->tanggal));
@@ -82,12 +84,16 @@ class Lap_bku extends CI_Controller {
 					}
 					
 					//saldo
-					$arr_data[$key]['saldo'] = '';
+					$saldo_awal += (int)$query_saldo;
+					$arr_data[$key]['saldo'] = (int)$saldo_awal + (int)$query_saldo;
 				}
-			}else{
+			}
+			else
+			{
 				//get detail laporan
-				$get_lap_header = $this->db->query("select * from tbl_lap_bku where bulan = '".$value->month_raw."' and tahun = '".$value->year_raw."'");
-				$query = $this->lap->get_detail_laporan($value->month_raw, $tahun);
+				$get_lap_header = $this->db->query("select * from tbl_lap_bku where bulan = '".$value->month_raw."' and tahun = '".$value->year_raw."' and is_kunci = '1'")->row();
+
+				$query = $this->lap->get_detail_laporan($value->month_raw, $tahun, $get_lap_header->kode);
 
 				foreach ($query as $key => $val) {
 					$arr_data[$key]['tanggal'] = date('d-m-Y', strtotime($val->tanggal));
@@ -111,8 +117,6 @@ class Lap_bku extends CI_Controller {
 					$arr_data[$key]['saldo'] = '';
 				}
 			}
-			
-
 		}
 
 		$q_saldo_awal = $this->lap->get_saldo_awal($bln_awal, $tahun);
