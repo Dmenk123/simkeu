@@ -11,29 +11,11 @@ $(document).ready(function() {
 		$(this).next().empty();
 	});
 
-    //datepicker
-    $('#tgl_mutasi_awal').datepicker({
-        autoclose: true,
-        format: "yyyy-mm-dd",
-        todayHighlight: true,
-        orientation: "top auto",
-        todayBtn: true,
-        todayHighlight: true,
-    });
-
-    //datepicker
-    $('#tgl_mutasi_akhir').datepicker({
-        autoclose: true,
-        format: "yyyy-mm-dd",
-        todayHighlight: true,
-        orientation: "top auto",
-        todayBtn: true,
-        todayHighlight: true,
-    });
 
     //datatable
     $('#tblLaporanMutasiDetail').DataTable({
-        "pageLength": 25
+        "pageLength": 50,
+         "order": [],
     });
 
     //update dt_read after click
