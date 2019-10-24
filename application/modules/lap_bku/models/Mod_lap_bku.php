@@ -32,7 +32,7 @@ class Mod_lap_bku extends CI_Model
 		$tanggal_akhir = date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01'));
 
 		$query = $this->db->query("
-			SELECT * from tbl_lap_bku_detail where tanggal between '$tanggal_awal' and '$tanggal_akhir'
+			SELECT * from tbl_lap_bku_detail where tanggal between '$tanggal_awal' and '$tanggal_akhir' and is_kunci = '1'
 		");
 
         return $query->result();
@@ -40,6 +40,7 @@ class Mod_lap_bku extends CI_Model
 
 	public function get_saldo_awal($bulan, $tahun)
 	{
+		$saldo = 0;
 		$anchorBulan = (int)$bulan - 1;
 		for ($i=$bulan; $i <= 1 ; $i--) { 
 			$bln = ($i < 10) ? '0'.$i : $i;

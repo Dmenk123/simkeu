@@ -29,7 +29,7 @@
                         <th style="width: 10%; text-align: center;">Tanggal</th>
                         <th style="width: 10%; text-align: center;">No. Kode</th>
                         <th style="width: 10%; text-align: center;">No. Bukti</th>
-                        <th style="width: 35%; text-align: center;">Uraian</th>
+                        <th style="width: 20%; text-align: center;">Uraian</th>
                         <th style="width: 15%; text-align: center;">Penerimaan</th>
                         <th style="width: 15%; text-align: center;">Pengeluaran</th>
                         <th style="width: 15%; text-align: center;">Saldo</th>
@@ -40,55 +40,28 @@
                     <?php $no = 1; ?>
                         <?php foreach ($hasil_data as $val ) : ?>
                         <tr>
-                          <td><?php echo date('d-m-Y', strtotime($val->tanggal)); ?></td> 
-                       
-                          <td><?php echo $val->id ?></td>
-                          <?php if ($val->tipe_transaksi == 1) { ?>
-                            <td><?php echo $val->id_in.'-'.$val->id_in_detail; ?></td>
-                          <?php }else{ ?>
-                            <td><?php echo $val->id_out.'-'.$val->id_out_detail; ?></td>
-                          <?php } ?>
-                          
-                          <td><?php echo $val->keterangan; ?></td>
-
-                          <?php if ($val->tipe_transaksi == 1) { ?>
+                          <td><?php echo $val['tanggal']; ?></td> 
+                          <td><?php echo $val['kode'] ?></td>
+                          <td><?php echo $val['bukti'] ?></td>
+                          <td><?php echo $val['keterangan']; ?></td>
                           <td>
                             <div>
                               <span class="pull-left">Rp. </span>
-                              <span class="pull-right"><?= number_format($val->harga_total,2,",",".");?></span>
+                              <span class="pull-right"><?= $val['penerimaan'];?></span>
                             </div>
                           </td>
-                          <?php }else{ ?>
                           <td>
                             <div>
                               <span class="pull-left">Rp. </span>
-                              <span class="pull-right">0,00</span>
+                              <span class="pull-right"><?= $val['pengeluaran'];?></span>
                             </div>
-                          </td>
-                          <?php } ?>
-
-                          <?php if ($val->tipe_transaksi == 2) { ?>
+                          </td>  
                           <td>
                             <div>
                               <span class="pull-left">Rp. </span>
-                              <span class="pull-right"><?= number_format($val->harga_total,2,",",".");?></span>
+                              <span class="pull-right"><?= number_format($val['saldo_akhir'],2,",",".");?></span>
                             </div>
-                          </td>
-                          <?php }else{ ?>
-                          <td>
-                            <div>
-                              <span class="pull-left">Rp. </span>
-                              <span class="pull-right">0,00</span>
-                            </div>
-                          </td>
-                          <?php } ?>
-
-                          <td>
-                            <div>
-                              <span class="pull-left">Rp. </span>
-                              <span class="pull-right">0,00</span>
-                            </div>
-                          </td>              
+                          </td>      
                         </tr>
                         <?php endforeach ?>
                     <?php endif ?>     
