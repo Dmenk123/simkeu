@@ -115,7 +115,7 @@
             <p style="text-align: left; font-size: 12px" class="outer-left">Jl. Raya Manukan Kulon No.98-100 Kota Surabaya, Jawa Timur 60185</p>
           </td>
         </tr>
-      </table>     
+      </table>  
       <h2 style="text-align: center;"><strong>Nota Pengeluaran Barang</strong></h2>
       <table class="tbl-header">
         <tr>
@@ -156,40 +156,40 @@
         </tr>
       <?php endforeach ?>
       </tbody>
-      </table>
-      <table class="tbl-content-footer">
-        <tr class="content-footer-left"> 
-          <td align="left" class="content-footer-left" colspan="5">
-            <p style="text-align: left; font-size: 12px" class="content-footer-left">Dimohon agar menyertakan nota ini pada bagian keuangan. agar dapat diproses, Terima kasih.</p>
-          </td>
-        </tr>  
-      </table>
-      <table class="tbl-footer">
-        <tr>
-          <td align="left">
-            <p style="text-align: left;" class="foot-left"><strong>Tata Usaha</strong> </p>
-          </td>
-          <td align="center">
-            <p style="text-align: center;" class="foot-right"><strong>Keuangan</strong> </p>
-          </td>
-          <td align="right">
-            <p style="text-align: right;" class="foot-right"><strong>Pemohon</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-          </td>
-        </tr>
-        <tr>
-          <td align="left">
-            <?php foreach ($hasil_header as $val ) : ?> 
-            <p style="text-align: left;" class="foot-left">(........................................) </p>
-                 
-          </td>
-          <td align="center">
-            <p style="text-align: center;" class="foot-right">(........................................) </p>
-          </td>
-          <td align="right">
-            <p style="text-align: right;" class="foot-right">(........................................)</p>
-            <?php endforeach ?> 
-          </td>
-        </tr>
-      </table>
+    </table>
+    <table class="tbl-content-footer">
+      <tr class="content-footer-left"> 
+        <td align="left" class="content-footer-left" colspan="5">
+          <p style="text-align: left; font-size: 12px" class="content-footer-left">Dimohon agar menyertakan nota ini pada bagian keuangan. agar dapat diproses, Terima kasih.</p>
+        </td>
+      </tr>  
+    </table>
+    <table class="tbl-footer">
+      <tr>
+        <td align="left">
+          <p style="text-align: left;" class="foot-left"><strong>Tata Usaha</strong> </p>
+        </td>
+        <td align="center">
+          <p style="text-align: center;" class="foot-right"><strong>Keuangan</strong> </p>
+        </td>
+        <td align="right">
+          <p style="text-align: right;" class="foot-right"><strong>Pemohon</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </td>
+      </tr>
+      <tr>
+        <td align="left">
+          <?php foreach ($hasil_header as $val ) : ?> 
+          <p style="text-align: left;" class="foot-left">(........................................) </p>
+                
+        </td>
+        <td align="center">
+          <p style="text-align: center;" class="foot-right">(........................................) </p>
+        </td>
+        <td align="right">
+          <p style="text-align: right;" class="foot-right">(........................................)</p>
+          <?php endforeach ?> 
+        </td>
+      </tr>
+    </table>
   </div>          
 </body></html>

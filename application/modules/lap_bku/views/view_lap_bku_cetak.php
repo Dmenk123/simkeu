@@ -1,3 +1,4 @@
+<?php require_once(APPPATH.'views/template/temp_img_cetak_header.php'); ?>
 <html><head>
   <title><?php echo $title; ?></title>
   <style type="text/css">
@@ -13,54 +14,96 @@
     .normal{
       width: 150px;
     }
-    
-    .head-left{
-       padding: 0px;
-       border: 0px solid white;
-       border-color: white;
-       margin: 0px;
-       background: white;
-    }
-
-    .tbl-header{
+    .tbl-outer{
       color:#070707;
-      margin-bottom: 15px;
+      margin-bottom: 10px;
     }
 
+    .text-center{
+      text-align:center;
+    }
+
+    .text-left{
+      text-align:left;
+    }
+
+    .text-right{
+      text-align:right;
+    }
+    
+    .outer-left{
+      padding: 2px;
+      border: 0px solid white;
+      border-color: white;
+      margin: 0px;
+      background: white;
+    }
+    .head-left{
+      padding-top: 5px;
+      padding-bottom: 0px;
+      border: 0px solid white;
+      border-color: white;
+      margin: 0px;
+      background: white;
+    }
     .tbl-footer{
       width: 100%;
       color:#070707;
       border-top: 0px solid white;
       border-color: white;
-      padding-top: 10px;
+      padding-top: 75px;
     }
-
+    .head-right{
+       padding-bottom: 0px;
+       border: 0px solid white;
+       border-color: white;
+       margin: 0px;
+    }
+    .tbl-header{
+      width: 100%;
+      color:#070707;
+      border-color: #070707;
+      border-top: 2px solid #070707;
+    }
+    #tbl_content{
+      padding-top: 10px;
+      margin-left: -20px;
+    } 
     .tbl-footer td{
       border-top: 0px;
-      padding-top: 25px;
-      font-size: 12px;
-      font-style: bold;
+      padding: 10px;
     }
-
     .tbl-footer tr{
       background: white;
     }
-
+    .foot-center{
+      padding-left: 70px;
+    }
+    .inner-head-left{
+       padding-top: 20px;
+       border: 0px solid white;
+       border-color: white;
+       margin: 0px;
+       background: white;
+    }
+    .tbl-content-footer{
+      width: 100%;
+      color:#070707;
+      padding-top: 0px;
+    }
     table{
       border-collapse: collapse;
       font-family: arial;
-      font-size: 10px;
       color:black;
+      font-size: 12px;
     }
     thead th{
-      text-align: left;
-      padding: 5px;
-      font-size: 12px;
+      text-align: center;
+      padding: 10px;
       font-style: bold;
     }
     tbody td{
-      border-top: 1px solid #e3e3e3;
-      padding: 5px;
+      padding: 10px;
     }
     tbody tr:nth-child(even){
       background: #F6F5FA;
@@ -68,78 +111,107 @@
     tbody tr:hover{
       background: #EAE9F5
     }
+    .clear{
+        clear:both;
+    }
   </style>
 </head><body>
-   <table class="tbl-header">
+  <div class="container">   
+    <table class="tbl-outer">
       <tr>
-        <td align="left" class="head-left">
-          <p style="text-align: left; font-size: 14px" class="head-left"><strong>PT. Surya Putra Barutama</strong></p>
+        <td align="left" class="outer-left">
+          <?php echo $img_laporan; ?>
+        </td>
+        <td align="right" class="outer-left">
+          <p style="text-align: left; font-size: 14px" class="outer-left">
+            <strong>SMP. Darul Ulum Surabaya</strong>
+          </p>
+          <p style="text-align: left; font-size: 12px" class="outer-left">Jl. Raya Manukan Kulon No.98-100 Kota Surabaya, Jawa Timur 60185</p>
         </td>
       </tr>
-      <tr>  
-        <td align="right" class="head-left">
-          <p style="text-align: left; font-size: 12px" class="head-right">Jl. Raya Mastrip Kedurus No.23, Kota Surabaya - Jawa Timur</p>
+    </table>
+    <h2 style="text-align: center;"><strong>Laporan Buku Kas Umum</strong></h2>
+    
+    <table class="tbl-header">
+      <tr>
+        <td align="center" class="head-center">
+          <p style="text-align: center; font-size: 14px" class="head-left"><strong>Periode <?php echo $periode; ?></strong></p>
         </td>
-      </tr>           
-   </table>
-  <!-- Main content -->
-  <div class="container">     
-      <h2 style="text-align: center;"><strong>Laporan Mutasi Barang - PT. SPB</strong></h2>
-      <h4 style="text-align: center;"><strong>Periode Tanggal : <?php echo $tanggal ?></strong></h4>
-    <table id="tabelLaporanMasuk" class="table table-bordered table-hover" cellspacing="0" width="100%" border="2">
+      </tr> 
+    </table>
+    
+    <table id="tbl_content" class="table table-bordered table-hover" cellspacing="0" width="100%" border="1">
       <thead>
         <tr>
-          <th style="width: 10px; text-align: left;">No</th>
-          <th style="width: 40px; text-align: center;">ID</th>
-          <th style="width: 200px; text-align: left;">Nama Barang</th>
-          <th style="width: 40px; text-align: center;">Satuan</th>
-          <th style="width: 20px; text-align: center;">Stok Awal</th>
-          <th style="width: 20px; text-align: center;">IN</th>
-          <th style="width: 20px; text-align: center;">OUT</th>
-          <th style="width: 20px; text-align: center;">Stok Akhir</th>
+          <th style="width: 60px; text-align: center;">Tanggal</th>
+          <th style="width: 30px; text-align: center;">No. Kode</th>
+          <th style="width: 50px; text-align: center;">No. Bukti</th>
+          <th style="width: 150px; text-align: center;">Uraian</th>
+          <th style="width: 95px; text-align: center;">Penerimaan</th>
+          <th style="width: 95px; text-align: center;">Pengeluaran</th>
+          <th style="width: 95px; text-align: center;">Saldo</th>
         </tr>
       </thead>
       <tbody>
-      <?php $no = 1; ?>
       <?php foreach ($hasil_data as $val ) : ?>
         <tr>
-          <td><?php echo $no++; ?></td> 
-          <td><?php echo $val->id_barang; ?></td>
-          <td><?php echo $val->nama_barang; ?></td>
-          <td><?php echo $val->nama_satuan; ?></td>
-          <td><?php echo $val->stok_awal; ?></td>
-          <td><?php echo $val->masuk; ?></td>
-          <td><?php echo $val->keluar; ?></td>
-          <td><?php echo $val->sisa_stok; ?></td>
+          <td class="text-center"><?php echo $val['tanggal']; ?></td> 
+          <td class="text-center"><?php echo $val['kode'] ?></td>
+          <td class="text-center"><?php echo $val['bukti'] ?></td>
+          <td><?php echo $val['keterangan']; ?></td>
+          <td>
+            <div>
+              <span style="float: left;">Rp. </span>
+              <span style="float: right;"><?= $val['penerimaan'];?></span>
+              <div class="clear"></div>
+            </div>
+          </td>
+          <td>
+            <div>
+              <span style="float: left;">Rp. </span>
+              <span style="float: right;"><?= $val['pengeluaran'];?></span>
+              <div class="clear"></div>
+            </div>
+          </td>  
+          <td>
+            <div>
+              <span style="float: left;">Rp. </span>
+              <span style="float: right;"><?= number_format($val['saldo_akhir'],2,",",".");?></span>
+              <div class="clear"></div>
+            </div>
+          </td>      
         </tr>
       <?php endforeach ?>
       </tbody>
     </table>
+    <table class="tbl-content-footer">
+      <tr class="content-footer-left"> 
+        <td align="left" class="content-footer-left" colspan="5">
+          <p style="text-align: left; font-size: 12px" class="content-footer-left">Pada hari ini Senin Tanggal tiga puluh bulan November Tahun dua ribu lima belas, Buku Kas Umum ditutup dengan keadaan sebagai berikut : 
+          </p>
+        </td>
+      </tr>  
+    </table>
     <table class="tbl-footer">
-        <tr>
-          <td align="left">
-            <p style="text-align: left;" class="foot-left">Dibuat Oleh </p>
-          </td>
-          <td align="center">
-            <p style="text-align: center;" class="foot-right">SPV Gudang </p>
-          </td>
-          <td align="right">
-            <p style="text-align: right;" class="foot-right">Manajer&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
-          </td>
-        </tr>
-        <tr>
-          <td align="left">
-            <?php foreach ($hasil_footer as $val ) : ?> 
-              <p style="text-align: left;" class="foot-left">( <?php echo $val->nama_lengkap_user;?> ) </p>
-            <?php endforeach ?>      
-          </td>
-          <td align="center">
-            <p style="text-align: center;" class="foot-right">( Ony Cahyono ) </p>
-          </td>
-          <td align="right">
-            <p style="text-align: right;" class="foot-right">( Suryo Putro ) </p>
-          </td>
-        </tr>
+      <tr>
+        <td align="left">
+          <p style="text-align: left;" class="foot-left"><strong>Mengetahui</strong> </p>
+          <p style="text-align: left;" class="foot-left"><strong>Kepala Sekolah</strong> </p>
+        </td>
+        <td align="right">
+          <p style="text-align: right;" class="foot-left"><strong>Surabaya, <?= date('d-m-Y');?></strong> </p>
+          <p style="text-align: right;" class="foot-right"><strong>Bendahara</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+        </td>
+      </tr>
+      <tr>
+        <td align="left">
+          <p style="text-align: left;" class="foot-left">(KHUSNUL KHOTIMAH,S.Pd) </p>
+        </td>
+
+        <td align="right">
+          <p style="text-align: right;" class="foot-right">(SITI CHOLIFAH)</p>
+        </td>
+      </tr>
     </table>
   </div>          
 </body></html>
