@@ -366,6 +366,7 @@ class Lap_bku extends CI_Controller {
 			'data_user' => $data_user,
 			'hasil_data' => $arr_data,
 			'arr_bulan' => $this->bulan_indo(),
+			'arr_hari' => $this->hari_indo(),
 			'periode' => $txtPeriode,
 			// 'hasil_footer' => $query_footer,
 			'bln_awal' => $bln_awal,
@@ -383,6 +384,13 @@ class Lap_bku extends CI_Controller {
 	{
 		return [
 			1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+		];
+	}
+
+	public function hari_indo()
+	{
+		return [
+			0 => 'Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'
 		];
 	}
 

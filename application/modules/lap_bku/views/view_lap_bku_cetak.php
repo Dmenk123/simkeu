@@ -153,6 +153,8 @@
         </tr>
       </thead>
       <tbody>
+      <?php $tanggaltxt = "";?>
+      <?php $saldoTot = "";?>
       <?php foreach ($hasil_data as $val ) : ?>
         <tr>
           <td class="text-center"><?php echo $val['tanggal']; ?></td> 
@@ -181,17 +183,29 @@
             </div>
           </td>      
         </tr>
+        <?php $tanggaltxt = $val['tanggal'];?>
+        <?php $saldoTot = $val['saldo_akhir'];?>
       <?php endforeach ?>
+        <tr>
+          <td class="text-center" colspan="6"><strong>Saldo Akhir Bulan <?php echo $arr_bulan[date('m', strtotime($tanggaltxt))]; ?></strong></td> 
+          <td>
+            <div>
+              <span style="float: left;"><strong>Rp. </strong></span>
+              <span style="float: right;"><strong><?= number_format($saldoTot,2,",",".");?></strong></span>
+              <div class="clear"></div>
+            </div>
+          </td>      
+        </tr>
       </tbody>
     </table>
-    <table class="tbl-content-footer">
+    <!-- <table class="tbl-content-footer">
       <tr class="content-footer-left"> 
         <td align="left" class="content-footer-left" colspan="5">
-          <p style="text-align: left; font-size: 12px" class="content-footer-left">Pada hari ini Senin Tanggal tiga puluh bulan November Tahun dua ribu lima belas, Buku Kas Umum ditutup dengan keadaan sebagai berikut : 
-          </p>
+          <p style="text-align: left; font-size: 12px" class="content-footer-left">Pada hari ini, <?= $arr_hari[date('w', strtotime(date('Y-m-d')))]; ?> Tanggal <?= date('d'); ?> Bulan <?= date('m'); ?> Tahun <?= date('Y'); ?>, Buku Kas Umum ditutup dengan keadaan sebagai berikut : </p>
+          <p style="text-align: left; font-size: 12px" class="content-footer-left">Saldo Buku Kas Umum bulan <?=$arr_bulan[date('m')]?>   2015 Rp. 24.749.800,-   terdiri dari :</p>
         </td>
       </tr>  
-    </table>
+    </table> -->
     <table class="tbl-footer">
       <tr>
         <td align="left">
@@ -199,7 +213,7 @@
           <p style="text-align: left;" class="foot-left"><strong>Kepala Sekolah</strong> </p>
         </td>
         <td align="right">
-          <p style="text-align: right;" class="foot-left"><strong>Surabaya, <?= date('d-m-Y');?></strong> </p>
+          <p style="text-align: right;" class="foot-left"><strong>Surabaya, <?= date('d').' '.$arr_bulan[date('m')].' '.date('Y');?></strong> </p>
           <p style="text-align: right;" class="foot-right"><strong>Bendahara</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </td>
       </tr>
