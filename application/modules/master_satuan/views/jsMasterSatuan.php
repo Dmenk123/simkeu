@@ -93,14 +93,6 @@ function edit_satuan(id)
     });
 }
 
-setInterval(function(){
-    $("#load_row").load('<?=base_url()?>pesan/load_row_notif')
-}, 2000); //menggunakan setinterval jumlah notifikasi akan selalu update setiap 2 detik diambil dari controller notifikasi fungsi load_row
- 
-setInterval(function(){
-    $("#load_data").load('<?=base_url()?>pesan/load_data_notif')
-}, 2000); //yang ini untuk selalu cek isi data notifikasinya sama setiap 2 detik diambil dari controller notifikasi fungsi load_data
-
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
@@ -131,14 +123,7 @@ function save()
 
             if(data.status) //if success close modal and reload ajax table
             {
-                if (tipe_simpan == 'tambah') {
-                  alert(data.pesan);
-                } 
-                else
-                {
-                  alert(data.pesan);
-                }
-
+                alert(data.pesan);
                 $('#modal_form').modal('hide');
                 reload_table();
             }

@@ -12,7 +12,7 @@
         Simkeu - SMP Darul Ulum Surabaya
     </title>
 
-    <meta name="dmenk-toko-online-ecommerce" content="">
+    <meta name="simkeu-darul-ulum-surabaya" content="">
 
     <link href='http://fonts.googleapis.com/css?family=Roboto:400,500,700,300,100' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" href="<?php echo config_item('assets'); ?>img/logo.png" />

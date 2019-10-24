@@ -17,7 +17,11 @@ span.error{
 }
 
 div.error{
-    color: red;
+  color: red;
+}
+
+.has-error{
+  color: red;
 }
 
 .spinftw {

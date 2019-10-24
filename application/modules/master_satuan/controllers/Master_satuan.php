@@ -64,16 +64,13 @@ class Master_satuan extends CI_Controller {
 
 	public function add()
 	{
-		// $this->_validate();
-		$nama = $this->input->post('nama');
-		$keterangan = $this->input->post('keterangan');
+		//validasi
+		$arr_valid = $this->_validate();
+		$nama = trim(strtoupper($this->input->post('nama')));
+		$keterangan = trim($this->input->post('keterangan'));
 		
-		if ($nama == '' || $keterangan == '') {
-			echo json_encode(array(
-				"status" => TRUE,
-				"pesan" => 'Mohon Lengkapi isian pada form',
-			));
-
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
 			return;
 		}
 
@@ -98,18 +95,17 @@ class Master_satuan extends CI_Controller {
 
 	public function update()
 	{
-		//$this->_validate();
+		$arr_valid = $this->_validate();
+		$nama = trim(strtoupper($this->input->post('nama')));
+		$keterangan = trim($this->input->post('keterangan'));
+
 		$data = array(
-			'nama' => $this->input->post('nama'),
-			'keterangan' => $this->input->post('keterangan')		
+			'nama' => $nama,
+			'keterangan' => $keterangan		
 		);
 
-		if ($this->input->post('nama') == '' || $this->input->post('keterangan') == '') {
-			echo json_encode(array(
-				"status" => TRUE,
-				"pesan" => 'Mohon Lengkapi isian pada form',
-			));
-
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
 			return;
 		}
 
@@ -122,7 +118,8 @@ class Master_satuan extends CI_Controller {
 
 	public function delete($id)
 	{
-		$this->m_sat->delete_by_id($id);
+		// $this->m_sat->delete_by_id($id);
+		$this->m_sat->update(['id' => $id], ['is_aktif '=> 0]);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Data Master Satuan Berhasil dihapus',
@@ -137,15 +134,17 @@ class Master_satuan extends CI_Controller {
 		$data['status'] = TRUE;
 
 		if ($this->input->post('nama') == '') {
-			$data['inputerror'][] = 'Nama';
-            $data['error_string'][] = 'Nama is required';
+			$data['inputerror'][] = 'nama';
+            $data['error_string'][] = 'Wajib mengisi nama';
             $data['status'] = FALSE;
 		}
 		if($this->input->post('keterangan') == '')
         {
-            $data['inputerror'][] = 'Keterangan';
-            $data['error_string'][] = 'Keterangan is required';
+            $data['inputerror'][] = 'keterangan';
+            $data['error_string'][] = 'Wajib mengisi Keterangan';
             $data['status'] = FALSE;
         }
+	
+        return $data;
 	}
 }

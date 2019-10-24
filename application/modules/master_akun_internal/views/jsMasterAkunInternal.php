@@ -149,24 +149,21 @@ function save()
 
             if(data.status) //if success close modal and reload ajax table
             {
-                if (tipe_simpan == 'tambah') {
-                  alert(data.pesan);
-                } 
-                else
-                {
-                  alert(data.pesan);
-                }
-
+                alert(data.pesan);
                 $('#modal_form').modal('hide');
                 reload_table();
             }
             else
             {
+                var kampos = "";
                 for (var i = 0; i < data.inputerror.length; i++) 
                 {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    //$('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                    //$('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    kampos += "<p>"+data.error_string[i]+"</p>";
                 }
+
+                $('.panel-pesan-error').html(kampos);
             }
             $('#btnSave').text('save'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 

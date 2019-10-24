@@ -17,7 +17,7 @@ class Mod_satuan extends CI_Model
 	{
 		
 		$this->db->from($this->table);
-
+		$this->db->where('is_aktif', 1);
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 

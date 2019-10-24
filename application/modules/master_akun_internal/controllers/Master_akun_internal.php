@@ -39,26 +39,27 @@ class Master_akun_internal extends CI_Controller {
 		foreach ($list as $val) {
 			$no++;
 			$row = array();
-			
-			if ($val->nama_sub != null) {
-				$txtNamaIndex = $val->nama_sub;
-			}else{
-				$q = $this->db->query("SELECT nama from tbl_master_kode_akun_internal WHERE kode = '".$val->kode."' and sub_1 is null and sub_2 is null")->row();
-				$txtNamaIndex = $q->nama;
+			if ($val->sub_1 != null || $val->sub_2 != null) {
+				if ($val->nama_sub != null) {
+					$txtNamaIndex = $val->nama_sub;
+				}else{
+					$q = $this->db->query("SELECT nama from tbl_master_kode_akun_internal WHERE kode = '".$val->kode."' and sub_1 is null and sub_2 is null")->row();
+					$txtNamaIndex = $q->nama;
+				}
+
+				$row[] = $no;
+				$row[] = $txtNamaIndex;
+				$row[] = $val->nama;
+				$row[] = $val->kode_in_text;
+
+				//add html for action
+				$row[] = '
+						<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+				';
+
+				$data[] = $row;
 			}
-
-			$row[] = $no;
-			$row[] = $txtNamaIndex;
-			$row[] = $val->nama;
-			$row[] = $val->kode_in_text;
-
-			//add html for action
-			$row[] = '
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
-			';
-
-			$data[] = $row;
 		}//end loop
 
 		$output = array(
@@ -73,16 +74,12 @@ class Master_akun_internal extends CI_Controller {
 
 	public function add()
 	{
-		// $this->_validate();
+		$arr_valid = $this->_validate();
 		$kat_akun = $this->input->post('kat_akun');
 		$nama = $this->input->post('nama');
 		
-		if ($nama == '' || $kat_akun == '') {
-			echo json_encode(array(
-				"status" => TRUE,
-				"pesan" => 'Mohon Lengkapi isian pada form',
-			));
-
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
 			return;
 		}
 
@@ -212,15 +209,17 @@ class Master_akun_internal extends CI_Controller {
 		$data['status'] = TRUE;
 
 		if ($this->input->post('nama') == '') {
-			$data['inputerror'][] = 'Nama';
-            $data['error_string'][] = 'Nama is required';
+			$data['inputerror'][] = 'nama';
+            $data['error_string'][] = 'Nama wajib di isi';
             $data['status'] = FALSE;
 		}
-		if($this->input->post('keterangan') == '')
+		if($this->input->post('kat_akun') == '')
         {
-            $data['inputerror'][] = 'Keterangan';
-            $data['error_string'][] = 'Keterangan is required';
+            $data['inputerror'][] = 'kat_akun';
+            $data['error_string'][] = 'Kategori Akun Wajib di isi';
             $data['status'] = FALSE;
         }
+		
+		return $data;
 	}
 }
