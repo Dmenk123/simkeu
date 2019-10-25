@@ -1,18 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Mod_master_akun_internal extends CI_Model
+class Mod_master_akun_eksternal extends CI_Model
 {
-	var $table = 'tbl_master_kode_akun_internal';
-	var $column_order = array('tmkai.nama','tmkai.kode_in_text',null); //set column field database for datatable orderable
-	var $column_search = array('tmkai.nama','tmkai.kode_in_text'); //set column field database for datatable searchable just username are searchable
-	/* var $order = array(
-		'tmkai.kode' => 'asc',
-		'tmkai.sub_1' => 'asc',
-		'tmkai.sub_2' => 'asc',
-		'tmkai.nama' => 'asc'
-	); // default order  */
-
-	var $order = array('tmkai.kode, tmkai.sub_1, tmkai.sub_2, tmkai.nama'); // default order 
+	var $table = 'tbl_master_kode_akun';
+	var $column_order = array('tmka.nama','tmka.kode_in_text',null); //set column field database for datatable orderable
+	var $column_search = array('tmka.nama','tmka.kode_in_text'); //set column field database for datatable searchable
+	var $order = array('tmka.tipe, tmka.sub_1, tmka.sub_2, tmka.kode, tmka.nama'); // default order 
 
 	public function __construct()
 	{
@@ -23,24 +16,25 @@ class Mod_master_akun_internal extends CI_Model
 	private function _get_datatables_query($term='') //term is value of $_REQUEST['search']
 	{
 		$column = array(
-			"tmkai.nama",
+			"tmka.nama",
 			"tblsub.nama as nama_sub",
-			"tmkai.kode_in_text",
+			"tmka.kode_in_text",
 			null,
 		);
 		
 		$this->db->select("
-			tmkai.*,
+			tmka.*,
 			tblsub.nama as nama_sub
 		");
 		
-		$this->db->from('tbl_master_kode_akun_internal as tmkai');
+		$this->db->from('tbl_master_kode_akun as tmka');
 		$this->db->join(
-			'(SELECT tbl_master_kode_akun_internal.*
-			  FROM tbl_master_kode_akun_internal
-              WHERE sub_1 is null and sub_2 is null) tblsub','tmkai.kode_in_text = tblsub.kode_in_text', 'left'
+			'(SELECT tbl_master_kode_akun.*
+			  FROM tbl_master_kode_akun
+              WHERE sub_1 is null and sub_2 is null) tblsub','tmka.kode_in_text = tblsub.kode_in_text', 'left'
 		);
-		$this->db->order_by('tmkai.kode , tmkai.sub_1 , tmkai.sub_2 , tmkai.nama');
+		$this->db->where('tmka.is_aktif', 1);
+		$this->db->order_by(' tmka.tipe, tmka.sub_1, tmka.sub_2, tmka.kode, tmka.nama');
 
 		$i = 0;
 		foreach ($this->column_search as $item) 
@@ -98,14 +92,14 @@ class Mod_master_akun_internal extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	public function lookup_kode_akun_internal($keyword="")
+	public function lookup_kode_akun($keyword="")
 	{
 		$this->db->select('*');
-		$this->db->from('tbl_master_kode_akun_internal');
+		$this->db->from('tbl_master_kode_akun');
 		$this->db->like('nama',$keyword);
 		$this->db->where('sub_1 is null');
 		$this->db->where('sub_2 is null');
-		$this->db->order_by('kode, sub_1, sub_2', 'asc');
+		$this->db->order_by('tipe, sub_1, sub_2, kode', 'asc');
 		
 		$query = $this->db->get();
 		return $query->result();

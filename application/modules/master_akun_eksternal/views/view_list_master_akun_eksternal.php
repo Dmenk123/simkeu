@@ -2,11 +2,11 @@
     <section class="content-header">
       <h1>
         Daftar
-        <small>Master Akun Internal</small>
+        <small>Master Akun Eksternal</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li class="active">Master Akun Internal</li>
+        <li class="active">Master Akun Eksternal</li>
       </ol>
     </section>
 
@@ -25,7 +25,6 @@
                 <table id="tabelSatuan" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>No</th>
                       <th>Parent Akun</th>
                       <th>Nama Akun</th>
                       <th>Kode Akun</th>

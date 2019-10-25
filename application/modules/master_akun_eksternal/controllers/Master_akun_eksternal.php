@@ -1,14 +1,14 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Master_akun_internal extends CI_Controller {
+class Master_akun_eksternal extends CI_Controller {
 	
 	public function __construct()
 	{
 		parent::__construct();
 		//profil data
 		$this->load->model('profil/mod_profil','prof');
-		$this->load->model('mod_master_akun_internal','akun_i');
+		$this->load->model('mod_master_akun_eksternal','akun');
 	}
 
 	public function index()
@@ -21,50 +21,52 @@ class Master_akun_internal extends CI_Controller {
 		);
 
 		$content = [
-			'css' 	=> 'cssMasterAkunInternal',
-			'modal' => 'modalMasterAkunInternal',
-			'js'	=> 'jsMasterAkunInternal',
-			'view'	=> 'view_list_master_akun_internal'
+			'css' 	=> 'cssMasterAkunEksternal',
+			'modal' => 'modalMasterAkunEksternal',
+			'js'	=> 'jsMasterAkunEksternal',
+			'view'	=> 'view_list_master_akun_eksternal'
 		];
 
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_akun_internal()
+	public function list_akun_eksternal()
 	{
 		$txtNamaIndex = "";
-		$list = $this->akun_i->get_datatables();
+		$list = $this->akun->get_datatables();
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $val) {
-			$no++;
+			// $no++;
 			$row = array();
-			
-			if ($val->nama_sub != null) {
-				$txtNamaIndex = $val->nama_sub;
-			}else{
-				$q = $this->db->query("SELECT nama from tbl_master_kode_akun_internal WHERE kode = '".$val->kode."' and sub_1 is null and sub_2 is null")->row();
-				$txtNamaIndex = $q->nama;
+			if ($val->sub_1 != null || $val->sub_2 != null) {
+				if ($val->nama_sub != null) {
+					$txtNamaIndex = $val->nama_sub;
+				}else{
+					$q = $this->db->query("SELECT nama from tbl_master_kode_akun WHERE kode = '".$val->kode."' and sub_1 is null and sub_2 is null")->row();
+					$txtNamaIndex = $q->nama;
+				}
+
+				// $row[] = $no;
+				$row[] = $txtNamaIndex;
+				$row[] = $val->nama;
+				$row[] = $val->kode_in_text;
+
+				$str_unique = $val->tipe.'-'.$val->kode_in_text;
+				//add html for action
+				$row[] = '
+						<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_akun('."'".$str_unique."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_akun('."'".$str_unique."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+				';
+
+				$data[] = $row;
 			}
-
-			$row[] = $no;
-			$row[] = $txtNamaIndex;
-			$row[] = $val->nama;
-			$row[] = $val->kode_in_text;
-
-			//add html for action
-			$row[] = '
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_akun('."'".$val->kode_in_text."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
-			';
-
-			$data[] = $row;
 		}//end loop
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->akun_i->count_all(),
-			"recordsFiltered" => $this->akun_i->count_filtered(),
+			"recordsTotal" => $this->akun->count_all(),
+			"recordsFiltered" => $this->akun->count_filtered(),
 			"data" => $data,
 		);
 		//output to json format
@@ -73,16 +75,12 @@ class Master_akun_internal extends CI_Controller {
 
 	public function add()
 	{
-		// $this->_validate();
+		$arr_valid = $this->_validate();
 		$kat_akun = $this->input->post('kat_akun');
 		$nama = $this->input->post('nama');
 		
-		if ($nama == '' || $kat_akun == '') {
-			echo json_encode(array(
-				"status" => TRUE,
-				"pesan" => 'Mohon Lengkapi isian pada form',
-			));
-
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
 			return;
 		}
 
@@ -90,7 +88,7 @@ class Master_akun_internal extends CI_Controller {
 		$kode = $arr_akun[0];
 		$kode_in_text = $arr_akun[1];
 
-		$q = $this->db->query("select max(sub_1) as last_sub1 from tbl_master_kode_akun_internal where kode = '".$kode."'")->row();
+		$q = $this->db->query("select max(sub_1) as last_sub1 from tbl_master_kode_akun where kode = '".$kode."'")->row();
 		if ($q->last_sub1 == null) {
 			$kode_sub1_final = 1;
 		}else{
@@ -109,7 +107,7 @@ class Master_akun_internal extends CI_Controller {
 			'kode_in_text' => $kode.'.'.$kode_sub1_final
 		);
 
-		$insert = $this->akun_i->save($data);
+		$insert = $this->akun->save($data);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Master Akun Internal Berhasil ditambahkan',
@@ -123,11 +121,11 @@ class Master_akun_internal extends CI_Controller {
 			$q = '';
 		}
 		
-		$query = $this->akun_i->lookup_kode_akun_internal($q);
+		$query = $this->akun->lookup_kode_akun($q);
 		
 		foreach ($query as $row) {
 			$akun[] = array(
-				'id' => $row->kode.'-'.$row->kode_in_text,
+				'id' => $row->tipe.'-'.$row->kode_in_text,
 				'text' => $row->kode_in_text.' - '.$row->nama
 			);
 		}
@@ -136,8 +134,8 @@ class Master_akun_internal extends CI_Controller {
 
 	public function edit($id)
 	{
-		$data = $this->akun_i->get_by_id($id);
-		$q = $this->db->query("select * from tbl_master_kode_akun_internal where kode = '".$data->kode."' and sub_1 is null and sub_2 is null")->row();
+		$data = $this->akun->get_by_id($id);
+		$q = $this->db->query("select * from tbl_master_kode_akunnternal where kode = '".$data->kode."' and sub_1 is null and sub_2 is null")->row();
 		
 		$hasil = [
 			'nama' => $data->nama,
@@ -188,7 +186,7 @@ class Master_akun_internal extends CI_Controller {
 			return;
 		}
 
-		$this->akun_i->update(array('kode_in_text' => $this->input->post('id')), $data);
+		$this->akun->update(array('kode_in_text' => $this->input->post('id')), $data);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Master Satuan Berhasil diupdate',
@@ -197,10 +195,11 @@ class Master_akun_internal extends CI_Controller {
 
 	public function delete($id)
 	{
-		$this->akun_i->delete_by_id($id);
+		// $this->m_sat->delete_by_id($id);
+		$this->akun->update(['kode_in_text' => $id], ['is_aktif '=> 0]);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Data Master Satuan Berhasil dihapus',
+			"pesan" => 'Data Master Akun Internal Berhasil dihapus',
 		));
 	}
 
@@ -212,15 +211,17 @@ class Master_akun_internal extends CI_Controller {
 		$data['status'] = TRUE;
 
 		if ($this->input->post('nama') == '') {
-			$data['inputerror'][] = 'Nama';
-            $data['error_string'][] = 'Nama is required';
+			$data['inputerror'][] = 'nama';
+            $data['error_string'][] = 'Nama wajib di isi';
             $data['status'] = FALSE;
 		}
-		if($this->input->post('keterangan') == '')
+		if($this->input->post('kat_akun') == '')
         {
-            $data['inputerror'][] = 'Keterangan';
-            $data['error_string'][] = 'Keterangan is required';
+            $data['inputerror'][] = 'kat_akun';
+            $data['error_string'][] = 'Kategori Akun Wajib di isi';
             $data['status'] = FALSE;
         }
+		
+		return $data;
 	}
 }

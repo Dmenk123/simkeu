@@ -40,6 +40,7 @@ class Mod_master_akun_internal extends CI_Model
 			  FROM tbl_master_kode_akun_internal
               WHERE sub_1 is null and sub_2 is null) tblsub','tmkai.kode_in_text = tblsub.kode_in_text', 'left'
 		);
+		$this->db->where('tmkai.is_aktif', 1);
 		$this->db->order_by('tmkai.kode , tmkai.sub_1 , tmkai.sub_2 , tmkai.nama');
 
 		$i = 0;

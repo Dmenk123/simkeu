@@ -13,7 +13,7 @@ $(document).ready(function() {
 		"processing": true, //feature control the processing indicator
 		"serverSide": true, //feature control DataTables server-side processing mode
 		"order":[], //initial no order
-
+        "lengthMenu": [ [25, 50, 100, -1], [25, 50, 100, "All"] ],
 		//load data for table content from ajax source
 		"ajax": {
 			"url": "<?php echo site_url('master_akun_internal/list_akun_internal') ?>",
@@ -50,22 +50,10 @@ $(document).ready(function() {
         },
     });
 
-    //update dt_read after click
-    $(document).on('click', '.linkNotif', function(){
-        var id = $(this).attr('id');
-        $.ajax({
-            url : "<?php echo site_url('inbox/update_read/')?>/" + id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-                location.href = "<?php echo site_url('inbox/index')?>";
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
+    $('#modal_form').on('hidden.bs.modal', function () {
+        $(this).find("input,textarea,select").val('').end();
+        $('#form')[0].reset();
+        $('.panel-pesan-error').text('');
     });
 });	
 
@@ -111,14 +99,6 @@ function edit_akun(id)
     });
 }
 
-setInterval(function(){
-    $("#load_row").load('<?=base_url()?>pesan/load_row_notif')
-}, 2000); //menggunakan setinterval jumlah notifikasi akan selalu update setiap 2 detik diambil dari controller notifikasi fungsi load_row
- 
-setInterval(function(){
-    $("#load_data").load('<?=base_url()?>pesan/load_data_notif')
-}, 2000); //yang ini untuk selalu cek isi data notifikasinya sama setiap 2 detik diambil dari controller notifikasi fungsi load_data
-
 function reload_table()
 {
     table.ajax.reload(null,false); //reload datatable ajax 
@@ -160,7 +140,7 @@ function save()
                 {
                     //$('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
                     //$('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
-                    kampos += "<p>"+data.error_string[i]+"</p>";
+                    kampos += "<p class='bg-red-active'>"+data.error_string[i]+"</p>";
                 }
 
                 $('.panel-pesan-error').html(kampos);
@@ -180,13 +160,13 @@ function save()
     });
 }
 
-function delete_satuan(id)
+function delete_akun(id)
 {
     if(confirm('Yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('master_satuan/delete')?>/"+id,
+            url : "<?php echo site_url('master_akun_internal/delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

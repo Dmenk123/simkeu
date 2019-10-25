@@ -194,10 +194,11 @@ class Master_akun_internal extends CI_Controller {
 
 	public function delete($id)
 	{
-		$this->akun_i->delete_by_id($id);
+		// $this->m_sat->delete_by_id($id);
+		$this->akun_i->update(['kode_in_text' => $id], ['is_aktif '=> 0]);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Data Master Satuan Berhasil dihapus',
+			"pesan" => 'Data Master Akun Internal Berhasil dihapus',
 		));
 	}
 
