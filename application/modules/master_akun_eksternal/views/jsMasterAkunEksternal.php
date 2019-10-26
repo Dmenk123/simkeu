@@ -76,7 +76,7 @@ function edit_akun(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('master_akun_internal/edit/')?>/" + id,
+        url : "<?php echo site_url('master_akun_eksternal/edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -89,7 +89,7 @@ function edit_akun(id)
             $('[name="kat_akun"]').append($newOption).trigger('change');
             
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Master Akun Internal'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit Master Akun Eksternal'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -111,10 +111,10 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('master_akun_internal/add')?>";
+        url = "<?php echo site_url('master_akun_eksternal/add')?>";
         tipe_simpan = 'tambah';
     } else {
-        url = "<?php echo site_url('master_akun_internal/update')?>";
+        url = "<?php echo site_url('master_akun_eksternal/update')?>";
         tipe_simpan = 'update';
     }
 
@@ -166,7 +166,7 @@ function delete_akun(id)
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('master_akun_internal/delete')?>/"+id,
+            url : "<?php echo site_url('master_akun_eksternal/delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

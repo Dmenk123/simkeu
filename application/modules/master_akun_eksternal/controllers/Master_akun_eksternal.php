@@ -134,13 +134,17 @@ class Master_akun_eksternal extends CI_Controller {
 
 	public function edit($id)
 	{
-		$data = $this->akun->get_by_id($id);
-		$q = $this->db->query("select * from tbl_master_kode_akunnternal where kode = '".$data->kode."' and sub_1 is null and sub_2 is null")->row();
+		$arr_akun = explode("-",$id);
+		$kode = $arr_akun[1];
+		$tipe = $arr_akun[0];
+		$data = $this->db->get_Where('tbl_master_kode_akun', ['tipe' => $tipe, 'kode_in_text' => $kode])->row();
+		
+		$q = $this->db->query("select * from tbl_master_kode_akun where tipe = '".$tipe."' and kode = '".$data->kode."' and sub_1 is null and sub_2 is null")->row();
 		
 		$hasil = [
 			'nama' => $data->nama,
 			'id' => $data->kode_in_text,
-			'kat_id' => $q->kode.'-'.$data->kode_in_text,
+			'kat_id' => $q->kode.'-'.$data->kode_in_text.'-'.$tipe,
 			'kat_text' => $q->kode_in_text.' - '.$q->nama
 		];
 		
@@ -149,11 +153,17 @@ class Master_akun_eksternal extends CI_Controller {
 
 	public function update()
 	{
-		//$this->_validate();
+		$arr_valid = $this->_validate();
 		$arr_akun = explode("-", $this->input->post('kat_akun'));
 		
 		$kode = $arr_akun[0];
 		$kode_in_text = $arr_akun[1];
+		$tipe = $arr_akun[2];
+
+		if ($arr_valid['status'] == FALSE) {
+			echo json_encode($arr_valid);
+			return;
+		}
 
 		$kode_akun = null;
 		$sub1_akun = null;
@@ -174,19 +184,13 @@ class Master_akun_eksternal extends CI_Controller {
 			'kode' => $kode,
 			'sub_1' => $sub1_akun,
 			'sub_2' => $sub2_akun,
-			'kode_in_text' => $arr_akun[1]
+			'kode_in_text' => $kode_in_text
 		);
 
-		if ($this->input->post('nama') == '' || $this->input->post('kat_akun') == '') {
-			echo json_encode(array(
-				"status" => TRUE,
-				"pesan" => 'Mohon Lengkapi isian pada form',
-			));
+		$this->akun->update([
+			'kode_in_text' => $kode_in_text, 'tipe' => $tipe], $data
+		);
 
-			return;
-		}
-
-		$this->akun->update(array('kode_in_text' => $this->input->post('id')), $data);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Master Satuan Berhasil diupdate',
@@ -196,10 +200,13 @@ class Master_akun_eksternal extends CI_Controller {
 	public function delete($id)
 	{
 		// $this->m_sat->delete_by_id($id);
-		$this->akun->update(['kode_in_text' => $id], ['is_aktif '=> 0]);
+		$arr_akun = explode("-",$id);
+		$kode = $arr_akun[1];
+		$tipe = $arr_akun[0];
+		$this->akun->update(['kode_in_text' => $kode, 'tipe' => $tipe], ['is_aktif '=> 0]);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Data Master Akun Internal Berhasil dihapus',
+			"pesan" => 'Data Master Akun Eksternal Berhasil dihapus',
 		));
 	}
 
