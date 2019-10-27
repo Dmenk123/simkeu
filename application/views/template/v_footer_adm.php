@@ -48,6 +48,7 @@
     <script src="<?php echo config_item('assets')?>datatables/dataTables.bootstrap.min.js"></script>
     <script src="<?php echo config_item('assets')?>js/sweetalert.min.js"></script>
     <script src="<?php echo config_item('assets')?>js/jquery-maskmoney.min.js"></script>
+    <script src="<?php echo config_item('assets')?>js/dobpicker.js"></script>
     <!-- load js per modul -->
     <?php
     if(isset($js)){
@@ -75,7 +76,7 @@
                   alert('Error get data from ajax');
               }
           });
-      });
+      });      
     });
     //end jquery
 
