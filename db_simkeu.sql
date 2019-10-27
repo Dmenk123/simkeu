@@ -11,11 +11,31 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 24/10/2019 23:51:24
+ Date: 28/10/2019 00:29:30
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for tbl_guru
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_guru`;
+CREATE TABLE `tbl_guru`  (
+  `id` int(12) NOT NULL AUTO_INCREMENT,
+  `nip` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `kode_jabatan` int(12) NULL DEFAULT NULL,
+  `alamat` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tempat_lahir` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tanggal_lahir` date NULL DEFAULT NULL,
+  `jenis_kelamin` varchar(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'L: Laki2, P: Perempuan',
+  `foto` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `is_aktif` int(1) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `kode_jabatan`(`kode_jabatan`) USING BTREE,
+  CONSTRAINT `tbl_guru_ibfk_1` FOREIGN KEY (`kode_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for tbl_hak_akses
@@ -43,15 +63,41 @@ INSERT INTO `tbl_hak_akses` VALUES (104, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (105, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (106, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (107, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (114, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (115, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (116, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (117, 1, 1, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (100, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (101, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (102, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (103, 1, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (108, 1, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (109, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (110, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (111, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (112, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (113, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (99, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (98, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (97, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (108, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (109, 1, 0, 0, 0);
+
+-- ----------------------------
+-- Table structure for tbl_jabatan
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_jabatan`;
+CREATE TABLE `tbl_jabatan`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `nama` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `tunjangan` double(20, 2) NULL DEFAULT NULL,
+  `is_aktif` int(1) NULL DEFAULT 1,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_jabatan
+-- ----------------------------
+INSERT INTO `tbl_jabatan` VALUES (1, 'WALI KELAS', 75000.00, 1);
+INSERT INTO `tbl_jabatan` VALUES (2, 'KEPALA SEKOLAH', 1235000.00, 1);
 
 -- ----------------------------
 -- Table structure for tbl_lap_bku
@@ -135,6 +181,7 @@ CREATE TABLE `tbl_master_kode_akun`  (
   `sub_1` int(3) NULL DEFAULT NULL,
   `sub_2` int(3) NULL DEFAULT NULL,
   `kode_in_text` varchar(10) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `is_aktif` int(1) NULL DEFAULT 1,
   INDEX `tipe`(`tipe`) USING BTREE,
   INDEX `kode`(`kode`) USING BTREE,
   INDEX `sub_1`(`sub_1`) USING BTREE,
@@ -144,105 +191,105 @@ CREATE TABLE `tbl_master_kode_akun`  (
 -- ----------------------------
 -- Records of tbl_master_kode_akun
 -- ----------------------------
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan kompetensi sekolah', 1, 1, NULL, NULL, '1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Kompetensi Ketuntasan Minimal', 1, 1, 1, NULL, '1.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan kreteria kenaikan kelas', 1, 1, 2, NULL, '1.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Uji Coba UASBN/UN TK.LP MA\'ARIF', 1, 1, 3, NULL, '1.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Uji Coba UASBN/UN TK.Kota', 1, 1, 4, NULL, '1.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar isi', 1, 2, NULL, NULL, '2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan pembagian tugas guru dan jadwal pelajaran', 1, 2, 1, NULL, '2.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan program tahunan', 1, 2, 2, NULL, '2.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Program Semester', 1, 2, 3, NULL, '2.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan silabus', 1, 2, 4, NULL, '2.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan MGMP dan diskusi jum\'at LP Ma\'arif', 1, 2, 5, NULL, '2.5');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan RPP', 1, 2, 6, NULL, '2.6');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar Proses', 1, 3, NULL, NULL, '3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan Pengelolaan Kegiatan Belajar Mengajar', 1, 3, 1, NULL, '3.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan sarana penunjang KBM(ATK KBM)', 1, 3, 1, 1, '3.1.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan Alat Pembelajaran(seluruh mapel termasuk OR)', 1, 3, 1, 2, '3.1.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Program Kesiswaan', 1, 3, 2, NULL, '3.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan program perlombaan 17 Agustus', 1, 3, 2, 1, '3.2.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Pendaftaran Peserta Didik Baru(PPDB)', 1, 3, 2, 2, '3.2.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan kegiatan los', 1, 3, 2, 3, '3.2.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan pertandingan futsal', 1, 3, 2, 4, '3.2.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Penyembelihan hewan qurban', 1, 3, 2, 5, '3.2.5');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Program Ekstrakulikuler', 1, 3, 3, NULL, '3.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan program kesiswaan', 1, 3, 3, 1, '3.3.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('pelaksanaan ekstrakulikuler kepramukaan', 1, 3, 3, 2, '3.3.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan Pendidik dan Tenaga Kependidikan', 1, 4, NULL, NULL, '4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Guru di Gugus', 1, 4, 1, NULL, '4.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Peningkatan kualitas guru kelas,mata pelajaran', 1, 4, 1, 1, '4.1.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Peningkatan Kompetensi Kepala Sekolah', 1, 4, 1, 2, '4.1.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Tenaga Kependidikan :', 1, 4, 2, NULL, '4.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Tenaga Ketatausahaan', 1, 4, 2, 1, '4.2.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Kepsek,WK.Kesiswaan,BK,Osis', 1, 4, 2, 2, '4.2.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan sarana dan prasarana sekolah', 1, 5, NULL, NULL, '5');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan,pemeliharaan dan perawatan alat kantor/inventaris kantor', 1, 5, 1, NULL, '5.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('service printer', 1, 5, 1, 1, '5.1.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pembelian bola sepak', 1, 5, 1, 2, '5.1.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('batrei spiker,corong toa,ampli targa', 1, 5, 1, 3, '5.1.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('eccosp panasonik,print raport,modem,bor ,mata bor', 1, 5, 1, 4, '5.1.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('kipas angin dan hexos,alat kebersihan', 1, 5, 1, 5, '5.1.5');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pemeliharaan dan perbaikan gudang :', 1, 5, 2, NULL, '5.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengelasan pagar besi', 1, 5, 2, 1, '5.2.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pemasangan Keramik ruang kelas', 1, 5, 2, 2, '5.2.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pembuatan Papan tulis whaiteboard', 1, 5, 2, 3, '5.2.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan dan perawatan Meubelair :', 1, 5, 3, NULL, '5.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Meja kursi murid', 1, 5, 3, 1, '5.3.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Meja kursi guru', 1, 5, 3, 2, '5.3.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar pengelolaan', 1, 6, NULL, NULL, '6');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan pengembangan manajemen sekolah', 1, 6, 1, NULL, '6.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Visi dan Misi', 1, 6, 1, 1, '6.1.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Profil Sekolah', 1, 6, 1, 2, '6.1.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan pengelolaan perkantoran', 1, 6, 2, NULL, '6.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan program ketatausahaan', 1, 6, 2, 1, '6.2.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan sarana pendukung perkantoran', 1, 6, 2, 2, '6.2.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan supervisi,Monitoring dan Evaluasi', 1, 6, 3, NULL, '6.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Program supervisi,Monitoring dan Evaluasi', 1, 6, 3, 1, '6.3.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('supervisi akademik', 1, 6, 3, 2, '6.3.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan Hubungan Masyarakat', 1, 6, 4, NULL, '6,4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan sistem informasi manajemen', 1, 6, 4, 1, '6.4.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Leafleat', 1, 6, 4, 2, '6.4.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar pembiayaan', 1, 7, NULL, NULL, '7');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan rumah tangga sekolah,daya dan jasa', 1, 7, 1, NULL, '7.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Konsumsi Rapat Dinas', 1, 7, 1, 1, '7.1.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Konsumsi 1 Muharam', 1, 7, 1, 2, '7.1.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Konsumsi Jalan sehat 10 November', 1, 7, 1, 3, '7.1.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Biaya Transportasi kegiatan guru', 1, 7, 1, 4, '7.1.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Biaya Transportasi kegiatan siswa', 1, 7, 1, 5, '7.1.5');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan dan implementasi sistem penilaian', 1, 8, NULL, NULL, '8');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan kisi-kisi :', 1, 8, 1, NULL, '8.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan harian', 1, 8, 1, 1, '8.1.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Tengah semester', 1, 8, 1, 2, '8.1.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Akhir semester', 1, 8, 1, 3, '8.1.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ujian praktek Agama', 1, 8, 1, 4, '8.1.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan soal', 1, 8, 2, NULL, '8.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan harian', 1, 8, 2, 1, '8.2.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Tengah semester', 1, 8, 2, 2, '8.2.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Akhir semester', 1, 8, 2, 3, '8.2.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Penilaian', 1, 8, 3, NULL, '8.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan harian', 1, 8, 3, 1, '8.3.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Tengah semester', 1, 8, 3, 2, '8.3.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Akhir semester', 1, 8, 3, 3, '8.3.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan kenaikan kelas', 1, 8, 3, 4, '8.3.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan ujian praktek', 1, 8, 4, NULL, '8.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('tindak lanjut hasil penilaian', 1, 8, 5, NULL, '8.5');
-INSERT INTO `tbl_master_kode_akun` VALUES ('analisis', 1, 8, 5, 1, '8.5.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('remedial', 1, 8, 5, 2, '8.5.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('pengayaan', 1, 8, 5, 3, '8.5.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penilaian lainnya', 1, 8, 6, NULL, '8.6');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Portofolio', 1, 8, 6, 1, '8.6.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Proyek', 1, 8, 6, 2, '8.6.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penugasan', 1, 8, 6, 3, '8.6.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Inovasi model penilaian', 1, 8, 7, NULL, '8.7');
-INSERT INTO `tbl_master_kode_akun` VALUES ('workshop', 1, 8, 7, 1, '8.7.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('IHT', 1, 8, 7, 2, '8.7.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Pelatihan', 1, 8, 7, 3, '8.7.3');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Study banding', 1, 8, 7, 4, '8.7.4');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, NULL, NULL, NULL, '2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Alat tulis kantor', 2, 2, 1, NULL, '2.1');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Bahan dan alat habis pakai', 2, 2, 2, NULL, '2.2');
-INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Pegawai', 2, 2, 3, NULL, '2.3');
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan kompetensi sekolah', 1, 1, NULL, NULL, '1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Kompetensi Ketuntasan Minimal', 1, 1, 1, NULL, '1.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan kreteria kenaikan kelas', 1, 1, 2, NULL, '1.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Uji Coba UASBN/UN TK.LP MA\'ARIF', 1, 1, 3, NULL, '1.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Uji Coba UASBN/UN TK.Kota', 1, 1, 4, NULL, '1.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar isi', 1, 2, NULL, NULL, '2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan pembagian tugas guru dan jadwal pelajaran', 1, 2, 1, NULL, '2.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan program tahunan', 1, 2, 2, NULL, '2.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Program Semester', 1, 2, 3, NULL, '2.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan silabus', 1, 2, 4, NULL, '2.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan MGMP dan diskusi jum\'at LP Ma\'arif', 1, 2, 5, NULL, '2.5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan RPP', 1, 2, 6, NULL, '2.6', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar Proses', 1, 3, NULL, NULL, '3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan Pengelolaan Kegiatan Belajar Mengajar', 1, 3, 1, NULL, '3.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan sarana penunjang KBM(ATK KBM)', 1, 3, 1, 1, '3.1.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan Alat Pembelajaran(seluruh mapel termasuk OR)', 1, 3, 1, 2, '3.1.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Program Kesiswaan', 1, 3, 2, NULL, '3.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan program perlombaan 17 Agustus', 1, 3, 2, 1, '3.2.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Pendaftaran Peserta Didik Baru(PPDB)', 1, 3, 2, 2, '3.2.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan kegiatan los', 1, 3, 2, 3, '3.2.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan pertandingan futsal', 1, 3, 2, 4, '3.2.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Penyembelihan hewan qurban', 1, 3, 2, 5, '3.2.5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Program Ekstrakulikuler', 1, 3, 3, NULL, '3.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan program kesiswaan', 1, 3, 3, 1, '3.3.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('pelaksanaan ekstrakulikuler kepramukaan', 1, 3, 3, 2, '3.3.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan Pendidik dan Tenaga Kependidikan', 1, 4, NULL, NULL, '4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Guru di Gugus', 1, 4, 1, NULL, '4.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Peningkatan kualitas guru kelas,mata pelajaran', 1, 4, 1, 1, '4.1.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Peningkatan Kompetensi Kepala Sekolah', 1, 4, 1, 2, '4.1.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Tenaga Kependidikan :', 1, 4, 2, NULL, '4.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Tenaga Ketatausahaan', 1, 4, 2, 1, '4.2.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pembinaan Kepsek,WK.Kesiswaan,BK,Osis', 1, 4, 2, 2, '4.2.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan sarana dan prasarana sekolah', 1, 5, NULL, NULL, '5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan,pemeliharaan dan perawatan alat kantor/inventaris kantor', 1, 5, 1, NULL, '5.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('service printer', 1, 5, 1, 1, '5.1.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pembelian bola sepak', 1, 5, 1, 2, '5.1.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('batrei spiker,corong toa,ampli targa', 1, 5, 1, 3, '5.1.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('eccosp panasonik,print raport,modem,bor ,mata bor', 1, 5, 1, 4, '5.1.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('kipas angin dan hexos,alat kebersihan', 1, 5, 1, 5, '5.1.5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pemeliharaan dan perbaikan gudang :', 1, 5, 2, NULL, '5.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengelasan pagar besi', 1, 5, 2, 1, '5.2.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pemasangan Keramik ruang kelas', 1, 5, 2, 2, '5.2.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pembuatan Papan tulis whaiteboard', 1, 5, 2, 3, '5.2.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan dan perawatan Meubelair :', 1, 5, 3, NULL, '5.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Meja kursi murid', 1, 5, 3, 1, '5.3.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Meja kursi guru', 1, 5, 3, 2, '5.3.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar pengelolaan', 1, 6, NULL, NULL, '6', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan pengembangan manajemen sekolah', 1, 6, 1, NULL, '6.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Visi dan Misi', 1, 6, 1, 1, '6.1.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Profil Sekolah', 1, 6, 1, 2, '6.1.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan pengelolaan perkantoran', 1, 6, 2, NULL, '6.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan program ketatausahaan', 1, 6, 2, 1, '6.2.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan sarana pendukung perkantoran', 1, 6, 2, 2, '6.2.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan supervisi,Monitoring dan Evaluasi', 1, 6, 3, NULL, '6.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Program supervisi,Monitoring dan Evaluasi', 1, 6, 3, 1, '6.3.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('supervisi akademik', 1, 6, 3, 2, '6.3.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan Hubungan Masyarakat', 1, 6, 4, NULL, '6,4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan sistem informasi manajemen', 1, 6, 4, 1, '6.4.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Leafleat', 1, 6, 4, 2, '6.4.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar pembiayaan', 1, 7, NULL, NULL, '7', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan rumah tangga sekolah,daya dan jasa', 1, 7, 1, NULL, '7.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Konsumsi Rapat Dinas', 1, 7, 1, 1, '7.1.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Konsumsi 1 Muharam', 1, 7, 1, 2, '7.1.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Konsumsi Jalan sehat 10 November', 1, 7, 1, 3, '7.1.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Biaya Transportasi kegiatan guru', 1, 7, 1, 4, '7.1.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Biaya Transportasi kegiatan siswa', 1, 7, 1, 5, '7.1.5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan dan implementasi sistem penilaian', 1, 8, NULL, NULL, '8', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan kisi-kisi :', 1, 8, 1, NULL, '8.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan harian', 1, 8, 1, 1, '8.1.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Tengah semester', 1, 8, 1, 2, '8.1.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Akhir semester', 1, 8, 1, 3, '8.1.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ujian praktek Agama', 1, 8, 1, 4, '8.1.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan soal', 1, 8, 2, NULL, '8.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan harian', 1, 8, 2, 1, '8.2.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Tengah semester', 1, 8, 2, 2, '8.2.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Akhir semester', 1, 8, 2, 3, '8.2.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan Penilaian', 1, 8, 3, NULL, '8.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan harian', 1, 8, 3, 1, '8.3.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Tengah semester', 1, 8, 3, 2, '8.3.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan Akhir semester', 1, 8, 3, 3, '8.3.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Ulangan kenaikan kelas', 1, 8, 3, 4, '8.3.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelaksanaan ujian praktek', 1, 8, 4, NULL, '8.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('tindak lanjut hasil penilaian', 1, 8, 5, NULL, '8.5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('analisis', 1, 8, 5, 1, '8.5.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('remedial', 1, 8, 5, 2, '8.5.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('pengayaan', 1, 8, 5, 3, '8.5.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penilaian lainnya', 1, 8, 6, NULL, '8.6', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Portofolio', 1, 8, 6, 1, '8.6.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Proyek', 1, 8, 6, 2, '8.6.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penugasan', 1, 8, 6, 3, '8.6.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Inovasi model penilaian', 1, 8, 7, NULL, '8.7', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('workshop', 1, 8, 7, 1, '8.7.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('IHT', 1, 8, 7, 2, '8.7.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Pelatihan', 1, 8, 7, 3, '8.7.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Study banding', 1, 8, 7, 4, '8.7.4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, NULL, NULL, NULL, '2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Alat tulis kantor', 2, 2, 1, NULL, '2.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Bahan dan alat habis pakai', 2, 2, 2, NULL, '2.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Pegawai', 2, 2, 3, NULL, '2.3', 1);
 
 -- ----------------------------
 -- Table structure for tbl_master_kode_akun_internal
@@ -273,8 +320,8 @@ CREATE TABLE `tbl_master_kode_akun_internal`  (
 -- Records of tbl_master_kode_akun_internal
 -- ----------------------------
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Alat Tulis Sekolah', 1, NULL, NULL, 2, 2, 1, NULL, '1', 1);
-INSERT INTO `tbl_master_kode_akun_internal` VALUES ('spidol boardmarker', 1, 1, NULL, NULL, NULL, NULL, NULL, '1.1', 1);
-INSERT INTO `tbl_master_kode_akun_internal` VALUES ('bolpoints', 1, 2, NULL, NULL, NULL, NULL, NULL, '1.2', 1);
+INSERT INTO `tbl_master_kode_akun_internal` VALUES ('spidol boardmarkers', 1, 1, NULL, NULL, NULL, NULL, NULL, '1.1', 1);
+INSERT INTO `tbl_master_kode_akun_internal` VALUES ('pulpen', 1, 2, NULL, NULL, NULL, NULL, NULL, '1.2', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Penghapus White board', 1, 3, NULL, NULL, NULL, NULL, NULL, '1.3', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('FD Kingston 16 GB', 1, 4, NULL, NULL, NULL, NULL, NULL, '1.4', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('FD Kingston 8 GB', 1, 5, NULL, NULL, NULL, NULL, NULL, '1.5', 1);
@@ -286,7 +333,7 @@ INSERT INTO `tbl_master_kode_akun_internal` VALUES ('CD-R', 1, 10, NULL, NULL, N
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('CD-RW', 1, 11, NULL, NULL, NULL, NULL, NULL, '1.11', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Keplek', 1, 12, NULL, NULL, NULL, NULL, NULL, '1.12', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Biaya Bahan dan Alat Habis Pakai', 2, NULL, NULL, 2, 2, 2, NULL, '2', 1);
-INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Kertas HVS', 2, 1, NULL, NULL, NULL, NULL, NULL, '2.1', 1);
+INSERT INTO `tbl_master_kode_akun_internal` VALUES ('Penyusunan pembagian tugas guru dan jadwal pelajaran', 2, 1, NULL, NULL, NULL, NULL, NULL, '2.1', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('foto copy', 2, 2, NULL, NULL, NULL, NULL, NULL, '2.2', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('kertas cd', 2, 3, NULL, NULL, NULL, NULL, NULL, '2.3', 1);
 INSERT INTO `tbl_master_kode_akun_internal` VALUES ('map snel', 2, 4, NULL, NULL, NULL, NULL, NULL, '2.4', 1);
@@ -393,8 +440,16 @@ INSERT INTO `tbl_menu` VALUES (104, 0, 'Master', 'Master', ' ', 'fa fa-database'
 INSERT INTO `tbl_menu` VALUES (105, 104, 'Master Satuan', 'Master Satuan', 'master_satuan', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (106, 104, 'Master Akun Internal', 'Master Akun Internal', 'master_akun_internal', '', 1, 2, 2, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (107, 104, 'Master Akun Eksternal', 'Master Akun Eksternal', 'master_akun_eksternal', '', 1, 2, 3, 1, 1, 1);
-INSERT INTO `tbl_menu` VALUES (108, 0, 'Laporan', 'Laporan', ' ', 'fa fa-line-chart', 1, 1, 4, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (108, 0, 'Laporan', 'Laporan', ' ', 'fa fa-line-chart', 1, 1, 5, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (109, 108, 'Buku Kas Umum', 'Buku Kas Umum', 'lap_bku', '', 1, 2, 2, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (110, 0, 'Penggajian', 'Penggajian', ' ', 'fa fa-money', 1, 1, 4, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (111, 110, 'Setting Gaji Guru', 'Setting Gaji Guru', 'set_gaji_guru', '', 1, 2, 1, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (112, 110, 'Setting Gaji Karyawan', 'Setting Gaji Karyawan', 'set_gaji_karyawan', '', 1, 2, 2, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (113, 110, 'Proses Penggajian', 'Proses Penggajian', 'proses_gaji', '', 1, 2, 3, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (114, 104, 'Master Guru', 'Master Guru', 'master_guru', '', 1, 2, 4, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (115, 104, 'Master Karyawan', 'Master Karyawan', 'master_karyawan', '', 1, 2, 5, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (116, 104, 'Master User', 'Master User', 'master_user', '', 1, 2, 6, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (117, 104, 'Master Jabatan', 'Master Jabatan', 'master_jabatan', NULL, 1, 2, 7, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -532,7 +587,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-24 22:08:20', '2019-10-05 21:34:14', '2019-10-24 22:08:20');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-27 23:09:54', '2019-10-05 21:34:14', '2019-10-27 23:09:54');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
