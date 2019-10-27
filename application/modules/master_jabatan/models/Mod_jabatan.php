@@ -1,10 +1,10 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Mod_karyawan extends CI_Model
+class Mod_jabatan extends CI_Model
 {
-	var $table = 'tbl_satuan';
-	var $column_order = array('id','nama','keterangan',null); //set column field database for datatable orderable
-	var $column_search = array('nama','keterangan'); //set column field database for datatable searchable just username are searchable
+	var $table = 'tbl_jabatan';
+	var $column_order = array('id','nama','tunjangan',null); //set column field database for datatable orderable
+	var $column_search = array('nama','tunjangan'); //set column field database for datatable searchable just username are searchable
 	var $order = array('nama' => 'asc'); // default order 
 
 	public function __construct()
@@ -101,7 +101,7 @@ class Mod_karyawan extends CI_Model
 
 	public function save($data)
 	{
-		$this->db->insert('tbl_satuan',$data);
+		$this->db->insert($this->table, $data);
 	}
 
 	public function update($where, $data)
