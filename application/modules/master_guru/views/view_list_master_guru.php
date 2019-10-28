@@ -34,15 +34,16 @@
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
               <h4><i class="icon fa fa-remove"></i> Gagal!</h4>
               <?= $this->session->flashdata('feedback_failed') ?>
+              </div>
               <?php } ?>
               <div class="table-responsive"> 
                 <table id="tabelGuru" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
-                      <th>No</th>
-                      <th>Nama</th>
-                      <th>Jabatan</th>
-                      <th style="width: 125px;">Action</th>
+                      <th style="width: 5%;">Foto</th>
+                      <th style="width: 40%;">Nama</th>
+                      <th style="width: 20%;">Jabatan</th>
+                      <th style="width: 20%;">Action</th>
                     </tr>
                   </thead>
                   <tbody>

@@ -35,23 +35,19 @@ class Master_guru extends CI_Controller {
 		$list = $this->m_guru->get_datatables();
 		$data = array();
 		$no =$_POST['start'];
-		foreach ($list as $sat) {
-			$no++;
+		foreach ($list as $val) {
+			// $no++;
 			$row = array();
 			//loop value tabel db
-			$row[] = $no;
-			$row[] = $sat->nama;
-			$row[] = '
-				<div>
-	                <span class="pull-left">Rp. </span>
-	                  <span class="pull-right">'.number_format($sat->tunjangan,2,",",".").'</span>
-	             </div>
-			';
+			// $row[] = $no;
+			$row[] = '<img src="'.base_url().'/assets/img/foto_guru/'.$val->foto.'" width="75" height="75">';
+			$row[] = $val->nama;
+			$row[] = $val->nama_jabatan;
 
 			//add html for action
 			$row[] = '
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_guru('."'".$sat->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_guru('."'".$sat->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_guru('."'".$val->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_guru('."'".$val->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
 			';
 
 			$data[] = $row;
@@ -111,7 +107,7 @@ class Master_guru extends CI_Controller {
 		$nip = trim(strtoupper($this->input->post('nip')));
 		$nama = trim($this->input->post('nama'));
 		$jabatan = trim($this->input->post('jabatan'));
-		$tempat_lahir = trim($this->input->post('tempat_lahir'));
+		$tempat_lahir = trim($this->input->post('tempatlahir'));
 		$hari = $this->input->post('hari');
 		$bulan = $this->input->post('bulan');
 		$tahun = $this->input->post('tahun');
@@ -144,8 +140,11 @@ class Master_guru extends CI_Controller {
 			} //end
 		}else{
 			$this->db->trans_rollback();
-			$this->session->set_flashdata('feedback_gagal','Mohon Lengkapi Kelengkapan Data'); 
-			redirect($this->uri->segment(1));
+			$this->session->set_flashdata('feedback_failed','Mohon Lengkapi Kelengkapan Data'); 
+			echo json_encode(array(
+				"status" => true
+			));
+			return;
 		}
 
 		$data = array(
@@ -163,13 +162,11 @@ class Master_guru extends CI_Controller {
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			$this->session->set_flashdata('feedback_gagal','Gagal Buat Master Guru.'); 
-			redirect($this->uri->segment(1));
+			$this->session->set_flashdata('feedback_failed','Gagal Buat Master Guru.'); 
 		}
 		else {
 			$this->db->trans_commit();
 			$this->session->set_flashdata('feedback_success','Berhasil Buat Master Guru'); 
-			redirect($this->uri->segment(1));
 		}
 
 		echo json_encode(array(
@@ -267,7 +264,7 @@ class Master_guru extends CI_Controller {
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('jabatan') == '') {
+		if ($this->input->post('jabatan') == null) {
 			$data['inputerror'][] = 'jabatan';
             $data['error_string'][] = 'Wajib mengisi jabatan';
             $data['status'] = FALSE;

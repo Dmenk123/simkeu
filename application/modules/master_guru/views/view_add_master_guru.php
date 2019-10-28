@@ -18,7 +18,7 @@
           <div class="box">
             <!-- /.box-header -->
             <div class="box-body">
-              <form method="post" enctype="multipart/form-data" action="#" id="form_input">
+              <form id="form_input">
                 <div class="form-group col-md-12">
                   <label>NIP : </label>
                   <input type="text" class="form-control" id="nip" name="nip" value="">
@@ -89,7 +89,7 @@
 
                 <div class="col-md-2 pull-right">
                   <div class="form-group" style="text-align:center; margin:10%">
-                    <button type="button" class="btn btn-primary" onclick="save('add')"><i class="fa fa-save"></i> Simpan</button>
+                    <button type="button" id="btnSave" class="btn btn-primary" onclick="save('add')"><i class="fa fa-save"></i> Simpan</button>
                   </div>
                 </div>
               </form>

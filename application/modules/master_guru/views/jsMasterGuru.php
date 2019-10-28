@@ -94,27 +94,36 @@ function save(save_method)
         url = "<?php echo site_url('master_guru/update_data')?>";
     }
 
+    // Get form
+    let form = $('#form_input')[0];
+    let data = new FormData(form);
+
     // ajax adding data to database
     $.ajax({
         url : url,
+        enctype: 'multipart/form-data',
         type: "POST",
-        data: $('#form_input').serialize(),
+        data: data,
         dataType: "JSON",
+        processData: false,
+        contentType: false,
         success: function(data)
         {
 
-            if(data.status) //if success close modal and reload ajax table
-            {
-                window.location.replace("<?=base_url('/master_guru');?>");
-            }
-            else
-            {
+            if(data.status) {
+                window.location.href = "<?=base_url('/master_guru');?>";
+            }else {
                 for (var i = 0; i < data.inputerror.length; i++) 
                 {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    if (data.inputerror[i] != 'jabatan') {
+                        $('[name="'+data.inputerror[i]+'"]').parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    }else{
+                        $($('#jabatan').data('select2').$container).addClass('has-error');
+                    }
                 }
             }
+
             $('#btnSave').text('save'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
 
@@ -122,6 +131,7 @@ function save(save_method)
         },
         error: function (jqXHR, textStatus, errorThrown)
         {
+            console.log(textStatus, errorThrown);
             alert('Error adding / update data');
             $('#btnSave').text('save'); //change button text
             $('#btnSave').attr('disabled',false); //set button enable 
