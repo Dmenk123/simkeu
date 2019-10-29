@@ -21,42 +21,77 @@
               <form id="form_input">
                 <div class="form-group col-md-12">
                   <label>NIP : </label>
-                  <input type="text" class="form-control" id="nip" name="nip" value="">
-                  <input type="hidden" class="form-control" id="id" name="id" value="">
+                  <input type="text" class="form-control" id="nip" name="nip" value="<?php if(isset($hasil_data)){echo $hasil_data->nip;}?>">
+                  <input type="hidden" class="form-control" id="id" name="id" value="<?php if(isset($hasil_data)){echo $hasil_data->id;}?>">
                   <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-12">
                   <label>Nama : </label>
-                  <input type="text" class="form-control" id="nama" name="nama" value="">
+                  <input type="text" class="form-control" id="nama" name="nama" value="<?php if(isset($hasil_data)){echo $hasil_data->nama;}?>">
                   <span class="help-block"></span>
                 </div>
                 
                 <div class="form-group col-md-12">
                   <label>Jabatan : </label>
-                    <select class="form-control jabatan" id="jabatan" name="jabatan"></select>
+                    <select class="form-control" id="jabatan" name="jabatan">
+                      <?php foreach ($data_jabatan as $key => $jbtn) {
+                        if (isset($hasil_data)) { ?>
+                          <option value="<?= $jbtn->id; ?>" <?php if ($hasil_data->kode_jabatan == $jbtn->id) {echo "selected";}?>><?= $jbtn->nama; ?></option>
+                        <?php }else{ ?>
+                          <option value="<?= $jbtn->id; ?>"><?= $jbtn->nama; ?></option>
+                        <?php } ?>
+                      <?php } ?>
+                    </select>
                     <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-12">
                   <label>Tempat Lahir : </label>
-                  <input type="text" class="form-control" id="tempatlahir" name="tempatlahir" value="">
+                  <input type="text" class="form-control" id="tempatlahir" name="tempatlahir" value="<?php if(isset($hasil_data)){echo $hasil_data->tempat_lahir;}?>">
                   <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-12">
-                  <label>Tanggal Lahir : </label>  
+                  <label>Tanggal Lahir </label>  
                   <div class="row">
                     <div class="col-md-4">
-                      <select class="form-control" id="dobday" name="hari"></select>
+                      <label>Hari : </label>
+                      <select class="form-control" id="dobday" name="hari">
+                        <?php for ($i=1; $i <= 31; $i++) { ?> 
+                          <?php if (isset($hasil_data)) { ?>
+                            <option value="<?= $i; ?>" <?php if ((int)date('d', strtotime($hasil_data->tanggal_lahir)) == $i) {echo "selected";}?>><?= $i; ?></option>
+                          <?php }else { ?>
+                            <option value="<?= $i;?>"><?= $i; ?></option>
+                          <?php } ?>
+                        <?php }?>
+                      </select>
                       <span class="help-block"></span> 
                     </div>
                     <div class="col-md-4">
-                      <select class="form-control" id="dobmonth" name="bulan"></select>
+                      <label>Bulan : </label>
+                      <select class="form-control" id="dobmonth" name="bulan">
+                        <?php for ($i=1; $i <= 12; $i++) { ?> 
+                          <?php if (isset($hasil_data)) { ?>
+                            <option value="<?= $i; ?>" <?php if ((int)date('m', strtotime($hasil_data->tanggal_lahir)) == $i) {echo "selected";}?>><?= $i; ?></option>
+                          <?php }else { ?>
+                            <option value="<?= $i;?>"><?= $i; ?></option>
+                          <?php } ?>
+                        <?php }?>
+                      </select>
                       <span class="help-block"></span>
                     </div>
                     <div class="col-md-4">
-                      <select class="form-control" id="dobyear" name="tahun"></select>
+                      <label>Tahun : </label>
+                      <select class="form-control" id="dobyear" name="tahun">
+                        <?php for ($i=1945; $i <= 2019; $i++) { ?> 
+                          <?php if (isset($hasil_data)) { ?>
+                            <option value="<?= $i; ?>" <?php if ((int)date('Y', strtotime($hasil_data->tanggal_lahir)) == $i) {echo "selected";}?>><?= $i; ?></option>
+                          <?php }else { ?>
+                            <option value="<?= $i;?>"><?= $i; ?></option>
+                          <?php } ?>
+                        <?php }?>
+                      </select>
                       <span class="help-block"></span>
                     </div>
                   </div>
@@ -64,7 +99,7 @@
 
                 <div class="form-group col-md-12">
                   <label>Alamat : </label>
-                  <textarea class="form-control" rows="3" placeholder="Alamat ..." id="alamat" name="alamat" ></textarea>
+                  <textarea class="form-control" rows="3" placeholder="Alamat ..." id="alamat" name="alamat" ><?php if(isset($hasil_data)){echo $hasil_data->alamat;}?></textarea>
                   <span class="help-block"></span>
                 </div>
 
@@ -72,8 +107,13 @@
                   <label>Jenis Kelamin : </label>
                     <select class="form-control select2" id="jenkel" name="jenkel">
                       <option value="">Pilih Jenis Kelamin</option>
-                      <option value="L">Laki-Laki</option>
-                      <option value="P">Perempuan</option>
+                      <?php if(isset($hasil_data)){ ?>
+                          <option value="L" <?php if ($hasil_data->jenis_kelamin == 'L'){echo "selected";}?>>Laki-Laki</option>
+                          <option value="P" <?php if ($hasil_data->jenis_kelamin == 'P'){echo "selected";}?>>Perempuan</option>
+                      <?php } else { ?>
+                        <option value="L">Laki-Laki</option>
+                        <option value="P">Perempuan</option>
+                      <?php } ?>
                     </select>
                     <span class="help-block"></span>
                 </div>
@@ -84,12 +124,20 @@
                 </div>
 
                 <div class="form-group col-md-3">
-                  <img id="gambar-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
+                  <?php if(isset($hasil_data)){ ?>
+                    <img id="gambar-img" src="<?= base_url().'/assets/img/foto_guru/'.$hasil_data->foto; ?>" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
+                  <?php } else { ?>
+                    <img id="gambar-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
+                  <?php } ?>
                 </div>
 
                 <div class="col-md-2 pull-right">
                   <div class="form-group" style="text-align:center; margin:10%">
-                    <button type="button" id="btnSave" class="btn btn-primary" onclick="save('add')"><i class="fa fa-save"></i> Simpan</button>
+                    <?php if (isset($hasil_data)) { ?>
+                      <button type="button" id="btnSave" class="btn btn-primary" onclick="save('update')"><i class="fa fa-save"></i> Simpan</button>
+                    <?php }else{ ?>
+                      <button type="button" id="btnSave" class="btn btn-primary" onclick="save('add')"><i class="fa fa-save"></i> Simpan</button>
+                    <?php } ?>
                   </div>
                 </div>
               </form>

@@ -30,7 +30,7 @@ $(document).ready(function() {
 	});
 
     //select2
-    $( ".jabatan" ).select2({ 
+    /*$( ".jabatan" ).select2({ 
         ajax: {
           url: '<?php echo site_url('master_guru/suggest_jabatan'); ?>/',
           dataType: 'json',
@@ -42,9 +42,9 @@ $(document).ready(function() {
           },
           cache: true
         },
-    });
+    });*/
 
-    $.dobPicker({
+    /*$.dobPicker({
         // Selectopr IDs
         daySelector: '#dobday',
         monthSelector: '#dobmonth',
@@ -60,7 +60,7 @@ $(document).ready(function() {
 
         // Maximum age
         maximumAge: 80
-    });
+    });*/
 
     $(".gambar").change(function() {
       //console.log(this);

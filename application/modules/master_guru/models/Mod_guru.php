@@ -111,16 +111,17 @@ class Mod_guru extends CI_Model
 		return $query->result();
 	}
 
-	public function get_detail_user($id_user)
+	public function get_detail_guru($id_guru)
 	{
-		$this->db->select('*');
-		$this->db->from('tbl_user_detail');
-		$this->db->where('id_user', $id_user);
+		$this->db->select('tbl_guru.*, tbl_jabatan.nama as nama_jabatan');
+		$this->db->from('tbl_guru');
+		$this->db->join('tbl_jabatan', 'tbl_guru.kode_jabatan = tbl_jabatan.id', 'left');
+		$this->db->where('tbl_guru.id', $id_guru);
 
         $query = $this->db->get();
 
         if ($query->num_rows() > 0) {
-            return $query->result();
+            return $query->row();
         }
 	}
 	

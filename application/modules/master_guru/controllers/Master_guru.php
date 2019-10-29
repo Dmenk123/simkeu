@@ -36,18 +36,21 @@ class Master_guru extends CI_Controller {
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $val) {
+			$link_detail = site_url('master_guru/detail/').$val->id;
 			// $no++;
 			$row = array();
-			//loop value tabel db
 			// $row[] = $no;
-			$row[] = '<img src="'.base_url().'/assets/img/foto_guru/'.$val->foto.'" width="75" height="75">';
+			$row[] = '<img src="'.base_url().'/assets/img/foto_guru/'.$val->foto.'" width="60" height="60">';
 			$row[] = $val->nama;
 			$row[] = $val->nama_jabatan;
 
 			//add html for action
 			$row[] = '
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_guru('."'".$val->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_guru('."'".$val->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail">
+					<i class="glyphicon glyphicon-info-sign"></i> Detail
+				</a>
+				<a class="btn btn-sm btn-primary" href="'.base_url('master_guru/edit/').$val->id.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+				<a class="btn btn-sm btn-danger" href="'.base_url('master_guru/delete/').$val->id.'" title="Hapus"><i class="glyphicon glyphicon-trash"></i> Delete</a>
 			';
 
 			$data[] = $row;
@@ -63,13 +66,35 @@ class Master_guru extends CI_Controller {
 		echo json_encode($output);
 	}
 
+	public function detail($id)
+	{
+		$data = $this->m_guru->get_detail_guru($id);
+		$id_user = $this->session->userdata('id_user'); 
+		$data_user = $this->prof->get_detail_pengguna($id_user);
+		
+		$data = array(
+			'data_user' => $data_user,
+			'hasil_data' => $data
+		);
+
+		$content = [
+			'css' 	=> 'cssMasterGuru',
+			'modal' => null,
+			'js'	=> 'jsMasterGuru',
+			'view'	=> 'view_detail_master_guru'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
 	public function add()
 	{
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
-
+		$q_jabatan = $this->db->query("select * from tbl_jabatan where is_aktif = '1' order by nama")->result();
 		$data = array(
-			'data_user' => $data_user
+			'data_user' => $data_user,
+			'data_jabatan' => $q_jabatan
 		);
 
 		$content = [
@@ -113,7 +138,7 @@ class Master_guru extends CI_Controller {
 		$tahun = $this->input->post('tahun');
 		$alamat = trim($this->input->post('alamat'));
 		$jenkel = $this->input->post('jenkel');
-		$namafileseo = $this->seoUrl($nama);
+		$namafileseo = $this->seoUrl($nama.' '.time());
 
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
@@ -177,30 +202,96 @@ class Master_guru extends CI_Controller {
 
 	public function edit($id)
 	{
-		$data = $this->m_guru->get_by_id($id);		
-		echo json_encode($data);
-	}
+		$data = $this->m_guru->get_by_id($id);
+		$q_jabatan = $this->db->query("select * from tbl_jabatan where is_aktif = '1' order by nama")->result();
 
-	public function update()
-	{
-		$arr_valid = $this->_validate();
-		$nama = trim(strtoupper($this->input->post('nama')));
-		$tunjangan = trim($this->input->post('tunjangan_raw'));
+		$id_user = $this->session->userdata('id_user'); 
+		$data_user = $this->prof->get_detail_pengguna($id_user);
 
 		$data = array(
-			'nama' => $nama,
-			'tunjangan' => $tunjangan		
+			'data_user' => $data_user,
+			'hasil_data' => $data,
+			'data_jabatan' => $q_jabatan
 		);
+
+		$content = [
+			'css' 	=> 'cssMasterGuru',
+			'modal' => 'modalMasterGuru',
+			'js'	=> 'jsMasterGuru',
+			'view'	=> 'view_add_master_guru'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
+	public function update_data()
+	{
+		$flag_upload_foto = FALSE;
+		$arr_valid = $this->_validate();
+		$nip = trim(strtoupper($this->input->post('nip')));
+		$nama = trim($this->input->post('nama'));
+		$jabatan = trim($this->input->post('jabatan'));
+		$tempat_lahir = trim($this->input->post('tempatlahir'));
+		$hari = $this->input->post('hari');
+		$bulan = $this->input->post('bulan');
+		$tahun = $this->input->post('tahun');
+		$alamat = trim($this->input->post('alamat'));
+		$jenkel = $this->input->post('jenkel');
+		$namafileseo = $this->seoUrl($nama.' '.time());
 
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
 		}
 
+		$this->db->trans_begin();
+
+		if(!empty($_FILES['gambar']['name']))
+		{
+			$this->konfigurasi_upload_bukti($namafileseo);
+			//get detail extension
+			$pathDet = $_FILES['gambar']['name'];
+			$extDet = pathinfo($pathDet, PATHINFO_EXTENSION);
+			if ($this->gbr_bukti->do_upload('gambar')) 
+			{
+				$flag_upload_foto = TRUE;
+				$gbrBukti = $this->gbr_bukti->data();
+				//inisiasi variabel u/ digunakan pada fungsi config img bukti
+				$nama_file_foto = $gbrBukti['file_name'];
+				//load config img bukti
+				$this->konfigurasi_image_resize($nama_file_foto);
+				//clear img lib after resize
+				$this->image_lib->clear();
+			} //end
+		}
+
+		$data = array(
+			'nip' => $nip,
+			'nama' => $nama,
+			'kode_jabatan' => $jabatan,
+			'alamat' => $alamat,
+			'tempat_lahir' => $tempat_lahir,
+			'tanggal_lahir' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
+			'jenis_kelamin' => $jenkel
+		);
+
+		if ($flag_upload_foto) {
+			$data['foto'] = $nama_file_foto;
+		}
+
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_failed','Gagal Update Master Guru.'); 
+		}
+		else {
+			$this->db->trans_commit();
+			$this->session->set_flashdata('feedback_success','Berhasil Update Master Guru'); 
+		}
+
 		$this->m_guru->update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Master Tunjangan Berhasil diupdate',
+			"pesan" => 'Master Guru Berhasil diupdate',
 		));
 	}
 
