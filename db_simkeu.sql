@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : lokal
+ Source Server         : db_lokal
  Source Server Type    : MySQL
  Source Server Version : 100131
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 28/10/2019 00:29:30
+ Date: 30/10/2019 00:26:15
 */
 
 SET NAMES utf8mb4;
@@ -31,11 +31,16 @@ CREATE TABLE `tbl_guru`  (
   `tanggal_lahir` date NULL DEFAULT NULL,
   `jenis_kelamin` varchar(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'L: Laki2, P: Perempuan',
   `foto` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
-  `is_aktif` int(1) NULL DEFAULT NULL,
+  `is_aktif` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `kode_jabatan`(`kode_jabatan`) USING BTREE,
   CONSTRAINT `tbl_guru_ibfk_1` FOREIGN KEY (`kode_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_guru
+-- ----------------------------
+INSERT INTO `tbl_guru` VALUES (1, '1827188812718281', 'Michael Schumacher', 1, 'lalat xxx', 'asaasa', '1992-09-04', 'L', 'michael-schumacher-1572368322.jpg', 1);
 
 -- ----------------------------
 -- Table structure for tbl_hak_akses
@@ -461,7 +466,7 @@ CREATE TABLE `tbl_satuan`  (
   `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_satuan
@@ -473,6 +478,7 @@ INSERT INTO `tbl_satuan` VALUES (4, 'KG', 'Kilogram', 1);
 INSERT INTO `tbl_satuan` VALUES (5, 'DUZ', 'Duz', 1);
 INSERT INTO `tbl_satuan` VALUES (6, 'LBR', 'Lembar', 1);
 INSERT INTO `tbl_satuan` VALUES (7, 'UANG', 'Satuan Uang', 1);
+INSERT INTO `tbl_satuan` VALUES (8, 'ASASF', 'asf', 1);
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar
@@ -587,7 +593,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-27 23:09:54', '2019-10-05 21:34:14', '2019-10-27 23:09:54');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-29 23:54:47', '2019-10-05 21:34:14', '2019-10-29 23:54:47');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
