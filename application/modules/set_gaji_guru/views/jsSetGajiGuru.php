@@ -29,6 +29,53 @@ $(document).ready(function() {
 		],
 	});
 
+    //select2
+    $("#jabatan").select2({
+        ajax: {
+            url: '<?php echo site_url('set_gaji_guru/suggest_jabatan'); ?>',
+            dataType: 'json',
+            type: "GET",
+            data: function (params) {
+                var queryParameters = {
+                    term: params.term
+                }
+                return queryParameters;
+            },
+            processResults: function (data) {
+                return {
+                    results: $.map(data, function (item) {
+                        return {
+                            text: item.text,
+                            id: item.id
+                        }
+                    })
+                };
+            },
+            cache: true
+        }, 
+    });
+
+     $('#jabatan').on('change', function() {
+        var data = $("#jabatan option:selected").val();
+        //Ajax Load data from ajax
+        $.ajax({
+            url : "<?php echo site_url('set_gaji_guru/get_tunjangan')?>/" + data,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {
+                $('#tunjangan').maskMoney('mask', parseInt(data.tunjangan));
+                $("#tunjangan_raw").val(data.tunjangan);
+
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+
+    });
+
     //mask money
     $('.mask-currency').maskMoney();
 
@@ -40,14 +87,14 @@ $(document).ready(function() {
 
 });	
 
-function add_jabatan() 
+function add_data() 
 {
     save_method = 'add';
     $('#form')[0].reset(); //reset form on modals
     $('.form-group').removeClass('has-error');//clear error class
     $('.help-block').empty(); //clear error string
     $('#modal_form').modal('show'); //show bootstrap modal
-    $('.modal-title').text('Add jabatan'); //set title modal
+    $('.modal-title').text('Add Setting Gaji'); //set title modal
 }
 
 function edit_jabatan(id)

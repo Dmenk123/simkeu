@@ -135,4 +135,15 @@ class Mod_set_gaji_guru extends CI_Model
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
 	}
+
+	public function lookup_kode_jabatan($keyword="")
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_jabatan');
+		$this->db->like('nama',$keyword);
+		$this->db->order_by('nama', 'asc');
+		
+		$query = $this->db->get();
+		return $query->result();
+	}
 }

@@ -30,6 +30,32 @@ class Set_gaji_guru extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
+	public function suggest_jabatan()
+	{
+		if (isset($_GET['term'])) {
+			$q = strtolower($_GET['term']);
+		}else{
+			$q = '';
+		}
+		
+		$query = $this->m_set->lookup_kode_jabatan($q);
+		
+		foreach ($query as $row) {
+			$akun[] = array(
+				'id' => $row->id,
+				'text' => $row->nama,
+				'tunjangan' => $row->tunjangan
+			);
+		}
+		echo json_encode($akun);
+	}
+
+	public function get_tunjangan($id)
+	{
+		$q = $this->db->query("select tunjangan from tbl_jabatan where id = '".$id."'")->row();
+		echo json_encode($q);
+	}
+
 	public function list_data()
 	{
 		$list = $this->m_set->get_datatables();
