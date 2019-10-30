@@ -30,7 +30,7 @@ class Mod_set_gaji_guru extends CI_Model
 
 		$this->db->from('tbl_set_gaji');
 		$this->db->join('tbl_jabatan', 'tbl_set_gaji.id_jabatan = tbl_jabatan.id', 'left');
-		$this->db->where('tbl_jabatan.is_aktif', 1);
+		$this->db->where('tbl_set_gaji.is_aktif', 1);
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 

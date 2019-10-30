@@ -178,8 +178,12 @@ function save()
             {
                 for (var i = 0; i < data.inputerror.length; i++) 
                 {
-                    $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
-                    $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    if (data.inputerror[i] != 'jabatan') {
+                        $('[name="'+data.inputerror[i]+'"]').parent().parent().addClass('has-error'); //select parent twice to select div form-group class and add has-error class
+                        $('[name="'+data.inputerror[i]+'"]').next().text(data.error_string[i]); //select span help-block class set text error string
+                    }else{
+                        $($('#jabatan').data('select2').$container).parent().parent().addClass('has-error');
+                    }   
                 }
             }
             $('#btnSave').text('save'); //change button text
@@ -197,13 +201,13 @@ function save()
     });
 }
 
-function delete_jabatan(id)
+function delete_data(id)
 {
     if(confirm('Yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('master_jabatan/delete')?>/"+id,
+            url : "<?php echo site_url('set_gaji_guru/delete_data')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
