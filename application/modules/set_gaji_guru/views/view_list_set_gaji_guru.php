@@ -22,7 +22,7 @@
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive"> 
-                <table id="tabelJabatan" class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <table id="tabelSetGaji" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th>Nama jabatan</th>

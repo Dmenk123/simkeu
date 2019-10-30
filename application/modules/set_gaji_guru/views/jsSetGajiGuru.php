@@ -8,7 +8,7 @@
 
 $(document).ready(function() {
 	//datatables
-	table = $('#tabelJabatan').DataTable({
+	table = $('#tabelSetGaji').DataTable({
 		
 		"processing": true, //feature control the processing indicator
 		"serverSide": true, //feature control DataTables server-side processing mode
@@ -139,10 +139,10 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('master_jabatan/add')?>";
+        url = "<?php echo site_url('set_gaji_guru/add_data')?>";
         tipe_simpan = 'tambah';
     } else {
-        url = "<?php echo site_url('master_jabatan/update')?>";
+        url = "<?php echo site_url('set_gaji_guru/update_data')?>";
         tipe_simpan = 'update';
     }
 

@@ -41,6 +41,16 @@
                                 <span class="help-block"></span>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Tipe Pegawai</label>
+                            <div class="col-md-9">
+                                <select name="tipepeg" id="tipepeg" class="form-control">
+                                    <option value="1">Guru</option>
+                                    <option value="0">Karyawan</option>
+                                </select>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

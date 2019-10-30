@@ -62,22 +62,34 @@ class Set_gaji_guru extends CI_Controller {
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $sat) {
-			$no++;
+			// $no++;
 			$row = array();
 			//loop value tabel db
-			$row[] = $no;
-			$row[] = $sat->nama;
+			// $row[] = $no;
+			$row[] = $sat->nama_jabatan;
 			$row[] = '
 				<div>
 	                <span class="pull-left">Rp. </span>
-	                  <span class="pull-right">'.number_format($sat->tunjangan,2,",",".").'</span>
+	                  <span class="pull-right">'.number_format($sat->gaji_pokok,2,",",".").'</span>
+	             </div>
+			';
+			$row[] = '
+				<div>
+	                <span class="pull-left">Rp. </span>
+	                  <span class="pull-right">'.number_format($sat->gaji_perjam,2,",",".").'</span>
+	             </div>
+			';
+			$row[] = '
+				<div>
+	                <span class="pull-left">Rp. </span>
+	                  <span class="pull-right">'.number_format($sat->gaji_tunjangan_jabatan,2,",",".").'</span>
 	             </div>
 			';
 
 			//add html for action
 			$row[] = '
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_jabatan('."'".$sat->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_jabatan('."'".$sat->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="edit_data('."'".$sat->id."'".')"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_data('."'".$sat->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
 			';
 
 			$data[] = $row;
@@ -93,27 +105,29 @@ class Set_gaji_guru extends CI_Controller {
 		echo json_encode($output);
 	}
 
-	public function add()
+	public function add_data()
 	{
 		//validasi
-		$arr_valid = $this->_validate();
-		$nama = trim(strtoupper($this->input->post('nama')));
-		$tunjangan = trim($this->input->post('tunjangan_raw'));
+		//$arr_valid = $this->_validate();
 		
-		if ($arr_valid['status'] == FALSE) {
+		/* if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
-		}
+		} */
 
 		$data = array(
-			'nama' => $nama,
-			'tunjangan' => $tunjangan
+			'id_jabatan' => $this->input->post('jabatan'),
+			'gaji_pokok' => $this->input->post('gapok_raw'),
+			'gaji_perjam' => $this->input->post('gaperjam_raw'),
+			'gaji_tunjangan_jabatan' => $this->input->post('tunjangan_raw'),
+			'is_guru' => $this->input->post('tipepeg')			
 		);
 
 		$insert = $this->m_set->save($data);
+		
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Master Jabatan Berhasil ditambahkan',
+			"pesan" => 'Berhasil Setting gaji',
 		));
 	}
 

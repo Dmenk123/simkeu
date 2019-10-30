@@ -3,9 +3,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mod_set_gaji_guru extends CI_Model
 {
 	var $table = 'tbl_set_gaji';
-	var $column_order = array('tbl_jabatan.nama_jabatan','tbl_set_gaji.gaji_pokok','tbl_set_gaji.gaji_perjam', 'tbl_set_gaji.gaji_tunjangan_jabatan', null); //set column field database for datatable orderable
-	var $column_search = array('tbl_jabatan.nama_jabatan','tbl_set_gaji.gaji_pokok','tbl_set_gaji.gaji_perjam', 'tbl_set_gaji.gaji_tunjangan_jabatan'); //set column field database for datatable searchable just username are searchable
-	var $order = array('tbl_jabatan.nama_jabatan' => 'asc'); // default order 
+	var $column_order = array('tbl_jabatan.nama','tbl_set_gaji.gaji_pokok','tbl_set_gaji.gaji_perjam', 'tbl_set_gaji.gaji_tunjangan_jabatan', null); //set column field database for datatable orderable
+	var $column_search = array('tbl_jabatan.nama','tbl_set_gaji.gaji_pokok','tbl_set_gaji.gaji_perjam', 'tbl_set_gaji.gaji_tunjangan_jabatan'); //set column field database for datatable searchable just username are searchable
+	var $order = array('tbl_jabatan.nama' => 'asc'); // default order 
 
 	public function __construct()
 	{
@@ -16,7 +16,7 @@ class Mod_set_gaji_guru extends CI_Model
 	private function _get_datatables_query()
 	{
 		$column = array(
-			"tbl_jabatan.nama_jabatan",
+			"tbl_jabatan.nama",
 			"tbl_set_gaji.gaji_pokok",
 			"tbl_set_gaji.gaji_perjam",
 			"tbl_set_gaji.gaji_tunjangan_jabatan",
