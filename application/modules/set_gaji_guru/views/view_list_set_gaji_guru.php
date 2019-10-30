@@ -2,11 +2,11 @@
     <section class="content-header">
       <h1>
         Daftar
-        <small>Satuan</small>
+        <small>Jabatan</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>
-        <li class="active">Master Satuan</li>
+        <li class="active">Master Jabatan</li>
       </ol>
     </section>
 
@@ -16,18 +16,18 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-header">
-              <button class="btn btn-success" onclick="add_satuan()"><i class="glyphicon glyphicon-plus"></i> Add Satuan</button>
+              <button class="btn btn-success" onclick="add_jabatan()"><i class="glyphicon glyphicon-plus"></i> Add jabatan</button>
               <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
             </div>
             <!-- /.box-header -->
             <div class="box-body">
               <div class="table-responsive"> 
-                <table id="tabelSatuan" class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <table id="tabelJabatan" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th>No</th>
-                      <th>Nama Satuan</th>
-                      <th>Keterangan</th>
+                      <th>Nama</th>
+                      <th>Tunjangan</th>
                       <th style="width: 125px;">Action</th>
                     </tr>
                   </thead>

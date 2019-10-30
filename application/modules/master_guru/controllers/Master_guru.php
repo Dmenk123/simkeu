@@ -139,6 +139,8 @@ class Master_guru extends CI_Controller {
 		$alamat = trim($this->input->post('alamat'));
 		$jenkel = $this->input->post('jenkel');
 		$namafileseo = $this->seoUrl($nama.' '.time());
+		$tipepeg = $this->input->post('tipepeg');
+		
 
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
@@ -180,7 +182,8 @@ class Master_guru extends CI_Controller {
 			'tempat_lahir' => $tempat_lahir,
 			'tanggal_lahir' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
 			'jenis_kelamin' => $jenkel,
-			'foto' => $nama_file_foto
+			'foto' => $nama_file_foto,
+			'is_guru' => $tipepeg
 		);
 
 		$insert = $this->m_guru->save($data);
@@ -238,6 +241,8 @@ class Master_guru extends CI_Controller {
 		$alamat = trim($this->input->post('alamat'));
 		$jenkel = $this->input->post('jenkel');
 		$namafileseo = $this->seoUrl($nama.' '.time());
+		$tipepeg = $this->input->post('tipepeg');
+		
 
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
@@ -272,7 +277,8 @@ class Master_guru extends CI_Controller {
 			'alamat' => $alamat,
 			'tempat_lahir' => $tempat_lahir,
 			'tanggal_lahir' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
-			'jenis_kelamin' => $jenkel
+			'jenis_kelamin' => $jenkel,
+			'is_guru' => $tipepeg
 		);
 
 		if ($flag_upload_foto) {
@@ -405,6 +411,12 @@ class Master_guru extends CI_Controller {
 		if ($this->input->post('jenkel') == '') {
 			$data['inputerror'][] = 'jenkel';
             $data['error_string'][] = 'Wajib mengisi jenkel';
+            $data['status'] = FALSE;
+		}
+
+		if ($this->input->post('tipepeg') == '') {
+			$data['inputerror'][] = 'tipepeg';
+            $data['error_string'][] = 'Wajib mengisi tipe pegawai';
             $data['status'] = FALSE;
 		}
 			

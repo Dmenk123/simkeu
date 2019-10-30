@@ -118,6 +118,21 @@
                     <span class="help-block"></span>
                 </div>
 
+                <div class="form-group col-md-12">
+                  <label>Tipe Pegawai : </label>
+                    <select class="form-control select2" id="tipepeg" name="tipepeg">
+                      <option value="">Pilih Tipe Pegawai</option>
+                      <?php if(isset($hasil_data)){ ?>
+                          <option value="1" <?php if ($hasil_data->is_guru == '1'){echo "selected";}?>>Guru</option>
+                          <option value="0" <?php if ($hasil_data->is_guru == '0'){echo "selected";}?>>Karyawan</option>
+                      <?php } else { ?>
+                        <option value="1">Guru</option>
+                        <option value="0">Karyawan</option>
+                      <?php } ?>
+                    </select>
+                    <span class="help-block"></span>
+                </div>
+
                 <div class="form-group col-md-9">
                   <label>Foto : </label>
                   <input type="file" id="gambar" class="gambar" name="gambar";/>

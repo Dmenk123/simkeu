@@ -1,11 +1,11 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Mod_karyawan extends CI_Model
+class Mod_set_gaji_guru extends CI_Model
 {
-	var $table = 'tbl_satuan';
-	var $column_order = array('id','nama','keterangan',null); //set column field database for datatable orderable
-	var $column_search = array('nama','keterangan'); //set column field database for datatable searchable just username are searchable
-	var $order = array('nama' => 'asc'); // default order 
+	var $table = 'tbl_set_gaji';
+	var $column_order = array('tbl_jabatan.nama_jabatan','tbl_set_gaji.gaji_pokok','tbl_set_gaji.gaji_perjam', 'tbl_set_gaji.gaji_tunjangan_jabatan', null); //set column field database for datatable orderable
+	var $column_search = array('tbl_jabatan.nama_jabatan','tbl_set_gaji.gaji_pokok','tbl_set_gaji.gaji_perjam', 'tbl_set_gaji.gaji_tunjangan_jabatan'); //set column field database for datatable searchable just username are searchable
+	var $order = array('tbl_jabatan.nama_jabatan' => 'asc'); // default order 
 
 	public function __construct()
 	{
@@ -15,9 +15,22 @@ class Mod_karyawan extends CI_Model
 
 	private function _get_datatables_query()
 	{
+		$column = array(
+			"tbl_jabatan.nama_jabatan",
+			"tbl_set_gaji.gaji_pokok",
+			"tbl_set_gaji.gaji_perjam",
+			"tbl_set_gaji.gaji_tunjangan_jabatan",
+			null,
+		);
 		
-		$this->db->from($this->table);
-		$this->db->where('is_aktif', 1);
+		$this->db->select("
+			tbl_set_gaji.*,
+			tbl_jabatan.nama as nama_jabatan
+		");
+
+		$this->db->from('tbl_set_gaji');
+		$this->db->join('tbl_jabatan', 'tbl_set_gaji.id_jabatan = tbl_jabatan.id', 'left');
+		$this->db->where('tbl_jabatan.is_aktif', 1);
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -73,7 +86,14 @@ class Mod_karyawan extends CI_Model
 
 	public function count_all()
 	{
-		$this->db->from($this->table);
+		$this->db->select("
+			tbl_set_gaji.*,
+			tbl_jabatan.nama as nama_jabatan
+		");
+
+		$this->db->from('tbl_set_gaji');
+		$this->db->join('tbl_jabatan', 'tbl_set_gaji.id_jabatan = tbl_jabatan.id', 'left');
+		$this->db->where('tbl_jabatan.is_aktif', 1);
 		return $this->db->count_all_results();
 	}
 
@@ -101,7 +121,7 @@ class Mod_karyawan extends CI_Model
 
 	public function save($data)
 	{
-		$this->db->insert('tbl_satuan',$data);
+		$this->db->insert($this->table, $data);
 	}
 
 	public function update($where, $data)

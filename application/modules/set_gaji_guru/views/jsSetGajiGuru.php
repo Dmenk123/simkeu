@@ -8,7 +8,7 @@
 
 $(document).ready(function() {
 	//datatables
-	table = $('#tabelSatuan').DataTable({
+	table = $('#tabelJabatan').DataTable({
 		
 		"processing": true, //feature control the processing indicator
 		"serverSide": true, //feature control DataTables server-side processing mode
@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 		//load data for table content from ajax source
 		"ajax": {
-			"url": "<?php echo site_url('master_satuan/list_satuan') ?>",
+			"url": "<?php echo site_url('set_gaji_guru/list_data') ?>",
 			"type": "POST" 
 		},
 
@@ -29,42 +29,28 @@ $(document).ready(function() {
 		],
 	});
 
+    //mask money
+    $('.mask-currency').maskMoney();
+
 	//set input/textarea/select event when change value, remove class error and remove text help block
 	$("input").change(function() {
 		$(this).parent().parent().removeClass('has-error');
 		$(this).next().empty();
 	});
 
-    //update dt_read after click
-    $(document).on('click', '.linkNotif', function(){
-        var id = $(this).attr('id');
-        $.ajax({
-            url : "<?php echo site_url('inbox/update_read/')?>/" + id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-                location.href = "<?php echo site_url('inbox/index')?>";
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    });
 });	
 
-function add_satuan() 
+function add_jabatan() 
 {
     save_method = 'add';
     $('#form')[0].reset(); //reset form on modals
     $('.form-group').removeClass('has-error');//clear error class
     $('.help-block').empty(); //clear error string
     $('#modal_form').modal('show'); //show bootstrap modal
-    $('.modal-title').text('Add Satuan'); //set title modal
+    $('.modal-title').text('Add jabatan'); //set title modal
 }
 
-function edit_satuan(id)
+function edit_jabatan(id)
 {
     save_method = 'update';
     $('#form')[0].reset(); // reset form on modals
@@ -73,7 +59,7 @@ function edit_satuan(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('master_satuan/edit/')?>/" + id,
+        url : "<?php echo site_url('master_jabatan/edit/')?>/" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
@@ -81,9 +67,10 @@ function edit_satuan(id)
             //ambil data ke json->modal
             $('[name="id"]').val(data.id);
             $('[name="nama"]').val(data.nama);
-            $('[name="keterangan"]').val(data.keterangan);
+            $('[name="tunjangan"]').maskMoney('mask', parseInt(data.tunjangan));
+            $('[name="tunjangan_raw"]').val(data.tunjangan);
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Master Satuan'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit Master Jabatan'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
@@ -105,10 +92,10 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('master_satuan/add')?>";
+        url = "<?php echo site_url('master_jabatan/add')?>";
         tipe_simpan = 'tambah';
     } else {
-        url = "<?php echo site_url('master_satuan/update')?>";
+        url = "<?php echo site_url('master_jabatan/update')?>";
         tipe_simpan = 'update';
     }
 
@@ -150,13 +137,13 @@ function save()
     });
 }
 
-function delete_satuan(id)
+function delete_jabatan(id)
 {
     if(confirm('Yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('master_satuan/delete')?>/"+id,
+            url : "<?php echo site_url('master_jabatan/delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
@@ -174,4 +161,10 @@ function delete_satuan(id)
 
     }
 }
+
+function setTunjanganRaw() {  
+  var harga = $('#tunjangan').maskMoney('unmasked')[0];
+  //set harga raw
+  $('#tunjangan_raw').val(harga);
+} 
 </script>	

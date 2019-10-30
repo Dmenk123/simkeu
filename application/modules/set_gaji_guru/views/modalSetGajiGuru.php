@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Master Satuan</h3>
+                <h3 class="modal-title">Master Jabatan</h3>
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
@@ -13,14 +13,15 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">Nama</label>
                             <div class="col-md-9">
-                                <input name="nama" placeholder="Nama Satuan" class="form-control" type="text">
+                                <input name="nama" class="form-control" type="text">
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Keterangan</label>
+                            <label class="control-label col-md-3">Tunjangan</label>
                             <div class="col-md-9">
-                                <input name="keterangan" placeholder="Keterangan Satuan" class="form-control" type="text">
+                                <input type="text" class="form-control mask-currency" id="tunjangan" name="tunjangan" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setTunjanganRaw();"/>
+                                <input type="hidden" class="form-control" id="tunjangan_raw" name="tunjangan_raw" value=""/>
                                 <span class="help-block"></span>
                             </div>
                         </div>
