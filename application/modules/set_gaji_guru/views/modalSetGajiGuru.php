@@ -18,14 +18,23 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Nama</label>
+                            <label class="control-label col-md-3">Gaji Pokok</label>
                             <div class="col-md-9">
-                                <input name="nama" class="form-control" type="text">
+                                <input type="text" class="form-control mask-currency" id="gapok" name="gapok" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setGapokRaw();"/>
+                                <input type="hidden" class="form-control" id="gapok_raw" name="gapok_raw" value=""/>
                                 <span class="help-block"></span>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Tunjangan</label>
+                            <label class="control-label col-md-3">Gaji Per Jam</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control mask-currency" id="gaperjam" name="gaperjam" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setGaperjamRaw();"/>
+                                <input type="hidden" class="form-control" id="gaperjam_raw" name="gaperjam_raw" value=""/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Tunjangan Jabatan</label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control mask-currency" id="tunjangan" name="tunjangan" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setTunjanganRaw();"/>
                                 <input type="hidden" class="form-control" id="tunjangan_raw" name="tunjangan_raw" value=""/>

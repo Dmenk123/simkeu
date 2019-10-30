@@ -55,7 +55,7 @@ $(document).ready(function() {
         }, 
     });
 
-     $('#jabatan').on('change', function() {
+    $('#jabatan').on('change', function() {
         var data = $("#jabatan option:selected").val();
         //Ajax Load data from ajax
         $.ajax({
@@ -209,9 +209,22 @@ function delete_jabatan(id)
     }
 }
 
+
 function setTunjanganRaw() {  
   var harga = $('#tunjangan').maskMoney('unmasked')[0];
   //set harga raw
   $('#tunjangan_raw').val(harga);
 } 
+
+function setGapokRaw() {
+    var harga = $('#gapok').maskMoney('unmasked')[0];
+    //set harga raw
+    $('#gapok_raw').val(harga);
+}
+
+function setGaperjamRaw() {
+    var harga = $('#gaperjam').maskMoney('unmasked')[0];
+    //set harga raw
+    $('#gaperjam_raw').val(harga);
+}
 </script>	
