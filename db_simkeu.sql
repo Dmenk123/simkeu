@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : db_lokal
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100131
+ Source Server Version : 100129
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100131
+ Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 30/10/2019 00:26:15
+ Date: 30/10/2019 14:30:19
 */
 
 SET NAMES utf8mb4;
@@ -32,6 +32,7 @@ CREATE TABLE `tbl_guru`  (
   `jenis_kelamin` varchar(1) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'L: Laki2, P: Perempuan',
   `foto` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT 1,
+  `is_guru` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `kode_jabatan`(`kode_jabatan`) USING BTREE,
   CONSTRAINT `tbl_guru_ibfk_1` FOREIGN KEY (`kode_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -40,7 +41,7 @@ CREATE TABLE `tbl_guru`  (
 -- ----------------------------
 -- Records of tbl_guru
 -- ----------------------------
-INSERT INTO `tbl_guru` VALUES (1, '1827188812718281', 'Michael Schumacher', 1, 'lalat xxx', 'asaasa', '1992-09-04', 'L', 'michael-schumacher-1572368322.jpg', 1);
+INSERT INTO `tbl_guru` VALUES (1, '1827188812718281', 'Michael Schumacher', 1, 'lalat xxx', 'asaasa', '1992-09-04', 'L', 'michael-schumacher-1572368322.jpg', 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_hak_akses
@@ -451,8 +452,8 @@ INSERT INTO `tbl_menu` VALUES (110, 0, 'Penggajian', 'Penggajian', ' ', 'fa fa-m
 INSERT INTO `tbl_menu` VALUES (111, 110, 'Setting Gaji Guru', 'Setting Gaji Guru', 'set_gaji_guru', '', 1, 2, 1, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (112, 110, 'Setting Gaji Karyawan', 'Setting Gaji Karyawan', 'set_gaji_karyawan', '', 1, 2, 2, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (113, 110, 'Proses Penggajian', 'Proses Penggajian', 'proses_gaji', '', 1, 2, 3, 1, 1, 1);
-INSERT INTO `tbl_menu` VALUES (114, 104, 'Master Guru', 'Master Guru', 'master_guru', '', 1, 2, 4, 1, 1, 1);
-INSERT INTO `tbl_menu` VALUES (115, 104, 'Master Karyawan', 'Master Karyawan', 'master_karyawan', '', 1, 2, 5, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (114, 104, 'Master Guru dan Staff', 'Master Guru dan Staff', 'master_guru', '', 1, 2, 4, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (115, 104, 'Master Karyawan', 'Master Karyawan', 'master_karyawan', '', 0, 2, 5, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (116, 104, 'Master User', 'Master User', 'master_user', '', 1, 2, 6, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (117, 104, 'Master Jabatan', 'Master Jabatan', 'master_jabatan', NULL, 1, 2, 7, 1, NULL, NULL);
 
@@ -479,6 +480,22 @@ INSERT INTO `tbl_satuan` VALUES (5, 'DUZ', 'Duz', 1);
 INSERT INTO `tbl_satuan` VALUES (6, 'LBR', 'Lembar', 1);
 INSERT INTO `tbl_satuan` VALUES (7, 'UANG', 'Satuan Uang', 1);
 INSERT INTO `tbl_satuan` VALUES (8, 'ASASF', 'asf', 1);
+
+-- ----------------------------
+-- Table structure for tbl_set_gaji
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_set_gaji`;
+CREATE TABLE `tbl_set_gaji`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_jabatan` int(14) NULL DEFAULT NULL,
+  `gaji_pokok` double(20, 2) NULL DEFAULT NULL,
+  `gaji_perjam` double(20, 2) NULL DEFAULT NULL,
+  `gaji_tunjangan_jabatan` double(20, 2) NULL DEFAULT NULL,
+  `is_guru` int(1) NULL DEFAULT 1,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id_jabatan`(`id_jabatan`) USING BTREE,
+  CONSTRAINT `tbl_set_gaji_ibfk_1` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar
@@ -593,7 +610,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-29 23:54:47', '2019-10-05 21:34:14', '2019-10-29 23:54:47');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-30 13:21:03', '2019-10-05 21:34:14', '2019-10-30 13:21:03');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
