@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 30/10/2019 14:30:19
+ Date: 30/10/2019 23:22:55
 */
 
 SET NAMES utf8mb4;
@@ -449,8 +449,8 @@ INSERT INTO `tbl_menu` VALUES (107, 104, 'Master Akun Eksternal', 'Master Akun E
 INSERT INTO `tbl_menu` VALUES (108, 0, 'Laporan', 'Laporan', ' ', 'fa fa-line-chart', 1, 1, 5, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (109, 108, 'Buku Kas Umum', 'Buku Kas Umum', 'lap_bku', '', 1, 2, 2, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (110, 0, 'Penggajian', 'Penggajian', ' ', 'fa fa-money', 1, 1, 4, 0, 0, 0);
-INSERT INTO `tbl_menu` VALUES (111, 110, 'Setting Gaji Guru', 'Setting Gaji Guru', 'set_gaji_guru', '', 1, 2, 1, 1, 1, 1);
-INSERT INTO `tbl_menu` VALUES (112, 110, 'Setting Gaji Karyawan', 'Setting Gaji Karyawan', 'set_gaji_karyawan', '', 1, 2, 2, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (111, 110, 'Setting Gaji Guru / Karyawan', 'Setting Gaji Guru / Karyawan', 'set_gaji_guru', '', 1, 2, 1, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (112, 110, 'Setting Gaji Karyawan', 'Setting Gaji Karyawan', 'set_gaji_karyawan', '', 0, 2, 2, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (113, 110, 'Proses Penggajian', 'Proses Penggajian', 'proses_gaji', '', 1, 2, 3, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (114, 104, 'Master Guru dan Staff', 'Master Guru dan Staff', 'master_guru', '', 1, 2, 4, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (115, 104, 'Master Karyawan', 'Master Karyawan', 'master_karyawan', '', 0, 2, 5, 1, 1, 1);
@@ -492,10 +492,16 @@ CREATE TABLE `tbl_set_gaji`  (
   `gaji_perjam` double(20, 2) NULL DEFAULT NULL,
   `gaji_tunjangan_jabatan` double(20, 2) NULL DEFAULT NULL,
   `is_guru` int(1) NULL DEFAULT 1,
+  `is_aktif` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_jabatan`(`id_jabatan`) USING BTREE,
   CONSTRAINT `tbl_set_gaji_ibfk_1` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_set_gaji
+-- ----------------------------
+INSERT INTO `tbl_set_gaji` VALUES (1, 1, 0.00, 2500.00, 75000.00, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar
@@ -610,7 +616,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-30 13:21:03', '2019-10-05 21:34:14', '2019-10-30 13:21:03');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-30 20:17:29', '2019-10-05 21:34:14', '2019-10-30 20:17:29');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
