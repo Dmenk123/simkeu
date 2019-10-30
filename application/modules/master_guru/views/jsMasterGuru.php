@@ -140,21 +140,19 @@ function save(save_method)
     });
 }
 
-function delete_jabatan(id)
+function delete_guru(id)
 {
     if(confirm('Yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('master_jabatan/delete')?>/"+id,
+            url : "<?php echo site_url('master_guru/delete')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
-                //if success reload ajax table
-                $('#modal_form').modal('hide');
                 alert(data.pesan);
-                reload_table();
+                window.location.href = "<?=base_url('/master_guru');?>";
             },
             error: function (jqXHR, textStatus, errorThrown)
             {

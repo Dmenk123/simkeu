@@ -50,7 +50,7 @@ class Master_guru extends CI_Controller {
 					<i class="glyphicon glyphicon-info-sign"></i> Detail
 				</a>
 				<a class="btn btn-sm btn-primary" href="'.base_url('master_guru/edit/').$val->id.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				<a class="btn btn-sm btn-danger" href="'.base_url('master_guru/delete/').$val->id.'" title="Hapus"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_guru('."'".$val->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
 			';
 
 			$data[] = $row;
@@ -298,10 +298,21 @@ class Master_guru extends CI_Controller {
 	public function delete($id)
 	{
 		// $this->m_guru->delete_by_id($id);
+		$this->db->trans_begin();
 		$this->m_guru->update(['id' => $id], ['is_aktif '=> 0]);
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_failed','Gagal Hapus Master Guru.'); 
+		}
+		else {
+			$this->db->trans_commit();
+			$this->session->set_flashdata('feedback_success','Berhasil Hapus Master Guru'); 
+		}
+
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Data Master Jabatan Berhasil dihapus',
+			"pesan" => 'Data Master Guru Berhasil dihapus',
 		));
 	}
 
