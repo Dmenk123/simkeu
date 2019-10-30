@@ -133,7 +133,9 @@ class Set_gaji_guru extends CI_Controller {
 
 	public function edit($id)
 	{
-		$data = $this->m_set->get_by_id($id);		
+		$data = $this->db->query("SELECT tbl_set_gaji.*, tbl_jabatan.nama as nama_jabatan from tbl_set_gaji join tbl_jabatan on tbl_set_gaji.id_jabatan = tbl_jabatan.id where tbl_set_gaji.id = '".$id."'")->row();
+
+		//$data = $this->m_set->get_by_id($id);		
 		echo json_encode($data);
 	}
 

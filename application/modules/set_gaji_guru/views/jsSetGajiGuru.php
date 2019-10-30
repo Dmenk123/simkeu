@@ -97,7 +97,7 @@ function add_data()
     $('.modal-title').text('Add Setting Gaji'); //set title modal
 }
 
-function edit_jabatan(id)
+function edit_data(id)
 {
     save_method = 'update';
     $('#form')[0].reset(); // reset form on modals
@@ -106,18 +106,31 @@ function edit_jabatan(id)
 
     //Ajax Load data from ajax
     $.ajax({
-        url : "<?php echo site_url('master_jabatan/edit/')?>/" + id,
+        url : "<?php echo site_url('set_gaji_guru/edit/')?>" + id,
         type: "GET",
         dataType: "JSON",
         success: function(data)
         {
             //ambil data ke json->modal
             $('[name="id"]').val(data.id);
-            $('[name="nama"]').val(data.nama);
-            $('[name="tunjangan"]').maskMoney('mask', parseInt(data.tunjangan));
-            $('[name="tunjangan_raw"]').val(data.tunjangan);
+            //$('#jabatan').select2('data', {id: data.id_jabatan, text: data.nama_jabatan});
+            var $newOption = $("<option selected='selected'></option>").val(data.id_jabatan).text(data.nama_jabatan)
+            $("#jabatan").append($newOption).trigger('change');
+            //$("#jabatan").val(data.id_jabatan).trigger('change');
+            
+            $('[name="gapok"]').maskMoney('mask', parseInt(data.gaji_pokok));
+            $('[name="gapok_raw"]').val(data.gaji_pokok);
+
+            $('[name="gaperjam"]').maskMoney('mask', parseInt(data.gaji_perjam));
+            $('[name="gaperjam_raw"]').val(data.gaji_perjam);
+
+            $('[name="tunjangan"]').maskMoney('mask', parseInt(data.gaji_tunjangan_jabatan));
+            $('[name="tunjangan_raw"]').val(data.gaji_tunjangan_jabatan);
+
+            $("#tipepeg").val(data.is_guru);
+
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
-            $('.modal-title').text('Edit Master Jabatan'); // Set title to Bootstrap modal title
+            $('.modal-title').text('Edit Setting Gaji'); // Set title to Bootstrap modal title
 
         },
         error: function (jqXHR, textStatus, errorThrown)
