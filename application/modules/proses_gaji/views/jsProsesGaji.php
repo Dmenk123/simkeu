@@ -99,7 +99,7 @@ function add_data()
     $('.form-group').removeClass('has-error');//clear error class
     $('.help-block').empty(); //clear error string
     $('#modal_form').modal('show'); //show bootstrap modal
-    $('.modal-title').text('Add Setting Gaji'); //set title modal
+    $('.modal-title').text('Proses Penggajian'); //set title modal
 }
 
 function edit_data(id)

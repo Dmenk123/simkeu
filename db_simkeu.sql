@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 30/10/2019 23:22:55
+ Date: 31/10/2019 23:31:26
 */
 
 SET NAMES utf8mb4;
@@ -458,6 +458,31 @@ INSERT INTO `tbl_menu` VALUES (116, 104, 'Master User', 'Master User', 'master_u
 INSERT INTO `tbl_menu` VALUES (117, 104, 'Master Jabatan', 'Master Jabatan', 'master_jabatan', NULL, 1, 2, 7, 1, NULL, NULL);
 
 -- ----------------------------
+-- Table structure for tbl_penggajian
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_penggajian`;
+CREATE TABLE `tbl_penggajian`  (
+  `id` int(11) NOT NULL,
+  `id_guru` int(12) NULL DEFAULT NULL,
+  `id_jabatan` int(12) NULL DEFAULT NULL,
+  `bulan` int(2) NULL DEFAULT NULL,
+  `tahun` varchar(4) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `is_guru` int(1) NULL DEFAULT 1,
+  `gaji_pokok` double(20, 2) NULL DEFAULT NULL,
+  `gaji_perjam` double(20, 2) NULL DEFAULT NULL,
+  `gaji_tunjangan_jabatan` double(20, 2) NULL DEFAULT NULL,
+  `gaji_tunjangan_lain` double(20, 2) NULL DEFAULT NULL,
+  `potongan_lain` double(20, 2) NULL DEFAULT NULL,
+  `total_take_home_pay` double(20, 2) NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `id_guru`(`id_guru`) USING BTREE,
+  INDEX `id_jabatan`(`id_jabatan`) USING BTREE,
+  CONSTRAINT `tbl_penggajian_ibfk_1` FOREIGN KEY (`id_guru`) REFERENCES `tbl_guru` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `tbl_penggajian_ibfk_2` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
 -- Table structure for tbl_satuan
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_satuan`;
@@ -616,7 +641,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-30 20:17:29', '2019-10-05 21:34:14', '2019-10-30 20:17:29');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-10-31 22:14:59', '2019-10-05 21:34:14', '2019-10-31 22:14:59');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
