@@ -66,11 +66,18 @@ $(document).ready(function() {
             {
                 $("#statuspeg").val(data.statuspeg);
                 $("#statuspeg_raw").val(data.is_guru);
+
+                $("#jabatanpeg").val(data.nama_jabatan);
+                $("#jabatanpeg_raw").val(data.kode_jabatan);
                 
+                $('#gapok').maskMoney('mask', parseInt(data.gaji_pokok));
+                $("#gapok_raw").val(data.gaji_pokok);
+                
+                $('#gaperjam').maskMoney('mask', parseInt(data.gaji_perjam));
+                $("#gaperjam_raw").val(data.gaji_perjam);
 
-
-                $('#tunjangan').maskMoney('mask', parseInt(data.tunjangan));
-                $("#tunjangan_raw").val(data.tunjangan);
+                $('#tunjangan').maskMoney('mask', parseInt(data.gaji_tunjangan_jabatan));
+                $("#tunjangan_raw").val(data.gaji_tunjangan_jabatan);
 
             },
             error: function (jqXHR, textStatus, errorThrown)
@@ -83,6 +90,11 @@ $(document).ready(function() {
 
     //mask money
     $('.mask-currency').maskMoney();
+
+     //force integer input in textfield
+    $('input.numberinput').bind('keypress', function (e) {
+        return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
+    });
 
 	//set input/textarea/select event when change value, remove class error and remove text help block
 	$("input").change(function() {
@@ -231,7 +243,6 @@ function delete_data(id)
     }
 }
 
-
 function setTunjanganRaw() {  
   var harga = $('#tunjangan').maskMoney('unmasked')[0];
   //set harga raw
@@ -248,5 +259,26 @@ function setGaperjamRaw() {
     var harga = $('#gaperjam').maskMoney('unmasked')[0];
     //set harga raw
     $('#gaperjam_raw').val(harga);
+}
+
+function setTunjanganLainRaw() {
+    var harga = $('#tunjanganlain').maskMoney('unmasked')[0];
+    //set harga raw
+    $('#tunjanganlain_raw').val(harga);
+}
+
+function setGajiTotal() {
+    var gapok = $('#gapok').maskMoney('unmasked')[0];
+    var gaperjam = $('#gaperjam').maskMoney('unmasked')[0];
+    var tunjangan = $('#tunjangan').maskMoney('unmasked')[0];
+    var tunjanganlain = $('#tunjanganlain').maskMoney('unmasked')[0];
+
+    var sumharga = parseInt(gapok + gaperjam + tunjangan + tunjanganlain);
+    var totalHarga =  sumharga * parseInt($('#jumlahjam').val());
+
+    //set harga total masked
+    $('#totalgaji').maskMoney('mask', totalHarga);
+    //set harga raw
+    $('#totalgaji_raw').val(totalHarga); 
 }
 </script>	

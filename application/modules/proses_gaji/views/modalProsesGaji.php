@@ -68,6 +68,14 @@ $arr_bulan = [
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-md-3">Jabatan</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="jabatanpeg" name="jabatanpeg" value="" readonly />
+                                <input type="hidden" class="form-control" id="jabatanpeg_raw" name="jabatanpeg_raw" value=""/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-3">Gaji Pokok</label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control mask-currency" id="gapok" name="gapok" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setGapokRaw();"/>
@@ -92,12 +100,25 @@ $arr_bulan = [
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="control-label col-md-3">Tipe Pegawai</label>
+                            <label class="control-label col-md-3">Tunjangan Lain</label>
                             <div class="col-md-9">
-                                <select name="tipepeg" id="tipepeg" class="form-control">
-                                    <option value="1">Guru</option>
-                                    <option value="0">Karyawan</option>
-                                </select>
+                                <input type="text" class="form-control mask-currency" id="tunjanganlain" name="tunjanganlain" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setTunjanganLainRaw();"/>
+                                <input type="hidden" class="form-control" id="tunjanganlain_raw" name="tunjanganlain_raw" value=""/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Jumlah Jam / Sebulan</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control numberinput" id="jumlahjam" name="jumlahjam" onKeyUp="setGajiTotal();"/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Gaji Total</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control mask-currency" id="totalgaji" data-thousands="." data-decimal="," data-prefix="Rp. " name="totalgaji" readonly/>
+                                <input type="hidden" class="form-control numberinput" id="totalgaji_raw" name="totalgaji_raw" />
                                 <span class="help-block"></span>
                             </div>
                         </div>
