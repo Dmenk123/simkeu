@@ -119,9 +119,9 @@ class Mod_proses_gaji extends CI_Model
 		return $query->row();
 	}
 
-	public function save($data)
+	public function save($table, $data)
 	{
-		$this->db->insert($this->table, $data);
+		$this->db->insert($table, $data);
 	}
 
 	public function update($where, $data)

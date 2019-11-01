@@ -8,6 +8,7 @@ class Proses_gaji extends CI_Controller {
 		parent::__construct();
 		//profil data
 		$this->load->model('profil/mod_profil','prof');
+		$this->load->model('verifikasi_out/mod_verifikasi_out','m_vout');
 		$this->load->model('mod_proses_gaji','m_pro');
 	}
 
@@ -120,22 +121,74 @@ class Proses_gaji extends CI_Controller {
 	public function add_data()
 	{
 		//validasi
-		$arr_valid = $this->_validate();
+		// $arr_valid = $this->_validate();
 		
-		if ($arr_valid['status'] == FALSE) {
+		/* if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
-		} 
+		} */ 
 
-		$data = array(
-			'id_jabatan' => $this->input->post('jabatan'),
-			'gaji_pokok' => $this->input->post('gapok_raw'),
-			'gaji_perjam' => $this->input->post('gaperjam_raw'),
-			'gaji_tunjangan_jabatan' => $this->input->post('tunjangan_raw'),
-			'is_guru' => $this->input->post('tipepeg')			
-		);
+		$tahun = $this->input->post('tahun');
+		$bulan = $this->input->post('bulan');
+		$namapeg = $this->input->post('namapeg');
+		$statuspeg = $this->input->post('statuspeg_raw');
+		$jabatanpeg = $this->input->post('jabatanpeg_raw');
+		$gapok = $this->input->post('gapok_raw');
+		$gaperjam = $this->input->post('gaperjam_raw');
+		$tunjangan = $this->input->post('tunjangan_raw');
+		$tunjangan_lain = $this->input->post('tunjanganlain_raw');
+		$potongan = $this->input->post('potongan_raw');
+		$jumlahjam = $this->input->post('jumlahjam');
+		$totalgaji = $this->input->post('totalgaji_raw');	
+		
+		$this->db->trans_begin();
 
-		$insert = $this->m_pro->save($data);
+		$arr_ins_gaji = [
+			'id_guru' => $namapeg,
+			'id_jabatan' => $jabatanpeg,
+			'bulan' => $bulan,
+			'tahun' => $tahun,
+			'is_guru' => $statuspeg,
+			'gaji_pokok' => $gapok,
+			'gaji_perjam' => $gaperjam,
+			'gaji_tunjangan_jabatan' => $tunjangan,
+			'gaji_tunjangan_lain' => $tunjangan_lain,
+			'potongan_lain' => $potongan,
+			'total_take_home_pay' => $totalgaji,
+			'created_at' => date('Y-m-d H:i:s')
+		];
+		
+		$insert1 = $this->m_pro->save('tbl_penggajian', $data);
+
+		$arr_ins_verifikasi = [
+			'id' => $this->m_vout->getKodeVerifikasi(),
+			'id_jabatan' => $jabatanpeg,
+			'bulan' => $bulan,
+			'tahun' => $tahun,
+			'is_guru' => $statuspeg,
+			'gaji_pokok' => $gapok,
+			'gaji_perjam' => $gaperjam,
+			'gaji_tunjangan_jabatan' => $tunjangan,
+			'gaji_tunjangan_lain' => $tunjangan_lain,
+			'potongan_lain' => $potongan,
+			'total_take_home_pay' => $totalgaji,
+			'created_at' => date('Y-m-d H:i:s')
+		];
+
+		$insert2 = $this->m_pro->save('tbl_penggajian', $data);
+
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			$this->session->set_flashdata('feedback_gagal','Gagal Input dan Verifikasi data.'); 
+			redirect($this->uri->segment(1));
+		}
+		else {
+			$this->db->trans_commit();
+			$this->session->set_flashdata('feedback_success','Berhasil Input dan Verifikasi data.'); 
+			redirect($this->uri->segment(1));
+		}
+
+		
 		
 		echo json_encode(array(
 			"status" => TRUE,

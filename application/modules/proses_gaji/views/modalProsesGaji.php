@@ -29,7 +29,7 @@ $arr_bulan = [
                         <div class="form-group">
                             <label class="control-label col-md-3">Bulan</label>
                             <div class="col-md-9">
-                                <select name="tahun" id="tahun" class="form-control">
+                                <select name="bulan" id="bulan" class="form-control">
                                     <option value="">Pilih Bulan</option>
                                     <?php for ($i=1; $i <= 12 ; $i++) { 
                                         echo '<option value="'.$i.'">'.$arr_bulan[$i].'</option>';
@@ -104,6 +104,14 @@ $arr_bulan = [
                             <div class="col-md-9">
                                 <input type="text" class="form-control mask-currency" id="tunjanganlain" name="tunjanganlain" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setTunjanganLainRaw();"/>
                                 <input type="hidden" class="form-control" id="tunjanganlain_raw" name="tunjanganlain_raw" value=""/>
+                                <span class="help-block"></span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Total Potongan</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control mask-currency" id="potongan" name="potongan" value="" data-thousands="." data-decimal="," data-prefix="Rp. " onKeyUp="setPotonganRaw();"/>
+                                <input type="hidden" class="form-control" id="potongan_raw" name="potongan_raw" value=""/>
                                 <span class="help-block"></span>
                             </div>
                         </div>

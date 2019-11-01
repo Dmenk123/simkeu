@@ -169,10 +169,10 @@ function save()
     var url;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('set_gaji_guru/add_data')?>";
+        url = "<?php echo site_url('proses_gaji/add_data')?>";
         tipe_simpan = 'tambah';
     } else {
-        url = "<?php echo site_url('set_gaji_guru/update_data')?>";
+        url = "<?php echo site_url('proses_gaji/update_data')?>";
         tipe_simpan = 'update';
     }
 
@@ -267,14 +267,20 @@ function setTunjanganLainRaw() {
     $('#tunjanganlain_raw').val(harga);
 }
 
+function setPotonganRaw() {
+    var harga = $('#potongan').maskMoney('unmasked')[0];
+    //set harga raw
+    $('#potongan_raw').val(harga);
+};
+
 function setGajiTotal() {
     var gapok = $('#gapok').maskMoney('unmasked')[0];
     var gaperjam = $('#gaperjam').maskMoney('unmasked')[0];
     var tunjangan = $('#tunjangan').maskMoney('unmasked')[0];
     var tunjanganlain = $('#tunjanganlain').maskMoney('unmasked')[0];
-
-    var sumharga = parseInt(gapok + gaperjam + tunjangan + tunjanganlain);
-    var totalHarga =  sumharga * parseInt($('#jumlahjam').val());
+    var potongan = $('#potongan').maskMoney('unmasked')[0];
+    var gaperjamfix = parseInt($('#jumlahjam').val() * gaperjam);
+    var totalHarga = parseInt(gapok + gaperjamfix + tunjangan + tunjanganlain - potongan);
 
     //set harga total masked
     $('#totalgaji').maskMoney('mask', totalHarga);
