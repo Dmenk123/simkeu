@@ -121,12 +121,12 @@ class Proses_gaji extends CI_Controller {
 	public function add_data()
 	{
 		//validasi
-		// $arr_valid = $this->_validate();
+		$arr_valid = $this->_validate();
 		
-		/* if ($arr_valid['status'] == FALSE) {
+		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
-		} */ 
+		}  
 
 		$tahun = $this->input->post('tahun');
 		$bulan = $this->input->post('bulan');
@@ -143,6 +143,17 @@ class Proses_gaji extends CI_Controller {
 		
 		$this->db->trans_begin();
 
+		//cek sudah ada gaji/belum
+		$cek_ada = $this->m_pro->cek_exist_gaji(['id_guru' => $namapeg, 'bulan' => (int)$bulan, 'tahun' => $tahun]);
+
+		if ($cek_ada) {
+			echo json_encode(array(
+				"status" => FALSE,
+				"pesan" => "Maaf Gaji Guru/Staff pada bulan ".$bulan." dan ".$tahun." Sudah ada"
+			));
+			return;
+		}
+
 		$arr_ins_gaji = [
 			'id_guru' => $namapeg,
 			'id_jabatan' => $jabatanpeg,
@@ -158,7 +169,7 @@ class Proses_gaji extends CI_Controller {
 			'created_at' => date('Y-m-d H:i:s')
 		];
 		
-		$insert = $this->m_pro->save('tbl_penggajian', $data);
+		$insert = $this->m_pro->save('tbl_penggajian', $arr_ins_gaji);
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
@@ -226,35 +237,35 @@ class Proses_gaji extends CI_Controller {
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
-		if ($this->input->post('jabatan') == '') {
-			$data['inputerror'][] = 'jabatan';
-            $data['error_string'][] = 'Wajib mengisi jabatan';
+		if ($this->input->post('tahun') == '') {
+			$data['inputerror'][] = 'tahun';
+            $data['error_string'][] = 'Wajib mengisi tahun';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('gapok') == '') {
-			$data['inputerror'][] = 'gapok';
-            $data['error_string'][] = 'Wajib mengisi Gaji Pokok';
+		if ($this->input->post('bulan') == '') {
+			$data['inputerror'][] = 'bulan';
+            $data['error_string'][] = 'Wajib mengisi Bulan';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('gaperjam') == '') {
+		/*if ($this->input->post('gaperjam') == '') {
 			$data['inputerror'][] = 'gaperjam';
             $data['error_string'][] = 'Wajib mengisi Gaji per jam';
             $data['status'] = FALSE;
-		}
+		}*/
 
-		if ($this->input->post('tunjangan') == '') {
+		/*if ($this->input->post('tunjangan') == '') {
 			$data['inputerror'][] = 'tunjangan';
             $data['error_string'][] = 'Wajib mengisi Gaji Tunjangan';
             $data['status'] = FALSE;
-		}
+		}*/
 
-		if ($this->input->post('tipepeg') == '') {
+		/*if ($this->input->post('tipepeg') == '') {
 			$data['inputerror'][] = 'tipepeg';
             $data['error_string'][] = 'Wajib mengisi Tipe Pegawai';
             $data['status'] = FALSE;
-		}
+		}*/
 			
         return $data;
 	}

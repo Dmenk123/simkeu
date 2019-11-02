@@ -147,4 +147,18 @@ class Mod_proses_gaji extends CI_Model
 		$query = $this->db->get();
 		return $query->result();
 	}
+
+	public function cek_exist_gaji($where)
+	{
+		$this->db->select('id, id_guru');
+		$this->db->from($this->table);
+		$this->db->where($where);
+		$query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return TRUE;
+        }else{
+        	return FALSE;
+        }
+	}
 }
