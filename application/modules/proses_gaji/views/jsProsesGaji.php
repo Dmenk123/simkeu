@@ -89,7 +89,9 @@ $(document).ready(function() {
     });
 
     //mask money
-    $('.mask-currency').maskMoney();
+    $('.mask-currency').maskMoney({
+        precision: 0
+    });
 
      //force integer input in textfield
     $('input.numberinput').bind('keypress', function (e) {
@@ -275,8 +277,11 @@ function setPotonganRaw() {
 
 function setGajiTotal() {
     var gapok = $('#gapok').maskMoney('unmasked')[0];
+    console.log(gapok);
     var gaperjam = $('#gaperjam').maskMoney('unmasked')[0];
+    console.log(gaperjam);
     var tunjangan = $('#tunjangan').maskMoney('unmasked')[0];
+    console.log(tunjangan);
     var tunjanganlain = $('#tunjanganlain').maskMoney('unmasked')[0];
     var potongan = $('#potongan').maskMoney('unmasked')[0];
     var gaperjamfix = parseInt($('#jumlahjam').val() * gaperjam);
@@ -286,5 +291,13 @@ function setGajiTotal() {
     $('#totalgaji').maskMoney('mask', totalHarga);
     //set harga raw
     $('#totalgaji_raw').val(totalHarga); 
+}
+
+function parseFloatOpts(num, decimal, thousands) {
+    var bits = num.split(decimal, 2),
+    ones = bits[0].replace(new RegExp('\\' + thousands, 'g'), '');
+    ones = parseFloat(ones, 10);
+    decimal = parseFloat('0.' + bits[1], 10);
+    return ones + decimal;
 }
 </script>	

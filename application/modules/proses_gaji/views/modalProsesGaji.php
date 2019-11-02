@@ -44,7 +44,7 @@ $arr_bulan = [
                             <div class="col-md-9">
                                 <select name="tahun" id="tahun" class="form-control">
                                     <option value="">Pilih Tahun</option>
-                                    <?php for ($i=2017; $i <= 2025; $i++) { 
+                                    <?php for ($i=(int)date('Y')-1; $i <= 2025; $i++) { 
                                         echo '<option value="'.$i.'">'.$i.'</option>';
                                     } ?>
                                 </select>
@@ -125,7 +125,7 @@ $arr_bulan = [
                         <div class="form-group">
                             <label class="control-label col-md-3">Gaji Total</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control mask-currency" id="totalgaji" data-thousands="." data-decimal="," data-prefix="Rp. " name="totalgaji" readonly/>
+                                <input type="text" class="form-control mask-currency" id="totalgaji" data-thousands="." data-decimal="," data-prefix="Rp. " precision="" name="totalgaji" readonly/>
                                 <input type="hidden" class="form-control numberinput" id="totalgaji_raw" name="totalgaji_raw" />
                                 <span class="help-block"></span>
                             </div>

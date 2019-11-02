@@ -158,41 +158,22 @@ class Proses_gaji extends CI_Controller {
 			'created_at' => date('Y-m-d H:i:s')
 		];
 		
-		$insert1 = $this->m_pro->save('tbl_penggajian', $data);
-
-		$arr_ins_verifikasi = [
-			'id' => $this->m_vout->getKodeVerifikasi(),
-			'id_jabatan' => $jabatanpeg,
-			'bulan' => $bulan,
-			'tahun' => $tahun,
-			'is_guru' => $statuspeg,
-			'gaji_pokok' => $gapok,
-			'gaji_perjam' => $gaperjam,
-			'gaji_tunjangan_jabatan' => $tunjangan,
-			'gaji_tunjangan_lain' => $tunjangan_lain,
-			'potongan_lain' => $potongan,
-			'total_take_home_pay' => $totalgaji,
-			'created_at' => date('Y-m-d H:i:s')
-		];
-
-		$insert2 = $this->m_pro->save('tbl_penggajian', $data);
+		$insert = $this->m_pro->save('tbl_penggajian', $data);
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			$this->session->set_flashdata('feedback_gagal','Gagal Input dan Verifikasi data.'); 
-			redirect($this->uri->segment(1));
+			$status = FALSE;
+			$pesan = 'Gagal Proses Gaji';
 		}
 		else {
 			$this->db->trans_commit();
-			$this->session->set_flashdata('feedback_success','Berhasil Input dan Verifikasi data.'); 
-			redirect($this->uri->segment(1));
+			$status = TRUE;
+			$pesan = 'Berhsil Proses Gaji';
 		}
-
-		
-		
+				
 		echo json_encode(array(
-			"status" => TRUE,
-			"pesan" => 'Berhasil Setting gaji',
+			"status" => $status,
+			"pesan" => $pesan,
 		));
 	}
 
