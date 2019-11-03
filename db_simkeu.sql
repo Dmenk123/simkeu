@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 01/11/2019 16:25:58
+ Date: 04/11/2019 00:21:19
 */
 
 SET NAMES utf8mb4;
@@ -70,7 +70,6 @@ INSERT INTO `tbl_hak_akses` VALUES (105, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (106, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (107, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (114, 1, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (115, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (116, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (117, 1, 1, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (100, 1, 0, 0, 0);
@@ -79,8 +78,8 @@ INSERT INTO `tbl_hak_akses` VALUES (102, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (103, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (110, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (111, 1, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (112, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (113, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (118, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (99, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (98, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (97, 1, 1, 1, 1);
@@ -456,6 +455,7 @@ INSERT INTO `tbl_menu` VALUES (114, 104, 'Master Guru dan Staff', 'Master Guru d
 INSERT INTO `tbl_menu` VALUES (115, 104, 'Master Karyawan', 'Master Karyawan', 'master_karyawan', '', 0, 2, 5, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (116, 104, 'Master User', 'Master User', 'master_user', '', 1, 2, 6, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (117, 104, 'Master Jabatan', 'Master Jabatan', 'master_jabatan', NULL, 1, 2, 7, 1, NULL, NULL);
+INSERT INTO `tbl_menu` VALUES (118, 110, 'Konfirmasi Penggajian', 'Konfirmasi Penggajian', 'konfirm_gaji', '', 1, 2, 3, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_penggajian
@@ -472,15 +472,23 @@ CREATE TABLE `tbl_penggajian`  (
   `gaji_perjam` double(20, 2) NULL DEFAULT NULL,
   `gaji_tunjangan_jabatan` double(20, 2) NULL DEFAULT NULL,
   `gaji_tunjangan_lain` double(20, 2) NULL DEFAULT NULL,
+  `jumlah_jam_kerja` int(5) NULL DEFAULT NULL,
   `potongan_lain` double(20, 2) NULL DEFAULT NULL,
   `total_take_home_pay` double(20, 2) NULL DEFAULT NULL,
   `created_at` datetime(0) NULL DEFAULT NULL,
+  `is_confirm` int(1) NULL DEFAULT 0,
+  `is_aktif` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_guru`(`id_guru`) USING BTREE,
   INDEX `id_jabatan`(`id_jabatan`) USING BTREE,
   CONSTRAINT `tbl_penggajian_ibfk_1` FOREIGN KEY (`id_guru`) REFERENCES `tbl_guru` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_penggajian_ibfk_2` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_penggajian
+-- ----------------------------
+INSERT INTO `tbl_penggajian` VALUES (1, 1, 1, 10, '2019', 1, 0.00, 2500.00, 75000.00, 500000.00, 48, 20000.00, 675000.00, '2019-11-03 00:14:35', 0, 1);
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -641,7 +649,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-01 13:35:18', '2019-10-05 21:34:14', '2019-11-01 13:35:18');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-03 22:02:47', '2019-10-05 21:34:14', '2019-11-03 22:02:47');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class Proses_gaji extends CI_Controller {
+class Konfirm_gaji extends CI_Controller {
 	
 	public function __construct()
 	{
@@ -9,23 +9,87 @@ class Proses_gaji extends CI_Controller {
 		//profil data
 		$this->load->model('profil/mod_profil','prof');
 		$this->load->model('verifikasi_out/mod_verifikasi_out','m_vout');
-		$this->load->model('mod_proses_gaji','m_pro');
+		$this->load->model('mod_konfirm_gaji','m_kon');
 	}
 
 	public function index()
-	{	
+	{
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
-		$data = array(
-			'data_user' => $data_user
-		);
+		$arr_bulan = [ 
+		    1 => 'Januari',
+		    2 => 'Februari',
+		    3 => 'Maret',
+		    4 => 'April',
+		    5 => 'Mei',
+		    6 => 'Juni',
+		    7 => 'Juli',
+		    8 => 'Agustus',
+		    9 => 'September',
+		    10 => 'Oktober',
+		    11 => 'November',
+		    12 => 'Desember'
+		];
+
+		if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') {
+			$hasildata = $this->m_kon->get_datatables($this->input->get('bulan'), $this->input->get('tahun'));
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan,
+				'datatabel' => $hasildata
+			);
+		}else{
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan,
+				'datatabel' => null
+			);
+		}
 
 		$content = [
-			'css' 	=> 'cssProsesGaji',
-			'modal' => 'modalProsesGaji',
-			'js'	=> 'jsProsesGaji',
-			'view'	=> 'view_list_proses_gaji'
+			'css' 	=> 'cssKonfirmGaji',
+			'modal' => 'modalKonfirmGaji',
+			'js'	=> 'jsKonfirmGaji',
+			'view'	=> 'view_list_konfirm_gaji'
+		];
+
+		$this->template_view->load_view($content, $data);
+	}
+
+	public function detail($tipepeg, $bulan, $tahun)
+	{
+		$id_user = $this->session->userdata('id_user'); 
+		$data_user = $this->prof->get_detail_pengguna($id_user);
+
+		$arr_bulan = [ 
+		    1 => 'Januari',
+		    2 => 'Februari',
+		    3 => 'Maret',
+		    4 => 'April',
+		    5 => 'Mei',
+		    6 => 'Juni',
+		    7 => 'Juli',
+		    8 => 'Agustus',
+		    9 => 'September',
+		    10 => 'Oktober',
+		    11 => 'November',
+		    12 => 'Desember'
+		];
+
+		$hasil_data = $this->m_kon->get_detail($tipepeg, $bulan, $tahun);
+		
+		$data = array(
+			'data_user' => $data_user,
+			'arr_bulan' => $arr_bulan,
+			'hasil_data' => $hasil_data
+		);
+		
+		$content = [
+			'css' 	=> 'cssKonfirmGaji',
+			'modal' => null,
+			'js'	=> 'jsKonfirmGaji',
+			'view'	=> 'view_detail_konfirm_gaji'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -39,7 +103,7 @@ class Proses_gaji extends CI_Controller {
 			$q = '';
 		}
 		
-		$query = $this->m_pro->lookup_kode_guru($q);
+		$query = $this->m_kon->lookup_kode_guru($q);
 		
 		foreach ($query as $row) {
 			$akun[] = array(
@@ -69,46 +133,6 @@ class Proses_gaji extends CI_Controller {
 		echo json_encode($q);
 	}
 
-	public function list_data()
-	{
-		$list = $this->m_pro->get_datatables();
-		$data = array();
-		$no =$_POST['start'];
-		foreach ($list as $val) {
-			// $no++;
-			$row = array();
-			//loop value tabel db
-			// $row[] = $no;
-			$row[] = $val->nama_guru;
-			$row[] = $val->nama_jabatan;
-			$row[] = $this->bulanIndo($val->bulan);
-			$row[] = $val->tahun;
-			$row[] = '
-				<div>
-	                <span class="pull-left">Rp. </span>
-	                  <span class="pull-right">'.number_format($val->total_take_home_pay,2,",",".").'</span>
-	             </div>
-			';
-
-			//add html for action
-			$row[] = '
-					<a class="btn btn-sm btn-success" href="javascript:void(0)" title="Detail" onclick="detail_data('."'".$val->id."'".')"><i class="glyphicon glyphicon-info-sign"></i> Detail</a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_data('."'".$val->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
-			';
-
-			$data[] = $row;
-		}//end loop
-
-		$output = array(
-			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->m_pro->count_all(),
-			"recordsFiltered" => $this->m_pro->count_filtered(),
-			"data" => $data,
-		);
-		//output to json format
-		echo json_encode($output);
-	}
-
 	public function add_data()
 	{
 		//validasi
@@ -135,7 +159,7 @@ class Proses_gaji extends CI_Controller {
 		$this->db->trans_begin();
 
 		//cek sudah ada gaji/belum
-		$cek_ada = $this->m_pro->cek_exist_gaji(['id_guru' => $namapeg, 'bulan' => (int)$bulan, 'tahun' => $tahun]);
+		$cek_ada = $this->m_kon->cek_exist_gaji(['id_guru' => $namapeg, 'bulan' => (int)$bulan, 'tahun' => $tahun]);
 
 		if ($cek_ada) {
 			echo json_encode(array(
@@ -161,7 +185,7 @@ class Proses_gaji extends CI_Controller {
 			'created_at' => date('Y-m-d H:i:s')
 		];
 		
-		$insert = $this->m_pro->save('tbl_penggajian', $arr_ins_gaji);
+		$insert = $this->m_kon->save('tbl_penggajian', $arr_ins_gaji);
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
@@ -182,7 +206,7 @@ class Proses_gaji extends CI_Controller {
 
 	public function edit($id)
 	{
-		$data = $this->m_pro->get_by_id($id);
+		$data = $this->m_kon->get_by_id($id);
 		echo json_encode($data);
 	}
 
@@ -210,7 +234,7 @@ class Proses_gaji extends CI_Controller {
 
 		$this->db->trans_begin();
 
-		$cek_ada = $this->m_pro->cek_exist_gaji(['id_guru' => $namapeg, 'bulan' => (int)$bulan, 'tahun' => $tahun]);
+		$cek_ada = $this->m_kon->cek_exist_gaji(['id_guru' => $namapeg, 'bulan' => (int)$bulan, 'tahun' => $tahun]);
 
 		if ($cek_ada) {
 			echo json_encode(array(
@@ -235,7 +259,7 @@ class Proses_gaji extends CI_Controller {
 			'total_take_home_pay' => $totalgaji
 		];
 
-		$this->m_pro->update(array('id' => $this->input->post('id')), $data);
+		$this->m_kon->update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Setting Gaji Berhasil diupdate',
@@ -244,8 +268,8 @@ class Proses_gaji extends CI_Controller {
 
 	public function delete_data($id)
 	{
-		//$this->m_pro->delete_by_id($id);
-		$this->m_pro->update(['id' => $id], ['is_aktif '=> 0]);
+		//$this->m_kon->delete_by_id($id);
+		$this->m_kon->update(['id' => $id], ['is_aktif '=> 0]);
 		echo json_encode(array(
 			"status" => TRUE,
 			"pesan" => 'Setting Gaji Berhasil dihapus',

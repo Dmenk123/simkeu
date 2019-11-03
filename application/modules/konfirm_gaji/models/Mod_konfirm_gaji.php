@@ -1,98 +1,27 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-class Mod_proses_gaji extends CI_Model
+class Mod_konfirm_gaji extends CI_Model
 {
 	var $table = 'tbl_penggajian';
-	var $column_order = array("tg.nama", "tj.nama", "tp.bulan", "tp.tahun", "tp.total_take_home_pay", null);
-	var $column_search = array("tg.nama", "tj.nama", "tp.bulan", "tp.tahun", "tp.total_take_home_pay");
-	var $order = array(
-		'tp.tahun' => 'desc',
-		'tp.bulan' => 'desc',
-		'tg.nama' => 'asc'
-	); // default order 
-
+	
 	public function __construct()
 	{
 		parent::__construct();
 		$this->load->database();
 	}
 
-	private function _get_datatables_query()
+	function get_datatables($bulan, $tahun)
 	{
-		$column = array(
-			"tg.nama",
-			"tj.nama",
-			"tp.bulan",
-			"tp.tahun",
-			"tp.total_take_home_pay",
-			null,
+		$query = $this->db->query(
+			"SELECT sum( total_take_home_pay ) AS total_gaji, CASE WHEN (is_guru = 1) THEN 'Gaji Guru' ELSE 'Gaji Staff/Karyawan' END AS tipe_gaji, bulan, tahun, is_guru
+			FROM tbl_penggajian 
+			WHERE bulan = '".$bulan."' AND tahun = '".$tahun."' and is_aktif = '1' GROUP BY is_guru "
 		);
-		
-		$this->db->select("
-			tp.*,
-			tg.nama as nama_guru,
-			tj.nama as nama_jabatan
-		");
 
-		$this->db->from('tbl_penggajian tp');
-		$this->db->join('tbl_guru tg', 'tp.id_guru = tg.id', 'left');
-		$this->db->join('tbl_jabatan tj', 'tp.id_jabatan = tj.id', 'left');
-		$this->db->where('tp.is_confirm', 0);
-		$this->db->where('tp.is_aktif', 1);
-		$i = 0;
-	
-		foreach ($this->column_search as $item) // loop column 
-		{
-			if($_POST['search']['value']) // if datatable send POST for search
-			{
-				
-				if($i===0) // first loop
-				{
-					$this->db->group_start(); // open bracket. query Where with OR clause better with bracket. because maybe can combine with other WHERE with AND.
-					$this->db->like($item, $_POST['search']['value']);
-				}
-				else
-				{
-					$this->db->or_like($item, $_POST['search']['value']);
-				}
-
-				if(count($this->column_search) - 1 == $i) //last loop
-					$this->db->group_end(); //close bracket
-			}
-			$i++;
-		}
-		
-		if(isset($_POST['order'])) // here order processing
-		{
-			$this->db->order_by($this->column_order[$_POST['order']['0']['column']], $_POST['order']['0']['dir']);
-		} 
-		else if(isset($this->order))
-		{
-			$order = $this->order;
-			$this->db->order_by(key($order), $order[key($order)]);
-		}
-	}
-
-	function get_datatables()
-	{
-		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term);
-
-		if($_REQUEST['length'] != -1)
-		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
-
-		$query = $this->db->get();
 		return $query->result();
 	}
 
-	function count_filtered()
-	{
-		$this->_get_datatables_query();
-		$query = $this->db->get();
-		return $query->num_rows();
-	}
-
-	public function count_all()
+	public function get_detail($tipepeg, $bulan, $tahun)
 	{
 		$this->db->select("
 			tp.*,
@@ -103,16 +32,11 @@ class Mod_proses_gaji extends CI_Model
 		$this->db->from('tbl_penggajian tp');
 		$this->db->join('tbl_guru tg', 'tp.id_guru = tg.id', 'left');
 		$this->db->join('tbl_jabatan tj', 'tp.id_jabatan = tj.id', 'left');
+		$this->db->where('tp.bulan', $bulan);
+		$this->db->where('tp.tahun', $tahun);
+		$this->db->where('tp.is_guru', $tipepeg);
 		$this->db->where('tp.is_confirm', 0);
 		$this->db->where('tp.is_aktif', 1);
-		return $this->db->count_all_results();
-	}
-
-	public function get_detail_user($id_user)
-	{
-		$this->db->select('*');
-		$this->db->from('tbl_user_detail');
-		$this->db->where('id_user', $id_user);
 
         $query = $this->db->get();
 

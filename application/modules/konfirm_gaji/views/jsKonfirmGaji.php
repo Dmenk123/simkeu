@@ -5,29 +5,13 @@
 <script type="text/javascript">
 	var save_method; //for save method string
 	var table;
+    var table2;
 
 $(document).ready(function() {
 	//datatables
-	table = $('#tabelGaji').DataTable({
-		
-		"processing": true, //feature control the processing indicator
-		"serverSide": true, //feature control DataTables server-side processing mode
-		"order":[], //initial no order
+	table = $('#tabelData').DataTable();
 
-		//load data for table content from ajax source
-		"ajax": {
-			"url": "<?php echo site_url('proses_gaji/list_data') ?>",
-			"type": "POST" 
-		},
-
-		//set column definition initialisation properties
-		"columnDefs": [
-			{
-				"targets": [-1], //last column
-				"orderable": false, //set not orderable
-			},
-		],
-	});
+    table2 = $('#tabelData2').DataTable();
 
     //select2
     $("#namapeg").select2({
@@ -103,6 +87,17 @@ $(document).ready(function() {
 		$(this).parent().parent().removeClass('has-error');
 		$(this).next().empty();
 	});
+
+    //tabs
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
+    $('.nav-tabs a').click(function (e) {
+        $(this).tab('show');
+        var scrollmem = $('body').scrollTop();
+        window.location.hash = this.hash;
+        $('html,body').scrollTop(scrollmem);
+    });
 
 });	
 
