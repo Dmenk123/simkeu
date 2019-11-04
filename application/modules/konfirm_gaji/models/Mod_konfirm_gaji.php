@@ -79,6 +79,21 @@ class Mod_konfirm_gaji extends CI_Model
 		$this->db->delete($this->table);
 	}
 
+	public function getKodeGajiOut($akronim)
+    {
+		$q = $this->db->query("select MAX(RIGHT(id_produk,5)) as kode_max from tbl_produk where id_produk like '%$akronim%'");
+		$kd = "";
+		if($q->num_rows()>0){
+			foreach($q->result() as $hasil){
+				$tmp = ((int)$hasil->kode_max)+1;
+				$kd = sprintf("%05s", $tmp);
+			}
+		}else{
+			$kd = "00001";
+		}
+		return "$akronim".$kd;
+    }
+
 	public function lookup_kode_guru($keyword="")
 	{
 		$this->db->select('*');

@@ -236,6 +236,31 @@ function save()
     });
 }
 
+function konfirmGaji(id)
+{
+    if(confirm('Yakin Konfirmasi Data Ini ?'))
+    {
+        // ajax delete data to database
+        $.ajax({
+            url : "<?php echo site_url('konfirm_gaji/proses_konfirmasi')?>/"+id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data)
+            {
+                //if success reload ajax table
+                // $('#modal_form').modal('hide');
+                alert(data.pesan);
+                reload_table();
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error deleting data');
+            }
+        });
+
+    }
+}
+
 function delete_data(id)
 {
     if(confirm('Yakin Hapus Data Ini ?'))

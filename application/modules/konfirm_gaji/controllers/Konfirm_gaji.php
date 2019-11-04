@@ -9,6 +9,7 @@ class Konfirm_gaji extends CI_Controller {
 		//profil data
 		$this->load->model('profil/mod_profil','prof');
 		$this->load->model('verifikasi_out/mod_verifikasi_out','m_vout');
+		$this->load->model('pengeluaran/mod_pengeluaran','m_out');
 		$this->load->model('mod_konfirm_gaji','m_kon');
 	}
 
@@ -94,6 +95,79 @@ class Konfirm_gaji extends CI_Controller {
 
 		$this->template_view->load_view($content, $data);
 	}
+
+	public function proses_konfirmasi($tipepeg, $bulan, $tahun)
+	{
+		$this->db->trans_begin();
+
+		//insert into tbl pengeluaran
+		$kode_out_header = $this->m_out->getKodePengeluaran();
+		$dataInsOut = [
+			'id' => $kode_out_header,
+			'user_id' => $this->session->userdata('id_user'),
+			'pemohon' => 'GAJI BULANAN',
+			'tanggal' => date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01')),
+			'status' => 0,
+			'created_at' => date('Y-m-d H:i:s')
+		];
+		$this->m_kon->save('tbl_trans_keluar', $dataInsOut);
+
+		//insert into tbl pengeluaran_det
+		$txtKet = ($tipepeg == 1) ? 'Gaji Bulanan Guru' : 'Gaji Bulanan Staff/Karyawan';
+		$dataInsOutDetail = [
+			'id_trans_keluar' => $kode_out_header,
+			'keterangan' => $txtKet,
+			'satuan' => '9',
+			'qty' => '1',
+			'status' => 1
+		];
+		$this->m_kon->save('tbl_trans_keluar_detail', $dataInsOutDetail);
+		
+		//update status jadi confirm
+		$data_awal = $this->m_kon->get_datatables($bulan, $tahun);
+		$this->m_kon->update(['is_guru' => $tipepeg, 'bulan' => $bulan, 'tahun' => $tahun, 'is_aktif' => 1], ['is_confirm'=> 1]);
+
+		//insert into tbl verifikasi
+		$kode_verifikasi = $this->m_vout->getKodeVerifikasi();
+		$q = $this->db->query("select * from tbl_trans_keluar_detail where id_trans_keluar = '".$kode_out_header."'")->row();
+		
+		$data_ins_v = [
+			'id' => $kode_verifikasi,
+			'id_out' => $kode_out_header,
+			'id_out_detail' => $q->id,
+			'tanggal' => date("Y-m-d"),
+			'user_id' => $this->session->userdata('id_user'),
+			'gambar_bukti' => null,
+			'harga_satuan' => $data_awal[0]->total_gaji,
+			'harga_total' => $data_awal[0]->total_gaji,
+			'status' => 2,
+			'tipe_akun' => 2,
+			'kode_akun' => 2,
+			'sub1_akun' => 3,
+			'sub2_akun' => null,
+			'created_at' => date("Y-m-d H:i:s")
+		];
+
+		$this->m_kon->save('tbl_verifikasi', $data_ins_v);
+
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			$status = FALSE;
+			$pesan = 'Gagal Konfirmasi Gaji';
+		}
+		else {
+			$this->db->trans_commit();
+			$status = TRUE;
+			$pesan = 'Berhasil Konfirmasi Gaji';
+		}
+
+		echo json_encode(array(
+			"status" => $status,
+			"pesan" => $pesan,
+		));
+	}
+
+	/* ================================================================================================== */
 
 	public function suggest_guru()
 	{

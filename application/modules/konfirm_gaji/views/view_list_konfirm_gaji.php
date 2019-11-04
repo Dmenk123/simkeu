@@ -98,7 +98,7 @@
                                   <?php $id = $val->is_guru.'/'.$val->bulan.'/'.$val->tahun; ?>
                                   <a class="btn btn-sm btn-success" href="<?=site_url('konfirm_gaji/detail/').$id;?>" title="Detail" id="btn_detail">
                                     <i class="glyphicon glyphicon-info-sign"></i></a>
-                                  <a class="btn btn-sm btn-primary" href="'.base_url('master_guru/edit/').$val->id.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
+                                  <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Hapus" onclick="konfirmGaji('<?=$id;?>')"><i class="glyphicon glyphicon-pencil"></i></a>
                                 </td>
                               </tr>  
                             <?php endforeach ?>
