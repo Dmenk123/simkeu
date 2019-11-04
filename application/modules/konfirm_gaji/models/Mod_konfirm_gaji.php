@@ -79,6 +79,12 @@ class Mod_konfirm_gaji extends CI_Model
 		$this->db->delete($this->table);
 	}
 
+	public function delete_data($table, $where)
+	{
+		$this->db->where($where);
+		$this->db->delete($table);
+	}
+
 	public function getKodeGajiOut($akronim)
     {
 		$q = $this->db->query("select MAX(RIGHT(id_produk,5)) as kode_max from tbl_produk where id_produk like '%$akronim%'");

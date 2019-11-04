@@ -173,6 +173,11 @@ function reload_table()
     table.ajax.reload(null,false); //reload datatable ajax 
 }
 
+function reload_table2()
+{
+    table2.ajax.reload(null,false); //reload datatable ajax 
+}
+
 function save()
 {
     $('#btnSave').text('saving...'); //change button text
@@ -240,17 +245,14 @@ function konfirmGaji(id)
 {
     if(confirm('Yakin Konfirmasi Data Ini ?'))
     {
-        // ajax delete data to database
         $.ajax({
             url : "<?php echo site_url('konfirm_gaji/proses_konfirmasi')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
-                //if success reload ajax table
-                // $('#modal_form').modal('hide');
                 alert(data.pesan);
-                reload_table();
+                location.reload();
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -265,24 +267,20 @@ function hapusKonfirmGaji(id)
 {
     if(confirm('Yakin Konfirmasi Data Ini ?'))
     {
-        // ajax delete data to database
         $.ajax({
             url : "<?php echo site_url('konfirm_gaji/delete_konfirmasi')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
-                //if success reload ajax table
-                // $('#modal_form').modal('hide');
                 alert(data.pesan);
-                reload_table();
+                location.reload();
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
                 alert('Error deleting data');
             }
         });
-
     }
 }
 

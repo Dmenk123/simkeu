@@ -182,72 +182,33 @@ class Konfirm_gaji extends CI_Controller {
 		//get data kode pengeluaran
 		$q = $this->db->query("
 			select 
-				tk.id_trans_keluar 
+				tk.id, tk.tanggal, tkd.satuan, tkd.qty
 			from tbl_trans_keluar tk
 			join tbl_trans_keluar_detail tkd on tk.id = tkd.id_trans_keluar
 			where tk.tanggal = '".$tgl_konfirm_gaji."' and tk.status = '0' and tkd.keterangan = '".$txtIndexKey."'
 		")->row();
 
-
-		//insert into tbl pengeluaran
-		$kode_out_header = $this->m_out->getKodePengeluaran();
-		$dataInsOut = [
-			'id' => $kode_out_header,
-			'user_id' => $this->session->userdata('id_user'),
-			'pemohon' => 'GAJI BULANAN',
-			'tanggal' => date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01')),
-			'status' => 0,
-			'created_at' => date('Y-m-d H:i:s')
-		];
-		$this->m_kon->save('tbl_trans_keluar', $dataInsOut);
-
-		//insert into tbl pengeluaran_det
-		$txtKet = ($tipepeg == 1) ? 'Gaji Bulanan Guru' : 'Gaji Bulanan Staff/Karyawan';
-		$dataInsOutDetail = [
-			'id_trans_keluar' => $kode_out_header,
-			'keterangan' => $txtKet,
-			'satuan' => '9',
-			'qty' => '1',
-			'status' => 1
-		];
-		$this->m_kon->save('tbl_trans_keluar_detail', $dataInsOutDetail);
+		$kode_out_header = $q->id;
+		//delete tbl verifikasi
+		$this->m_kon->delete_data('tbl_verifikasi', ['id_out' => $kode_out_header]);
+		//delete tbl pengeluaran detail
+		$this->m_kon->delete_data('tbl_trans_keluar_detail', ['id_trans_keluar' => $kode_out_header]);
+		//delete tbl pengeluaran
+		$this->m_kon->delete_data('tbl_trans_keluar', ['id' => $kode_out_header]);
 		
-		//update status jadi confirm
-		$data_awal = $this->m_kon->get_datatables($bulan, $tahun, 0);
-		$this->m_kon->update(['is_guru' => $tipepeg, 'bulan' => $bulan, 'tahun' => $tahun, 'is_aktif' => 1], ['is_confirm'=> 1]);
-
-		//insert into tbl verifikasi
-		$kode_verifikasi = $this->m_vout->getKodeVerifikasi();
-		$q = $this->db->query("select * from tbl_trans_keluar_detail where id_trans_keluar = '".$kode_out_header."'")->row();
+		//update status jadi un-confirm
+		$data_awal = $this->m_kon->get_datatables($bulan, $tahun, 1);
+		$this->m_kon->update(['is_guru' => $tipepeg, 'bulan' => $bulan, 'tahun' => $tahun, 'is_aktif' => 1], ['is_confirm'=> 0]);
 		
-		$data_ins_v = [
-			'id' => $kode_verifikasi,
-			'id_out' => $kode_out_header,
-			'id_out_detail' => $q->id,
-			'tanggal' => date("Y-m-d"),
-			'user_id' => $this->session->userdata('id_user'),
-			'gambar_bukti' => null,
-			'harga_satuan' => $data_awal[0]->total_gaji,
-			'harga_total' => $data_awal[0]->total_gaji,
-			'status' => 2,
-			'tipe_akun' => 2,
-			'kode_akun' => 2,
-			'sub1_akun' => 3,
-			'sub2_akun' => null,
-			'created_at' => date("Y-m-d H:i:s")
-		];
-
-		$this->m_kon->save('tbl_verifikasi', $data_ins_v);
-
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
 			$status = FALSE;
-			$pesan = 'Gagal Konfirmasi Gaji';
+			$pesan = 'Gagal Hapus Konfirmasi Gaji';
 		}
 		else {
 			$this->db->trans_commit();
 			$status = TRUE;
-			$pesan = 'Berhasil Konfirmasi Gaji';
+			$pesan = 'Berhasil Hapus Konfirmasi Gaji';
 		}
 
 		echo json_encode(array(
