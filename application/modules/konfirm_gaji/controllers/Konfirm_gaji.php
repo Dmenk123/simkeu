@@ -141,7 +141,7 @@ class Konfirm_gaji extends CI_Controller {
 			'id' => $kode_verifikasi,
 			'id_out' => $kode_out_header,
 			'id_out_detail' => $q->id,
-			'tanggal' => date("Y-m-d"),
+			'tanggal' => date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01')),
 			'user_id' => $this->session->userdata('id_user'),
 			'gambar_bukti' => null,
 			'harga_satuan' => $data_awal[0]->total_gaji,

@@ -4,7 +4,7 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h3 class="modal-title">Master Akun</h3>
+                <h3 class="modal-title">Master Akun Eksternal</h3>
             </div>
             <div class="modal-body form">
                 <form action="#" id="form" class="form-horizontal">
@@ -14,6 +14,14 @@
                             <label class="control-label col-md-3">Kategori Akun</label>
                             <div class="col-md-9">
                                 <select class="form-control kat_akun" id="kat_akun" name="kat_akun"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Sub Akun</label>
+                            <div class="col-md-9">
+                                <select class="form-control sub_akun" id="sub_akun" name="sub_akun">
+                                    <option value="">Pilih Sub akun</option>
+                                </select>
                             </div>
                         </div>
                         <div class="form-group">

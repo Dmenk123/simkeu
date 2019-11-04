@@ -78,21 +78,26 @@ class Master_akun_eksternal extends CI_Controller {
 		$arr_valid = $this->_validate();
 		$kat_akun = $this->input->post('kat_akun');
 		$nama = $this->input->post('nama');
+		$sub_1 = $this->input->post('sub_akun');
 		
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
 		}
 
-		$arr_akun = explode("-",$kat_akun);
-		$kode = $arr_akun[0];
-		$kode_in_text = $arr_akun[1];
+		if ($sub_1 == '') {
+			$arr_akun = explode("-",$kat_akun);
+			$kode = $arr_akun[0];
+			$kode_in_text = $arr_akun[1];
 
-		$q = $this->db->query("select max(sub_1) as last_sub1 from tbl_master_kode_akun where kode = '".$kode."'")->row();
-		if ($q->last_sub1 == null) {
-			$kode_sub1_final = 1;
+			$q = $this->db->query("select max(sub_1) as last_sub1 from tbl_master_kode_akun where kode = '".$kode."'")->row();
+			if ($q->last_sub1 == null) {
+				$kode_sub1_final = 1;
+			}else{
+				$kode_sub1_final = (int)$q->last_sub1 + 1;
+			}
 		}else{
-			$kode_sub1_final = (int)$q->last_sub1 + 1;
+			$kode_sub1_final = $sub_1;
 		}
 		
 		$data = array(
@@ -130,6 +135,21 @@ class Master_akun_eksternal extends CI_Controller {
 			);
 		}
 		echo json_encode($akun);
+	}
+
+	public function get_data_subakun($kategori_akun)
+	{
+		$arr_pecah = explode('-', $kategori_akun);
+		$tipe = $arr_pecah[0];
+		$kode_in_text = $arr_pecah[1];
+
+		$q = $this->db->query("
+			select nama, tipe, sub_1, kode_in_text
+			from tbl_master_kode_akun 
+			where kode ='".$kode_in_text."' and tipe = '".$tipe."' and sub_1 is not null and sub_2 is null and is_aktif = '1'  
+		")->result();
+
+		echo json_encode($q);
 	}
 
 	public function edit($id)

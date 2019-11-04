@@ -50,6 +50,31 @@ $(document).ready(function() {
         },
     });
 
+    $('#kat_akun').on('change', function() {
+        var data = $("#kat_akun option:selected").val();
+        $('.append-opt').remove();
+        //Ajax Load data from ajax
+        $.ajax({
+            url : "<?php echo site_url('master_akun_eksternal/get_data_subakun')?>/" + data,
+            type: "GET",
+            dataType: "JSON",
+            success: function(data)
+            {
+                key = 0;
+                Object.keys(data).forEach(function(){
+                    var option = $('<option value="'+data[key].kode_in_text+'" class="append-opt">'+data[key].nama+'</option>');
+                    $('#sub_akun').append(option);
+                    key += 1;  
+                });
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error get data from ajax');
+            }
+        });
+
+    });
+
     $('#modal_form').on('hidden.bs.modal', function () {
         $(this).find("input,textarea,select").val('').end();
         $('#form')[0].reset();
@@ -65,6 +90,7 @@ function add_akun()
     $('.help-block').empty(); //clear error string
     $('#modal_form').modal('show'); //show bootstrap modal
     $('.modal-title').text('Add Akun'); //set title modal
+
 }
 
 function edit_akun(id)

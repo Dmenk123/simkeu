@@ -256,7 +256,7 @@ function konfirmGaji(id)
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
-                alert('Error deleting data');
+                alert('Gagal Konfirmasi Gaji');
             }
         });
 
@@ -265,7 +265,7 @@ function konfirmGaji(id)
 
 function hapusKonfirmGaji(id)
 {
-    if(confirm('Yakin Konfirmasi Data Ini ?'))
+    if(confirm('Yakin Hapus Data Ini ?'))
     {
         $.ajax({
             url : "<?php echo site_url('konfirm_gaji/delete_konfirmasi')?>/"+id,
@@ -278,7 +278,7 @@ function hapusKonfirmGaji(id)
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
-                alert('Error deleting data');
+                alert('Gagal Hapus data');
             }
         });
     }
