@@ -10,18 +10,18 @@ class Mod_konfirm_gaji extends CI_Model
 		$this->load->database();
 	}
 
-	function get_datatables($bulan, $tahun)
+	function get_datatables($bulan, $tahun, $konfirm)
 	{
 		$query = $this->db->query(
 			"SELECT sum( total_take_home_pay ) AS total_gaji, CASE WHEN (is_guru = 1) THEN 'Gaji Guru' ELSE 'Gaji Staff/Karyawan' END AS tipe_gaji, bulan, tahun, is_guru
 			FROM tbl_penggajian 
-			WHERE bulan = '".$bulan."' AND tahun = '".$tahun."' and is_aktif = '1' GROUP BY is_guru "
+			WHERE bulan = '".$bulan."' AND tahun = '".$tahun."' and is_confirm = '".$konfirm."' GROUP BY is_guru "
 		);
 
 		return $query->result();
 	}
 
-	public function get_detail($tipepeg, $bulan, $tahun)
+	public function get_detail($tipepeg, $bulan, $tahun, $confirm)
 	{
 		$this->db->select("
 			tp.*,
@@ -35,7 +35,7 @@ class Mod_konfirm_gaji extends CI_Model
 		$this->db->where('tp.bulan', $bulan);
 		$this->db->where('tp.tahun', $tahun);
 		$this->db->where('tp.is_guru', $tipepeg);
-		$this->db->where('tp.is_confirm', 0);
+		$this->db->where('tp.is_confirm', $confirm);
 		$this->db->where('tp.is_aktif', 1);
 
         $query = $this->db->get();

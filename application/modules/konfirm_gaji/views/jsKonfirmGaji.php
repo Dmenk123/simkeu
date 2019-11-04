@@ -261,19 +261,19 @@ function konfirmGaji(id)
     }
 }
 
-function delete_data(id)
+function hapusKonfirmGaji(id)
 {
-    if(confirm('Yakin Hapus Data Ini ?'))
+    if(confirm('Yakin Konfirmasi Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('proses_gaji/delete_data')?>/"+id,
+            url : "<?php echo site_url('konfirm_gaji/delete_konfirmasi')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
                 //if success reload ajax table
-                $('#modal_form').modal('hide');
+                // $('#modal_form').modal('hide');
                 alert(data.pesan);
                 reload_table();
             },

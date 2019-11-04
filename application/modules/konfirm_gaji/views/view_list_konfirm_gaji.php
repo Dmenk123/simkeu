@@ -75,11 +75,11 @@
                         <table id="tabelData" class="table table-bordered table-hover" cellspacing="0" width="100%">
                           <thead>
                             <tr>
-                              <th>Total Gaji</th>
-                              <th>Tipe Gaji</th>
-                              <th>Bulan</th>
-                              <th>Tahun</th>
-                              <th style="width: 125px;">Action</th>
+                              <th style="width: 25%">Total Gaji</th>
+                              <th style="width: 20%">Tipe Gaji</th>
+                              <th style="width: 20%">Bulan</th>
+                              <th style="width: 20%">Tahun</th>
+                              <th style="width: 15%">Action</th>
                             </tr>
                           </thead>
                           <tbody>
@@ -95,7 +95,7 @@
                                 <td><?= $arr_bulan[$val->bulan]; ?></td>
                                 <td><?= $val->tahun; ?></td>
                                 <td>
-                                  <?php $id = $val->is_guru.'/'.$val->bulan.'/'.$val->tahun; ?>
+                                  <?php $id = $val->is_guru.'/'.$val->bulan.'/'.$val->tahun.'/0'; ?>
                                   <a class="btn btn-sm btn-success" href="<?=site_url('konfirm_gaji/detail/').$id;?>" title="Detail" id="btn_detail">
                                     <i class="glyphicon glyphicon-info-sign"></i></a>
                                   <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Hapus" onclick="konfirmGaji('<?=$id;?>')"><i class="glyphicon glyphicon-pencil"></i></a>
@@ -116,15 +116,15 @@
                         <table id="tabelData2" class="table table-bordered table-hover" cellspacing="0" width="100%">
                           <thead>
                             <tr>
-                              <th>Total Gaji</th>
-                              <th>Tipe Gaji</th>
-                              <th>Bulan</th>
-                              <th>Tahun</th>
-                              <th style="width: 125px;">Action</th>
+                              <th style="width: 25%">Total Gaji</th>
+                              <th style="width: 20%">Tipe Gaji</th>
+                              <th style="width: 20%">Bulan</th>
+                              <th style="width: 20%">Tahun</th>
+                              <th style="width: 15%">Action</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <?php foreach ($datatabel as $key => $val): ?>
+                            <?php foreach ($datatabel2 as $key => $val): ?>
                               <tr>
                                 <td>
                                   <div>
@@ -136,10 +136,10 @@
                                 <td><?= $arr_bulan[$val->bulan]; ?></td>
                                 <td><?= $val->tahun; ?></td>
                                 <td>
-                                  <?php $id = $val->is_guru.'/'.$val->bulan.'/'.$val->tahun; ?>
+                                  <?php $id = $val->is_guru.'/'.$val->bulan.'/'.$val->tahun.'/1'; ?>
                                   <a class="btn btn-sm btn-success" href="<?=site_url('konfirm_gaji/detail/').$id;?>" title="Detail" id="btn_detail">
                                     <i class="glyphicon glyphicon-info-sign"></i></a>
-                                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_data('<?=$id;?>')"><i class="glyphicon glyphicon-trash"></i></a>
+                                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="hapusKonfirmGaji('<?=$id;?>')"><i class="glyphicon glyphicon-trash"></i></a>
                                 </td>
                               </tr>  
                             <?php endforeach ?>
