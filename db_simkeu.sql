@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 04/11/2019 00:21:19
+ Date: 05/11/2019 23:29:38
 */
 
 SET NAMES utf8mb4;
@@ -36,12 +36,14 @@ CREATE TABLE `tbl_guru`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `kode_jabatan`(`kode_jabatan`) USING BTREE,
   CONSTRAINT `tbl_guru_ibfk_1` FOREIGN KEY (`kode_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_guru
 -- ----------------------------
 INSERT INTO `tbl_guru` VALUES (1, '1827188812718281', 'Michael Schumacher', 1, 'lalat xxx', 'asaasa', '1992-09-04', 'L', 'michael-schumacher-1572368322.jpg', 1, 1);
+INSERT INTO `tbl_guru` VALUES (2, '18271888127187818', 'Siti Jubaedah', 1, 'hiya hiya raya', 'hiyahiyahiya', '1955-07-18', 'P', 'siti-jubaedah-1572968889.jpg', 1, 1);
+INSERT INTO `tbl_guru` VALUES (3, '77777', 'Sugiono', 3, 'Hiroshima', 'Hiroshima', '1945-08-14', 'L', 'sugiono-1572969124.jpg', 1, 0);
 
 -- ----------------------------
 -- Table structure for tbl_hak_akses
@@ -84,6 +86,7 @@ INSERT INTO `tbl_hak_akses` VALUES (99, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (98, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (97, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (108, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (119, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (109, 1, 0, 0, 0);
 
 -- ----------------------------
@@ -96,13 +99,14 @@ CREATE TABLE `tbl_jabatan`  (
   `tunjangan` double(20, 2) NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_jabatan
 -- ----------------------------
 INSERT INTO `tbl_jabatan` VALUES (1, 'WALI KELAS', 75000.00, 1);
 INSERT INTO `tbl_jabatan` VALUES (2, 'KEPALA SEKOLAH', 1235000.00, 1);
+INSERT INTO `tbl_jabatan` VALUES (3, 'KEPALA TU', 0.00, 1);
 
 -- ----------------------------
 -- Table structure for tbl_lap_bku
@@ -295,6 +299,9 @@ INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, NULL, N
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Alat tulis kantor', 2, 2, 1, NULL, '2.1', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Bahan dan alat habis pakai', 2, 2, 2, NULL, '2.2', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Pegawai', 2, 2, 3, NULL, '2.3', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('anjaayy', 1, 1, 5, NULL, '1.5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('coba sub', 1, 1, 5, 1, '1.5.1', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('coba sub 2', 1, 1, 5, 2, '1.5.2', 1);
 
 -- ----------------------------
 -- Table structure for tbl_master_kode_akun_internal
@@ -456,6 +463,7 @@ INSERT INTO `tbl_menu` VALUES (115, 104, 'Master Karyawan', 'Master Karyawan', '
 INSERT INTO `tbl_menu` VALUES (116, 104, 'Master User', 'Master User', 'master_user', '', 1, 2, 6, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (117, 104, 'Master Jabatan', 'Master Jabatan', 'master_jabatan', NULL, 1, 2, 7, 1, NULL, NULL);
 INSERT INTO `tbl_menu` VALUES (118, 110, 'Konfirmasi Penggajian', 'Konfirmasi Penggajian', 'konfirm_gaji', '', 1, 2, 3, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (119, 108, 'Slip Gaji', 'Slip Gaji', 'slip_gaji', '', 1, 2, 1, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_penggajian
@@ -483,12 +491,14 @@ CREATE TABLE `tbl_penggajian`  (
   INDEX `id_jabatan`(`id_jabatan`) USING BTREE,
   CONSTRAINT `tbl_penggajian_ibfk_1` FOREIGN KEY (`id_guru`) REFERENCES `tbl_guru` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_penggajian_ibfk_2` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_penggajian
 -- ----------------------------
-INSERT INTO `tbl_penggajian` VALUES (1, 1, 1, 10, '2019', 1, 0.00, 2500.00, 75000.00, 500000.00, 48, 20000.00, 675000.00, '2019-11-03 00:14:35', 0, 1);
+INSERT INTO `tbl_penggajian` VALUES (1, 1, 1, 11, '2019', 1, 0.00, 2500.00, 75000.00, 5000000.00, 48, 25000.00, 5170000.00, '2019-11-05 22:46:56', 1, 1);
+INSERT INTO `tbl_penggajian` VALUES (2, 2, 1, 11, '2019', 1, 0.00, 2500.00, 75000.00, 5500000.00, 50, 10000.00, 5690000.00, '2019-11-05 22:48:48', 1, 1);
+INSERT INTO `tbl_penggajian` VALUES (3, 3, 3, 11, '2019', 0, 1700000.00, 0.00, 250000.00, 0.00, 40, 0.00, 1950000.00, '2019-11-05 22:58:46', 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -500,7 +510,7 @@ CREATE TABLE `tbl_satuan`  (
   `keterangan` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT 1,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_satuan
@@ -513,6 +523,7 @@ INSERT INTO `tbl_satuan` VALUES (5, 'DUZ', 'Duz', 1);
 INSERT INTO `tbl_satuan` VALUES (6, 'LBR', 'Lembar', 1);
 INSERT INTO `tbl_satuan` VALUES (7, 'UANG', 'Satuan Uang', 1);
 INSERT INTO `tbl_satuan` VALUES (8, 'ASASF', 'asf', 1);
+INSERT INTO `tbl_satuan` VALUES (9, 'RP', 'Rupiah', 1);
 
 -- ----------------------------
 -- Table structure for tbl_set_gaji
@@ -529,12 +540,13 @@ CREATE TABLE `tbl_set_gaji`  (
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `id_jabatan`(`id_jabatan`) USING BTREE,
   CONSTRAINT `tbl_set_gaji_ibfk_1` FOREIGN KEY (`id_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_set_gaji
 -- ----------------------------
 INSERT INTO `tbl_set_gaji` VALUES (1, 1, 0.00, 2500.00, 75000.00, 1, 1);
+INSERT INTO `tbl_set_gaji` VALUES (3, 3, 1700000.00, 0.00, 250000.00, 0, 1);
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar
@@ -556,8 +568,9 @@ CREATE TABLE `tbl_trans_keluar`  (
 -- ----------------------------
 -- Records of tbl_trans_keluar
 -- ----------------------------
-INSERT INTO `tbl_trans_keluar` VALUES ('OUT101900001', 'USR00001', 'asas', '2019-10-11', 0, '2019-10-11 10:18:12', NULL);
-INSERT INTO `tbl_trans_keluar` VALUES ('OUT101900002', 'USR00001', 'Bambang', '2019-10-15', 1, '2019-10-15 23:34:41', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900001', 'USR00001', 'bambang', '2019-11-05', 0, '2019-11-05 22:25:09', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900002', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-05 22:49:31', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900003', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-05 22:59:24', NULL);
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar_detail
@@ -575,15 +588,15 @@ CREATE TABLE `tbl_trans_keluar_detail`  (
   INDEX `satuan`(`satuan`) USING BTREE,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_1` FOREIGN KEY (`id_trans_keluar`) REFERENCES `tbl_trans_keluar` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_2` FOREIGN KEY (`satuan`) REFERENCES `tbl_satuan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_trans_keluar_detail
 -- ----------------------------
-INSERT INTO `tbl_trans_keluar_detail` VALUES (1, 'OUT101900001', 'sasa', 4, 12, 1);
-INSERT INTO `tbl_trans_keluar_detail` VALUES (2, 'OUT101900001', 'afas', 5, 12, 1);
-INSERT INTO `tbl_trans_keluar_detail` VALUES (3, 'OUT101900002', 'Beli Sabun', 2, 3, 0);
-INSERT INTO `tbl_trans_keluar_detail` VALUES (4, 'OUT101900002', 'Beli Nasgor', 1, 8, 0);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (11, 'OUT111900001', 'Beli Buku Mewarnai Harimu', 1, 28, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (12, 'OUT111900001', 'Nasi Padang', 1, 20, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (13, 'OUT111900002', 'Gaji Bulanan Guru', 9, 1, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (14, 'OUT111900003', 'Gaji Bulanan Staff/Karyawan', 9, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_trans_masuk
@@ -604,7 +617,7 @@ CREATE TABLE `tbl_trans_masuk`  (
 -- ----------------------------
 -- Records of tbl_trans_masuk
 -- ----------------------------
-INSERT INTO `tbl_trans_masuk` VALUES ('MSK101900001', 'USR00001', '2019-10-21', 1, '2019-10-21 10:33:29', '2019-10-21 15:33:50');
+INSERT INTO `tbl_trans_masuk` VALUES ('MSK111900001', 'USR00001', '2019-11-05', 1, '2019-11-05 22:44:35', NULL);
 
 -- ----------------------------
 -- Table structure for tbl_trans_masuk_detail
@@ -627,7 +640,7 @@ CREATE TABLE `tbl_trans_masuk_detail`  (
 -- ----------------------------
 -- Records of tbl_trans_masuk_detail
 -- ----------------------------
-INSERT INTO `tbl_trans_masuk_detail` VALUES (1, 'MSK101900001', 'Pendapatan dana BOS NASIONAL', 1, 1, 1);
+INSERT INTO `tbl_trans_masuk_detail` VALUES (1, 'MSK111900001', 'BOS November 2019', 9, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_user
@@ -649,7 +662,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-03 22:02:47', '2019-10-05 21:34:14', '2019-11-03 22:02:47');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-05 22:06:32', '2019-10-05 21:34:14', '2019-11-05 22:06:32');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
@@ -713,8 +726,10 @@ CREATE TABLE `tbl_verifikasi`  (
 -- ----------------------------
 -- Records of tbl_verifikasi
 -- ----------------------------
-INSERT INTO `tbl_verifikasi` VALUES ('VRY101900001', 'OUT101900001', 1, NULL, NULL, 'USR00001', '2019-10-15', 'img_USR000055.JPG', 32000.00, 384000.00, 1, 1, 1, 3, NULL, '2019-10-15 21:31:09', NULL, 2);
-INSERT INTO `tbl_verifikasi` VALUES ('VRY101900002', 'OUT101900001', 2, NULL, NULL, 'USR00001', '2019-10-15', 'img_USR00002.jpg', 4500.00, 54000.00, 1, 2, 2, 1, NULL, '2019-10-15 21:31:50', NULL, 2);
-INSERT INTO `tbl_verifikasi` VALUES ('VRY101900003', NULL, NULL, 'MSK101900001', 1, 'USR00001', '2019-10-21', '75406.jpg', 50000000.00, 50000000.00, 1, 1, 3, 2, 2, '2019-10-21 15:33:50', NULL, 1);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY111900001', 'OUT111900001', 11, NULL, NULL, 'USR00001', '2019-11-05', 'img_USR00002.png', 7500.00, 210000.00, 1, 1, 5, 1, NULL, '2019-11-05 22:26:50', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY111900002', 'OUT111900001', 12, NULL, NULL, 'USR00001', '2019-11-05', 'img_USR00001.jpg', 15000.00, 300000.00, 1, 1, 7, 1, 1, '2019-11-05 22:26:50', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY111900003', NULL, NULL, 'MSK111900001', 1, 'USR00001', '2019-11-05', 'user_default.png', 50000000.00, 50000000.00, 1, NULL, NULL, NULL, NULL, '2019-11-05 22:44:35', NULL, 1);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY111900004', 'OUT111900002', 13, NULL, NULL, 'USR00001', '2019-11-30', NULL, 10860000.00, 10860000.00, 2, 2, 2, 3, NULL, '2019-11-05 22:49:31', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY111900005', 'OUT111900003', 14, NULL, NULL, 'USR00001', '2019-11-30', NULL, 1950000.00, 1950000.00, 2, 2, 2, 3, NULL, '2019-11-05 22:59:24', NULL, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;
