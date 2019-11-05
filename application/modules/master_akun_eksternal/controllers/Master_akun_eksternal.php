@@ -197,7 +197,7 @@ class Master_akun_eksternal extends CI_Controller {
 		$hasil = [
 			'nama' => $data->nama,
 			'id' => $data->kode_in_text,
-			'kat_id' => $q->kode.'-'.$data->kode_in_text.'-'.$tipe,
+			'kat_id' => $tipe.'-'.$data->kode_in_text,
 			'kat_text' => $q->kode_in_text.' - '.$q->nama,
 			'kat_val_sub' => $kat_val_sub,
 			'kat_nama_sub' => $kat_nama_sub
@@ -209,37 +209,25 @@ class Master_akun_eksternal extends CI_Controller {
 	public function update()
 	{
 		$arr_valid = $this->_validate();
-		$arr_akun = explode("-", $this->input->post('kat_akun'));
-		
-		$kode = $arr_akun[0];
-		$kode_in_text = $arr_akun[1];
-		$tipe = $arr_akun[2];
+		$kat_akun = $this->input->post('kat_akun');
+		$nama = $this->input->post('nama');
+		$sub_1_text = $this->input->post('sub_akun');
+		$sub_2 = false;
 
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
 		}
 
-		$kode_akun = null;
-		$sub1_akun = null;
-		$sub2_akun = null;
-		$arr_akun2 = explode(".", $arr_akun[1]);
-		for ($z=0; $z <count($arr_akun2); $z++) { 
-			if ($z == 0) {
-				$kode_akun = $arr_akun2[$z];
-			}elseif($z == 1){
-				$sub1_akun = $arr_akun2[$z];
-			}elseif($z == 2){
-				$sub2_akun = $arr_akun2[$z];
-			}
-		}
+		$arr_akun = explode("-",$kat_akun);
+		$tipe = $arr_akun[0];
+		$kode_in_text = $arr_akun[1];
+
+		$arr_kode_in_text = explode(".", $kode_in_text);
+		$kode = $arr_kode_in_text[0];
 
 		$data = array(
-			'nama' => $this->input->post('nama'),
-			'kode' => $kode,
-			'sub_1' => $sub1_akun,
-			'sub_2' => $sub2_akun,
-			'kode_in_text' => $kode_in_text
+			'nama' => $nama
 		);
 
 		$this->akun->update([
@@ -248,7 +236,7 @@ class Master_akun_eksternal extends CI_Controller {
 
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Master Satuan Berhasil diupdate',
+			"pesan" => 'Master Akun Berhasil diupdate',
 		));
 	}
 
