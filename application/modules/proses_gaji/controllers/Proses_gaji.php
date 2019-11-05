@@ -55,10 +55,12 @@ class Proses_gaji extends CI_Controller {
 		$q = $this->db->query("
 			SELECT tg.*, tj.nama as nama_jabatan, tsg.gaji_pokok, tsg.gaji_perjam, tsg.gaji_tunjangan_jabatan 
 			FROM tbl_guru as tg
-			JOIN tbl_jabatan tj on tg.kode_jabatan = tj.id and tj.is_aktif = 1
-			JOIN tbl_set_gaji tsg on tg.kode_jabatan = tsg.id_jabatan and tsg.is_aktif = 1
+			LEFT JOIN tbl_jabatan tj on tg.kode_jabatan = tj.id and tj.is_aktif = 1
+			LEFT JOIN tbl_set_gaji tsg on tg.kode_jabatan = tsg.id_jabatan and tsg.is_aktif = 1
 			WHERE tg.id = '".$id."' and tg.is_aktif = 1
 		 ")->row();
+
+		// echo $this->db->last_query();
 
 		if ($q->is_guru == 1) {
 			$q->statuspeg = 'Guru';

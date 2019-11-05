@@ -58,11 +58,6 @@
                   <input type="hidden" class="form-control" id="i_harga_total_raw" name="i_harga_total_raw" value=""/>
                 </div>
 
-                <div class="form-group col-md-12">
-                  <label>Kode Akun : </label>
-                    <select class="form-control i_akun" id="i_akun" name="i_akun"></select>
-                </div>
-
                 <div class="form-group col-md-9">
                   <label>Bukti : </label>
                   <input type="file" id="i_gambar" class="i_gambar" name="i_gambar";/>

@@ -139,7 +139,6 @@ class Penerimaan extends CI_Controller {
 		$qty = $this->input->post('i_qty');
 		$harga_raw = $this->input->post('i_harga_raw');
 		$harga_total_raw = $this->input->post('i_harga_total_raw');
-		$akun = $this->input->post('i_akun');
 		$gambar = $this->input->post('i_gambar');
 		$ceklis = $this->input->post('ceklis');
 
@@ -164,24 +163,6 @@ class Penerimaan extends CI_Controller {
 
 				$kode = $this->m_in->getKodePenerimaan();
 				$kode_detail = $this->m_in->getKodePenerimaanDetail();
-
-				//set tipe akun
-				$arr_akun1 = explode("-", $akun);
-				$tipe_akun = $arr_akun1[0]; 
-				//set kode dan sub akun
-				$kode_akun = null;
-				$sub1_akun = null;
-				$sub2_akun = null;
-				$arr_akun2 = explode(".", $arr_akun1[1]);
-				for ($z=0; $z <count($arr_akun2); $z++) { 
-					if ($z == 0) {
-						$kode_akun = $arr_akun2[$z];
-					}elseif($z == 1){
-						$sub1_akun = $arr_akun2[$z];
-					}elseif($z == 2){
-						$sub2_akun = $arr_akun2[$z];
-					}
-				}
 
 				$data_header = [
 					'id' => $kode,
@@ -210,10 +191,10 @@ class Penerimaan extends CI_Controller {
 					'harga_satuan' => $harga_raw,
 					'harga_total' => $harga_total_raw,
 					'status' => 1,
-					'tipe_akun' => $tipe_akun,
-					'kode_akun' => $kode_akun,
-					'sub1_akun' => $sub1_akun,
-					'sub2_akun' => $sub2_akun,
+					'tipe_akun' => null,
+					'kode_akun' => null,
+					'sub1_akun' => null,
+					'sub2_akun' => null,
 					'tipe_transaksi' => 1,
 					'created_at' => $timestamp
 				];
@@ -334,7 +315,6 @@ class Penerimaan extends CI_Controller {
 		$qty = $this->input->post('i_qty');
 		$harga_raw = $this->input->post('i_harga_raw');
 		$harga_total_raw = $this->input->post('i_harga_total_raw');
-		$akun = $this->input->post('i_akun');
 		$gambar = $this->input->post('i_gambar');
 		$ceklis = $this->input->post('ceklis');
 
@@ -356,24 +336,6 @@ class Penerimaan extends CI_Controller {
 					//clear img lib after resize
 					$this->image_lib->clear();
 				} //end
-
-				//set tipe akun
-				$arr_akun1 = explode("-", $akun);
-				$tipe_akun = $arr_akun1[0]; 
-				//set kode dan sub akun
-				$kode_akun = null;
-				$sub1_akun = null;
-				$sub2_akun = null;
-				$arr_akun2 = explode(".", $arr_akun1[1]);
-				for ($z=0; $z <count($arr_akun2); $z++) { 
-					if ($z == 0) {
-						$kode_akun = $arr_akun2[$z];
-					}elseif($z == 1){
-						$sub1_akun = $arr_akun2[$z];
-					}elseif($z == 2){
-						$sub2_akun = $arr_akun2[$z];
-					}
-				}
 
 				$data_header = [
 					'user_id' => $this->session->userdata('id_user'),
@@ -402,10 +364,10 @@ class Penerimaan extends CI_Controller {
 					'harga_satuan' => $harga_raw,
 					'harga_total' => $harga_total_raw,
 					'status' => 1,
-					'tipe_akun' => $tipe_akun,
-					'kode_akun' => $kode_akun,
-					'sub1_akun' => $sub1_akun,
-					'sub2_akun' => $sub2_akun,
+					'tipe_akun' => null,
+					'kode_akun' => null,
+					'sub1_akun' => null,
+					'sub2_akun' => null,
 					'tipe_transaksi' => 1,
 					'created_at' => $timestamp
 				];

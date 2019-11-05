@@ -77,7 +77,9 @@ $(document).ready(function() {
     });
 
     //mask money
-    $('.mask-currency').maskMoney();
+    $('.mask-currency').maskMoney({
+        precision: 0
+    });
     
 	//set input/textarea/select event when change value, remove class error and remove text help block
 	$("input").change(function() {

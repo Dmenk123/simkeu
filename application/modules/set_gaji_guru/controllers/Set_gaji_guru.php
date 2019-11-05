@@ -186,23 +186,23 @@ class Set_gaji_guru extends CI_Controller {
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('gapok') == '') {
-			$data['inputerror'][] = 'gapok';
-            $data['error_string'][] = 'Wajib mengisi Gaji Pokok';
-            $data['status'] = FALSE;
-		}
+		// if ($this->input->post('gapok') == '') {
+		// 	$data['inputerror'][] = 'gapok';
+  //           $data['error_string'][] = 'Wajib mengisi Gaji Pokok';
+  //           $data['status'] = FALSE;
+		// }
 
-		if ($this->input->post('gaperjam') == '') {
-			$data['inputerror'][] = 'gaperjam';
-            $data['error_string'][] = 'Wajib mengisi Gaji per jam';
-            $data['status'] = FALSE;
-		}
+		// if ($this->input->post('gaperjam') == '') {
+		// 	$data['inputerror'][] = 'gaperjam';
+  //           $data['error_string'][] = 'Wajib mengisi Gaji per jam';
+  //           $data['status'] = FALSE;
+		// }
 
-		if ($this->input->post('tunjangan') == '') {
-			$data['inputerror'][] = 'tunjangan';
-            $data['error_string'][] = 'Wajib mengisi Gaji Tunjangan';
-            $data['status'] = FALSE;
-		}
+		// if ($this->input->post('tunjangan') == '') {
+		// 	$data['inputerror'][] = 'tunjangan';
+  //           $data['error_string'][] = 'Wajib mengisi Gaji Tunjangan';
+  //           $data['status'] = FALSE;
+		// }
 
 		if ($this->input->post('tipepeg') == '') {
 			$data['inputerror'][] = 'tipepeg';

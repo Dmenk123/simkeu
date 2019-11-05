@@ -93,7 +93,7 @@ $(document).ready(function() {
 		$(this).next().empty();
 	});
 
-   //select2
+  /* //select2
   $( ".i_akun" ).select2({ 
     ajax: {
       url: '<?php echo site_url('verifikasi_out/suggest_kode_akun'); ?>/',
@@ -106,7 +106,7 @@ $(document).ready(function() {
       },
       cache: true
     },
-  });
+  });*/
 
   $(".i_gambar").change(function() {
     //console.log(this);
@@ -115,7 +115,9 @@ $(document).ready(function() {
   });
 
   //mask money
-  $('.mask-currency').maskMoney();
+  $('.mask-currency').maskMoney({
+    precision: 0
+  });
 
   //tabs
   var hash = window.location.hash;
@@ -354,7 +356,7 @@ function eventCeklis(checkbox) {
 }
 
 function numberWithCommas(x) {
-  var parts = x.toFixed(2).split(".");
+  var parts = x.toFixed(0).split(".");
   return 'Rp. ' + parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + (parts[1] ? "," + parts[1] : "");
 }
 </script>	
