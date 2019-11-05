@@ -34,7 +34,7 @@ class Mod_master_akun_eksternal extends CI_Model
               WHERE sub_1 is null and sub_2 is null) tblsub','tmka.kode_in_text = tblsub.kode_in_text', 'left'
 		);
 		$this->db->where('tmka.is_aktif', 1);
-		$this->db->order_by(' tmka.tipe, tmka.sub_1, tmka.sub_2, tmka.kode, tmka.nama');
+		$this->db->order_by('tmka.tipe, tmka.kode, tmka.sub_1, tmka.sub_2');
 
 		$i = 0;
 		foreach ($this->column_search as $item) 
@@ -99,6 +99,7 @@ class Mod_master_akun_eksternal extends CI_Model
 		$this->db->like('nama',$keyword);
 		$this->db->where('sub_1 is null');
 		$this->db->where('sub_2 is null');
+		$this->db->where('is_aktif', 1);
 		$this->db->order_by('tipe, sub_1, sub_2, kode', 'asc');
 		
 		$query = $this->db->get();
@@ -129,7 +130,7 @@ class Mod_master_akun_eksternal extends CI_Model
 
 	public function save($data)
 	{
-		$this->db->insert('tbl_master_kode_akun_internal',$data);
+		$this->db->insert($this->table, $data);
 	}
 
 	public function update($where, $data)

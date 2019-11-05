@@ -99,6 +99,7 @@ function edit_akun(id)
     $('#form')[0].reset(); // reset form on modals
     $('.form-group').removeClass('has-error'); // clear error class
     $('.help-block').empty(); // clear error string
+    $('.append-opt').remove();
 
     //Ajax Load data from ajax
     $.ajax({
@@ -110,9 +111,16 @@ function edit_akun(id)
             //ambil data ke json->modal
             $('[name="id"]').val(data.id);
             $('[name="nama"]').val(data.nama);
-            
+            //select2 append
             var $newOption = $("<option selected='selected'></option>").val(data.kat_id).text(data.kat_text)
             $('[name="kat_akun"]').append($newOption).trigger('change');
+
+            // select option append
+            if (data.kat_val_sub != null && data.kat_nama_sub != null) {
+                var option = $('<option value="'+data.kat_val_sub+'" class="append-opt">'+data.kat_nama_sub+'</option>');
+                $('#sub_akun').append(option);
+                $("#sub_akun").val(data.kat_val_sub);    
+            }
             
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Master Akun Eksternal'); // Set title to Bootstrap modal title

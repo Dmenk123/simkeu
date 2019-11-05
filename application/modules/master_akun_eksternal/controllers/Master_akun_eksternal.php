@@ -78,44 +78,57 @@ class Master_akun_eksternal extends CI_Controller {
 		$arr_valid = $this->_validate();
 		$kat_akun = $this->input->post('kat_akun');
 		$nama = $this->input->post('nama');
-		$sub_1 = $this->input->post('sub_akun');
-		
+		$sub_1_text = $this->input->post('sub_akun');
+		$sub_2 = null;
+
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
 		}
 
-		if ($sub_1 == '') {
-			$arr_akun = explode("-",$kat_akun);
-			$kode = $arr_akun[0];
-			$kode_in_text = $arr_akun[1];
+		$arr_akun = explode("-",$kat_akun);
+		$tipe = $arr_akun[0];
+		
+		$kode_in_text = $arr_akun[1];
+		$arr_kode_in_text = explode(".", $kode_in_text);
+		$kode = $arr_kode_in_text[0];
 
-			$q = $this->db->query("select max(sub_1) as last_sub1 from tbl_master_kode_akun where kode = '".$kode."'")->row();
+		if ($sub_1_text == '') {
+			$q = $this->db->query("select max(sub_1) as last_sub1 from tbl_master_kode_akun where kode = '".$kode."' and tipe ='".$tipe."'")->row();
 			if ($q->last_sub1 == null) {
 				$kode_sub1_final = 1;
 			}else{
 				$kode_sub1_final = (int)$q->last_sub1 + 1;
 			}
+
+			$kode_in_text_final = $kode.'.'.$kode_sub1_final; 
 		}else{
-			$kode_sub1_final = $sub_1;
+			$arr_sub_1_text = explode('.', $sub_1_text);
+			$kode_sub1_final = $arr_sub_1_text[1];
+
+			$q2 = $this->db->query("select max(sub_2) as last_sub2 from tbl_master_kode_akun where kode = '".$kode."' and sub_1 = '".$kode_sub1_final."' and tipe ='".$tipe."'")->row();
+			if ($q2->last_sub2 == null) {
+				$sub_2 = 1;
+			}else{
+				$sub_2 = (int)$q2->last_sub2 + 1;
+			}
+
+			$kode_in_text_final = $kode.'.'.$kode_sub1_final.'.'.$sub_2;
 		}
 		
 		$data = array(
+			'tipe' => $tipe,
 			'nama' => $nama,
 			'kode' => $kode,
 			'sub_1' => $kode_sub1_final,
-			'sub_2' => null,
-			'tipe_bos' => null,
-			'kode_bos' => null,
-			'kode_bos_sub1' => null,
-			'kode_bos_sub2' => null,
-			'kode_in_text' => $kode.'.'.$kode_sub1_final
+			'sub_2' => $sub_2,
+			'kode_in_text' => $kode_in_text_final
 		);
 
 		$insert = $this->akun->save($data);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Master Akun Internal Berhasil ditambahkan',
+			"pesan" => 'Master Akun Eksternal Berhasil ditambahkan',
 		));
 	}
 
@@ -160,12 +173,28 @@ class Master_akun_eksternal extends CI_Controller {
 		$data = $this->db->get_Where('tbl_master_kode_akun', ['tipe' => $tipe, 'kode_in_text' => $kode])->row();
 		
 		$q = $this->db->query("select * from tbl_master_kode_akun where tipe = '".$tipe."' and kode = '".$data->kode."' and sub_1 is null and sub_2 is null")->row();
+
+		$q2 = $this->db->query("
+			select nama, tipe, sub_1, kode_in_text
+			from tbl_master_kode_akun 
+			where kode ='".$kode."' and tipe = '".$tipe."' and sub_1 = '".$data->sub_1."' and sub_2 is null and is_aktif = '1'  
+		")->row();
 		
+		if ($q2) {
+			$kat_val_sub = $q2->kode_in_text;
+			$kat_nama_sub =  $q2->nama;
+		}else {
+			$kat_val_sub = null;
+			$kat_nama_sub = null;
+		}
+
 		$hasil = [
 			'nama' => $data->nama,
 			'id' => $data->kode_in_text,
 			'kat_id' => $q->kode.'-'.$data->kode_in_text.'-'.$tipe,
-			'kat_text' => $q->kode_in_text.' - '.$q->nama
+			'kat_text' => $q->kode_in_text.' - '.$q->nama,
+			'kat_val_sub' => $kat_val_sub,
+			'kat_nama_sub' => $kat_nama_sub
 		];
 		
 		echo json_encode($hasil);
