@@ -283,13 +283,13 @@ function save()
     });
 }
 
-function deleteTransOrder(id)
+function deletePengeluaran(id)
 {
-    if(confirm('Are you sure delete this data?'))
+    if(confirm('Yakin hapus data ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('trans_order/delete_trans_order')?>/"+id,
+            url : "<?php echo site_url('pengeluaran/delete_pengeluaran')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)

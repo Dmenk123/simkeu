@@ -273,7 +273,9 @@ class Mod_verifikasi_out extends CI_Model
 		$this->db->select('*');
 		$this->db->from('tbl_master_kode_akun');
 		$this->db->like('nama',$keyword);
-		$this->db->order_by('kode, sub_1, sub_2', 'asc');
+		$this->db->where('is_aktif', 1);
+		
+		$this->db->order_by('tipe, kode, sub_1, sub_2', 'asc');
 		
 		$query = $this->db->get();
 		return $query->result();

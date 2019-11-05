@@ -227,20 +227,16 @@ class Pengeluaran extends CI_Controller {
 	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
 	}
 
-	// ====================================================================================================
-
-	public function delete_trans_order($id)
+	public function delete_pengeluaran($id)
 	{
-		$this->m_out->delete_by_id($id);
+		$this->m_out->delete_data('tbl_trans_keluar_detail', ['id_trans_keluar' => $id]);
+		$this->m_out->delete_data('tbl_trans_keluar', ['id' => $id]);
+
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Data Transaksi Order Barang No.'.$id.' Berhasil dihapus'
+			"pesan" => 'Data Pengambilan dengan kode '.$id.' Berhasil dihapus'
 		));
-	}
-
-	
-
-	
+	}	
 
 	public function get_header_modal_form()
 	{

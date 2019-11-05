@@ -164,7 +164,7 @@ class Verifikasi_out extends CI_Controller {
 					'gambar_bukti' => $nama_file_bukti,
 					'harga_satuan' => $this->input->post('i_harga_raw')[$i],
 					'harga_total' => $this->input->post('i_harga_total_raw')[$i],
-					'status' => 2,
+					'status' => 1,
 					'tipe_akun' => $tipe_akun,
 					'kode_akun' => $kode_akun,
 					'sub1_akun' => $sub1_akun,

@@ -182,22 +182,11 @@ class Mod_pengeluaran extends CI_Model
 		return $query->row();
 	}
 
-	
-
-	
-
-	
-
-	public function delete_by_id($id)
+	public function delete_data($table, $where)
 	{
-		$this->db->where('id_trans_order', $id);
-		$this->db->delete('tbl_trans_order');
-
-		$this->db->where('id_trans_order', $id);
-		$this->db->delete('tbl_trans_order_detail');
+		$this->db->where($where);
+		$this->db->delete($table);
 	}
-
-	
 
 	public function get_id_trans_beli_detail($id_t_order)
 	{

@@ -106,7 +106,9 @@ $(document).ready(function() {
 	});
 
   //mask money
-  $('.mask-currency').maskMoney();
+  $('.mask-currency').maskMoney({
+    precision: 0
+  });
 
   //tabs
   var hash = window.location.hash;
@@ -202,7 +204,7 @@ function save()
                 }
 
                 $('#modal_pengeluaran').modal('hide'); 
-                reload_table();
+                reloadPage();
             }
             else
             {
@@ -239,7 +241,7 @@ function deleteVerifyFinish(id)
             success: function(data)
             {
                 alert(data.pesan);
-                reload_table2();
+                reloadPage();
             },
             error: function (jqXHR, textStatus, errorThrown)
             {
@@ -286,7 +288,7 @@ function eventCeklis(checkbox, key) {
 }
 
 function numberWithCommas(x) {
-  var parts = x.toFixed(2).split(".");
+  var parts = x.toFixed(0).split(".");
   return 'Rp. ' + parts[0].replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1.") + (parts[1] ? "," + parts[1] : "");
 }
 
