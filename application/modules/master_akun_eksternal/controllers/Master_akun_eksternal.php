@@ -177,9 +177,9 @@ class Master_akun_eksternal extends CI_Controller {
 		$q2 = $this->db->query("
 			select nama, tipe, sub_1, kode_in_text
 			from tbl_master_kode_akun 
-			where kode ='".$kode."' and tipe = '".$tipe."' and sub_1 = '".$data->sub_1."' and sub_2 is null and is_aktif = '1'  
+			where kode ='".$data->kode."' and tipe = '".$tipe."' and sub_1 = '".$data->sub_1."' and sub_2 is null and is_aktif = '1'  
 		")->row();
-		
+
 		if ($q2) {
 			$kat_val_sub = $q2->kode_in_text;
 			$kat_nama_sub =  $q2->nama;
@@ -188,6 +188,12 @@ class Master_akun_eksternal extends CI_Controller {
 			$kat_nama_sub = null;
 		}
 
+		$arr_pecah_kode_in_text = explode('.', $kode);
+		if (count($arr_pecah_kode_in_text) < 3) {
+			$kat_val_sub = null;
+			$kat_nama_sub = null;
+		}
+		
 		$hasil = [
 			'nama' => $data->nama,
 			'id' => $data->kode_in_text,
