@@ -9,11 +9,8 @@ class Mod_slip_gaji extends CI_Model
 		$this->load->database();
 	}
 
-	public function get_detail($bulan, $tahun)
+	public function get_detail($tanggal_awal, $tanggal_akhir)
 	{ 
-		$tanggal_awal = date('Y-m-d', strtotime($tahun.'-'.$bulan.'-01'));
-		$tanggal_akhir = date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01'));
-
 		$query = $this->db->query("
 			SELECT tv.*, CASE WHEN (tmd.keterangan is null) THEN tkd.keterangan ELSE tmd.keterangan END AS keterangan
 			FROM tbl_verifikasi tv

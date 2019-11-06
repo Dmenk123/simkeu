@@ -16,18 +16,10 @@
           <div class="box">
             <div class="box-body">
               <label class="control-label">Pilih periode tanggal Laporan pada field dibawah ini</label>
-              <form class="form-inline" method="get" action="<?php echo site_url('slip_gaji/view_slip_gaji_detail') ?>">
+              <form class="form-inline" method="get" action="<?php echo site_url('slip_gaji/slip_gaji_detail') ?>">
                 <div class="form-group">
-                  <select name="bln_awal" class="form-control" id="bln_awal" required="">
-                    <option value="">Pilih Bulan Awal</option>
-                    <?php for ($i=1; $i <= 12; $i++) { 
-                      echo "<option value='$i'>$arr_bulan[$i]</option>";
-                    } ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <select name="bln_akhir" class="form-control" id="bln_akhir" required="">
-                    <option value="">Pilih Bulan Akhir</option>
+                  <select name="bulan" class="form-control" id="bulan" required="">
+                    <option value="">Pilih Bulan</option>
                     <?php for ($i=1; $i <= 12; $i++) { 
                       echo "<option value='$i'>$arr_bulan[$i]</option>";
                     } ?>
