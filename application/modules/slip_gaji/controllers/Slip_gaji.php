@@ -42,29 +42,28 @@ class Slip_gaji extends CI_Controller {
 		//menghilangkan string 0 pada bulan
 		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan($bulan, $tahun);
 		$bulan_awal_fix = $arr_pecah_bulan['tanggal_awal'];
-		$bulan_akhir_fix = $arr_pecah_bulan['tanggal_akhir'];
+		$bulan_fix = (int)date('m', strtotime($bulan_awal_fix));
 		
 		//cari periode untuk tampilan pada laporan
 		$arr_bln_indo = $this->bulan_indo();
-		$periode = $arr_bln_indo[$bln_awal].' '.$tahun;
+		$periode = $arr_bln_indo[$bulan_fix].' '.$tahun;
 		
-		$query = $this->lap->get_detail($bulan_awal_fix, $bulan_akhir_fix);
+		$query = $this->lap->get_detail($bulan_fix, $tahun);
 		
 		$data = array(
 			'data_user' => $data_user,
 			'arr_bulan' => $this->bulan_indo(),
-			'hasil_data' => $arr_data,
-			'periode' => $txtPeriode,
-			'bln_awal' => $bln_awal,
-			'bln_akhir' => $bln_akhir,
+			'hasil_data' => $query,
+			'periode' => $periode,
+			'bulan' => $bulan_fix,
 			'tahun' => $tahun
 		);
 
 		$content = [
-			'css' 	=> 'cssLapBku',
+			'css' 	=> 'cssSlipGaji',
 			'modal' => null,
-			'js'	=> 'jsLapBku',
-			'view'	=> 'view_lap_bku_detail'
+			'js'	=> 'jsSlipGaji',
+			'view'	=> 'view_slip_gaji_detail'
 		];
 
 		$this->template_view->load_view($content, $data);
