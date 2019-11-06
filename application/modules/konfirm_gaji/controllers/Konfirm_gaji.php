@@ -133,6 +133,12 @@ class Konfirm_gaji extends CI_Controller {
 		$data_awal = $this->m_kon->get_datatables($bulan, $tahun, 0);
 		$this->m_kon->update(['is_guru' => $tipepeg, 'bulan' => $bulan, 'tahun' => $tahun, 'is_aktif' => 1], ['is_confirm'=> 1]);
 
+		foreach ($data_awal as $key => $dawal) {
+			if ($dawal->is_guru == $tipepeg) {
+				$total_gaji_fix = $dawal->total_gaji;
+			}
+		}
+
 		//insert into tbl verifikasi
 		$kode_verifikasi = $this->m_vout->getKodeVerifikasi();
 		$q = $this->db->query("select * from tbl_trans_keluar_detail where id_trans_keluar = '".$kode_out_header."'")->row();
@@ -144,8 +150,8 @@ class Konfirm_gaji extends CI_Controller {
 			'tanggal' => date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01')),
 			'user_id' => $this->session->userdata('id_user'),
 			'gambar_bukti' => null,
-			'harga_satuan' => $data_awal[0]->total_gaji,
-			'harga_total' => $data_awal[0]->total_gaji,
+			'harga_satuan' => $total_gaji_fix,
+			'harga_total' => $total_gaji_fix,
 			'status' => 2,
 			'tipe_akun' => 2,
 			'kode_akun' => 2,
