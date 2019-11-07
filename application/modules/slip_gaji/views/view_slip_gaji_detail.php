@@ -35,7 +35,7 @@
                       </tr>
                     </thead>
                     <tbody>
-                    <?php if (count($hasil_data) != 0): ?>
+                    <?php if ($hasil_data) : ?>
                     <?php $no = 1; ?>
                         <?php foreach ($hasil_data as $val ) : ?>
                         <tr>
@@ -50,7 +50,7 @@
                             </div>
                           </td>
                           <td>
-                            <a class="btn btn-sm btn-success" href="javascript:void(0)" title="Cetak" onclick="cetakSlip('<?= $val->id; ?>')"><i class="glyphicon glyphicon-print"></i></a>
+                            <a class="btn btn-sm btn-success" target="_blank" href="<?= base_url('slip_gaji/slip_gaji_cetak/').$val->id;?>" title="Cetak"><i class="glyphicon glyphicon-print"></i></a>
                           </td>
                         </tr>
                         <?php endforeach ?>

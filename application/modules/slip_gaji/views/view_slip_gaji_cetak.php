@@ -117,7 +117,7 @@
   </style>
 </head><body>
   <div class="container">   
-    <table class="tbl-outer">
+    <!-- <table class="tbl-outer">
       <tr>
         <td align="left" class="outer-left">
           <?php echo $img_laporan; ?>
@@ -129,84 +129,117 @@
           <p style="text-align: left; font-size: 12px" class="outer-left">Jl. Raya Manukan Kulon No.98-100 Kota Surabaya, Jawa Timur 60185</p>
         </td>
       </tr>
-    </table>
-    <h2 style="text-align: center;"><strong>Laporan Buku Kas Umum</strong></h2>
+    </table> -->
+    <h2 style="text-align: center;"><strong>Slip Gaji SMP Darul Ulum Surabaya</strong></h2>
     
     <table class="tbl-header">
+      <tr>
+        <td align="center" class="head-center">
+          Nama : 
+        </td>
+        <td>
+          <?= $hasil_data['nama_guru'];?>
+        </td>
+      </tr>
+      <tr>
+        <td align="center" class="head-center">
+          Jumlah Jam : 
+        </td>
+        <td>
+          <?= $hasil_data['jumlah_jam_kerja'];?>
+        </td>
+      </tr> 
+    </table>
+    <br>
+    <br>
+     <table class="tbl-header">
       <tr>
         <td align="center" class="head-center">
           <p style="text-align: center; font-size: 14px" class="head-left"><strong>Periode <?php echo $periode; ?></strong></p>
         </td>
       </tr> 
     </table>
-    
     <table id="tbl_content" class="table table-bordered table-hover" cellspacing="0" width="100%" border="1">
       <thead>
         <tr>
-          <th style="width: 60px; text-align: center;">Tanggal</th>
-          <th style="width: 30px; text-align: center;">No. Kode</th>
-          <th style="width: 50px; text-align: center;">No. Bukti</th>
-          <th style="width: 150px; text-align: center;">Uraian</th>
-          <th style="width: 95px; text-align: center;">Penerimaan</th>
-          <th style="width: 95px; text-align: center;">Pengeluaran</th>
-          <th style="width: 95px; text-align: center;">Saldo</th>
+          <th style="width: 10px; text-align: center;">No</th>
+          <th style="width: 100px; text-align: center;">Uraian</th>
+          <th style="width: 50px; text-align: center;">Jumlah</th>
         </tr>
       </thead>
       <tbody>
-      <?php $tanggaltxt = "";?>
-      <?php $saldoTot = "";?>
-      <?php foreach ($hasil_data as $val ) : ?>
+      <?php $no = 0; ?> 
         <tr>
-          <td class="text-center"><?php echo $val['tanggal']; ?></td> 
-          <td class="text-center"><?php echo $val['kode'] ?></td>
-          <td class="text-center"><?php echo $val['bukti'] ?></td>
-          <td><?php echo $val['keterangan']; ?></td>
+          <td colspan="3"><strong>Penerimaan</strong></td>
+        </tr> 
+        <tr>
+          <td class="text-center"><?= 1; ?></td>
+          <td class="text-left">Gaji Pokok</td> 
           <td>
             <div>
               <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= $val['penerimaan'];?></span>
+              <?php if ($hasil_data['is_guru'] == '1') { ?>
+                <?php $gapok = (int)$hasil_data['gaji_perjam'] * (int)$hasil_data['jumlah_jam_kerja'];?>
+                <span style="float: right;"><?= $gapok;?></span>
+              <?php }else{ ?>
+                <span style="float: right;"><?= $hasil_data['gaji_pokok'];?></span>
+              <?php } ?>
               <div class="clear"></div>
             </div>
           </td>
-          <td>
-            <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= $val['pengeluaran'];?></span>
-              <div class="clear"></div>
-            </div>
-          </td>  
-          <td>
-            <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format($val['saldo_akhir'],2,",",".");?></span>
-              <div class="clear"></div>
-            </div>
-          </td>      
         </tr>
-        <?php $tanggaltxt = $val['tanggal'];?>
-        <?php $saldoTot = $val['saldo_akhir'];?>
-      <?php endforeach ?>
         <tr>
-          <td class="text-center" colspan="6"><strong>Saldo Akhir Bulan <?php echo $arr_bulan[date('m', strtotime($tanggaltxt))]; ?></strong></td> 
+          <td class="text-center"><?= 2; ?></td>
+          <td class="text-left">Tunjangan Jabatan</td> 
+          <td>
+            <div>
+              <span style="float: left;">Rp. </span>
+              <span style="float: right;"><?= $hasil_data['gaji_tunjangan_jabatan'];?></span>
+              <div class="clear"></div>
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td class="text-center"><?= 3; ?></td>
+          <td class="text-left">Tunjangan Lainnya</td> 
+          <td>
+            <div>
+              <span style="float: left;">Rp. </span>
+              <span style="float: right;"><?= $hasil_data['gaji_tunjangan_lain'];?></span>
+              <div class="clear"></div>
+            </div>
+          </td>
+        </tr>
+        
+        <tr>
+          <td colspan="3"><strong>Pengeluaran</strong></td>
+        </tr>
+
+        <tr>
+          <td class="text-center"><?= 1; ?></td>
+          <td class="text-left">Potongan Lainnya</td> 
+          <td>
+            <div>
+              <span style="float: left;">Rp. </span>
+              <span style="float: right;"><?= $hasil_data['potongan_lain'];?></span>
+              <div class="clear"></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2"><strong>Jumlah</strong></td> 
           <td>
             <div>
               <span style="float: left;"><strong>Rp. </strong></span>
-              <span style="float: right;"><strong><?= number_format($saldoTot,2,",",".");?></strong></span>
+              <span style="float: right;"><strong><?= $hasil_data['total_take_home_pay'];?></strong></span>
               <div class="clear"></div>
             </div>
-          </td>      
+          </td>
         </tr>
       </tbody>
     </table>
-    <!-- <table class="tbl-content-footer">
-      <tr class="content-footer-left"> 
-        <td align="left" class="content-footer-left" colspan="5">
-          <p style="text-align: left; font-size: 12px" class="content-footer-left">Pada hari ini, <?= $arr_hari[date('w', strtotime(date('Y-m-d')))]; ?> Tanggal <?= date('d'); ?> Bulan <?= date('m'); ?> Tahun <?= date('Y'); ?>, Buku Kas Umum ditutup dengan keadaan sebagai berikut : </p>
-          <p style="text-align: left; font-size: 12px" class="content-footer-left">Saldo Buku Kas Umum bulan <?=$arr_bulan[date('m')]?>   2015 Rp. 24.749.800,-   terdiri dari :</p>
-        </td>
-      </tr>  
-    </table> -->
-    <table class="tbl-footer">
+    <!-- <table class="tbl-footer">
       <tr>
         <td align="left">
           <p style="text-align: left;" class="foot-left"><strong>Mengetahui</strong> </p>
@@ -221,11 +254,11 @@
         <td align="left">
           <p style="text-align: left;" class="foot-left">(KHUSNUL KHOTIMAH,S.Pd) </p>
         </td>
-
+    
         <td align="right">
           <p style="text-align: right;" class="foot-right">(SITI CHOLIFAH)</p>
         </td>
       </tr>
-    </table>
+    </table> -->
   </div>          
 </body></html>

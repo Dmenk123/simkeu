@@ -61,4 +61,17 @@ class Mod_slip_gaji extends CI_Model
 
 		return $saldo;
 	}
+
+	public function get_by_id($id)
+	{
+		$this->db->select('tbl_penggajian.*, tbl_guru.nama as nama_guru');
+		$this->db->from('tbl_penggajian');
+		$this->db->join('tbl_guru', 'tbl_penggajian.id_guru = tbl_guru.id', 'left');
+		$this->db->where([
+			'tbl_penggajian.id' => $id,
+			'tbl_penggajian.is_confirm' => 1,
+			'tbl_penggajian.is_aktif' => 1
+		]);
+		return $query = $this->db->get()->row_array();
+	}
 }
