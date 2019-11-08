@@ -1,11 +1,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Laporan Buku Kas Umum
+        Laporan Slip Gaji
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Laporan</a></li>
-        <li class="active">Laporan Buku Kas Umum</li>
+        <li class="active">Laporan Slip Gaji</li>
       </ol>
     </section>
 
