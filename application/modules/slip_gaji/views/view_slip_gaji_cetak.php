@@ -51,7 +51,8 @@
       color:#070707;
       border-top: 0px solid white;
       border-color: white;
-      padding-top: 75px;
+      margin-left: 70px;
+      margin-right: 100px;
     }
     .head-right{
        padding-bottom: 0px;
@@ -62,13 +63,15 @@
     .tbl-header{
       width: 100%;
       color:#070707;
-      border-color: #070707;
-      border-top: 2px solid #070707;
+      /* border-color: #070707;
+      border-top: 2px solid #070707; */
     }
     #tbl_content{
       padding-top: 10px;
-      margin-left: -20px;
-    } 
+      margin-left: 70px;
+      margin-right: 100px;
+    }
+    
     .tbl-footer td{
       border-top: 0px;
       padding: 10px;
@@ -105,59 +108,37 @@
     tbody td{
       padding: 10px;
     }
-    tbody tr:nth-child(even){
+    /* tbody tr:nth-child(even){
       background: #F6F5FA;
     }
     tbody tr:hover{
       background: #EAE9F5
-    }
+    } */
     .clear{
         clear:both;
     }
   </style>
 </head><body>
   <div class="container">   
-    <!-- <table class="tbl-outer">
-      <tr>
-        <td align="left" class="outer-left">
-          <?php echo $img_laporan; ?>
-        </td>
-        <td align="right" class="outer-left">
-          <p style="text-align: left; font-size: 14px" class="outer-left">
-            <strong>SMP. Darul Ulum Surabaya</strong>
-          </p>
-          <p style="text-align: left; font-size: 12px" class="outer-left">Jl. Raya Manukan Kulon No.98-100 Kota Surabaya, Jawa Timur 60185</p>
-        </td>
-      </tr>
-    </table> -->
-    <h2 style="text-align: center;"><strong>Slip Gaji SMP Darul Ulum Surabaya</strong></h2>
-    
-    <table class="tbl-header">
-      <tr>
-        <td align="center" class="head-center">
-          Nama : 
-        </td>
-        <td>
-          <?= $hasil_data['nama_guru'];?>
-        </td>
-      </tr>
-      <tr>
-        <td align="center" class="head-center">
-          Jumlah Jam : 
-        </td>
-        <td>
-          <?= $hasil_data['jumlah_jam_kerja'];?>
-        </td>
-      </tr> 
-    </table>
-    <br>
-    <br>
      <table class="tbl-header">
       <tr>
-        <td align="center" class="head-center">
+        <td align="center" class="head-center"> 
+          <p style="text-align: center; font-size: 14px" class="head-left"><strong>Slip Gaji SMP Darul Ulum Surabaya</strong></p>
           <p style="text-align: center; font-size: 14px" class="head-left"><strong>Periode <?php echo $periode; ?></strong></p>
         </td>
-      </tr> 
+      </tr>
+    </table>
+    <table class="table table-bordered table-hover" cellspacing="0" width="100%" border="0">
+      <tr>
+          <td align="right">Nama : </td>
+          <td><?= $hasil_data['nama_guru'];?></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td align="right">Jumlah Jam :</td>
+          <td><?= $hasil_data['jumlah_jam_kerja'];?></td>
+          <td></td>
+        </tr> 
     </table>
     <table id="tbl_content" class="table table-bordered table-hover" cellspacing="0" width="100%" border="1">
       <thead>
@@ -180,9 +161,9 @@
               <span style="float: left;">Rp. </span>
               <?php if ($hasil_data['is_guru'] == '1') { ?>
                 <?php $gapok = (int)$hasil_data['gaji_perjam'] * (int)$hasil_data['jumlah_jam_kerja'];?>
-                <span style="float: right;"><?= $gapok;?></span>
+                <span style="float: right;"><?= number_format($gapok,0,",",".");?></span>
               <?php }else{ ?>
-                <span style="float: right;"><?= $hasil_data['gaji_pokok'];?></span>
+                <span style="float: right;"><?= number_format($hasil_data['gaji_pokok'],0,",",".");?></span>
               <?php } ?>
               <div class="clear"></div>
             </div>
@@ -194,7 +175,7 @@
           <td>
             <div>
               <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= $hasil_data['gaji_tunjangan_jabatan'];?></span>
+              <span style="float: right;"><?= number_format($hasil_data['gaji_tunjangan_jabatan'],0,",",".");?></span>
               <div class="clear"></div>
             </div>
           </td>
@@ -206,7 +187,7 @@
           <td>
             <div>
               <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= $hasil_data['gaji_tunjangan_lain'];?></span>
+              <span style="float: right;"><?= number_format($hasil_data['gaji_tunjangan_lain'],0,",",".");?></span>
               <div class="clear"></div>
             </div>
           </td>
@@ -218,11 +199,11 @@
 
         <tr>
           <td class="text-center"><?= 1; ?></td>
-          <td class="text-left">Potongan Lainnya</td> 
+          <td class="text-left" style="height: 90px;">Potongan Lainnya</td> 
           <td>
             <div>
               <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= $hasil_data['potongan_lain'];?></span>
+              <span style="float: right;"><?= number_format($hasil_data['potongan_lain'],0,",",".");?></span>
               <div class="clear"></div>
             </div>
           </td>
@@ -232,33 +213,22 @@
           <td>
             <div>
               <span style="float: left;"><strong>Rp. </strong></span>
-              <span style="float: right;"><strong><?= $hasil_data['total_take_home_pay'];?></strong></span>
+              <span style="float: right;"><strong><?= number_format($hasil_data['total_take_home_pay'],0,",",".");?></strong></span>
               <div class="clear"></div>
             </div>
           </td>
         </tr>
       </tbody>
     </table>
-    <!-- <table class="tbl-footer">
+    <table class="tbl-footer">
       <tr>
-        <td align="left">
-          <p style="text-align: left;" class="foot-left"><strong>Mengetahui</strong> </p>
-          <p style="text-align: left;" class="foot-left"><strong>Kepala Sekolah</strong> </p>
-        </td>
         <td align="right">
-          <p style="text-align: right;" class="foot-left"><strong>Surabaya, <?= date('d').' '.$arr_bulan[date('m')].' '.date('Y');?></strong> </p>
-          <p style="text-align: right;" class="foot-right"><strong>Bendahara</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+          <p style="text-align: right;" class="foot-right"><strong>Surabaya, <?= date('d').' '.$arr_bulan[(int)date('m')].' '.date('Y'); ?></strong> </p>
+          <p style="text-align: right;" class="foot-right"><strong>Kepala Sekolah</strong> </p>
+          <br><br><br>
+          <p style="text-align: right;" class="foot-right"><strong>Khusnul Chotimah</strong> </p>
         </td>
       </tr>
-      <tr>
-        <td align="left">
-          <p style="text-align: left;" class="foot-left">(KHUSNUL KHOTIMAH,S.Pd) </p>
-        </td>
-    
-        <td align="right">
-          <p style="text-align: right;" class="foot-right">(SITI CHOLIFAH)</p>
-        </td>
-      </tr>
-    </table> -->
+    </table>
   </div>          
 </body></html>
