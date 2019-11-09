@@ -102,7 +102,7 @@ class Master_user extends CI_Controller {
 
 		$content = [
 			'css' 	=> 'cssMasterUser',
-			'modal' => 'modalMasterUser',
+			'modal' => null,
 			'js'	=> 'jsMasterUser',
 			'view'	=> 'view_add_master_user'
 		];
@@ -363,27 +363,35 @@ class Master_user extends CI_Controller {
 		$data['inputerror'] = array();
 		$data['status'] = TRUE;
 
-		if ($this->input->post('nip') == '') {
-			$data['inputerror'][] = 'nip';
-            $data['error_string'][] = 'Wajib mengisi nip';
+		if ($this->input->post('username') == '') {
+			$data['inputerror'][] = 'username';
+            $data['error_string'][] = 'Wajib mengisi username';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('nama') == '') {
-			$data['inputerror'][] = 'nama';
-            $data['error_string'][] = 'Wajib mengisi nama';
+		if ($this->input->post('ceklistpwd') != 'Y') {
+			if ($this->input->post('password') == '') {
+				$data['inputerror'][] = 'password';
+	            $data['error_string'][] = 'Wajib mengisi password';
+	            $data['status'] = FALSE;
+			}
+
+			if ($this->input->post('repassword') == null) {
+				$data['inputerror'][] = 'repassword';
+	            $data['error_string'][] = 'Wajib mengisi ulang Password';
+	            $data['status'] = FALSE;
+			}
+		}
+
+		if ($this->input->post('role') == '') {
+			$data['inputerror'][] = 'role';
+            $data['error_string'][] = 'Wajib mengisi role';
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('jabatan') == null) {
-			$data['inputerror'][] = 'jabatan';
-            $data['error_string'][] = 'Wajib mengisi jabatan';
-            $data['status'] = FALSE;
-		}
-
-		if ($this->input->post('tempatlahir') == '') {
-			$data['inputerror'][] = 'tempatlahir';
-            $data['error_string'][] = 'Wajib mengisi tempatlahir';
+		if ($this->input->post('namalengkap') == '') {
+			$data['inputerror'][] = 'namalengkap';
+            $data['error_string'][] = 'Wajib mengisi namalengkap';
             $data['status'] = FALSE;
 		}
 
@@ -407,7 +415,7 @@ class Master_user extends CI_Controller {
 
 		if ($this->input->post('alamat') == '') {
 			$data['inputerror'][] = 'alamat';
-            $data['error_string'][] = 'Wajib mengisi alamat';
+            $data['error_string'][] = 'Wajib mengisi tipe alamat';
             $data['status'] = FALSE;
 		}
 
@@ -417,9 +425,9 @@ class Master_user extends CI_Controller {
             $data['status'] = FALSE;
 		}
 
-		if ($this->input->post('tipepeg') == '') {
-			$data['inputerror'][] = 'tipepeg';
-            $data['error_string'][] = 'Wajib mengisi tipe pegawai';
+		if ($this->input->post('telp') == '') {
+			$data['inputerror'][] = 'telp';
+            $data['error_string'][] = 'Wajib mengisi Nomor Telepon';
             $data['status'] = FALSE;
 		}
 			

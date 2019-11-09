@@ -44,23 +44,9 @@ $(document).ready(function() {
         },
     });*/
 
-    /*$.dobPicker({
-        // Selectopr IDs
-        daySelector: '#dobday',
-        monthSelector: '#dobmonth',
-        yearSelector: '#dobyear',
-
-        // Default option values
-        dayDefault: 'Hari',
-        monthDefault: 'Bulan',
-        yearDefault: 'Tahun',
-
-        // Minimum age
-        minimumAge: 12,
-
-        // Maximum age
-        maximumAge: 80
-    });*/
+    $('input.numberinput').bind('keypress', function (e) {
+        return (e.which != 8 && e.which != 0 && (e.which < 48 || e.which > 57) && e.which != 46) ? false : true;
+    });
 
     $(".gambar").change(function() {
       //console.log(this);

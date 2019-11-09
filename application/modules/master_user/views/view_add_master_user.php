@@ -28,9 +28,23 @@
 
                 <div class="form-group col-md-12">
                   <label>Password : </label>
-                  <input type="text" class="form-control" id="password" name="password" value="<?php if(isset($hasil_data)){echo $hasil_data->nama;}?>">
+                  <input type="password" class="form-control" id="password" name="password" value="">
                   <span class="help-block"></span>
                 </div>
+
+                <div class="form-group col-md-12">
+                  <label>Ulangi Password : </label>
+                  <input type="password" class="form-control" id="repassword" name="repassword" value="">
+                  <span class="help-block"></span>
+                </div>
+                
+                <?php if (isset($hasil_data)) { ?>
+                <div class="form-group col-md-12 checkbox">
+                  <label>
+                    <input type="checkbox" value="Y" name="ceklistpwd" id="ceklistpwd"> Centang Pilihan ini jika tidak mengganti password
+                  </label>
+                </div>
+                <?php } ?>
                 
                 <div class="form-group col-md-12">
                   <label>Role / Level User : </label>
@@ -47,8 +61,8 @@
                 </div>
 
                 <div class="form-group col-md-12">
-                  <label>Tempat Lahir : </label>
-                  <input type="text" class="form-control" id="tempatlahir" name="tempatlahir" value="<?php if(isset($hasil_data)){echo $hasil_data->tempat_lahir;}?>">
+                  <label>Nama Lengkap : </label>
+                  <input type="text" class="form-control" id="namalengkap" name="namalengkap" value="<?php if(isset($hasil_data)){echo $hasil_data->nama_lengkap_user;}?>">
                   <span class="help-block"></span>
                 </div>
 
@@ -119,18 +133,9 @@
                 </div>
 
                 <div class="form-group col-md-12">
-                  <label>Tipe Pegawai : </label>
-                    <select class="form-control select2" id="tipepeg" name="tipepeg">
-                      <option value="">Pilih Tipe Pegawai</option>
-                      <?php if(isset($hasil_data)){ ?>
-                          <option value="1" <?php if ($hasil_data->is_guru == '1'){echo "selected";}?>>Guru</option>
-                          <option value="0" <?php if ($hasil_data->is_guru == '0'){echo "selected";}?>>Karyawan</option>
-                      <?php } else { ?>
-                        <option value="1">Guru</option>
-                        <option value="0">Karyawan</option>
-                      <?php } ?>
-                    </select>
-                    <span class="help-block"></span>
+                  <label>Nomor Telp : </label>
+                  <input type="text" class="form-control numberinput" id="telp" name="telp" value="<?php if(isset($hasil_data)){echo $hasil_data->no_telp_user;}?>">
+                  <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-9">
