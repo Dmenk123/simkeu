@@ -37,13 +37,15 @@
               </div>
               <?php } ?>
               <div class="table-responsive"> 
-                <table id="tabelGuru" class="table table-bordered table-hover" cellspacing="0" width="100%">
+                <table id="tabelUser" class="table table-bordered table-hover" cellspacing="0" width="100%">
                   <thead>
                     <tr>
                       <th style="width: 5%;">Foto</th>
-                      <th style="width: 40%;">Nama</th>
-                      <th style="width: 20%;">Jabatan</th>
-                      <th style="width: 20%;">Action</th>
+                      <th style="width: 15%;">ID</th>
+                      <th style="width: 20%;">Username</th>
+                      <th style="width: 20%;">Role/Level</th>
+                      <th style="width: 25%;">Nama</th>
+                      <th>Aksi</th>
                     </tr>
                   </thead>
                   <tbody>

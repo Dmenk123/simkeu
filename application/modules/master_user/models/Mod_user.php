@@ -2,19 +2,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Mod_user extends CI_Model
 {
-	var $table = 'tbl_guru';
+	var $table = 'tbl_user';
+
 	var $column_order = array(
-		"tg.nip",
-		"tg.nama",
-		"tj.nama_jabatan",
+		null,
+		"tu.id_user",
+		"tu.username",
+		"tl.nama_level_user",
+		"tud.nama_lengkap_user",
 		null,
 	); //set column field database for datatable orderable
 	var $column_search = array(
-		"tg.nip",
-		"tg.nama",
-		"tj.nama_jabatan"
-	); //set column field database for datatable searchable just username are searchable
-	var $order = array('nama' => 'asc'); // default order 
+		"tu.id_user",
+		"tu.username",
+		"tl.nama_level_user",
+		"tud.nama_lengkap_user"
+	);
+	var $order = array('username' => 'asc'); // default order 
 
 	public function __construct()
 	{
@@ -27,16 +31,20 @@ class Mod_user extends CI_Model
 		
 		//$this->db->from($this->table);
 		$column = array(
-			"tg.nip",
-			"tg.nama",
-			"tj.nama_jabatan",
+			"tu.id_user",
+			"tu.username",
+			"tl.nama_level_user",
+			"tud.nama_lengkap_user",
 			null,
 		);
 		
-		$this->db->select("tg.*, tj.nama as nama_jabatan");
-		$this->db->from('tbl_guru as tg');
-		$this->db->join('tbl_jabatan as tj', 'tg.kode_jabatan = tj.id', 'left');
-		$this->db->where('tg.is_aktif', 1);
+		$this->db->select("
+			tu.*, tud.id_user_detail, tud.nama_lengkap_user, tud.alamat_user, tud.thumb_gambar_user, tl.nama_level_user
+		");
+		$this->db->from('tbl_user as tu');
+		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
+		$this->db->join('tbl_level_user tl', 'tu.id_level_user = tl.id_level_user', 'left');
+		$this->db->where('tu.status', 1);
 		$i = 0;
 	
 		foreach ($this->column_search as $item) // loop column 
@@ -92,10 +100,13 @@ class Mod_user extends CI_Model
 
 	public function count_all()
 	{
-		$this->db->select("tg.*, tj.nama as nama_jabatan");
-		$this->db->from('tbl_guru as tg');
-		$this->db->join('tbl_jabatan as tj', 'tg.kode_jabatan = tj.id', 'left');
-		$this->db->where('tg.is_aktif', 1);
+		$this->db->select("
+			tu.*, tud.id_user_detail, tud.nama_lengkap_user, tud.alamat_user, tud.thumb_gambar_user, tl.nama_level_user
+		");
+		$this->db->from('tbl_user as tu');
+		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
+		$this->db->join('tbl_level_user tl', 'tu.id_level_user = tl.id_level_user', 'left');
+		$this->db->where('tu.status', 1);
 		return $this->db->count_all_results();
 	}
 
@@ -111,12 +122,27 @@ class Mod_user extends CI_Model
 		return $query->result();
 	}
 
-	public function get_detail_guru($id_guru)
+	public function get_detail_user($id_user)
 	{
-		$this->db->select('tbl_guru.*, tbl_jabatan.nama as nama_jabatan');
-		$this->db->from('tbl_guru');
-		$this->db->join('tbl_jabatan', 'tbl_guru.kode_jabatan = tbl_jabatan.id', 'left');
-		$this->db->where('tbl_guru.id', $id_guru);
+		$this->db->select("
+			tu.*, 
+			tud.id_user_detail,
+			tud.nama_lengkap_user,
+			tud.alamat_user,
+			tud.tanggal_lahir_user,
+			tud.jenis_kelamin_user,
+			tud.no_telp_user,
+			tud.gambar_user,
+			tud.thumb_gambar_user, 
+			tl.nama_level_user
+		");
+		$this->db->from('tbl_user as tu');
+		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
+		$this->db->join('tbl_level_user tl', 'tu.id_level_user = tl.id_level_user', 'left');
+		$this->db->where([
+			'tu.status' => 1,
+			'tu.id_user' => $id_user
+		]);
 
         $query = $this->db->get();
 
@@ -134,9 +160,9 @@ class Mod_user extends CI_Model
 		return $query->row();
 	}
 
-	public function save($data)
+	public function save($table, $data)
 	{
-		$this->db->insert($this->table, $data);
+		$this->db->insert($table, $data);
 	}
 
 	public function update($where, $data)

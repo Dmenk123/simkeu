@@ -30,27 +30,28 @@ class Master_user extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_guru()
+	public function list_user()
 	{
-		$list = $this->m_guru->get_datatables();
+		$list = $this->m_user->get_datatables();
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $val) {
-			$link_detail = site_url('master_guru/detail/').$val->id;
+			$link_detail = site_url('master_user/detail/').$val->id_user;
 			// $no++;
 			$row = array();
-			// $row[] = $no;
-			$row[] = '<img src="'.base_url().'/assets/img/foto_guru/'.$val->foto.'" width="60" height="60">';
-			$row[] = $val->nama;
-			$row[] = $val->nama_jabatan;
+			$row[] = '<img src="'.base_url().'/assets/img/user_img/thumbs/'.$val->thumb_gambar_user.'">';
+			$row[] = $val->id_user;
+			$row[] = $val->username;
+			$row[] = $val->nama_level_user;
+			$row[] = $val->nama_lengkap_user;
 
 			//add html for action
 			$row[] = '
 				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail">
-					<i class="glyphicon glyphicon-info-sign"></i> Detail
+					<i class="glyphicon glyphicon-info-sign"></i>
 				</a>
-				<a class="btn btn-sm btn-primary" href="'.base_url('master_guru/edit/').$val->id.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_guru('."'".$val->id."'".')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
+				<a class="btn btn-sm btn-primary" href="'.base_url('master_user/edit/').$val->id_user.'" title="Edit"><i class="glyphicon glyphicon-pencil"></i></a>
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="delete_user('."'".$val->id_user."'".')"><i class="glyphicon glyphicon-trash"></i></a>
 			';
 
 			$data[] = $row;
@@ -58,8 +59,8 @@ class Master_user extends CI_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->m_guru->count_all(),
-			"recordsFiltered" => $this->m_guru->count_filtered(),
+			"recordsTotal" => $this->m_user->count_all(),
+			"recordsFiltered" => $this->m_user->count_filtered(),
 			"data" => $data,
 		);
 		//output to json format
@@ -68,7 +69,7 @@ class Master_user extends CI_Controller {
 
 	public function detail($id)
 	{
-		$data = $this->m_guru->get_detail_guru($id);
+		$data = $this->m_user->get_detail_user($id);
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 		
@@ -78,10 +79,10 @@ class Master_user extends CI_Controller {
 		);
 
 		$content = [
-			'css' 	=> 'cssMasterGuru',
+			'css' 	=> 'cssMasterUser',
 			'modal' => null,
-			'js'	=> 'jsMasterGuru',
-			'view'	=> 'view_detail_master_guru'
+			'js'	=> 'jsMasterUser',
+			'view'	=> 'view_detail_master_user'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -131,23 +132,35 @@ class Master_user extends CI_Controller {
 
 	public function add_data()
 	{
+		$this->load->library('Enkripsi');
 		$arr_valid = $this->_validate();
-		$nip = trim(strtoupper($this->input->post('nip')));
-		$nama = trim($this->input->post('nama'));
-		$jabatan = trim($this->input->post('jabatan'));
-		$tempat_lahir = trim($this->input->post('tempatlahir'));
+
+		$username = trim(strtoupper($this->input->post('username')));
+		$password = $this->input->post('password');
+		$repassword = $this->input->post('repassword');
+		$hasil_password = $this->enkripsi->encrypt($password);
+		$role = trim($this->input->post('role'));
+		$namalengkap = $this->input->post('namalengkap');
 		$hari = $this->input->post('hari');
 		$bulan = $this->input->post('bulan');
 		$tahun = $this->input->post('tahun');
 		$alamat = trim($this->input->post('alamat'));
 		$jenkel = $this->input->post('jenkel');
-		$namafileseo = $this->seoUrl($nama.' '.time());
-		$tipepeg = $this->input->post('tipepeg');
-		
+		$telp = $this->input->post('telp');
+		$id_user = $this->prof->getKodeUser();
+		$namafileseo = $this->seoUrl($username.' '.time());
+		$output_thumb = '';
 
 		if ($arr_valid['status'] == FALSE) {
 			echo json_encode($arr_valid);
 			return;
+		}
+
+		if ($this->input->post('ceklistpwd') != 'Y') {
+			if ($password != $repassword) {
+				$this->session->set_flashdata('feedback_failed','Terdapat ketidak cocokan Password'); 
+				return;
+			}
 		}
 
 		$this->db->trans_begin();
@@ -163,8 +176,10 @@ class Master_user extends CI_Controller {
 				$gbrBukti = $this->gbr_bukti->data();
 				//inisiasi variabel u/ digunakan pada fungsi config img bukti
 				$nama_file_foto = $gbrBukti['file_name'];
-				//load config img bukti
+				//load config img
 				$this->konfigurasi_image_resize($nama_file_foto);
+				//load config img thumbs
+				$output_thumb = $this->konfigurasi_image_thumb($nama_file_foto, $gbrBukti);
 				//clear img lib after resize
 				$this->image_lib->clear();
 			} //end
@@ -177,54 +192,70 @@ class Master_user extends CI_Controller {
 			return;
 		}
 
-		$data = array(
-			'nip' => $nip,
-			'nama' => $nama,
-			'kode_jabatan' => $jabatan,
-			'alamat' => $alamat,
-			'tempat_lahir' => $tempat_lahir,
-			'tanggal_lahir' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
-			'jenis_kelamin' => $jenkel,
-			'foto' => $nama_file_foto,
-			'is_guru' => $tipepeg
+		//data header
+		$data_header = [
+			'id_user' => $id_user,
+			'username' => $username,
+			'password' => $hasil_password,
+			'id_level_user' => $role,
+			'id_pegawai' => null,
+			'status' => 1,
+			'last_login' => null,
+			'created_at' => date('Y-m-d H:i:s')
+		];
+
+		$insert_header = $this->m_user->save('tbl_user', $data_header);
+
+		//data detail
+		$data_detail = array(
+			'id_user' => $id_user,
+			'nama_lengkap_user' => trim($namalengkap),
+			'alamat_user' => $alamat,
+			'tanggal_lahir_user' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
+			'jenis_kelamin_user' => $jenkel,
+			'no_telp_user' => trim($telp),
+			'gambar_user' => $nama_file_foto,
+			'thumb_gambar_user' => $output_thumb
 		);
 
-		$insert = $this->m_guru->save($data);
+		$insert_detail = $this->m_user->save('tbl_user_detail', $data_detail);
+		
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			$this->session->set_flashdata('feedback_failed','Gagal Buat Master Guru.'); 
+			$this->session->set_flashdata('feedback_failed','Gagal Buat Master User.'); 
 		}
 		else {
 			$this->db->trans_commit();
-			$this->session->set_flashdata('feedback_success','Berhasil Buat Master Guru'); 
+			$this->session->set_flashdata('feedback_success','Berhasil Buat Master User'); 
 		}
 
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Master Jabatan Berhasil ditambahkan',
+			"pesan" => 'Master User Berhasil ditambahkan',
 		));
 	}
 
 	public function edit($id)
 	{
-		$data = $this->m_guru->get_by_id($id);
-		$q_jabatan = $this->db->query("select * from tbl_jabatan where is_aktif = '1' order by nama")->result();
-
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
-
+		$q_jabatan = $this->db->query("select * from tbl_jabatan where is_aktif = '1' order by nama")->result();
+		$data_role = $this->db->query("select * from tbl_level_user where aktif = '1'")->result();
+		$data = $this->m_user->get_detail_user($id);
+		
 		$data = array(
 			'data_user' => $data_user,
-			'hasil_data' => $data,
-			'data_jabatan' => $q_jabatan
+			'data_jabatan' => $q_jabatan,
+			'data_role' => $data_role,
+			'hasil_data' => $data
 		);
 
 		$content = [
-			'css' 	=> 'cssMasterGuru',
-			'modal' => 'modalMasterGuru',
-			'js'	=> 'jsMasterGuru',
-			'view'	=> 'view_add_master_guru'
+			'css' 	=> 'cssMasterUser',
+			'modal' => null,
+			'js'	=> 'jsMasterUser',
+			'view'	=> 'view_add_master_user'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -328,7 +359,7 @@ class Master_user extends CI_Controller {
 	public function konfigurasi_upload_bukti($nmfile)
 	{ 
 		//konfigurasi upload img display
-		$config['upload_path'] = './assets/img/foto_guru/';
+		$config['upload_path'] = './assets/img/user_img/';
 		$config['allowed_types'] = 'gif|jpg|png|jpeg|bmp';
 		$config['overwrite'] = TRUE;
 		$config['max_size'] = '4000';//in KB (4MB)
@@ -344,16 +375,35 @@ class Master_user extends CI_Controller {
 	{
 		//konfigurasi image lib
 	    $config['image_library'] = 'gd2';
-	    $config['source_image'] = './assets/img/foto_guru/'.$filename;
+	    $config['source_image'] = './assets/img/user_img/'.$filename;
 	    $config['create_thumb'] = FALSE;
 	    $config['maintain_ratio'] = FALSE;
-	    $config['new_image'] = './assets/img/foto_guru/'.$filename;
+	    $config['new_image'] = './assets/img/user_img/'.$filename;
 	    $config['overwrite'] = TRUE;
 	    $config['width'] = 450; //resize
 	    $config['height'] = 500; //resize
 	    $this->load->library('image_lib',$config); //load image library
 	    $this->image_lib->initialize($config);
 	    $this->image_lib->resize();
+	}
+
+	public function konfigurasi_image_thumb($filename, $gbr)
+	{
+		//konfigurasi image lib
+	    $config2['image_library'] = 'gd2';
+	    $config2['source_image'] = './assets/img/user_img/'.$filename;
+	    $config2['create_thumb'] = TRUE;
+	 	$config2['thumb_marker'] = '_thumb';
+	    $config2['maintain_ratio'] = FALSE;
+	    $config2['new_image'] = './assets/img/user_img/thumbs/'.$filename;
+	    $config2['overwrite'] = TRUE;
+	    $config2['quality'] = '60%';
+	 	$config2['width'] = 45;
+	 	$config2['height'] = 45;
+	    $this->load->library('image_lib',$config2); //load image library
+	    $this->image_lib->initialize($config2);
+	    $this->image_lib->resize();
+	    return $output_thumb = $gbr['raw_name'].'_thumb'.$gbr['file_ext'];	
 	}
 
 	private function _validate()

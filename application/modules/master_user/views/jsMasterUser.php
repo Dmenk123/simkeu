@@ -8,7 +8,7 @@
 
 $(document).ready(function() {
 	//datatables
-	table = $('#tabelGuru').DataTable({
+	table = $('#tabelUser').DataTable({
 		
 		"processing": true, //feature control the processing indicator
 		"serverSide": true, //feature control DataTables server-side processing mode
@@ -16,7 +16,7 @@ $(document).ready(function() {
 
 		//load data for table content from ajax source
 		"ajax": {
-			"url": "<?php echo site_url('master_guru/list_guru') ?>",
+			"url": "<?php echo site_url('master_user/list_user') ?>",
 			"type": "POST" 
 		},
 
@@ -75,9 +75,9 @@ function save(save_method)
     var url;
 
     if(save_method == 'add') {
-        url = "<?php echo site_url('master_guru/add_data')?>";
+        url = "<?php echo site_url('master_user/add_data')?>";
     } else {
-        url = "<?php echo site_url('master_guru/update_data')?>";
+        url = "<?php echo site_url('master_user/update_data')?>";
     }
 
     // Get form
@@ -97,7 +97,7 @@ function save(save_method)
         {
 
             if(data.status) {
-                window.location.href = "<?=base_url('/master_guru');?>";
+                window.location.href = "<?=base_url('/master_user');?>";
             }else {
                 for (var i = 0; i < data.inputerror.length; i++) 
                 {
