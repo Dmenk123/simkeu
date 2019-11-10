@@ -44,6 +44,19 @@ class Mod_profil extends CI_Model
         }
 	}
 
+	public function get_detail_pegawai($nip)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_guru');
+		$this->db->where('nip', $nip);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->result();
+        }
+	}
+
 	function getKodeUser(){
             $q = $this->db->query("select MAX(RIGHT(id_user,5)) as kode_max from tbl_user");
             $kd = "";

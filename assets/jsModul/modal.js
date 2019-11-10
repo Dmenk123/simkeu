@@ -65,7 +65,7 @@ function logout_proc() {
 					dataType: "JSON",
 					success: function (data) {
 						swal("Logout", 'Anda berhasil logout', "success").then(function() {
-						    window.location.href = baseUrl + 'home';
+						    window.location.href = baseUrl + 'login';
 						});
 					}
 				});

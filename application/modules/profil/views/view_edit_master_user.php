@@ -6,7 +6,7 @@
       </h1>
 
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i>Daftar</a></li>
+        <li><a href="#"><i class="fa fa-dashboard"></i>Edit</a></li>
         <li class="active">Master User</li>
       </ol>
     </section>
@@ -21,32 +21,23 @@
               <form id="form_input">
                 <div class="form-group col-md-12">
                   <label>Username : </label>
-                  <input type="text" class="form-control" id="username" name="username" value="<?php if(isset($hasil_data)){echo $hasil_data->username;}?>">
-                  <input type="hidden" class="form-control" id="id" name="id" value="<?php if(isset($hasil_data)){echo $hasil_data->id_user;}?>">
+                  <input type="text" class="form-control" id="username" name="username" value="<?php echo $hasil_data->username; ?>">
+                  <input type="hidden" class="form-control" id="id" name="id" value="<?php echo $hasil_data->id_user; ?>">
                   <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-12">
-                  <?php if (isset($hasil_data)) { ?>
-                    <label>Password Lama: </label>
-                  <?php }else{ ?>
-                    <label>Password : </label>
-                  <?php } ?>
+                  <label>Password Lama: </label>
                   <input type="password" class="form-control" id="password" name="password" value="">
                   <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-12">
-                  <?php if (isset($hasil_data)) { ?>
-                    <label>Ulangi Password Lama: </label>
-                  <?php }else{ ?>
-                    <label>Ulangi Password : </label>
-                  <?php } ?>
+                  <label>Ulangi Password : </label>
                   <input type="password" class="form-control" id="repassword" name="repassword" value="">
                   <span class="help-block"></span>
                 </div>
                 
-                <?php if (isset($hasil_data)) { ?>
                 <div class="form-group col-md-12">
                   <label>Password Baru : </label>
                   <input type="password" class="form-control" id="passwordnew" name="passwordnew" value="">
@@ -58,25 +49,10 @@
                     <input type="checkbox" value="Y" name="ceklistpwd" id="ceklistpwd"> Centang Pilihan ini jika tidak mengganti password
                   </label>
                 </div>
-                <?php } ?>
-                
-                <div class="form-group col-md-12">
-                  <label>Role / Level User : </label>
-                    <select class="form-control" id="role" name="role">
-                      <?php foreach ($data_role as $key => $role) {
-                        if (isset($hasil_data)) { ?>
-                          <option value="<?= $role->id_level_user; ?>" <?php if ($hasil_data->id_level_user == $role->id_level_user) {echo "selected";}?>><?= $role->nama_level_user; ?></option>
-                        <?php }else{ ?>
-                          <option value="<?= $role->id_level_user; ?>"><?= $role->nama_level_user; ?></option>
-                        <?php } ?>
-                      <?php } ?>
-                    </select>
-                    <span class="help-block"></span>
-                </div>
-
+                                
                 <div class="form-group col-md-12">
                   <label>Nama Lengkap : </label>
-                  <input type="text" class="form-control" id="namalengkap" name="namalengkap" value="<?php if(isset($hasil_data)){echo $hasil_data->nama_lengkap_user;}?>">
+                  <input type="text" class="form-control" id="namalengkap" name="namalengkap" value="<?php echo $hasil_data->nama_lengkap_user; ?>">
                   <span class="help-block"></span>
                 </div>
 
@@ -127,7 +103,7 @@
 
                 <div class="form-group col-md-12">
                   <label>Alamat : </label>
-                  <textarea class="form-control" rows="3" placeholder="Alamat ..." id="alamat" name="alamat" ><?php if(isset($hasil_data)){echo $hasil_data->alamat_user;}?></textarea>
+                  <textarea class="form-control" rows="3" placeholder="Alamat ..." id="alamat" name="alamat" ><?php echo $hasil_data->alamat_user; ?></textarea>
                   <span class="help-block"></span>
                 </div>
 
@@ -135,20 +111,15 @@
                   <label>Jenis Kelamin : </label>
                     <select class="form-control select2" id="jenkel" name="jenkel">
                       <option value="">Pilih Jenis Kelamin</option>
-                      <?php if(isset($hasil_data)){ ?>
-                          <option value="L" <?php if ($hasil_data->jenis_kelamin_user == 'L'){echo "selected";}?>>Laki-Laki</option>
-                          <option value="P" <?php if ($hasil_data->jenis_kelamin_user == 'P'){echo "selected";}?>>Perempuan</option>
-                      <?php } else { ?>
-                        <option value="L">Laki-Laki</option>
-                        <option value="P">Perempuan</option>
-                      <?php } ?>
+                      <option value="L" <?php if ($hasil_data->jenis_kelamin_user == 'L'){echo "selected";}?>>Laki-Laki</option>
+                      <option value="P" <?php if ($hasil_data->jenis_kelamin_user == 'P'){echo "selected";}?>>Perempuan</option>
                     </select>
                     <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-12">
                   <label>Nomor Telp : </label>
-                  <input type="text" class="form-control numberinput" id="telp" name="telp" value="<?php if(isset($hasil_data)){echo $hasil_data->no_telp_user;}?>">
+                  <input type="text" class="form-control numberinput" id="telp" name="telp" value="<?php echo $hasil_data->no_telp_user; ?>">
                   <span class="help-block"></span>
                 </div>
 
@@ -158,20 +129,12 @@
                 </div>
 
                 <div class="form-group col-md-3">
-                  <?php if(isset($hasil_data)){ ?>
-                    <img id="gambar-img" src="<?= base_url().'/assets/img/user_img/'.$hasil_data->gambar_user; ?>" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
-                  <?php } else { ?>
-                    <img id="gambar-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
-                  <?php } ?>
+                  <img id="gambar-img" src="<?= base_url().'/assets/img/user_img/'.$hasil_data->gambar_user; ?>" alt="Preview Gambar" height="75" width="75" class="pull-right"/>
                 </div>
 
                 <div class="form-group col-md-12">
                   <div class="pull-right">
-                    <?php if (isset($hasil_data)) { ?>
-                      <button type="button" id="btnSave" class="btn btn-primary" onclick="save('update')"><i class="fa fa-save"></i> Simpan</button>
-                    <?php }else{ ?>
-                      <button type="button" id="btnSave" class="btn btn-primary" onclick="save('add')"><i class="fa fa-save"></i> Simpan</button>
-                    <?php } ?>
+                      <button type="button" id="btnSave" class="btn btn-primary" onclick="update_profil('user')"><i class="fa fa-save"></i> Simpan</button>
                   </div>
                   <div class="pull-left">
                     <a class="btn btn-md btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</a>

@@ -29,7 +29,11 @@
             <li class="dropdown user user-menu">
                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                <?php foreach ($data_user as $val) { ?>
-                  <span class="hidden-xs" style="padding: 30px;"><?php echo $val->nama_lengkap_user;?></span>
+                  <?php if ($this->session->userdata('id_level_user') == '5'){ ?>
+                     <span class="hidden-xs" style="padding: 30px;"><?php echo $val->nama;?></span>   
+                  <?php }else{ ?>
+                     <span class="hidden-xs" style="padding: 30px;"><?php echo $val->nama_lengkap_user;?></span>
+                  <?php } ?>
               <?php } ?>
                </a>
                <ul class="dropdown-menu">
@@ -37,20 +41,20 @@
                   <!-- User image -->
                   <li class="user-header">
                   <?php foreach ($data_user as $val) { ?>
-                     <img src="<?php echo config_item('assets'); ?>img/foto_profil/<?php echo $val->gambar_user; ?>" class="img-circle" alt="User Image">  
-                     <p><?php echo $val->nama_lengkap_user;?></p>
+                     <?php if ($this->session->userdata('id_level_user') == '5'){ ?>
+                        <img src="<?php echo config_item('assets'); ?>img/foto_guru/<?php echo $val->foto; ?>" class="img-circle" alt="User Image">  
+                        <p><?php echo $val->nama;?></p>   
+                     <?php }else{ ?>
+                        <img src="<?php echo config_item('assets'); ?>img/user_img/<?php echo $val->gambar_user; ?>" class="img-circle" alt="User Image">  
+                        <p><?php echo $val->nama_lengkap_user;?></p>
+                     <?php } ?>
                   <?php } ?>
                   </li>
 
                   <!-- Menu Footer-->
                   <li class="user-footer">
                      <div class="pull-left">
-                     <?php $id_user = $this->session->userdata('id_user');?>
-                     <?php if ($this->session->userdata('id_level_user') == '4') { ?>
-                        <a href='<?php echo site_url("profil/edit_profil_vendor/$id_user");?>' class="btn btn-default btn-flat">Profile</a>
-                     <?php }else{ ?>
-                        <a href='<?php echo site_url("profil/edit_profil/$id_user");?>' class="btn btn-default btn-flat">Profile</a>
-                     <?php } ?>
+                        <a href='<?php echo site_url("profil");?>' class="btn btn-default btn-flat">Profile</a>
                      </div>
                      <div class="pull-right">
                         <a  href="javascript:void(0);" onclick="logout_proc()" class="btn btn-default btn-flat">Logout</a>

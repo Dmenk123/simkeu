@@ -371,24 +371,24 @@ class Master_user extends CI_Controller {
 		));
 	}
 
-	public function delete($id)
+	public function delete_user($id)
 	{
 		// $this->m_guru->delete_by_id($id);
 		$this->db->trans_begin();
-		$this->m_guru->update(['id' => $id], ['is_aktif '=> 0]);
+		$this->m_user->update('tbl_user', ['id_user' => $id], ['status '=> 0]);
 		
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			$this->session->set_flashdata('feedback_failed','Gagal Hapus Master Guru.'); 
+			$this->session->set_flashdata('feedback_failed','Gagal Hapus Master User.'); 
 		}
 		else {
 			$this->db->trans_commit();
-			$this->session->set_flashdata('feedback_success','Berhasil Hapus Master Guru'); 
+			$this->session->set_flashdata('feedback_success','Berhasil Hapus Master User'); 
 		}
 
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Data Master Guru Berhasil dihapus',
+			"pesan" => 'Data Master User Berhasil dihapus',
 		));
 	}
 

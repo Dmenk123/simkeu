@@ -22,7 +22,7 @@
                 <div class="col-lg-3">
                     <div class="pull-left">
                         <h4 style="text-align:center;"><?= $hasil_data->nama; ?></h4>
-                        <img src="<?= base_url().'/assets/img/foto_guru/'.$hasil_data->foto; ?>" alt="image" height="170" width="170" class="rounded-circle">
+                        <img src="<?= base_url().'/assets/img/foto_guru/'.$hasil_data->foto; ?>" alt="image" height="170" width="170" class="img-circle">
                     </div>
                 </div>
                 <div class="col-lg-6">

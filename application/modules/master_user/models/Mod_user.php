@@ -176,4 +176,17 @@ class Mod_user extends CI_Model
 		$this->db->where('id', $id);
 		$this->db->delete($this->table);
 	}
+
+	public function get_detail_pegawai($nip)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_guru');
+		$this->db->where('nip', $nip);
+
+        $query = $this->db->get();
+
+        if ($query->num_rows() > 0) {
+            return $query->row();
+        }
+	}
 }

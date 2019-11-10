@@ -19,8 +19,13 @@ class Home extends CI_Controller {
 
 	public function index()
 	{	
-		$id_user = $this->session->userdata('id_user'); 
-		$query = $this->prof->get_detail_pengguna($id_user);
+		$id_user = $this->session->userdata('id_user');
+		if ($this->session->userdata('id_level_user') != '5') {
+			$query = $this->prof->get_detail_pengguna($id_user);
+		}else{
+			$query = $this->prof->get_detail_pegawai($id_user);
+		}
+		
 
 		/*$jumlah_notif = $this->psn->notif_count($id_user);  //menghitung jumlah post
 		$notif= $this->psn->get_notifikasi($id_user); //menampilkan isi postingan

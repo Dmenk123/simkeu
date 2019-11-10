@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 06/11/2019 15:58:27
+ Date: 10/11/2019 23:35:09
 */
 
 SET NAMES utf8mb4;
@@ -33,6 +33,7 @@ CREATE TABLE `tbl_guru`  (
   `foto` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `is_aktif` int(1) NULL DEFAULT 1,
   `is_guru` int(1) NULL DEFAULT 1,
+  `password` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `kode_jabatan`(`kode_jabatan`) USING BTREE,
   CONSTRAINT `tbl_guru_ibfk_1` FOREIGN KEY (`kode_jabatan`) REFERENCES `tbl_jabatan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -41,11 +42,11 @@ CREATE TABLE `tbl_guru`  (
 -- ----------------------------
 -- Records of tbl_guru
 -- ----------------------------
-INSERT INTO `tbl_guru` VALUES (1, '1827188812718281', 'Michael Schumacher', 1, 'lalat xxx', 'asaasa', '1992-09-04', 'L', 'michael-schumacher-1572368322.jpg', 1, 1);
-INSERT INTO `tbl_guru` VALUES (2, '35820', 'Djatmiko', 6, 'akjskja ajsuias iasuiasj ajs', 'Baghdad', '1965-07-04', 'L', 'djatmiko-1573004526.jpeg', 1, 0);
-INSERT INTO `tbl_guru` VALUES (3, '89650', 'Frengki', 3, 'asdasdasd aD ASD', 'Manokwari', '1951-06-05', 'L', 'frengki-1573004595.jpg', 1, 0);
-INSERT INTO `tbl_guru` VALUES (4, '1859878812718281', 'Mad Drai', 5, 'hashd ashdjash djash djashdj', 'Pamekasan', '1975-03-25', 'L', 'mad-drai-1573004669.jpg', 1, 1);
-INSERT INTO `tbl_guru` VALUES (5, '1899818812718281', 'Agnes', 2, 'asg  gg', 'Bandung', '1965-10-08', 'P', 'agnes-1573004764.jpg', 1, 1);
+INSERT INTO `tbl_guru` VALUES (1, '1827188812718281', 'Michael Schumacher', 1, 'lalat xxx', 'asaasa', '1992-09-04', 'L', 'michael-schumacher-1572368322.jpg', 1, 1, NULL);
+INSERT INTO `tbl_guru` VALUES (2, '35820', 'Djatmiko', 6, 'akjskja ajsuias iasuiasj ajs', 'Baghdad', '1965-07-04', 'L', 'djatmiko-1573004526.jpeg', 1, 0, NULL);
+INSERT INTO `tbl_guru` VALUES (3, '89650', 'Frengki', 3, 'asdasdasd aD ASD', 'Manokwari', '1951-06-05', 'L', 'frengki-1573004595.jpg', 1, 0, NULL);
+INSERT INTO `tbl_guru` VALUES (4, '1859878812718281', 'Mad Drai', 5, 'hashd ashdjash djash djashdj', 'Pamekasan', '1975-03-25', 'L', 'mad-drai-1573004669.jpg', 1, 1, NULL);
+INSERT INTO `tbl_guru` VALUES (5, '1899818812718281', 'Agnes', 2, 'asg  gg', 'Bandung', '1965-10-08', 'P', 'agnes-1573004764.jpg', 1, 1, NULL);
 
 -- ----------------------------
 -- Table structure for tbl_hak_akses
@@ -66,8 +67,6 @@ CREATE TABLE `tbl_hak_akses`  (
 -- ----------------------------
 -- Records of tbl_hak_akses
 -- ----------------------------
-INSERT INTO `tbl_hak_akses` VALUES (1, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (1, 4, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (1, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (104, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (105, 1, 1, 1, 1);
@@ -90,6 +89,36 @@ INSERT INTO `tbl_hak_akses` VALUES (97, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (108, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (119, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (109, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (120, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (1, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (108, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (119, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (109, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (120, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (1, 2, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (104, 2, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (105, 2, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (101, 2, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (120, 2, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (1, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (104, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (106, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (107, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (100, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (102, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (103, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (110, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (111, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (113, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (118, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (108, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (119, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (109, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (120, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (1, 5, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (108, 5, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (119, 5, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (120, 5, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for tbl_jabatan
@@ -472,6 +501,7 @@ INSERT INTO `tbl_menu` VALUES (116, 104, 'Master User', 'Master User', 'master_u
 INSERT INTO `tbl_menu` VALUES (117, 104, 'Master Jabatan', 'Master Jabatan', 'master_jabatan', NULL, 1, 2, 7, 1, NULL, NULL);
 INSERT INTO `tbl_menu` VALUES (118, 110, 'Konfirmasi Penggajian', 'Konfirmasi Penggajian', 'konfirm_gaji', '', 1, 2, 3, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (119, 108, 'Laporan Slip Gaji', 'Laporan Slip Gaji', 'slip_gaji', ' ', 1, 2, 1, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (120, 0, 'Profil', 'Profil', 'profil', 'fa fa-user', 1, 1, 6, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for tbl_penggajian
@@ -583,8 +613,8 @@ CREATE TABLE `tbl_trans_keluar`  (
 -- Records of tbl_trans_keluar
 -- ----------------------------
 INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900002', 'USR00001', 'Sueb', '2019-11-05', 0, '2019-11-05 14:44:32', NULL);
-INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900003', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-06 11:00:59', NULL);
-INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900004', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-06 15:36:13', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900003', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-07 23:31:23', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900004', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-07 23:31:28', NULL);
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar_detail
@@ -602,15 +632,15 @@ CREATE TABLE `tbl_trans_keluar_detail`  (
   INDEX `satuan`(`satuan`) USING BTREE,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_1` FOREIGN KEY (`id_trans_keluar`) REFERENCES `tbl_trans_keluar` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_2` FOREIGN KEY (`satuan`) REFERENCES `tbl_satuan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_trans_keluar_detail
 -- ----------------------------
 INSERT INTO `tbl_trans_keluar_detail` VALUES (13, 'OUT111900002', 'lontong kupang', 1, 6, 1);
 INSERT INTO `tbl_trans_keluar_detail` VALUES (14, 'OUT111900002', 'Gado-Gado', 1, 12, 1);
-INSERT INTO `tbl_trans_keluar_detail` VALUES (18, 'OUT111900003', 'Gaji Bulanan Guru', 9, 1, 1);
-INSERT INTO `tbl_trans_keluar_detail` VALUES (21, 'OUT111900004', 'Gaji Bulanan Staff/Karyawan', 9, 1, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (22, 'OUT111900003', 'Gaji Bulanan Guru', 9, 1, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (23, 'OUT111900004', 'Gaji Bulanan Staff/Karyawan', 9, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_trans_masuk
@@ -676,7 +706,10 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'admin', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-06 13:24:00', '2019-10-05 21:34:14', '2019-11-06 13:24:00');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, NULL, '2019-10-05 21:34:14', '2019-11-10 23:14:35');
+INSERT INTO `tbl_user` VALUES ('USR00002', 'KEPSEK', 'zJWkpZad', 4, NULL, 1, NULL, '2019-11-09 19:36:13', '2019-11-10 13:05:37');
+INSERT INTO `tbl_user` VALUES ('USR00003', 'KEUANGAN', 'zJWpk5+Zkac=', 3, NULL, 1, '2019-11-10 21:30:57', '2019-11-09 19:43:19', '2019-11-10 21:30:57');
+INSERT INTO `tbl_user` VALUES ('USR00004', 'TATAUSAHA', '1ZGok6alkaGX', 2, NULL, 1, NULL, '2019-11-09 19:45:18', '2019-11-10 13:14:50');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
@@ -694,16 +727,15 @@ CREATE TABLE `tbl_user_detail`  (
   `thumb_gambar_user` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL DEFAULT 'user_default_thumb.png',
   PRIMARY KEY (`id_user_detail`) USING BTREE,
   UNIQUE INDEX `id_user`(`id_user`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_user_detail
 -- ----------------------------
-INSERT INTO `tbl_user_detail` VALUES (2, 'USR00001', 'Rizky Yuanda', 'Jl. Ngagel Tirto IIB/6 Surabaya, Jawa Timur, Indonesia', '1991-04-03', 'Laki-Laki', '081703403473', 'img_USR00001.jpg', 'img_USR00001_thumb.jpg');
-INSERT INTO `tbl_user_detail` VALUES (3, 'USR00002', 'Rizky Manajer', 'Jl. Ngagel Tirto IIB/6 Surabaya, Jawa Timur, Indonesia', '1991-04-03', 'Laki-Laki', '081703403473', 'img_USR000021.jpg', 'img_USR000021_thumb.jpg');
-INSERT INTO `tbl_user_detail` VALUES (4, 'USR00004', 'Purnomo', 'rahasia', '1990-06-30', 'Laki-Laki', '', 'img_USR00004.jpg', 'img_USR00004_thumb.jpg');
-INSERT INTO `tbl_user_detail` VALUES (5, 'USR00005', 'Minuk Dwi Susilowati', 'Masih dirahasiakan', '1985-02-15', 'Perempuan', '081221331214', 'img_USR000055.JPG', 'img_USR000055_thumb.JPG');
-INSERT INTO `tbl_user_detail` VALUES (6, 'USR00006', 'Slamet Wardoyo', 'kepo dech', '1998-06-11', 'Laki-Laki', '081991991991', 'img_USR00006.jpg', 'img_USR00006_thumb.jpg');
+INSERT INTO `tbl_user_detail` VALUES (1, 'USR00001', 'Rizky Yuanda', 'Jl. Ngagel Tirto IIB/6 Surabaya, Jawa Timur, Indonesia', '1991-04-03', 'L', '081703403473', 'img_USR00001.jpg', 'img_USR00001_thumb.jpg');
+INSERT INTO `tbl_user_detail` VALUES (8, 'USR00002', 'Kepala Sekolah', 'aifudf nisduf sidufis ndudrs', '1945-10-09', 'L', '0819218129121', 'kepsek-1573302973.jpg', 'kepsek-1573302973_thumb.jpg');
+INSERT INTO `tbl_user_detail` VALUES (9, 'USR00003', 'Keuangan', 'asfsd', '1963-02-14', 'L', '121312', 'keuangan-1573303398.jpg', 'keuangan-1573303398_thumb.jpg');
+INSERT INTO `tbl_user_detail` VALUES (10, 'USR00004', 'Tata Usaha', 'dsdsdfs', '1945-01-01', 'P', '7397293892', 'tatausaha-1573303518.png', 'tatausaha-1573303518_thumb.png');
 
 -- ----------------------------
 -- Table structure for tbl_verifikasi
@@ -743,7 +775,7 @@ CREATE TABLE `tbl_verifikasi`  (
 INSERT INTO `tbl_verifikasi` VALUES ('VRY111900001', 'OUT111900002', 13, NULL, NULL, 'USR00001', '2019-11-05', 'images.jpg', 12000.00, 72000.00, 1, 1, 7, 1, 1, '2019-11-05 15:12:13', NULL, 2);
 INSERT INTO `tbl_verifikasi` VALUES ('VRY111900002', 'OUT111900002', 14, NULL, NULL, 'USR00001', '2019-11-05', 'images.jpg', 15000.00, 180000.00, 1, 1, 7, 1, 1, '2019-11-05 15:12:13', NULL, 2);
 INSERT INTO `tbl_verifikasi` VALUES ('VRY111900005', NULL, NULL, 'MSK111900001', 1, 'USR00001', '2019-11-06', 'images.jpg', 50000000.00, 50000000.00, 1, NULL, NULL, NULL, NULL, '2019-11-06 09:57:03', NULL, 1);
-INSERT INTO `tbl_verifikasi` VALUES ('VRY111900006', 'OUT111900003', 18, NULL, NULL, 'USR00001', '2019-11-30', NULL, 19295000.00, 19295000.00, 2, 2, 2, 3, NULL, '2019-11-06 11:00:59', NULL, 2);
-INSERT INTO `tbl_verifikasi` VALUES ('VRY111900007', 'OUT111900004', 21, NULL, NULL, 'USR00001', '2019-11-30', NULL, 2600000.00, 2600000.00, 2, 2, 2, 3, NULL, '2019-11-06 15:36:13', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY111900006', 'OUT111900003', 22, NULL, NULL, 'USR00001', '2019-11-30', NULL, 19295000.00, 19295000.00, 2, 2, 2, 3, NULL, '2019-11-07 23:31:23', NULL, 2);
+INSERT INTO `tbl_verifikasi` VALUES ('VRY111900007', 'OUT111900004', 23, NULL, NULL, 'USR00001', '2019-11-30', NULL, 2600000.00, 2600000.00, 2, 2, 2, 3, NULL, '2019-11-07 23:31:28', NULL, 2);
 
 SET FOREIGN_KEY_CHECKS = 1;

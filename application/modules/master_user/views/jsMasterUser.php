@@ -138,19 +138,19 @@ function save(save_method)
     });
 }
 
-function delete_guru(id)
+function delete_user(id)
 {
     if(confirm('Yakin Hapus Data Ini ?'))
     {
         // ajax delete data to database
         $.ajax({
-            url : "<?php echo site_url('master_guru/delete')?>/"+id,
+            url : "<?php echo site_url('master_user/delete_user')?>/"+id,
             type: "POST",
             dataType: "JSON",
             success: function(data)
             {
                 alert(data.pesan);
-                window.location.href = "<?=base_url('/master_guru');?>";
+                window.location.href = "<?=base_url('/master_user');?>";
             },
             error: function (jqXHR, textStatus, errorThrown)
             {

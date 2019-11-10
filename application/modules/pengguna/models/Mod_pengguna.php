@@ -154,4 +154,15 @@ class Mod_pengguna extends CI_Model
             }
             return "USR".$kd;
     }
+
+    public function get_datalogin_pegawai($nip)
+    {
+    	$q = $this->db->query("SELECT * FROM tbl_guru where nip = '".$nip."'");
+    	if($q->num_rows() > 0)
+    	{
+    		return $q->row();
+    	}else{
+    		return FALSE;
+    	}
+    }
 }

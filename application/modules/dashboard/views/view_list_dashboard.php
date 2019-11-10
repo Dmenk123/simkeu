@@ -1,9 +1,16 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>Dashboard
-        <small><strong>Selamat Datang : <?php foreach ($data_user as $key) {
-          echo $key->nama_lengkap_user;
+        <?php if ($this->session->userdata('id_level_user') == '5') { ?>
+          <small><strong>Selamat Datang : <?php foreach ($data_user as $key) {
+          echo $key->nama;
         } ?></strong></small>
+        <?php }else{ ?>
+          <small><strong>Selamat Datang : <?php foreach ($data_user as $key) {
+            echo $key->nama_lengkap_user;
+          } ?></strong></small>
+        <?php } ?>
+        
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Home</a></li>

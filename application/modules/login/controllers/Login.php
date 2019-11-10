@@ -37,10 +37,50 @@ class Login extends CI_Controller {
 					'id_level_user' => $data['id_level_user'],
 					'logged_in' => true,
 				));
-			redirect('home');
+				redirect('home');
 		}else{
-			$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
-			redirect('login');
+			//cek login sebagai pegawai/guru
+			$data_peg = $this->mod_pengguna->get_datalogin_pegawai(trim($this->input->post('username')));
+			if ($data_peg) {
+				if ($data_peg->password == null) {
+					//cek persamaan user dan password pada inputan
+					if (trim($this->input->post('username')) == trim($this->input->post('password'))) {
+						$this->session->set_userdata(
+							array(
+								'username' => $data_peg->nama,
+								'id_user' => $data_peg->nip,
+								'last_login' => null,
+								'id_level_user' => '5',
+								'logged_in' => true,
+							)
+						);
+						redirect('home');
+					}else{
+						$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
+						redirect('login');
+					}
+				}else{
+					//jika password tidak kosong
+					if ($this->enkripsi->encrypt(trim($this->input->post('password'))) == $data_peg->password) {
+						$this->session->set_userdata(
+							array(
+								'username' => $data_peg->nama,
+								'id_user' => $data_peg->nip,
+								'last_login' => null,
+								'id_level_user' => '5',
+								'logged_in' => true,
+							)
+						);
+						redirect('home');
+					}else{
+						$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
+						redirect('login');
+					}
+				}
+			}else{
+				$this->session->set_flashdata('message', 'Kombinasi Username & Password Salah, Mohon di cek ulang');
+				redirect('login');
+			}
 		}
 	}
 
@@ -55,7 +95,7 @@ class Login extends CI_Controller {
 			$this->session->set_userdata(array('logged_in' => false));
 		}
 		
-		redirect('login');
+		echo json_encode(['status' => 'success']);
 	}
 
 	public function lihat_pass($username)
