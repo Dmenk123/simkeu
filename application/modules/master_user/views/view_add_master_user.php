@@ -27,18 +27,32 @@
                 </div>
 
                 <div class="form-group col-md-12">
-                  <label>Password : </label>
+                  <?php if (isset($hasil_data)) { ?>
+                    <label>Password Lama: </label>
+                  <?php }else{ ?>
+                    <label>Password : </label>
+                  <?php } ?>
                   <input type="password" class="form-control" id="password" name="password" value="">
                   <span class="help-block"></span>
                 </div>
 
                 <div class="form-group col-md-12">
-                  <label>Ulangi Password : </label>
+                  <?php if (isset($hasil_data)) { ?>
+                    <label>Ulangi Password Lama: </label>
+                  <?php }else{ ?>
+                    <label>Ulangi Password : </label>
+                  <?php } ?>
                   <input type="password" class="form-control" id="repassword" name="repassword" value="">
                   <span class="help-block"></span>
                 </div>
                 
                 <?php if (isset($hasil_data)) { ?>
+                <div class="form-group col-md-12">
+                  <label>Password Baru : </label>
+                  <input type="password" class="form-control" id="passwordnew" name="passwordnew" value="">
+                  <span class="help-block"></span>
+                </div>
+
                 <div class="form-group col-md-12 checkbox">
                   <label>
                     <input type="checkbox" value="Y" name="ceklistpwd" id="ceklistpwd"> Centang Pilihan ini jika tidak mengganti password

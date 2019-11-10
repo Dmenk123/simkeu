@@ -165,9 +165,9 @@ class Mod_user extends CI_Model
 		$this->db->insert($table, $data);
 	}
 
-	public function update($where, $data)
+	public function update($table, $where, $data)
 	{
-		$this->db->update($this->table, $data, $where);
+		$this->db->update($table, $data, $where);
 		return $this->db->affected_rows();
 	}
 

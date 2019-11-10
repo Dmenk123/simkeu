@@ -9,6 +9,7 @@ class Master_user extends CI_Controller {
 		//profil data
 		$this->load->model('profil/mod_profil','prof');
 		$this->load->model('mod_user','m_user');
+		$this->load->library('Enkripsi');
 	}
 
 	public function index()
@@ -132,7 +133,6 @@ class Master_user extends CI_Controller {
 
 	public function add_data()
 	{
-		$this->load->library('Enkripsi');
 		$arr_valid = $this->_validate();
 
 		$username = trim(strtoupper($this->input->post('username')));
@@ -159,6 +159,7 @@ class Master_user extends CI_Controller {
 		if ($this->input->post('ceklistpwd') != 'Y') {
 			if ($password != $repassword) {
 				$this->session->set_flashdata('feedback_failed','Terdapat ketidak cocokan Password'); 
+				echo json_encode(['status' => true]);
 				return;
 			}
 		}
@@ -264,18 +265,35 @@ class Master_user extends CI_Controller {
 	public function update_data()
 	{
 		$flag_upload_foto = FALSE;
+		$flag_ganti_pass = FALSE;
 		$arr_valid = $this->_validate();
-		$nip = trim(strtoupper($this->input->post('nip')));
-		$nama = trim($this->input->post('nama'));
-		$jabatan = trim($this->input->post('jabatan'));
-		$tempat_lahir = trim($this->input->post('tempatlahir'));
+
+		if ($this->input->post('ceklistpwd') != 'Y') {
+			$flag_ganti_pass = TRUE;
+			$password = $this->input->post('password');
+			$repassword = $this->input->post('repassword');
+			$passwordnew = $this->input->post('passwordnew');
+			$hasil_password = $this->enkripsi->encrypt($passwordnew);
+
+			if ($password != $repassword) {
+				$this->session->set_flashdata('feedback_failed','Terdapat ketidak cocokan Password Lama'); 
+				echo json_encode(['status' => true]);
+				return;
+			}
+		}
+
+		$username = trim(strtoupper($this->input->post('username')));
+		$role = trim($this->input->post('role'));
+		$namalengkap = $this->input->post('namalengkap');
 		$hari = $this->input->post('hari');
 		$bulan = $this->input->post('bulan');
 		$tahun = $this->input->post('tahun');
 		$alamat = trim($this->input->post('alamat'));
 		$jenkel = $this->input->post('jenkel');
-		$namafileseo = $this->seoUrl($nama.' '.time());
-		$tipepeg = $this->input->post('tipepeg');
+		$telp = $this->input->post('telp');
+		$id_user = $this->input->post('id');
+		$namafileseo = $this->seoUrl($username.' '.time());
+		$output_thumb = '';
 		
 
 		if ($arr_valid['status'] == FALSE) {
@@ -297,41 +315,59 @@ class Master_user extends CI_Controller {
 				$gbrBukti = $this->gbr_bukti->data();
 				//inisiasi variabel u/ digunakan pada fungsi config img bukti
 				$nama_file_foto = $gbrBukti['file_name'];
-				//load config img bukti
+				//load config img
 				$this->konfigurasi_image_resize($nama_file_foto);
+				//load config img thumbs
+				$output_thumb = $this->konfigurasi_image_thumb($nama_file_foto, $gbrBukti);
 				//clear img lib after resize
 				$this->image_lib->clear();
 			} //end
 		}
 
-		$data = array(
-			'nip' => $nip,
-			'nama' => $nama,
-			'kode_jabatan' => $jabatan,
-			'alamat' => $alamat,
-			'tempat_lahir' => $tempat_lahir,
-			'tanggal_lahir' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
-			'jenis_kelamin' => $jenkel,
-			'is_guru' => $tipepeg
+		//data detail
+		$data_detail = array(
+			'nama_lengkap_user' => trim($namalengkap),
+			'alamat_user' => $alamat,
+			'tanggal_lahir_user' => date('Y-m-d', strtotime($tahun.'-'.$bulan.'-'.$hari)),
+			'jenis_kelamin_user' => $jenkel,
+			'no_telp_user' => trim($telp)
 		);
 
 		if ($flag_upload_foto) {
-			$data['foto'] = $nama_file_foto;
+			$data_detail['gambar_user'] = $nama_file_foto;
+			$data_detail['thumb_gambar_user'] = $output_thumb;
 		}
+
+		$this->m_user->update('tbl_user_detail', ['id_user' => $id_user], $data_detail);
+
+		//data header
+		$data_header = [
+			'username' => $username,
+			'id_level_user' => $role,
+			'id_pegawai' => null,
+			'status' => 1,
+			'last_login' => null,
+			'updated_at' => date('Y-m-d H:i:s')
+		];
+
+		if ($flag_ganti_pass) {
+			$data_header['password'] = $hasil_password;
+ 		}
+
+		$this->m_user->update('tbl_user', ['id_user' => $id_user], $data_header);
 
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
-			$this->session->set_flashdata('feedback_failed','Gagal Update Master Guru.'); 
+			$this->session->set_flashdata('feedback_failed','Gagal Update Master User.'); 
 		}
 		else {
 			$this->db->trans_commit();
-			$this->session->set_flashdata('feedback_success','Berhasil Update Master Guru'); 
+			$this->session->set_flashdata('feedback_success','Berhasil Update Master User'); 
 		}
 
-		$this->m_guru->update(array('id' => $this->input->post('id')), $data);
 		echo json_encode(array(
 			"status" => TRUE,
-			"pesan" => 'Master Guru Berhasil diupdate',
+			"pesan" => 'Master User Berhasil diupdate',
 		));
 	}
 
@@ -429,6 +465,12 @@ class Master_user extends CI_Controller {
 			if ($this->input->post('repassword') == null) {
 				$data['inputerror'][] = 'repassword';
 	            $data['error_string'][] = 'Wajib mengisi ulang Password';
+	            $data['status'] = FALSE;
+			}
+
+			if ($this->input->post('passwordnew') == null) {
+				$data['inputerror'][] = 'passwordnew';
+	            $data['error_string'][] = 'Wajib mengisi ulang Password Baru';
 	            $data['status'] = FALSE;
 			}
 		}

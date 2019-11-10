@@ -60,6 +60,18 @@ $(document).ready(function() {
 		$(this).next().empty();
 	});
 
+    $('#ceklistpwd').change(function() {
+        if (this.checked) {
+            $('#password').attr('readonly', true);
+            $('#repassword').attr('readonly', true);
+            $('#passwordnew').attr('readonly', true);
+        } else {
+            $('#password').attr('readonly', false);
+            $('#repassword').attr('readonly', false);
+            $('#passwordnew').attr('readonly', false);
+        }
+    });
+
 });	
 
 
