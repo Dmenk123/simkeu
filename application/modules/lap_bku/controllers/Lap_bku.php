@@ -14,7 +14,12 @@ class Lap_bku extends CI_Controller {
 	public function index()
 	{
 		$id_user = $this->session->userdata('id_user'); 
-		$data_user = $this->prof->get_detail_pengguna($id_user);
+
+		if ($this->session->userdata('id_level_user') != '5') {
+			$data_user = $this->prof->get_detail_pengguna($id_user);
+		}else{
+			$data_user = $this->prof->get_detail_pegawai($id_user);
+		}
 
 		$data = array(
 			'data_user' => $data_user,
