@@ -9,7 +9,6 @@ class Profil extends CI_Controller {
 		if ($this->session->userdata('username') === null) {
 			redirect('login');
 		}
-		$this->load->library(array('upload','image_lib'));
 		$this->load->model('mod_profil','prof');
 		$this->load->model('master_user/mod_user','m_user');
 		$this->load->model('Mod_home');

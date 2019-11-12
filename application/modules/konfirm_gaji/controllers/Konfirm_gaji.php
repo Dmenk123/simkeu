@@ -192,16 +192,17 @@ class Konfirm_gaji extends CI_Controller {
 			from tbl_trans_keluar tk
 			join tbl_trans_keluar_detail tkd on tk.id = tkd.id_trans_keluar
 			where tk.tanggal = '".$tgl_konfirm_gaji."' and tk.status = '0' and tkd.keterangan = '".$txtIndexKey."'
-		")->row();
+		")->result();
 
-		$kode_out_header = $q->id;
-		//delete tbl verifikasi
-		$this->m_kon->delete_data('tbl_verifikasi', ['id_out' => $kode_out_header]);
-		//delete tbl pengeluaran detail
-		$this->m_kon->delete_data('tbl_trans_keluar_detail', ['id_trans_keluar' => $kode_out_header]);
-		//delete tbl pengeluaran
-		$this->m_kon->delete_data('tbl_trans_keluar', ['id' => $kode_out_header]);
-		
+		foreach ($q as $key => $val) {
+			//delete tbl verifikasi
+			$this->m_kon->delete_data('tbl_verifikasi', ['id_out' => $val->id]);
+			//delete tbl pengeluaran detail
+			$this->m_kon->delete_data('tbl_trans_keluar_detail', ['id_trans_keluar' => $val->id]);
+			//delete tbl pengeluaran
+			$this->m_kon->delete_data('tbl_trans_keluar', ['id' => $val->id]);
+		}
+			
 		//update status jadi un-confirm
 		$data_awal = $this->m_kon->get_datatables($bulan, $tahun, 1);
 		$this->m_kon->update(['is_guru' => $tipepeg, 'bulan' => $bulan, 'tahun' => $tahun, 'is_aktif' => 1], ['is_confirm'=> 0]);
@@ -289,7 +290,12 @@ class Konfirm_gaji extends CI_Controller {
 		$this->db->trans_begin();
 
 		//cek sudah ada gaji/belum
-		$cek_ada = $this->m_kon->cek_exist_gaji(['id_guru' => $namapeg, 'bulan' => (int)$bulan, 'tahun' => $tahun]);
+		$cek_ada = $this->m_kon->cek_exist_gaji([
+			'id_guru' => $namapeg, 
+			'bulan' => (int)$bulan, 
+			'tahun' => $tahun, 
+			'is_aktif' => '1'
+		]);
 
 		if ($cek_ada) {
 			echo json_encode(array(
