@@ -52,136 +52,27 @@ class Lap_k7 extends CI_Controller {
 		$arr_bln_indo = $this->bulan_indo();
 		$periode1 = $arr_bln_indo[$bln_awal].' '.$tahun;
 		$periode2 = $arr_bln_indo[$bln_akhir].' '.$tahun;
-		$saldo_awal = 0;
-		$saldo_akhir = 0;
 		$arr_data = [];
 
 		foreach ($arr_bulan as $keys => $value) {
 			//cek bulan sudah dikunci atau belum
 			$q_cek = $this->db->query("SELECT * FROM tbl_lap_bku WHERE is_kunci = '1' and bulan = '".$value['month_raw']."' and tahun = '".$value['year_raw']."'")->row();
 			
-			if ($q_cek == null) {
-				//get detail laporan jika belum dikunci
-				$query = $this->lap->get_detail($value['month_raw'], $value['year_raw']);
-				//ambil saldo akhir bulan sebelumnya
-				$query_saldo = $this->lap->get_saldo_awal($value['month_raw'], $value['year_raw']);
-				$saldo_awal += (int)$query_saldo;
-				
-				//assign satu row array untuk saldo awal
-				$arr_data[0]['tanggal'] = date('d-m-Y', strtotime($value['year_raw'].'-'.$value['month_raw'].'-01'));
-				$arr_data[0]['kode'] = '-';
-				$arr_data[0]['bukti'] = '-';
-				$arr_data[0]['keterangan'] = 'Saldo Awal';
-				$arr_data[0]['penerimaan'] = '-';
-				$arr_data[0]['pengeluaran'] = '-';
-				$arr_data[0]['saldo_akhir'] = $saldo_awal;
-
-				//loop detail laporan dan assign array
-				foreach ($query as $key => $val) {
-					$arr_data[$key+1]['tanggal'] = date('d-m-Y', strtotime($val->tanggal));
-					
-					$kode = "";
-					if ($val->kode_akun != null) {
-						$kode .= $val->kode_akun.'.';
-						if ($val->sub1_akun != null) {
-							$kode .= $val->sub1_akun.'.';
+			//get detail laporan jika belum dikunci
+			$query = $this->lap->get_detail($value['month_raw'], $value['year_raw']);
+			//ambil penerimaan
+			$query_masuk = $this->lap->get_penerimaan($value['month_raw'], $value['year_raw']);
 							
-							if ($val->sub2_akun != null) {
-								$kode .= $val->sub2_akun;
-							}else{
-								$kode = $val->kode_akun.'.'.$val->sub1_akun;
-							}
+			//assign satu row array untuk saldo awal
+			$arr_data[0]['kode'] = '-';
+			$arr_data[0]['kegiatan'] = 'Penerimaan';
+			$arr_data[0]['jumlah'] = $query_masuk->total_penerimaan;
 
-						}else{
-							$kode = $val->kode_akun;
-						}
-					}
-					$arr_data[$key+1]['kode'] = $kode;
-					
-					if ($val->tipe_transaksi == 1) {
-						$arr_data[$key+1]['bukti'] = $val->id_in;
-					}else{
-						$arr_data[$key+1]['bukti'] = $val->id_out;
-					}
-					
-					$arr_data[$key+1]['keterangan'] = $val->keterangan;
-					
-					if ($val->tipe_transaksi == 1) {
-						$arr_data[$key+1]['penerimaan'] = number_format($val->harga_total,2,",",".");
-						$arr_data[$key+1]['pengeluaran'] = '0,00';
-						$in_raw = $val->harga_total;
-						$out_raw = 0;
-					}else{
-						$arr_data[$key+1]['penerimaan'] = '0,00';
-						$arr_data[$key+1]['pengeluaran'] = number_format($val->harga_total,2,",",".");
-						$in_raw = 0;
-						$out_raw = $val->harga_total;
-					}
-					
-					//saldo
-					if ($saldo_awal == 0) {
-						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
-					}else{
-						$saldo_akhir += (int)$saldo_akhir + (int)$in_raw - (int)$out_raw;
-					}
-					
-					//set saldo awal to 0
-					$saldo_awal = 0;
-					$arr_data[$key+1]['saldo_akhir'] = (int)$saldo_akhir;
-				}
-			}
-			else
-			{
-				//get detail laporan
-				$get_lap_header = $this->db->query("select * from tbl_lap_bku where bulan = '".$value->month_raw."' and tahun = '".$value->year_raw."' and is_kunci = '1'")->row();
-
-				$query = $this->lap->get_detail_laporan($value->month_raw, $tahun, $get_lap_header->kode);
-				// get saldo awal bulan terpilih
-				$query_saldo = $this->db->query("select * from tbl_lap_bku where bulan = '".$value->month_raw."' tahun = '".$value->year_raw."' and is_kunci = '1'");
-				$saldo_awal += (int)$query_saldo->saldo_awal;
-
-				//assign satu row array untuk saldo awal
-				$arr_data[0]['tanggal'] = date('d-m-Y', strtotime($value['year_raw'].'-'.$value['month_raw'].'-01'));
-				$arr_data[0]['kode'] = '-';
-				$arr_data[0]['keterangan'] = 'Saldo Awal';
-				$arr_data[0]['penerimaan'] = '-';
-				$arr_data[0]['pengeluaran'] = '-';
-				$arr_data[0]['saldo_akhir'] = $saldo_awal;
-
-				foreach ($query as $key => $val) {
-					$arr_data[$key+1]['tanggal'] = date('d-m-Y', strtotime($val->tanggal));
-					$arr_data[$key+1]['kode'] = $val->kode_akun_in_text;
-					if ($val->tipe_transaksi == 1) {
-						$arr_data[$key+1]['butki'] = $val->id_in;
-					}else{
-						$arr_data[$key+1]['butki'] = $val->id_out;
-					}
-					
-					$arr_data[$key+1]['keterangan'] = $val->keterangan;
-					
-					if ($val->tipe_transaksi == 1) {
-						$arr_data[$key+1]['penerimaan'] = number_format($val->harga_total,2,",",".");
-						$arr_data[$key+1]['pengeluaran'] = '0,00';
-						$in_raw = $val->harga_total;
-						$out_raw = 0;
-					}else{
-						$arr_data[$key+1]['penerimaan'] = '0,00';
-						$arr_data[$key+1]['pengeluaran'] = number_format($val->harga_total,2,",",".");
-						$in_raw = 0;
-						$out_raw = $val->harga_total;
-					}
-					
-					//saldo
-					if ($saldo_awal == 0) {
-						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
-					}else{
-						$saldo_akhir += (int)$saldo_akhir + (int)$in_raw - (int)$out_raw;
-					}
-					
-					//set saldo awal to 0
-					$saldo_awal = 0;
-					$arr_data[$key+1]['saldo_akhir'] = (int)$saldo_akhir;
-				}
+			//loop detail laporan dan assign array
+			foreach ($query as $key => $val) {
+				$arr_data[$key+1]['kode'] = $val->kode_in_text;
+				$arr_data[$key+1]['kegiatan'] = $val->nama;
+				$arr_data[$key+1]['jumlah'] = number_format($val->harga_total,0,",",".");
 			}
 		}
 
@@ -197,6 +88,10 @@ class Lap_k7 extends CI_Controller {
 			'tahun' => $tahun
 		);
 
+		echo "<pre>";
+		print_r ($data);
+		echo "</pre>";
+		exit;
 		$content = [
 			'css' 	=> 'cssLapBku',
 			'modal' => null,
