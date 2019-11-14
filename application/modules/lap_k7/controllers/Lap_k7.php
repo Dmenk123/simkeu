@@ -49,30 +49,27 @@ class Lap_k7 extends CI_Controller {
 		$periode2 = $arr_bln_indo[$arr_pecah_bulan[1]].' '.$tahun;
 		$arr_data = [];
 
-		//foreach ($arr_bulan as $keys => $value) {
-			//cek bulan sudah dikunci atau belum
-			//$q_cek = $this->db->query("SELECT * FROM tbl_lap_bku WHERE is_kunci = '1' and bulan = '".$value['month_raw']."' and tahun = '".$value['year_raw']."'")->row();
-			
-			//get detail laporan jika belum dikunci
-			$query = $this->lap->get_detail($bulan_awal_fix, $bulan_akhir_fix);
+		
+		//get detail laporan jika belum dikunci
+		$query = $this->lap->get_detail($bulan_awal_fix, $bulan_akhir_fix);
 
-			//ambil penerimaan
-			$query_masuk = $this->lap->get_penerimaan($bulan_awal_fix, $bulan_akhir_fix);
-							
-			//assign satu row array untuk saldo awal
-			$arr_data[0]['kode'] = '-';
-			$arr_data[0]['kegiatan'] = 'Penerimaan';
-			$arr_data[0]['jumlah'] = $query_masuk->total_penerimaan;
+		//ambil penerimaan
+		$query_masuk = $this->lap->get_penerimaan($bulan_awal_fix, $bulan_akhir_fix);
+						
+		//assign satu row array untuk saldo awal
+		$arr_data[0]['kode'] = '-';
+		$arr_data[0]['kegiatan'] = 'Penerimaan';
+		$arr_data[0]['jumlah'] = $query_masuk->total_penerimaan;
 
-			//loop detail laporan dan assign array
-			foreach ($query as $key => $val) {
-				$arr_data[$key+1]['kode'] = $val->kode_in_text;
-				$arr_data[$key+1]['kegiatan'] = $val->nama;
-				$arr_data[$key+1]['jumlah'] = number_format($val->harga_total,0,",",".");
-			}
-		//}
+		//loop detail laporan dan assign array
+		foreach ($query as $key => $val) {
+			$arr_data[$key+1]['kode'] = $val->kode_in_text;
+			$arr_data[$key+1]['kegiatan'] = $val->nama;
+			$arr_data[$key+1]['jumlah'] = number_format($val->harga_total,0,",",".");
+		}
+		
 
-		$txtPeriode = (count($arr_bulan) > 1) ? $periode1.' s/d '.$periode2 : $periode1;
+		$txtPeriode = 'Periode Triwulan '.$arr_pecah_bulan[2];
 
 		$data = array(
 			'data_user' => $data_user,
@@ -81,7 +78,6 @@ class Lap_k7 extends CI_Controller {
 			'periode' => $txtPeriode,
 			'bln_awal' => $arr_pecah_bulan[0],
 			'bln_akhir' => $arr_pecah_bulan[1],
-			'triwulan' => $arr_pecah_bulan[2],
 			'tahun' => $tahun
 		);
 
