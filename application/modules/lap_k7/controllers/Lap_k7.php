@@ -37,31 +37,27 @@ class Lap_k7 extends CI_Controller {
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
 		$triwulan = $this->input->get('triwulan');
-		$arr_pecah = explode('-', $triwulan);
 		$tahun = $this->input->get('tahun');
 		
-		//menghilangkan string 0 pada bulan
-		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan($bln_awal, $bln_akhir, $tahun);
-		$bulan_awal_fix = $arr_pecah_bulan['tanggal_awal'];
-		$bulan_akhir_fix = $arr_pecah_bulan['tanggal_akhir'];
-
-		//untuk mengetahui berapa bulan yg didapat dari pilihan
-		$arr_bulan = $this->pecah_bulan($bulan_awal_fix, $bulan_akhir_fix, $tahun);
+		$arr_pecah_bulan = explode('-', $triwulan);
+		$bulan_awal_fix = date('Y-m-d', strtotime($tahun.'-'.$arr_pecah_bulan[0].'-01'));
+		$bulan_akhir_fix = date('Y-m-t', strtotime($tahun.'-'.$arr_pecah_bulan[1].'-01'));
 		
 		//cari periode untuk tampilan pada laporan
 		$arr_bln_indo = $this->bulan_indo();
-		$periode1 = $arr_bln_indo[$bln_awal].' '.$tahun;
-		$periode2 = $arr_bln_indo[$bln_akhir].' '.$tahun;
+		$periode1 = $arr_bln_indo[$arr_pecah_bulan[0]].' '.$tahun;
+		$periode2 = $arr_bln_indo[$arr_pecah_bulan[1]].' '.$tahun;
 		$arr_data = [];
 
-		foreach ($arr_bulan as $keys => $value) {
+		//foreach ($arr_bulan as $keys => $value) {
 			//cek bulan sudah dikunci atau belum
-			$q_cek = $this->db->query("SELECT * FROM tbl_lap_bku WHERE is_kunci = '1' and bulan = '".$value['month_raw']."' and tahun = '".$value['year_raw']."'")->row();
+			//$q_cek = $this->db->query("SELECT * FROM tbl_lap_bku WHERE is_kunci = '1' and bulan = '".$value['month_raw']."' and tahun = '".$value['year_raw']."'")->row();
 			
 			//get detail laporan jika belum dikunci
-			$query = $this->lap->get_detail($value['month_raw'], $value['year_raw']);
+			$query = $this->lap->get_detail($bulan_awal_fix, $bulan_akhir_fix);
+
 			//ambil penerimaan
-			$query_masuk = $this->lap->get_penerimaan($value['month_raw'], $value['year_raw']);
+			$query_masuk = $this->lap->get_penerimaan($bulan_awal_fix, $bulan_akhir_fix);
 							
 			//assign satu row array untuk saldo awal
 			$arr_data[0]['kode'] = '-';
@@ -74,7 +70,7 @@ class Lap_k7 extends CI_Controller {
 				$arr_data[$key+1]['kegiatan'] = $val->nama;
 				$arr_data[$key+1]['jumlah'] = number_format($val->harga_total,0,",",".");
 			}
-		}
+		//}
 
 		$txtPeriode = (count($arr_bulan) > 1) ? $periode1.' s/d '.$periode2 : $periode1;
 
@@ -83,8 +79,9 @@ class Lap_k7 extends CI_Controller {
 			'arr_bulan' => $this->bulan_indo(),
 			'hasil_data' => $arr_data,
 			'periode' => $txtPeriode,
-			'bln_awal' => $bln_awal,
-			'bln_akhir' => $bln_akhir,
+			'bln_awal' => $arr_pecah_bulan[0],
+			'bln_akhir' => $arr_pecah_bulan[1],
+			'triwulan' => $arr_pecah_bulan[2],
 			'tahun' => $tahun
 		);
 

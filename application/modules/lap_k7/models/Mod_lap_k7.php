@@ -9,11 +9,8 @@ class Mod_lap_k7 extends CI_Model
 		$this->load->database();
 	}
 
-	public function get_detail($bulan, $tahun)
+	public function get_detail($tanggal_awal, $tanggal_akhir)
 	{ 
-		$tanggal_awal = date('Y-m-d', strtotime($tahun.'-'.$bulan.'-01'));
-		$tanggal_akhir = date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01'));
-
 		$query = $this->db->query("
 			SELECT
 				tmka.*, sum(tv.harga_total) as harga_total, 
@@ -33,11 +30,8 @@ class Mod_lap_k7 extends CI_Model
        
 	}
 
-	public function get_penerimaan($bulan, $tahun)
+	public function get_penerimaan($tanggal_awal, $tanggal_akhir)
 	{
-		$tanggal_awal = date('Y-m-d', strtotime($tahun.'-'.$bulan.'-01'));
-		$tanggal_akhir = date('Y-m-t', strtotime($tahun.'-'.$bulan.'-01'));
-
 		$query = $this->db->query("select sum(harga_total) as total_penerimaan FROM tbl_verifikasi where tipe_transaksi = 1 and tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		return $query->row();
 	}

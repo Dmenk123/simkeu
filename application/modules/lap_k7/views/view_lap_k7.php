@@ -20,10 +20,10 @@
                 <div class="form-group">
                   <select name="triwulan" class="form-control" id="triwulan" required="">
                     <option value="">Pilih Triwulan</option>
-                    <option value="01-03">Triwulan I (Januari-Maret)</option>
-                    <option value="04-06">Triwulan II (April-Juni)</option>
-                    <option value="07-09">Triwulan III (Juli-September)</option>
-                    <option value="10-12">Triwulan IV (Oktober-Desember)</option>
+                    <option value="1-3-I">Triwulan I (Januari-Maret)</option>
+                    <option value="4-6-II">Triwulan II (April-Juni)</option>
+                    <option value="7-9-III">Triwulan III (Juli-September)</option>
+                    <option value="10-12-IV">Triwulan IV (Oktober-Desember)</option>
                   </select>
                 </div>
                 <div class="form-group">
