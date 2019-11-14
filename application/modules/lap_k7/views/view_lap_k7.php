@@ -15,22 +15,15 @@
         <div class="col-xs-12">
           <div class="box">
             <div class="box-body">
-              <label class="control-label">Pilih periode tanggal Laporan pada field dibawah ini</label>
+              <label class="control-label">Pilih periode Laporan pada field dibawah ini</label>
               <form class="form-inline" method="get" action="<?php echo site_url('lap_k7/laporan_k7_detail') ?>">
                 <div class="form-group">
-                  <select name="bln_awal" class="form-control" id="bln_awal" required="">
-                    <option value="">Pilih Bulan Awal</option>
-                    <?php for ($i=1; $i <= 12; $i++) { 
-                      echo "<option value='$i'>$arr_bulan[$i]</option>";
-                    } ?>
-                  </select>
-                </div>
-                <div class="form-group">
-                  <select name="bln_akhir" class="form-control" id="bln_akhir" required="">
-                    <option value="">Pilih Bulan Akhir</option>
-                    <?php for ($i=1; $i <= 12; $i++) { 
-                      echo "<option value='$i'>$arr_bulan[$i]</option>";
-                    } ?>
+                  <select name="triwulan" class="form-control" id="triwulan" required="">
+                    <option value="">Pilih Triwulan</option>
+                    <option value="01-03">Triwulan I (Januari-Maret)</option>
+                    <option value="04-06">Triwulan II (April-Juni)</option>
+                    <option value="07-09">Triwulan III (Juli-September)</option>
+                    <option value="10-12">Triwulan IV (Oktober-Desember)</option>
                   </select>
                 </div>
                 <div class="form-group">

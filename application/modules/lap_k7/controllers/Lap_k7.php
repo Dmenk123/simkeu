@@ -36,8 +36,8 @@ class Lap_k7 extends CI_Controller {
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
-		$bln_awal = $this->input->get('bln_awal');
-		$bln_akhir = $this->input->get('bln_akhir');
+		$triwulan = $this->input->get('triwulan');
+		$arr_pecah = explode('-', $triwulan);
 		$tahun = $this->input->get('tahun');
 		
 		//menghilangkan string 0 pada bulan
