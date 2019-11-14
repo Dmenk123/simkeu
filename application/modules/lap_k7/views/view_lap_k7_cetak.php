@@ -130,7 +130,7 @@
         </td>
       </tr>
     </table>
-    <h2 style="text-align: center;"><strong>Laporan Buku Kas Umum</strong></h2>
+    <h4 style="text-align: center;"><strong>REALISASI PENGGUNAAN DANA TIAP JENIS ANGGARAN (K7)</strong></h4>
     
     <table class="tbl-header">
       <tr>
@@ -143,50 +143,86 @@
     <table id="tbl_content" class="table table-bordered table-hover" cellspacing="0" width="100%" border="1">
       <thead>
         <tr>
-          <th style="width: 60px; text-align: center;">Tanggal</th>
-          <th style="width: 30px; text-align: center;">No. Kode</th>
-          <th style="width: 50px; text-align: center;">No. Bukti</th>
-          <th style="width: 150px; text-align: center;">Uraian</th>
-          <th style="width: 95px; text-align: center;">Penerimaan</th>
-          <th style="width: 95px; text-align: center;">Pengeluaran</th>
-          <th style="width: 95px; text-align: center;">Saldo</th>
+          <th rowspan="3" style="width: 30px; text-align: center;">No. Kode</th>
+          <th rowspan="3" style="width: 250px; text-align: center;">Uraian Kegiatan</th>
+          <th rowspan="3" style="width: 100px; text-align: center;">Jumlah</th>
+          <th colspan="6" style="text-align: center;">Penggunaan dana per sumber dana</th>
+        </tr>
+        <tr>
+          <th rowspan="2" style="text-align: center;">Penggunaan dana per sumber dana</th>
+          <th colspan="3" style="text-align: center;">Bantuan Operasional Sekolah</th>
+          <th rowspan="2" style="text-align: center;">Bantuan Lain</th>
+          <th rowspan="2" style="text-align: center;">Sumber Lain</th>
+        </tr>
+        <tr>
+          <th style="text-align: center;">Pusat</th>
+          <th style="text-align: center;">Provinsi</th>
+          <th style="text-align: center;">Kota</th>
         </tr>
       </thead>
       <tbody>
-      <?php $tanggaltxt = "";?>
-      <?php $saldoTot = "";?>
       <?php foreach ($hasil_data as $val ) : ?>
         <tr>
-          <td class="text-center"><?php echo $val['tanggal']; ?></td> 
           <td class="text-center"><?php echo $val['kode'] ?></td>
-          <td class="text-center"><?php echo $val['bukti'] ?></td>
-          <td><?php echo $val['keterangan']; ?></td>
-          <td>
-            <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= $val['penerimaan'];?></span>
-              <div class="clear"></div>
-            </div>
-          </td>
-          <td>
-            <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= $val['pengeluaran'];?></span>
-              <div class="clear"></div>
-            </div>
-          </td>  
-          <td>
-            <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format($val['saldo_akhir'],2,",",".");?></span>
-              <div class="clear"></div>
-            </div>
-          </td>      
+          <td class="text-center"><?php echo $val['kegiatan'] ?></td>
+          <?php if ($val['kode'] == '-'){ ?>
+            <td>
+              <?php if ($val['jumlah'] != 0){ ?>
+                <div>
+                  <span style="float: left;">Rp. </span>
+                  <span style="float: right;"><?= number_format($val['jumlah'],0,",",".");?></span>
+                  <div class="clear"></div>
+                </div>
+              <?php }else { ?>
+                
+              <?php } ?>
+            </td>
+          <?php }else{ ?>
+            <td>
+              <?php if ($val['jumlah'] != 0){ ?>
+                <div>
+                  <span style="float: left;">Rp. </span>
+                  <span style="float: right;"><?= $val['jumlah'];?></span>
+                  <div class="clear"></div>
+                </div>
+              <?php }else { ?>
+                
+              <?php } ?>
+            </td>
+          <?php } ?>
+          <td></td>  
+          <?php if ($val['kode'] == '-'){ ?>
+            <td>
+              <?php if ($val['jumlah'] != 0){ ?>
+                <div>
+                  <span style="float: left;">Rp. </span>
+                  <span style="float: right;"><?= number_format($val['jumlah'],0,",",".");?></span>
+                  <div class="clear"></div>
+                </div>
+              <?php }else { ?>
+                
+              <?php } ?>
+            </td>
+          <?php }else{ ?>
+            <td>
+              <?php if ($val['jumlah'] != 0){ ?>
+                <div>
+                  <span style="float: left;">Rp. </span>
+                  <span style="float: right;"><?= $val['jumlah'];?></span>
+                  <div class="clear"></div>
+                </div>
+              <?php }else { ?>
+                
+              <?php } ?>
+            </td>
+          <?php } ?>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
         </tr>
-        <?php $tanggaltxt = $val['tanggal'];?>
-        <?php $saldoTot = $val['saldo_akhir'];?>
       <?php endforeach ?>
-        <tr>
+        <!-- <tr>
           <td class="text-center" colspan="6"><strong>Saldo Akhir Bulan <?php echo $arr_bulan[date('m', strtotime($tanggaltxt))]; ?></strong></td> 
           <td>
             <div>
@@ -195,7 +231,7 @@
               <div class="clear"></div>
             </div>
           </td>      
-        </tr>
+        </tr> -->
       </tbody>
     </table>
     <!-- <table class="tbl-content-footer">

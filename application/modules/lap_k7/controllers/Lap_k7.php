@@ -33,6 +33,7 @@ class Lap_k7 extends CI_Controller {
 
 	public function laporan_k7_detail()
 	{
+		$this->load->library('Pdf_gen');
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
@@ -72,6 +73,7 @@ class Lap_k7 extends CI_Controller {
 		$txtPeriode = 'Periode Triwulan '.$arr_pecah_bulan[2];
 
 		$data = array(
+			'title' => 'SMP Darul Ulum Surabaya',
 			'data_user' => $data_user,
 			'arr_bulan' => $this->bulan_indo(),
 			'hasil_data' => $arr_data,
@@ -81,18 +83,10 @@ class Lap_k7 extends CI_Controller {
 			'tahun' => $tahun
 		);
 
-		echo "<pre>";
-		print_r ($data);
-		echo "</pre>";
-		exit;
-		$content = [
-			'css' 	=> 'cssLapBku',
-			'modal' => null,
-			'js'	=> 'jsLapBku',
-			'view'	=> 'view_lap_bku_detail'
-		];
-
-		$this->template_view->load_view($content, $data);
+	    $html = $this->load->view('view_lap_k7_cetak', $data, true);
+	    
+	    $filename = 'laporan_k7_'.time();
+	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'landscape');
 	}
 
 	public function cetak_report_bku($bln_awal, $bln_akhir, $tahun)
