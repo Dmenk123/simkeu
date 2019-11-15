@@ -61,12 +61,14 @@ class Lap_k7 extends CI_Controller {
 		$arr_data[0]['kode'] = '-';
 		$arr_data[0]['kegiatan'] = 'Penerimaan';
 		$arr_data[0]['jumlah'] = $query_masuk->total_penerimaan;
+		$arr_data[0]['tipe_out'] = null;
 
 		//loop detail laporan dan assign array
 		foreach ($query as $key => $val) {
 			$arr_data[$key+1]['kode'] = $val->kode_in_text;
 			$arr_data[$key+1]['kegiatan'] = $val->nama;
 			$arr_data[$key+1]['jumlah'] = number_format($val->harga_total,0,",",".");
+			$arr_data[$key+1]['tipe_out'] = $val->tipe;
 		}
 		
 		$arr_bulan_indo = $this->bulan_indo();
@@ -82,7 +84,11 @@ class Lap_k7 extends CI_Controller {
 			'bln_akhir' => $arr_pecah_bulan[1],
 			'tahun' => $tahun
 		);
-		
+
+		echo "<pre>";
+		print_r ($data);
+		echo "</pre>";
+		exit;
 
 	    $html = $this->load->view('view_lap_k7_cetak', $data, true);
 	    

@@ -16,7 +16,7 @@
           <div class="box">
             <div class="box-body">
               <label class="control-label">Pilih periode Laporan pada field dibawah ini</label>
-              <form class="form-inline" method="get" action="<?php echo site_url('lap_k7/laporan_k7_detail') ?>">
+              <form class="form-inline" method="get" action="<?php echo site_url('lap_k7/laporan_k7_detail') ?>" target="_blank">
                 <div class="form-group">
                   <select name="triwulan" class="form-control" id="triwulan" required="">
                     <option value="">Pilih Triwulan</option>
