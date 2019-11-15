@@ -15,7 +15,7 @@ class Mod_konfirm_gaji extends CI_Model
 		$query = $this->db->query(
 			"SELECT sum( total_take_home_pay ) AS total_gaji, CASE WHEN (is_guru = 1) THEN 'Gaji Guru' ELSE 'Gaji Staff/Karyawan' END AS tipe_gaji, bulan, tahun, is_guru
 			FROM tbl_penggajian 
-			WHERE bulan = '".$bulan."' AND tahun = '".$tahun."' and is_confirm = '".$konfirm."' GROUP BY is_guru "
+			WHERE bulan = '".$bulan."' AND tahun = '".$tahun."' and is_confirm = '".$konfirm."' and is_aktif = '1' GROUP BY is_guru "
 		);
 
 		return $query->result();

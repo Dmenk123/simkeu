@@ -9,7 +9,11 @@ class Mod_slip_gaji extends CI_Model
 		$this->load->database();
 	}
 
+<<<<<<< HEAD
 	public function get_detail($bulan, $tahun, $nip=null)
+=======
+	public function get_detail($bulan, $tahun, $id_user=null)
+>>>>>>> b51e13c8fdd726a36abbd8b7058918067163382c
 	{ 
 		$this->db->select('
 			tp.*, tg.nama as nama_guru, tg.nip, tj.nama as nama_jabatan
@@ -17,7 +21,11 @@ class Mod_slip_gaji extends CI_Model
 		$this->db->from('tbl_penggajian as tp');
 		$this->db->join('tbl_guru tg', 'tp.id_guru = tg.id', 'left');
 		$this->db->join('tbl_jabatan tj', 'tp.id_jabatan = tj.id', 'left');
+<<<<<<< HEAD
 		if ($nip == null) {
+=======
+		if ($id_user == null) {
+>>>>>>> b51e13c8fdd726a36abbd8b7058918067163382c
 			$this->db->where([
 				'tp.bulan' => $bulan,
 				'tp.tahun' => $tahun,
@@ -30,7 +38,11 @@ class Mod_slip_gaji extends CI_Model
 				'tp.tahun' => $tahun,
 				'tp.is_confirm' => 1,
 				'tp.is_aktif' => 1,
+<<<<<<< HEAD
 				'tg.nip' => $nip
+=======
+				'tg.nip' => $id_user
+>>>>>>> b51e13c8fdd726a36abbd8b7058918067163382c
 			]);
 		}
 		

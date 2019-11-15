@@ -14,7 +14,11 @@ class Slip_gaji extends CI_Controller {
 	public function index()
 	{
 		$id_user = $this->session->userdata('id_user'); 
+<<<<<<< HEAD
 		
+=======
+
+>>>>>>> b51e13c8fdd726a36abbd8b7058918067163382c
 		if ($this->session->userdata('id_level_user') != '5') {
 			$data_user = $this->prof->get_detail_pengguna($id_user);
 		}else{
@@ -39,6 +43,10 @@ class Slip_gaji extends CI_Controller {
 	public function slip_gaji_detail()
 	{
 		$id_user = $this->session->userdata('id_user'); 
+<<<<<<< HEAD
+=======
+
+>>>>>>> b51e13c8fdd726a36abbd8b7058918067163382c
 		if ($this->session->userdata('id_level_user') != '5') {
 			$data_user = $this->prof->get_detail_pengguna($id_user);
 		}else{
@@ -56,14 +64,22 @@ class Slip_gaji extends CI_Controller {
 		//cari periode untuk tampilan pada laporan
 		$arr_bln_indo = $this->bulan_indo();
 		$periode = $arr_bln_indo[$bulan_fix].' '.$tahun;
+<<<<<<< HEAD
 		
+=======
+				
+>>>>>>> b51e13c8fdd726a36abbd8b7058918067163382c
 		if ($this->session->userdata('id_level_user') != '5') {
 			$query = $this->lap->get_detail($bulan_fix, $tahun);
 		}else{
 			$query = $this->lap->get_detail($bulan_fix, $tahun, $id_user);
 		}
+<<<<<<< HEAD
 		
 		
+=======
+
+>>>>>>> b51e13c8fdd726a36abbd8b7058918067163382c
 		$data = array(
 			'data_user' => $data_user,
 			'arr_bulan' => $this->bulan_indo(),

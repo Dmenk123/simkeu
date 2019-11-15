@@ -137,7 +137,12 @@ class Proses_gaji extends CI_Controller {
 		$this->db->trans_begin();
 
 		//cek sudah ada gaji/belum
-		$cek_ada = $this->m_pro->cek_exist_gaji(['id_guru' => $namapeg, 'bulan' => (int)$bulan, 'tahun' => $tahun]);
+		$cek_ada = $this->m_pro->cek_exist_gaji([
+			'id_guru' => $namapeg, 
+			'bulan' => (int)$bulan, 
+			'tahun' => $tahun, 
+			'is_aktif' => '1'
+		]);
 
 		if ($cek_ada) {
 			echo json_encode(array(
