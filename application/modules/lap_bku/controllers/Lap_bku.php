@@ -41,12 +41,11 @@ class Lap_bku extends CI_Controller {
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
-		$bln_awal = $this->input->get('bln_awal');
-		$bln_akhir = $this->input->get('bln_akhir');
+		$bulan = $this->input->get('bulan');
 		$tahun = $this->input->get('tahun');
 		
 		//menghilangkan string 0 pada bulan
-		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan($bln_awal, $bln_akhir, $tahun);
+		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan($bulan, $bulan, $tahun);
 		$bulan_awal_fix = $arr_pecah_bulan['tanggal_awal'];
 		$bulan_akhir_fix = $arr_pecah_bulan['tanggal_akhir'];
 
@@ -55,8 +54,8 @@ class Lap_bku extends CI_Controller {
 		
 		//cari periode untuk tampilan pada laporan
 		$arr_bln_indo = $this->bulan_indo();
-		$periode1 = $arr_bln_indo[$bln_awal].' '.$tahun;
-		$periode2 = $arr_bln_indo[$bln_akhir].' '.$tahun;
+		$periode1 = $arr_bln_indo[$bulan].' '.$tahun;
+		$periode2 = $arr_bln_indo[$bulan].' '.$tahun;
 		$saldo_awal = 0;
 		$saldo_akhir = 0;
 		$arr_data = [];
@@ -197,8 +196,7 @@ class Lap_bku extends CI_Controller {
 			'arr_bulan' => $this->bulan_indo(),
 			'hasil_data' => $arr_data,
 			'periode' => $txtPeriode,
-			'bln_awal' => $bln_awal,
-			'bln_akhir' => $bln_akhir,
+			'bulan' => $bulan,
 			'tahun' => $tahun
 		);
 
@@ -212,14 +210,14 @@ class Lap_bku extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function cetak_report_bku($bln_awal, $bln_akhir, $tahun)
+	public function cetak_report_bku($bulan, $tahun)
 	{
 		$this->load->library('Pdf_gen');
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
 		//menghilangkan string 0 pada bulan
-		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan($bln_awal, $bln_akhir, $tahun);
+		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan($bulan, $bulan, $tahun);
 		$bulan_awal_fix = $arr_pecah_bulan['tanggal_awal'];
 		$bulan_akhir_fix = $arr_pecah_bulan['tanggal_akhir'];
 
@@ -228,8 +226,8 @@ class Lap_bku extends CI_Controller {
 		
 		//cari periode untuk tampilan pada laporan
 		$arr_bln_indo = $this->bulan_indo();
-		$periode1 = $arr_bln_indo[$bln_awal].' '.$tahun;
-		$periode2 = $arr_bln_indo[$bln_akhir].' '.$tahun;
+		$periode1 = $arr_bln_indo[$bulan].' '.$tahun;
+		$periode2 = $arr_bln_indo[$bulan].' '.$tahun;
 		$saldo_awal = 0;
 		$saldo_akhir = 0;
 		$arr_data = [];
@@ -374,8 +372,7 @@ class Lap_bku extends CI_Controller {
 			'arr_hari' => $this->hari_indo(),
 			'periode' => $txtPeriode,
 			// 'hasil_footer' => $query_footer,
-			'bln_awal' => $bln_awal,
-			'bln_akhir' => $bln_akhir,
+			'bulan' => $bulan,
 			'tahun' => $tahun
 		);
 

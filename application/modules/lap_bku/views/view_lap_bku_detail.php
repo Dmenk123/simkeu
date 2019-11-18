@@ -69,9 +69,9 @@
                   </table>
                   <div style="padding-top: 30px; padding-bottom: 10px;">
                     <a class="btn btn-sm btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</a>
-                    <?php $link_print = site_url("lap_bku/cetak_report_bku/".$bln_awal."/".$bln_akhir."/".$tahun.""); ?>
+                    <?php $link_print = site_url("lap_bku/cetak_report_bku/".$bulan."/".$tahun.""); ?>
                     <?php echo '<a class="btn btn-sm btn-success" href="'.$link_print.'" target="_blank" title="Print Laporan BKU" id="btn_print_laporan_bku"><i class="glyphicon glyphicon-print"></i> Cetak</a>';?>
-                    <?php $link_submit = site_url("lap_bku/konfirmasi_lap_bku/".$bln_awal."/".$bln_akhir."/".$tahun.""); ?>
+                    <?php $link_submit = site_url("lap_bku/konfirmasi_lap_bku/".$bulan."/".$tahun.""); ?>
                     <?php echo '<a class="btn btn-sm btn-info pull-right" href="'.$link_submit.'" target="_blank" title="Submit Laporan BKU" id="btn_print_laporan_bku"><i class="glyphicon glyphicon-ok"></i> Submit</a>';?>
                   </div>
               </div>  

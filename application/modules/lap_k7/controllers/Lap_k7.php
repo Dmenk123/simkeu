@@ -61,6 +61,7 @@ class Lap_k7 extends CI_Controller {
 		$arr_data[0]['kode'] = '-';
 		$arr_data[0]['kegiatan'] = 'Penerimaan';
 		$arr_data[0]['jumlah'] = $query_masuk->total_penerimaan;
+		$arr_data[0]['jumlah_raw'] = $query_masuk->total_penerimaan;
 		$arr_data[0]['tipe_out'] = null;
 
 		//loop detail laporan dan assign array
@@ -68,6 +69,7 @@ class Lap_k7 extends CI_Controller {
 			$arr_data[$key+1]['kode'] = $val->kode_in_text;
 			$arr_data[$key+1]['kegiatan'] = $val->nama;
 			$arr_data[$key+1]['jumlah'] = number_format($val->harga_total,0,",",".");
+			$arr_data[$key+1]['jumlah_raw'] = $val->harga_total;
 			$arr_data[$key+1]['tipe_out'] = $val->tipe;
 		}
 		
@@ -85,10 +87,10 @@ class Lap_k7 extends CI_Controller {
 			'tahun' => $tahun
 		);
 
-		echo "<pre>";
+		/*echo "<pre>";
 		print_r ($data);
 		echo "</pre>";
-		exit;
+		exit;*/
 
 	    $html = $this->load->view('view_lap_k7_cetak', $data, true);
 	    
