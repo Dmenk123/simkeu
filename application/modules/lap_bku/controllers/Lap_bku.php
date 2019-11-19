@@ -388,10 +388,10 @@ class Lap_bku extends CI_Controller {
 
 	public function konfirmasi_laporan()
 	{
-		$bulan = $this->input->get('bulan');
-		$tahun = $this->input->get('tahun');
-		$saldo_awal = $this->input->get('saldo_awal');
-		$saldo_akhir = $this->input->get('saldo_akhir');
+		$bulan = $this->input->post('bulan');
+		$tahun = $this->input->post('tahun');
+		$saldo_awal = $this->input->post('saldo_awal');
+		$saldo_akhir = $this->input->post('saldo_akhir');
 		
 		$this->db->trans_begin();
 		//cek lap bku
@@ -407,7 +407,7 @@ class Lap_bku extends CI_Controller {
 					'status' => $status,
 					'pesan' => $pesan
 				]);
-				
+
 				return;
 			}else{
 				//jika belum dikunci update lap BKU

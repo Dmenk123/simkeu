@@ -78,6 +78,7 @@ class Mod_lap_bku extends CI_Model
 	function getKodeLapBku($bulan, $tahun)
 	{
 		$q = $this->db->query("SELECT MAX(RIGHT(kode,5)) as kode_max from tbl_lap_bku WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'");
+		
 		$kd = "";
 		if ($q->num_rows() > 0) {
 			foreach ($q->result() as $k) {
