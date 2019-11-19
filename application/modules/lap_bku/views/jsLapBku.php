@@ -46,11 +46,11 @@
                     success: function(data) {
                         if (data.status == true) {
                             swal("Pemberitahuan", data.pesan, "success").then(function() {
-                                reload_table();
+                                location.reload();
                             });
                         } else {
                             swal("Pemberitahuan", data.pesan, "error").then(function() {
-                                reload_table();
+                                location.reload();
                             });
                         }
                     }

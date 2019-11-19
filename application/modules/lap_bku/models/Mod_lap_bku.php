@@ -59,7 +59,7 @@ class Mod_lap_bku extends CI_Model
 	{
 		$this->db->select('*');
 		$this->db->from('tbl_lap_bku');
-		$this->db->where("is_delete is null and bulan = '".$bulan."' and tahun = '".$tahun."'");
+		$this->db->where("is_delete = '0' and bulan = '".$bulan."' and tahun = '".$tahun."'");
 		$query = $this->db->get();
 
 		if ($query->num_rows() > 0) {

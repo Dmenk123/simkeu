@@ -72,7 +72,9 @@
                   <?php $link_print = site_url("lap_bku/cetak_report_bku/" . $bulan . "/" . $tahun . ""); ?>
                   <?php echo '<a class="btn btn-sm btn-success" href="' . $link_print . '" target="_blank" title="Print Laporan BKU" id="btn_print_laporan_bku"><i class="glyphicon glyphicon-print"></i> Cetak</a>'; ?>
                   <?php $link_submit = site_url("lap_bku/konfirmasi_lap_bku/" . $bulan . "/" . $tahun . ""); ?>
-                  <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Konfirmasi" onclick="konfirmBku('<?= $bulan.','.$tahun.','. $saldo_awal.','.$saldo_akhir; ?>')"><i class="glyphicon glyphicon-pencil"></i></a>
+                  <?php if ($cek_status_kunci == FALSE) { ?>
+                    <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Konfirmasi" onclick="konfirmBku(<?= $bulan.','.$tahun.','. $saldo_awal.','.$saldo_akhir; ?>)"><i class="glyphicon glyphicon-pencil"></i> Submit Data</a>
+                  <?php } ?>
                 </div>
               </div>
             </div>

@@ -16,7 +16,7 @@
           <div class="box">
             <div class="box-body">
               <label class="control-label">Pilih periode tanggal Laporan pada field dibawah ini</label>
-              <form class="form-inline" method="get" action="<?php echo site_url('lap_bku/laporan_bku_detail') ?>" target="_blank">
+              <form class="form-inline" method="get" action="<?php echo site_url('lap_bku/laporan_bku_detail') ?>">
                 <div class="form-group">
                   <select name="bulan" class="form-control" id="bulan" required="">
                     <option value="">Pilih Bulan</option>

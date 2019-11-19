@@ -49,6 +49,9 @@ class Lap_bku extends CI_Controller {
 		$bulan_awal_fix = $arr_pecah_bulan['tanggal_awal'];
 		$bulan_akhir_fix = $arr_pecah_bulan['tanggal_akhir'];
 
+		//cek status kuncian
+		$cek_status_kunci = $this->cek_status_kuncian(date('m', strtotime($bulan_awal_fix)), $tahun);
+
 		//untuk mengetahui berapa bulan yg didapat dari pilihan
 		$arr_bulan = $this->pecah_bulan($bulan_awal_fix, $bulan_akhir_fix, $tahun);
 		
@@ -199,7 +202,8 @@ class Lap_bku extends CI_Controller {
 			'bulan' => date('m', strtotime($bulan_awal_fix)),
 			'tahun' => $tahun,
 			'saldo_awal' => $saldo_awal,
-			'saldo_akhir' => $saldo_akhir
+			'saldo_akhir' => $saldo_akhir,
+			'cek_status_kunci' => $cek_status_kunci
 		);
 
 		$content = [
@@ -412,7 +416,7 @@ class Lap_bku extends CI_Controller {
 			}else{
 				//jika belum dikunci update lap BKU
 				// update status isdelete
-				$this->lap->update('tbl_lap_bku', ['is_delete' => '1', 'updated' => date('Y-m-d H:i:s')], ['kode' => $cek->kode]);
+				$this->lap->update('tbl_lap_bku', ['kode' => $cek->kode], ['is_delete' => '1', 'updated' => date('Y-m-d H:i:s')]);
 				
 				//insert data
 				$data_ins = [
@@ -518,4 +522,13 @@ class Lap_bku extends CI_Controller {
 		];
 	}
 
+	public function cek_status_kuncian($bulan, $tahun)
+	{
+		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '".$bulan."' and tahun ='".$tahun."'")->row();
+		if ($q->is_kunci == '1') {
+			 return TRUE;
+		}else{
+			return FALSE;
+		}
+	}
 }

@@ -281,7 +281,7 @@ class Verifikasi_out extends CI_Controller {
 			$no++;
 			$row = array();
 			$row[] = $listFinish->id;
-			$row[] = $listFinish->id_out;
+			$row[] = date('d-m-Y', strtotime($listFinish->tanggal));
 			$row[] = $listFinish->username;
 			$row[] = $listFinish->keterangan;
 			$row[] = '
@@ -289,11 +289,20 @@ class Verifikasi_out extends CI_Controller {
 							<span class="pull-left">Rp. </span>
 							<span class="pull-right">'.number_format($listFinish->harga_total,2,",",".").'</span>
 						</div>';
-			$row[] = '
-				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
-					<i class="glyphicon glyphicon-info-sign"></i></a>
-				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deleteVerifyFinish('."'".$listFinish->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
-			';
+			//cek kuncian
+			$cek_kunci = $this->cek_status_kuncian(date('m', strtotime($listFinish->tanggal)), date('Y', strtotime($listFinish->tanggal)));
+
+			if ($cek_kunci) {
+				$row[] = '
+					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+						<i class="glyphicon glyphicon-info-sign"></i></a>';
+			}else{
+				$row[] = '
+					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+						<i class="glyphicon glyphicon-info-sign"></i></a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deleteVerifyFinish('."'".$listFinish->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+				';
+			}
 
 			$data[] = $row;
 		}//end loop
@@ -438,6 +447,16 @@ class Verifikasi_out extends CI_Controller {
 	{
 		$query = $this->m_vout->lookup2($rowIdBrg);
 		echo json_encode($query);
+	}
+
+	public function cek_status_kuncian($bulan, $tahun)
+	{
+		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '".$bulan."' and tahun ='".$tahun."'")->row();
+		if ($q->is_kunci == '1') {
+			 return TRUE;
+		}else{
+			return FALSE;
+		}
 	}
 
 }
