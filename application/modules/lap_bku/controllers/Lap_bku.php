@@ -196,8 +196,10 @@ class Lap_bku extends CI_Controller {
 			'arr_bulan' => $this->bulan_indo(),
 			'hasil_data' => $arr_data,
 			'periode' => $txtPeriode,
-			'bulan' => $bulan,
-			'tahun' => $tahun
+			'bulan' => date('m', strtotime($bulan_awal_fix)),
+			'tahun' => $tahun,
+			'saldo_awal' => $saldo_awal,
+			'saldo_akhir' => $saldo_akhir
 		);
 
 		$content = [
@@ -217,7 +219,7 @@ class Lap_bku extends CI_Controller {
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
 		//menghilangkan string 0 pada bulan
-		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan($bulan, $bulan, $tahun);
+		$arr_pecah_bulan = $this->hilangakan_stringkosong_bulan((int)$bulan, (int)$bulan, $tahun);
 		$bulan_awal_fix = $arr_pecah_bulan['tanggal_awal'];
 		$bulan_akhir_fix = $arr_pecah_bulan['tanggal_akhir'];
 
@@ -226,8 +228,8 @@ class Lap_bku extends CI_Controller {
 		
 		//cari periode untuk tampilan pada laporan
 		$arr_bln_indo = $this->bulan_indo();
-		$periode1 = $arr_bln_indo[$bulan].' '.$tahun;
-		$periode2 = $arr_bln_indo[$bulan].' '.$tahun;
+		$periode1 = $arr_bln_indo[(int)$bulan].' '.$tahun;
+		$periode2 = $arr_bln_indo[(int)$bulan].' '.$tahun;
 		$saldo_awal = 0;
 		$saldo_akhir = 0;
 		$arr_data = [];
@@ -363,7 +365,7 @@ class Lap_bku extends CI_Controller {
 		}
 		
 		$txtPeriode = (count($arr_bulan) > 1) ? $periode1.' s/d '.$periode2 : $periode1;
-
+		
 		$data = array(
 			'title' => 'SMP Darul Ulum Surabaya',
 			'data_user' => $data_user,
@@ -371,8 +373,10 @@ class Lap_bku extends CI_Controller {
 			'arr_bulan' => $this->bulan_indo(),
 			'arr_hari' => $this->hari_indo(),
 			'periode' => $txtPeriode,
+			'saldo_awal' => $saldo_awal,
+			'saldo_akhir' => $saldo_akhir,
 			// 'hasil_footer' => $query_footer,
-			'bulan' => $bulan,
+			'bulan' => date('m', strtotime($bulan_awal_fix)),
 			'tahun' => $tahun
 		);
 
@@ -380,6 +384,78 @@ class Lap_bku extends CI_Controller {
 	    
 	    $filename = 'laporan_bku_'.time();
 	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
+	}
+
+	public function konfirmasi_laporan()
+	{
+		$bulan = $this->input->get('bulan');
+		$tahun = $this->input->get('tahun');
+		$saldo_awal = $this->input->get('saldo_awal');
+		$saldo_akhir = $this->input->get('saldo_akhir');
+		
+		$this->db->trans_begin();
+		//cek lap bku
+		$cek = $this->lap->cek_lap_bku($bulan, $tahun);
+		if ($cek) {
+			if ($cek->is_kunci == '1') {
+				
+				$this->db->trans_rollback();
+				$status = FALSE;
+				$pesan = 'Maaf Laporan Telah Terkunci';
+				
+				echo json_encode([
+					'status' => $status,
+					'pesan' => $pesan
+				]);
+				
+				return;
+			}else{
+				//jika belum dikunci update lap BKU
+				// update status isdelete
+				$this->lap->update('tbl_lap_bku', ['is_delete' => '1', 'updated' => date('Y-m-d H:i:s')], ['kode' => $cek->kode]);
+				
+				//insert data
+				$data_ins = [
+					'kode' => $this->lap->getKodeLapBku($bulan, $tahun),
+					'bulan' => $bulan,
+					'tahun' => $tahun,
+					'saldo_awal' => $saldo_awal,
+					'saldo_akhir' => $saldo_akhir,
+					'created' => date('Y-m-d H:i:s'),
+					'is_delete' => 0,
+					'is_kunci' => 0,
+				];
+				$this->db->insert('tbl_lap_bku', $data_ins);
+			}
+		}else{
+			//insert data jika belum buat
+			$data_ins = [
+				'kode' => $this->lap->getKodeLapBku($bulan,$tahun),
+				'bulan' => $bulan,
+				'tahun' => $tahun,
+				'saldo_awal' => $saldo_awal,
+				'saldo_akhir' => $saldo_akhir,
+				'created' => date('Y-m-d H:i:s'),
+				'is_delete' => 0,
+				'is_kunci' => 0,
+			];
+			$this->db->insert('tbl_lap_bku', $data_ins);
+		}
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			$status = FALSE;
+			$pesan = 'Gagal Konfirmasi Laporan';
+		} else {
+			$this->db->trans_commit();
+			$status = TRUE;
+			$pesan = 'Berhasil Konfirmasi Laporan';
+		}
+
+		echo json_encode([
+			'status' => $status,
+			'pesan' => $pesan
+		]);
 	}
 
 	public function bulan_indo()

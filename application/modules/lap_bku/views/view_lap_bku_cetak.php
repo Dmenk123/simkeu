@@ -187,7 +187,7 @@
         <?php $saldoTot = $val['saldo_akhir'];?>
       <?php endforeach ?>
         <tr>
-          <td class="text-center" colspan="6"><strong>Saldo Akhir Bulan <?php echo $arr_bulan[date('m', strtotime($tanggaltxt))]; ?></strong></td> 
+          <td class="text-center" colspan="6"><strong>Saldo Akhir Bulan <?php echo $arr_bulan[(int)date('m', strtotime($tanggaltxt))]; ?></strong></td> 
           <td>
             <div>
               <span style="float: left;"><strong>Rp. </strong></span>

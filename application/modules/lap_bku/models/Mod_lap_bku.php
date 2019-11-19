@@ -55,6 +55,43 @@ class Mod_lap_bku extends CI_Model
 		return $saldo;
 	}
 
+	public function cek_lap_bku($bulan, $tahun)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_lap_bku');
+		$this->db->where("is_delete is null and bulan = '".$bulan."' and tahun = '".$tahun."'");
+		$query = $this->db->get();
+
+		if ($query->num_rows() > 0) {
+			return $query->row();
+		}else{
+			return FALSE;
+		}
+	}
+
+	public function update($table, $where, $data)
+	{
+		$this->db->update($table, $data, $where);
+		return $this->db->affected_rows();
+	}
+
+	function getKodeLapBku($bulan, $tahun)
+	{
+		$q = $this->db->query("SELECT MAX(RIGHT(kode,5)) as kode_max from tbl_lap_bku WHERE bulan = '".$bulan."' AND tahun = '".$tahun."'");
+		$kd = "";
+		if ($q->num_rows() > 0) {
+			foreach ($q->result() as $k) {
+				$tmp = ((int) $k->kode_max) + 1;
+				$kd = sprintf("%05s", $tmp);
+			}
+		} else {
+			$kd = "00001";
+		}
+		return "BKU" . date('my', strtotime($tahun.'-'.$bulan.'-01')) . $kd;
+	}
+
+	//================================LAWAS==================================
+
 	public function get_detail2($tanggal_awal, $tanggal_akhir)
 	{
 		$tanggal_awal2 = date('Y-m-d', strtotime('-1 days', strtotime($tanggal_awal)));
