@@ -15,10 +15,38 @@ class Pengeluaran extends CI_Controller {
 	{	
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
+		
+		$arr_bulan = [
+			1 => 'Januari',
+			2 => 'Februari',
+			3 => 'Maret',
+			4 => 'April',
+			5 => 'Mei',
+			6 => 'Juni',
+			7 => 'Juli',
+			8 => 'Agustus',
+			9 => 'September',
+			10 => 'Oktober',
+			11 => 'November',
+			12 => 'Desember'
+		];
 
-		$data = array(
-			'data_user' => $data_user
-		);
+		if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') {
+			$bulan = $this->input->get('bulan');
+			$tahun = $this->input->get('tahun');
+
+			//$hasildata = $this->list_pengeluaran($tanggal_awal, $tanggal_akhir);
+
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan
+			);
+		} else {
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan
+			);
+		}
 
 		$content = [
 			'css' 	=> 'cssPengeluaran',
@@ -30,9 +58,11 @@ class Pengeluaran extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_pengeluaran()
+	public function list_pengeluaran($bulan, $tahun)
 	{
-		$list = $this->m_out->get_datatables();
+		$tanggal_awal = date('Y-m-d', strtotime($tahun . '-' . $bulan . '-01'));
+		$tanggal_akhir = date('Y-m-t', strtotime($tahun . '-' . $bulan . '-01'));
+		$list = $this->m_out->get_datatables($tanggal_awal, $tanggal_akhir);
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $listOut) {
@@ -67,8 +97,8 @@ class Pengeluaran extends CI_Controller {
 
 		$output = array(
 						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->m_out->count_all(),
-						"recordsFiltered" => $this->m_out->count_filtered(),
+						"recordsTotal" => $this->m_out->count_all($tanggal_awal, $tanggal_akhir),
+						"recordsFiltered" => $this->m_out->count_filtered($tanggal_awal, $tanggal_akhir),
 						"data" => $data,
 					);
 		//output to json format

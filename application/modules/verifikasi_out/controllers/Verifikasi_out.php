@@ -451,9 +451,14 @@ class Verifikasi_out extends CI_Controller {
 
 	public function cek_status_kuncian($bulan, $tahun)
 	{
-		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '".$bulan."' and tahun ='".$tahun."'")->row();
-		if ($q->is_kunci == '1') {
-			 return TRUE;
+		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '".$bulan."' and tahun ='".$tahun."'");
+		if ($q->num_rows() > 0) {
+			$query = $q->row();
+			if ($query->is_kunci == '1') {
+				return TRUE;
+			} else {
+				return FALSE;
+			}
 		}else{
 			return FALSE;
 		}

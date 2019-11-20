@@ -17,7 +17,7 @@ class Mod_pengeluaran extends CI_Model
 		null,
 	);
 
-	var $order = array('tr.id_pembelian' => 'desc'); // default order
+	var $order = array('tk.tanggal' => 'desc'); // default order
 
 	public function __construct()
 	{
@@ -25,7 +25,7 @@ class Mod_pengeluaran extends CI_Model
 		$this->load->database();
 	}
 
-	private function _get_datatables_query($term='') //term is value of $_REQUEST['search']
+	private function _get_datatables_query($tanggal_awal, $tanggal_akhir, $term='') //term is value of $_REQUEST['search']
 	{
 		$column = array(
 			"tk.id",
@@ -48,7 +48,7 @@ class Mod_pengeluaran extends CI_Model
 		
 		$this->db->from('tbl_trans_keluar as tk');
 		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
-		//$this->db->where('tr.status_penarikan', '1');
+		$this->db->where("tk.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		
 		$i = 0;
 		foreach ($this->column_search as $item) 
@@ -81,10 +81,10 @@ class Mod_pengeluaran extends CI_Model
 		}
 	}
 
-	function get_datatables()
+	function get_datatables($tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term);
+		$this->_get_datatables_query($tanggal_awal, $tanggal_akhir, $term);
 
 		if($_REQUEST['length'] != -1)
 		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
@@ -93,15 +93,15 @@ class Mod_pengeluaran extends CI_Model
 		return $query->result();
 	}
 
-	function count_filtered()
+	function count_filtered($tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term);
+		$this->_get_datatables_query($tanggal_awal, $tanggal_akhir, $term);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all($id_vendor="")
+	public function count_all($tanggal_awal, $tanggal_akhir)
 	{
 		$this->db->select("
 			tk.id,
@@ -116,7 +116,7 @@ class Mod_pengeluaran extends CI_Model
 		
 		$this->db->from('tbl_trans_keluar as tk');
 		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
-		//$this->db->where('tr.status_penarikan', '1');
+		$this->db->where("tk.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		return $this->db->count_all_results();
 	}
 
