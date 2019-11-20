@@ -37,7 +37,7 @@
       ],
       //load data for table content from ajax source
       "ajax": {
-        "url": "<?php echo site_url('verifikasi_out/list_verifikasi') ?>",
+        "url": "<?php echo site_url('verifikasi_out/list_verifikasi/') ?>" + bulan + "/" + tahun,
         "type": "POST"
       },
 
@@ -58,7 +58,7 @@
       ],
       //load data for table content from ajax source
       "ajax": {
-        "url": "<?php echo site_url('verifikasi_out/list_verifikasi_finish') ?>" + bulan + "/" + tahun,
+        "url": "<?php echo site_url('verifikasi_out/list_verifikasi_finish/') ?>" + bulan + "/" + tahun,
         "type": "POST"
       },
 

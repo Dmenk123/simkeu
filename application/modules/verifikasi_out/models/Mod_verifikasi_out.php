@@ -46,7 +46,7 @@ class Mod_verifikasi_out extends CI_Model
 		$this->load->database();
 	}
 
-	private function _get_datatables_query($term='') //term is value of $_REQUEST['search']
+	private function _get_datatables_query($tanggal_awal, $tanggal_akhir, $term='') //term is value of $_REQUEST['search']
 	{
 		$column = array(
 			"tk.id",
@@ -69,6 +69,7 @@ class Mod_verifikasi_out extends CI_Model
 		
 		$this->db->from('tbl_trans_keluar as tk');
 		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
+		$this->db->where("tk.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		$this->db->where('tk.status', '1');
 		
 		$i = 0;
@@ -102,10 +103,10 @@ class Mod_verifikasi_out extends CI_Model
 		}
 	}
 
-	function get_datatables()
+	function get_datatables($tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term);
+		$this->_get_datatables_query($tanggal_awal, $tanggal_akhir, $term);
 
 		if($_REQUEST['length'] != -1)
 		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
@@ -114,15 +115,15 @@ class Mod_verifikasi_out extends CI_Model
 		return $query->result();
 	}
 
-	function count_filtered()
+	function count_filtered($tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term);
+		$this->_get_datatables_query($tanggal_awal, $tanggal_akhir, $term);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all()
+	public function count_all($tanggal_awal, $tanggal_akhir)
 	{
 		$this->db->select("
 			tk.id,
@@ -137,13 +138,14 @@ class Mod_verifikasi_out extends CI_Model
 		
 		$this->db->from('tbl_trans_keluar as tk');
 		$this->db->join('tbl_user as tu', 'tk.user_id = tu.id_user', 'left');
+		$this->db->where("tk.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		//$this->db->where('tr.status_penarikan', '1');
 		return $this->db->count_all_results();
 	}
 
 	// ================================================================================
 	
-	private function _get_datatables_query_finish($term='') //term is value of $_REQUEST['search']
+	private function _get_datatables_query_finish($tanggal_awal, $tanggal_akhir, $term='') //term is value of $_REQUEST['search']
 	{
 		$column = array(
 			"tv.id",
@@ -166,6 +168,7 @@ class Mod_verifikasi_out extends CI_Model
 		$this->db->join('tbl_user as tu', 'tv.user_id = tu.id_user', 'left');
 		$this->db->join('tbl_trans_keluar_detail as tkd', 'tv.id_out_detail = tkd.id', 'left');
 		$this->db->join('tbl_satuan as ts', 'tkd.satuan = ts.id', 'left');
+		$this->db->where("tv.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		$this->db->where('tv.status', '1');
 		
 		$i = 0;
@@ -199,10 +202,10 @@ class Mod_verifikasi_out extends CI_Model
 		}
 	}
 
-	function get_datatables_finish()
+	function get_datatables_finish($tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query_finish($term);
+		$this->_get_datatables_query_finish($tanggal_awal, $tanggal_akhir, $term);
 
 		if($_REQUEST['length'] != -1)
 		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
@@ -211,15 +214,15 @@ class Mod_verifikasi_out extends CI_Model
 		return $query->result();
 	}
 
-	function count_filtered_finish()
+	function count_filtered_finish($tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query_finish($term);
+		$this->_get_datatables_query_finish($tanggal_awal, $tanggal_akhir, $term);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all_finish()
+	public function count_all_finish($tanggal_awal, $tanggal_akhir)
 	{
 		$this->db->select("
 			tv.*,
@@ -233,6 +236,7 @@ class Mod_verifikasi_out extends CI_Model
 		$this->db->join('tbl_user as tu', 'tv.user_id = tu.id_user', 'left');
 		$this->db->join('tbl_trans_keluar_detail as tkd', 'tv.id_out_detail = tkd.id', 'left');
 		$this->db->join('tbl_satuan as ts', 'tkd.satuan = ts.id', 'left');
+		$this->db->where("tv.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		$this->db->where('tv.status', '1');
 		
 		return $this->db->count_all_results();

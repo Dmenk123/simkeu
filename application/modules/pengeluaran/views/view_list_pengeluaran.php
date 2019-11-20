@@ -25,11 +25,13 @@
                     <div class="col-sm-4">
                       <select id="bulan" class="form-control col-sm-4" style="margin-right: 5px;" name="bulan">
                         <option value="">Silahkan Pilih Bulan</option>
+                        <?php $flagBlnAda = FALSE; ?>
                         <?php for ($i = 1; $i <= 12; $i++) {
                           if ($i == $this->input->get('bulan')) {
                             echo '<option value="' . $i . '" selected>' . $arr_bulan[$i] . '</option>';
+                            $flagBlnAda = TRUE;
                           } else {
-                            if ($i == (int)date(m)) {
+                            if ($i == (int)date('m') && $flagBlnAda == FALSE) {
                               echo '<option value="' . $i . '" selected>' . $arr_bulan[$i] . '</option>';
                             }else{
                               echo '<option value="' . $i . '">' . $arr_bulan[$i] . '</option>';
@@ -49,7 +51,7 @@
                           if ($i == $this->input->get('tahun')) {
                             echo '<option value="' . $i . '" selected>' . $i . '</option>';
                           } else {
-                            if ($i == (int)date(Y)) {
+                            if ($i == (int)date('Y')) {
                               echo '<option value="' . $i . '" selected>' . $i . '</option>';
                             }else{
                               echo '<option value="' . $i . '">' . $i . '</option>';

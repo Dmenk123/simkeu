@@ -7,12 +7,18 @@
 	var table;
   var table2;
   var grandTotal = 0;
+  var bulan;
+  var tahun;
 
 $(document).ready(function() {
   //declare variable for row count
   var i = randString(5);
 	//addrow field inside modal
   
+  <?php if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') { ?>
+    bulan = <?= $this->input->get('bulan'); ?>;
+    tahun = <?= $this->input->get('tahun'); ?>;
+  <?php } ?>
 
   //force integer input in textfield
   $('input.numberinput').bind('keypress', function (e) {
@@ -28,7 +34,7 @@ $(document).ready(function() {
 		"order":[[ 2, 'desc' ]], 
 		//load data for table content from ajax source
 		"ajax": {
-			"url": "<?php echo site_url('penerimaan/list_penerimaan') ?>",
+			"url": "<?php echo site_url('penerimaan/list_penerimaan/0/') ?>" + bulan + "/" + tahun,
 			"type": "POST" 
 		},
 
@@ -52,7 +58,7 @@ $(document).ready(function() {
     "order":[[ 2, 'desc' ]], 
     //load data for table content from ajax source
     "ajax": {
-      "url": "<?php echo site_url('penerimaan/list_penerimaan/1') ?>",
+      "url": "<?php echo site_url('penerimaan/list_penerimaan/1/') ?>" + bulan + "/" + tahun,
       "type": "POST" 
     },
 

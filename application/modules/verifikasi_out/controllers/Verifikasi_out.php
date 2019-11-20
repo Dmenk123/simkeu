@@ -46,9 +46,11 @@ class Verifikasi_out extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_verifikasi()
+	public function list_verifikasi($bulan, $tahun)
 	{
-		$list = $this->m_vout->get_datatables();
+		$tanggal_awal = date('Y-m-d', strtotime($tahun . '-' . $bulan . '-01'));
+		$tanggal_akhir = date('Y-m-t', strtotime($tahun . '-' . $bulan . '-01'));
+		$list = $this->m_vout->get_datatables($tanggal_awal, $tanggal_akhir);
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $listV) {
@@ -72,8 +74,8 @@ class Verifikasi_out extends CI_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->m_vout->count_all(),
-			"recordsFiltered" => $this->m_vout->count_filtered(),
+			"recordsTotal" => $this->m_vout->count_all($tanggal_awal, $tanggal_akhir),
+			"recordsFiltered" => $this->m_vout->count_filtered($tanggal_awal, $tanggal_akhir),
 			"data" => $data,
 		);
 		//output to json format
@@ -287,9 +289,11 @@ class Verifikasi_out extends CI_Controller {
 	}
 
 	// ===========================================================
-	public function list_verifikasi_finish()
+	public function list_verifikasi_finish($bulan, $tahun)
 	{
-		$list = $this->m_vout->get_datatables_finish();
+		$tanggal_awal = date('Y-m-d', strtotime($tahun . '-' . $bulan . '-01'));
+		$tanggal_akhir = date('Y-m-t', strtotime($tahun . '-' . $bulan . '-01'));
+		$list = $this->m_vout->get_datatables_finish($tanggal_awal, $tanggal_akhir);
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $listFinish) {
@@ -325,8 +329,8 @@ class Verifikasi_out extends CI_Controller {
 
 		$output = array(
 			"draw" => $_POST['draw'],
-			"recordsTotal" => $this->m_vout->count_all_finish(),
-			"recordsFiltered" => $this->m_vout->count_filtered_finish(),
+			"recordsTotal" => $this->m_vout->count_all_finish($tanggal_awal, $tanggal_akhir),
+			"recordsFiltered" => $this->m_vout->count_filtered_finish($tanggal_awal, $tanggal_akhir),
 			"data" => $data,
 		);
 		//output to json format

@@ -23,7 +23,7 @@ class Mod_Penerimaan extends CI_Model
 		$this->load->database();
 	}
 
-	private function _get_datatables_query($term='', $status) //term is value of $_REQUEST['search']
+	private function _get_datatables_query($term='', $status, $tanggal_awal, $tanggal_akhir)
 	{		
 		if ($status == 1) {
 			$column_search = array(
@@ -88,6 +88,7 @@ class Mod_Penerimaan extends CI_Model
 			$this->db->join('tbl_verifikasi tv', 'tm.id = tv.id_in');
 		}
 		$this->db->where('tm.status', $status);
+		$this->db->where("tm.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		
 		$i = 0;
 		foreach ($this->column_search as $item) 
@@ -120,10 +121,10 @@ class Mod_Penerimaan extends CI_Model
 		}
 	}
 
-	function get_datatables($status = 0)
+	function get_datatables($status = 0, $tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term, $status);
+		$this->_get_datatables_query($term, $status, $tanggal_awal, $tanggal_akhir);
 
 		if($_REQUEST['length'] != -1)
 		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
@@ -132,15 +133,15 @@ class Mod_Penerimaan extends CI_Model
 		return $query->result();
 	}
 
-	function count_filtered($status)
+	function count_filtered($status, $tanggal_awal, $tanggal_akhir)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term, $status);
+		$this->_get_datatables_query($term, $status, $tanggal_awal, $tanggal_akhir);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all($status)
+	public function count_all($status, $tanggal_awal, $tanggal_akhir)
 	{
 		if ($status == 1) {
 			$this->db->select("
@@ -173,6 +174,7 @@ class Mod_Penerimaan extends CI_Model
 			$this->db->join('tbl_verifikasi tv', 'tm.id = tv.id_in');
 		}
 		$this->db->where('tm.status', $status);
+		$this->db->where("tm.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
 		return $this->db->count_all_results();
 	}
 
