@@ -172,6 +172,8 @@ class Penerimaan extends CI_Controller {
 		$harga_total_raw = $this->input->post('i_harga_total_raw');
 		$gambar = $this->input->post('i_gambar');
 		$ceklis = $this->input->post('ceklis');
+		$bln_int = (int)date('m');
+		$thn_int = (int)date('Y');
 
 		$this->db->trans_begin();
 		if ($this->input->post('ceklis') == 't' ) {
@@ -235,22 +237,22 @@ class Penerimaan extends CI_Controller {
 				if ($this->db->trans_status() === FALSE){
 					$this->db->trans_rollback();
 					$this->session->set_flashdata('feedback_gagal','Gagal Input dan Verifikasi data.'); 
-					redirect($this->uri->segment(1));
+					redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 				}
 				else {
 					$this->db->trans_commit();
 					$this->session->set_flashdata('feedback_success','Berhasil Input dan Verifikasi data.'); 
-					redirect($this->uri->segment(1));
+					redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 				}
 			}else{
 				$this->db->trans_rollback();
 				$this->session->set_flashdata('feedback_gagal','Mohon Lengkapi Kelengkapan Data'); 
-				redirect($this->uri->segment(1));
+				redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 			}
 		}else{
 			$this->db->trans_rollback();
 			$this->session->set_flashdata('feedback_gagal','Mohon centang pilihan setuju'); 
-			redirect($this->uri->segment(1));
+			redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 		}
 	}
 
@@ -348,6 +350,8 @@ class Penerimaan extends CI_Controller {
 		$harga_total_raw = $this->input->post('i_harga_total_raw');
 		$gambar = $this->input->post('i_gambar');
 		$ceklis = $this->input->post('ceklis');
+		$bln_int = (int)date('m');
+		$thn_int = (int)date('Y');
 
 		$this->db->trans_begin();
 		if ($this->input->post('ceklis') == 't' ) {
@@ -408,33 +412,38 @@ class Penerimaan extends CI_Controller {
 				if ($this->db->trans_status() === FALSE){
 					$this->db->trans_rollback();
 					$this->session->set_flashdata('feedback_failed','Gagal Input dan Verifikasi data.'); 
-					redirect($this->uri->segment(1));
+					redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 				}
 				else {
 					$this->db->trans_commit();
 					$this->session->set_flashdata('feedback_success','Berhasil Input dan Verifikasi data.'); 
-					redirect($this->uri->segment(1));
+					redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 				}
 			}else{
 				$this->db->trans_rollback();
 				$this->session->set_flashdata('feedback_failed','Mohon Lengkapi Kelengkapan Data'); 
-				redirect($this->uri->segment(1));
+				redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 			}
 		}else{
 			$this->db->trans_rollback();
 			$this->session->set_flashdata('feedback_failed','Mohon centang pilihan setuju'); 
-			redirect($this->uri->segment(1));
+			redirect(base_url()."penerimaan?bulan=$bln_int&tahun=$thn_int#tab_progress");
 		}
 	}
 
 	public function cek_status_kuncian($bulan, $tahun)
 	{
-		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '" . $bulan . "' and tahun ='" . $tahun . "'")->row();
-		if ($q->is_kunci == '1') {
-			return TRUE;
-		} else {
+		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '" . $bulan . "' and tahun ='" . $tahun . "'");
+		if ($q->num_rows() > 0) {
+			$query = $q->row();
+			if ($query->is_kunci == '1') {
+				return TRUE;
+			} else {
+				return FALSE;
+			}
+		}else{
 			return FALSE;
-		}
+		}	
 	}
 
 	// =====================================================================================================================

@@ -205,6 +205,8 @@ class Verifikasi_out extends CI_Controller {
 		//cek apakah sudah selesai semua detil transaksi pengeluaran, update pengeluaran header apabila sudah selesai semua
 		$arr_data_detail_pengeluaran = [];
 		$data_detail_pengeluaran = $this->m_vout->get_detail_by_id($this->input->post('id_header')[0]);
+		$bln_int = (int)date('m');
+		$thn_int = (int)date('Y');
 		
 		foreach ($data_detail_pengeluaran as $out_detil) {
 			$arr_data_detail_pengeluaran[] = $out_detil->status;
@@ -222,12 +224,12 @@ class Verifikasi_out extends CI_Controller {
 		if ($this->db->trans_status() === FALSE){
 			$this->db->trans_rollback();
 			$this->session->set_flashdata('feedback_gagal','Gagal verifikasi data.'); 
-			redirect($this->uri->segment(1));
+			redirect(base_url()."verifikasi_out?bulan=$bln_int&tahun=$thn_int#tab_progress");
 		}
 		else {
 			$this->db->trans_commit();
 			$this->session->set_flashdata('feedback_success','Berhasil Verifikasi data.'); 
-			redirect($this->uri->segment(1));
+			redirect(base_url()."verifikasi_out?bulan=$bln_int&tahun=$thn_int#tab_progress");
 		}
 
 	}

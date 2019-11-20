@@ -70,8 +70,11 @@ class Lap_bku extends CI_Controller {
 			if ($q_cek == null) {
 				//get detail laporan jika belum dikunci
 				$query = $this->lap->get_detail($value['month_raw'], $value['year_raw']);
+				
 				//ambil saldo akhir bulan sebelumnya
 				$query_saldo = $this->lap->get_saldo_awal($value['month_raw'], $value['year_raw']);
+				
+				//var_dump($query_saldo);exit;
 				$saldo_awal += (int)$query_saldo;
 				
 				//assign satu row array untuk saldo awal
@@ -129,7 +132,7 @@ class Lap_bku extends CI_Controller {
 					if ($saldo_awal == 0) {
 						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
 					}else{
-						$saldo_akhir += (int)$saldo_akhir + (int)$in_raw - (int)$out_raw;
+						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
 					}
 					
 					//set saldo awal to 0
@@ -182,7 +185,7 @@ class Lap_bku extends CI_Controller {
 					if ($saldo_awal == 0) {
 						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
 					}else{
-						$saldo_akhir += (int)$saldo_akhir + (int)$in_raw - (int)$out_raw;
+						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
 					}
 					
 					//set saldo awal to 0
@@ -305,7 +308,7 @@ class Lap_bku extends CI_Controller {
 					if ($saldo_awal == 0) {
 						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
 					}else{
-						$saldo_akhir += (int)$saldo_akhir + (int)$in_raw - (int)$out_raw;
+						$saldo_akhir += (int)$saldo_awal + (int)$in_raw - (int)$out_raw;
 					}
 					
 					//set saldo awal to 0

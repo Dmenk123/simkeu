@@ -42,9 +42,9 @@ class Mod_lap_bku extends CI_Model
 	{
 		$saldo = 0;
 		$anchorBulan = (int)$bulan - 1;
-		for ($i=$bulan; $i <= 1 ; $i--) { 
+		for ($i=$anchorBulan; $i >= 1 ; $i--) { 
 			$bln = ($i < 10) ? '0'.$i : $i;
-			$q = $this->db->query("SELECT saldo_akhir FROM tbl_lap_bku WHERE bulan = '".$bln."' and tahun = '".$tahun."' and is_delete is null")->row();
+			$q = $this->db->query("SELECT saldo_akhir FROM tbl_lap_bku WHERE bulan = '".$bln."' and tahun = '".$tahun."' and is_delete = '0'")->row();
 
 			if ($q) {
 				$saldo = $q->saldo_akhir;
