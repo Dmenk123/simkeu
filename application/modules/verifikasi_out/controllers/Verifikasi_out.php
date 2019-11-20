@@ -12,12 +12,28 @@ class Verifikasi_out extends CI_Controller {
 	}
 
 	public function index()
-	{	
+	{
+		$arr_bulan = [
+			1 => 'Januari',
+			2 => 'Februari',
+			3 => 'Maret',
+			4 => 'April',
+			5 => 'Mei',
+			6 => 'Juni',
+			7 => 'Juli',
+			8 => 'Agustus',
+			9 => 'September',
+			10 => 'Oktober',
+			11 => 'November',
+			12 => 'Desember'
+		];
+		
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
 		$data = array(
-			'data_user' => $data_user
+			'data_user' => $data_user,
+			'arr_bulan' => $arr_bulan
 		);
 
 		$content = [

@@ -23,11 +23,11 @@
                     <div class="col-sm-4">
                       <select id="bulan" class="form-control col-sm-4" style="margin-right: 5px;" name="bulan">
                         <option value="">Silahkan Pilih Bulan</option>
-                        <?php for ($i=1; $i <=12 ; $i++) { 
+                        <?php for ($i = 1; $i <= 12; $i++) {
                           if ($i == $this->input->get('bulan')) {
-                            echo '<option value="'.$i.'" selected>'.$arr_bulan[$i].'</option>';
-                          }else{
-                            echo '<option value="'.$i.'">'.$arr_bulan[$i].'</option>';
+                            echo '<option value="' . $i . '" selected>' . $arr_bulan[$i] . '</option>';
+                          } else {
+                            echo '<option value="' . $i . '">' . $arr_bulan[$i] . '</option>';
                           }
                         } ?>
                       </select>
@@ -39,11 +39,11 @@
                     <div class="col-sm-4">
                       <select id="tahun" class="form-control col-sm-3" style="margin-right: 5px;" name="tahun">
                         <option value="">Silahkan Pilih Tahun</option>
-                        <?php for ($i=2018; $i <=2025 ; $i++) {
+                        <?php for ($i = 2018; $i <= 2025; $i++) {
                           if ($i == $this->input->get('tahun')) {
-                            echo '<option value="'.$i.'" selected>'.$i.'</option>';
-                          }else{
-                            echo '<option value="'.$i.'">'.$i.'</option>';
+                            echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                          } else {
+                            echo '<option value="' . $i . '">' . $i . '</option>';
                           }
                         } ?>
                       </select>
@@ -71,7 +71,7 @@
                   <!-- tab progress -->
                   <div class="tab-pane active" id="tab_progress">
                     <div class="box-body">
-                      <div class="table-responsive"> 
+                      <div class="table-responsive">
                         <table id="tabelData" class="table table-bordered table-hover" cellspacing="0" width="100%">
                           <thead>
                             <tr>
@@ -83,36 +83,36 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <?php foreach ($datatabel as $key => $val): ?>
+                            <?php foreach ($datatabel as $key => $val) : ?>
                               <tr>
                                 <td>
                                   <div>
                                     <span class="pull-left">Rp. </span>
-                                    <span class="pull-right"><?php echo number_format($val->total_gaji,2,",",".");?></span>
+                                    <span class="pull-right"><?php echo number_format($val->total_gaji, 2, ",", "."); ?></span>
                                   </div>
                                 </td>
                                 <td><?= $val->tipe_gaji; ?></td>
                                 <td><?= $arr_bulan[$val->bulan]; ?></td>
                                 <td><?= $val->tahun; ?></td>
                                 <td>
-                                  <?php $id = $val->is_guru.'/'.$val->bulan.'/'.$val->tahun.'/0'; ?>
-                                  <a class="btn btn-sm btn-success" href="<?=site_url('konfirm_gaji/detail/').$id;?>" title="Detail" id="btn_detail">
+                                  <?php $id = $val->is_guru . '/' . $val->bulan . '/' . $val->tahun . '/0'; ?>
+                                  <a class="btn btn-sm btn-success" href="<?= site_url('konfirm_gaji/detail/') . $id; ?>" title="Detail" id="btn_detail">
                                     <i class="glyphicon glyphicon-info-sign"></i></a>
-                                  <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Konfirmasi" onclick="konfirmGaji('<?=$id;?>')"><i class="glyphicon glyphicon-pencil"></i></a>
+                                  <a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Konfirmasi" onclick="konfirmGaji('<?= $id; ?>')"><i class="glyphicon glyphicon-pencil"></i></a>
                                 </td>
-                              </tr>  
+                              </tr>
                             <?php endforeach ?>
                           </tbody>
                         </table>
-                       </div>
-                       <!-- responsive --> 
+                      </div>
+                      <!-- responsive -->
                     </div>
                   </div>
 
                   <!-- tab progress -->
                   <div class="tab-pane" id="tab_finish">
                     <div class="box-body">
-                      <div class="table-responsive"> 
+                      <div class="table-responsive">
                         <table id="tabelData2" class="table table-bordered table-hover" cellspacing="0" width="100%">
                           <thead>
                             <tr>
@@ -124,29 +124,32 @@
                             </tr>
                           </thead>
                           <tbody>
-                            <?php foreach ($datatabel2 as $key => $val): ?>
+                            <?php foreach ($datatabel2 as $key => $val) : ?>
                               <tr>
                                 <td>
                                   <div>
                                     <span class="pull-left">Rp. </span>
-                                    <span class="pull-right"><?php echo number_format($val->total_gaji,2,",",".");?></span>
+                                    <span class="pull-right"><?php echo number_format($val->total_gaji, 2, ",", "."); ?></span>
                                   </div>
                                 </td>
                                 <td><?= $val->tipe_gaji; ?></td>
                                 <td><?= $arr_bulan[$val->bulan]; ?></td>
                                 <td><?= $val->tahun; ?></td>
                                 <td>
-                                  <?php $id = $val->is_guru.'/'.$val->bulan.'/'.$val->tahun.'/1'; ?>
-                                  <a class="btn btn-sm btn-success" href="<?=site_url('konfirm_gaji/detail/').$id;?>" title="Detail" id="btn_detail">
-                                    <i class="glyphicon glyphicon-info-sign"></i></a>
-                                  <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="hapusKonfirmGaji('<?=$id;?>')"><i class="glyphicon glyphicon-trash"></i></a>
+                                  <?php $id = $val->is_guru . '/' . $val->bulan . '/' . $val->tahun . '/1'; ?>
+                                  <a class="btn btn-sm btn-success" href="<?= site_url('konfirm_gaji/detail/') . $id; ?>" title="Detail" id="btn_detail">
+                                    <i class="glyphicon glyphicon-info-sign"></i>
+                                  </a>
+                                  <?php if ($cek_status_kunci == FALSE) { ?>
+                                    <a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="hapusKonfirmGaji('<?= $id; ?>')"><i class="glyphicon glyphicon-trash"></i></a>
+                                  <?php } ?>
                                 </td>
-                              </tr>  
+                              </tr>
                             <?php endforeach ?>
                           </tbody>
                         </table>
-                       </div>
-                       <!-- responsive --> 
+                      </div>
+                      <!-- responsive -->
                     </div>
                   </div>
 
@@ -157,6 +160,6 @@
           </div>
           <!-- /.box -->
         </div>
-      </div>    
+      </div>
     </section>
     <!-- /.content -->

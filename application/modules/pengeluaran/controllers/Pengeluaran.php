@@ -79,18 +79,25 @@ class Pengeluaran extends CI_Controller {
 			}else{
 				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';
 			}
-			
-			if ($listOut->status == 1) {
-				//belum di verifikasi
-				$row[] = '
-					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
-						<i class="glyphicon glyphicon-info-sign"></i></a>
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
-				';
+
+			//cek kuncian
+			$cek_kunci = $this->cek_status_kuncian(date('m', strtotime($listOut->tanggal)), date('Y', strtotime($listOut->tanggal)));
+			if ($cek_kunci) {
+				$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
 			}else{
-				$row[] = '<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
+				if ($listOut->status == 1) {
+					//belum di verifikasi
+					$row[] = '
+					<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick="">
+						<i class="glyphicon glyphicon-info-sign"></i></a>
+					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran(' . "'" . $listOut->id . "'" . ')"><i class="glyphicon glyphicon-pencil"></i></a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran(' . "'" . $listOut->id . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
+				';
+				} else {
+					$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
+				}
 			}
+			
 			
 			$data[] = $row;
 		}//end loop
@@ -340,6 +347,16 @@ class Pengeluaran extends CI_Controller {
 	{
 		$query = $this->m_out->lookup2($rowIdBrg);
 		echo json_encode($query);
+	}
+
+	public function cek_status_kuncian($bulan, $tahun)
+	{
+		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '" . $bulan . "' and tahun ='" . $tahun . "'")->row();
+		if ($q->is_kunci == '1') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 }
