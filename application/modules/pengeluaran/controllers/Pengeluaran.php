@@ -15,10 +15,38 @@ class Pengeluaran extends CI_Controller {
 	{	
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
+		
+		$arr_bulan = [
+			1 => 'Januari',
+			2 => 'Februari',
+			3 => 'Maret',
+			4 => 'April',
+			5 => 'Mei',
+			6 => 'Juni',
+			7 => 'Juli',
+			8 => 'Agustus',
+			9 => 'September',
+			10 => 'Oktober',
+			11 => 'November',
+			12 => 'Desember'
+		];
 
-		$data = array(
-			'data_user' => $data_user
-		);
+		if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') {
+			$bulan = $this->input->get('bulan');
+			$tahun = $this->input->get('tahun');
+
+			//$hasildata = $this->list_pengeluaran($tanggal_awal, $tanggal_akhir);
+
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan
+			);
+		} else {
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan
+			);
+		}
 
 		$content = [
 			'css' 	=> 'cssPengeluaran',
@@ -30,9 +58,11 @@ class Pengeluaran extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_pengeluaran()
+	public function list_pengeluaran($bulan, $tahun)
 	{
-		$list = $this->m_out->get_datatables();
+		$tanggal_awal = date('Y-m-d', strtotime($tahun . '-' . $bulan . '-01'));
+		$tanggal_akhir = date('Y-m-t', strtotime($tahun . '-' . $bulan . '-01'));
+		$list = $this->m_out->get_datatables($tanggal_awal, $tanggal_akhir);
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $listOut) {
@@ -49,26 +79,33 @@ class Pengeluaran extends CI_Controller {
 			}else{
 				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';
 			}
-			
-			if ($listOut->status == 1) {
-				//belum di verifikasi
-				$row[] = '
-					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
-						<i class="glyphicon glyphicon-info-sign"></i></a>
-					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-pencil"></i></a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran('."'".$listOut->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
-				';
+
+			//cek kuncian
+			$cek_kunci = $this->cek_status_kuncian(date('m', strtotime($listOut->tanggal)), date('Y', strtotime($listOut->tanggal)));
+			if ($cek_kunci) {
+				$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
 			}else{
-				$row[] = '<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
+				if ($listOut->status == 1) {
+					//belum di verifikasi
+					$row[] = '
+					<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick="">
+						<i class="glyphicon glyphicon-info-sign"></i></a>
+					<a class="btn btn-sm btn-primary" href="javascript:void(0)" title="Edit" onclick="editPengeluaran(' . "'" . $listOut->id . "'" . ')"><i class="glyphicon glyphicon-pencil"></i></a>
+					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePengeluaran(' . "'" . $listOut->id . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
+				';
+				} else {
+					$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
+				}
 			}
+			
 			
 			$data[] = $row;
 		}//end loop
 
 		$output = array(
 						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->m_out->count_all(),
-						"recordsFiltered" => $this->m_out->count_filtered(),
+						"recordsTotal" => $this->m_out->count_all($tanggal_awal, $tanggal_akhir),
+						"recordsFiltered" => $this->m_out->count_filtered($tanggal_awal, $tanggal_akhir),
 						"data" => $data,
 					);
 		//output to json format
@@ -310,6 +347,16 @@ class Pengeluaran extends CI_Controller {
 	{
 		$query = $this->m_out->lookup2($rowIdBrg);
 		echo json_encode($query);
+	}
+
+	public function cek_status_kuncian($bulan, $tahun)
+	{
+		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '" . $bulan . "' and tahun ='" . $tahun . "'")->row();
+		if ($q->is_kunci == '1') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 
 }

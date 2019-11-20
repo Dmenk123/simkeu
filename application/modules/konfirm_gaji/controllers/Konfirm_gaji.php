@@ -37,11 +37,18 @@ class Konfirm_gaji extends CI_Controller {
 			$hasildata = $this->m_kon->get_datatables($this->input->get('bulan'), $this->input->get('tahun'), 0);
 			$hasildatafinish = $this->m_kon->get_datatables($this->input->get('bulan'), $this->input->get('tahun'), 1);
 			
+			$bulan = $this->input->get('bulan');
+			$tahun = $this->input->get('tahun');
+			$bulan_fix = $this->format_bulan_string($bulan);
+			
+			$cek_status_kunci = $this->cek_status_kuncian($bulan_fix, $tahun);
+			
 			$data = array(
 				'data_user' => $data_user,
 				'arr_bulan' => $arr_bulan,
 				'datatabel' => $hasildata,
-				'datatabel2' => $hasildatafinish	
+				'datatabel2' => $hasildatafinish,
+				'cek_status_kunci' => $cek_status_kunci	
 			);
 
 		}else{
@@ -49,8 +56,8 @@ class Konfirm_gaji extends CI_Controller {
 				'data_user' => $data_user,
 				'arr_bulan' => $arr_bulan,
 				'datatabel' => null,
-				'datatabel2' => null
-
+				'datatabel2' => null,
+				'cek_status_kunci' => null	
 			);
 		}
 
@@ -222,6 +229,22 @@ class Konfirm_gaji extends CI_Controller {
 			"status" => $status,
 			"pesan" => $pesan,
 		));
+	}
+
+	public function cek_status_kuncian($bulan, $tahun)
+	{
+		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '" . $bulan . "' and tahun ='" . $tahun . "'")->row();
+		if ($q->is_kunci == '1') {
+			return TRUE;
+		} else {
+			return FALSE;
+		}
+	}
+
+	public function format_bulan_string($bulan)
+	{
+		$hasil_bulan = ($bulan < 10) ? '0' . $bulan : $bulan;
+		return $hasil_bulan;
 	}
 
 	/* ================================================================================================== */
