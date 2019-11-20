@@ -6,8 +6,8 @@
   var save_method; //for save method string
   var table;
   var table2;
-  var bulan = "";
-  var tahun = "";
+  var bulan;
+  var tahun;
 
   $(document).ready(function() {
     //declare variable for row count
@@ -66,35 +66,30 @@
       $('.help-block').empty();
     });
 
-    //datatables  
-    // tabel trans order
-    <?php if ($this->input->get('bulan') && $this->input->get('tahun')) { ?>
-      bulan = <?= $this->input->get('bulan'); ?>
-      tahun = <?= $this->input->get('tahun'); ?>
-
-      alert(bulan, tahun);
-
-      table = $('#tabelPengeluaran').DataTable({
-
-        "processing": true,
-        "serverSide": true,
-        "order": [
-          [2, 'desc']
-        ],
-        //load data for table content from ajax source
-        "ajax": {
-          "url": "<?php echo site_url('pengeluaran/list_pengeluaran/') ?>"+bulan+"/"+tahun,
-          "type": "POST"
-        },
-
-        //set column definition initialisation properties
-        "columnDefs": [{
-          "targets": [-1], //last column
-          "orderable": false, //set not orderable
-        }, ],
-      });
+    <?php if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') { ?>
+      bulan = <?= $this->input->get('bulan'); ?>;
+      tahun = <?= $this->input->get('tahun'); ?>;
     <?php } ?>
 
+    table = $('#tabelPengeluaran').DataTable({
+
+      "processing": true,
+      "serverSide": true,
+      "order": [
+        [2, 'desc']
+      ],
+      //load data for table content from ajax source
+      "ajax": {
+        "url": "<?php echo site_url('pengeluaran/list_pengeluaran/') ?>" + bulan + "/" + tahun,
+        "type": "POST"
+      },
+
+      //set column definition initialisation properties
+      "columnDefs": [{
+        "targets": [-1], //last column
+        "orderable": false, //set not orderable
+      }, ],
+    });
 
     $('#tabelTransOrderDetail').DataTable({});
 

@@ -29,7 +29,11 @@
                           if ($i == $this->input->get('bulan')) {
                             echo '<option value="' . $i . '" selected>' . $arr_bulan[$i] . '</option>';
                           } else {
-                            echo '<option value="' . $i . '">' . $arr_bulan[$i] . '</option>';
+                            if ($i == (int)date(m)) {
+                              echo '<option value="' . $i . '" selected>' . $arr_bulan[$i] . '</option>';
+                            }else{
+                              echo '<option value="' . $i . '">' . $arr_bulan[$i] . '</option>';
+                            }
                           }
                         } ?>
                       </select>
@@ -45,7 +49,11 @@
                           if ($i == $this->input->get('tahun')) {
                             echo '<option value="' . $i . '" selected>' . $i . '</option>';
                           } else {
-                            echo '<option value="' . $i . '">' . $i . '</option>';
+                            if ($i == (int)date(Y)) {
+                              echo '<option value="' . $i . '" selected>' . $i . '</option>';
+                            }else{
+                              echo '<option value="' . $i . '">' . $i . '</option>';
+                            }
                           }
                         } ?>
                       </select>
@@ -64,6 +72,9 @@
             </div>
 
             <?php if ($this->input->get('bulan') != "" && $this->input->get('tahun') != "") { ?>
+              <script>
+                showData(<?= $this->input->get('bulan'); ?>, <?= $this->input->get('tahun'); ?>);
+              </script>
               <div class="box-header">
                 <button class="btn btn-success" onclick="addPengeluaran()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
                 <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
@@ -90,7 +101,7 @@
               </div>
               <!-- /.box-body -->
             <?php } ?>
-            
+
           </div>
           <!-- /.box -->
         </div>
