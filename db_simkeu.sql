@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : lokal
+ Source Server         : localhost
  Source Server Type    : MySQL
- Source Server Version : 100131
+ Source Server Version : 100129
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100131
+ Target Server Version : 100129
  File Encoding         : 65001
 
- Date: 21/11/2019 00:18:51
+ Date: 21/11/2019 16:01:29
 */
 
 SET NAMES utf8mb4;
@@ -119,6 +119,7 @@ INSERT INTO `tbl_hak_akses` VALUES (108, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (119, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (109, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (121, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (123, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (122, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (120, 1, 0, 0, 0);
 
@@ -527,6 +528,7 @@ INSERT INTO `tbl_menu` VALUES (119, 108, 'Laporan Slip Gaji', 'Laporan Slip Gaji
 INSERT INTO `tbl_menu` VALUES (120, 0, 'Profil', 'Profil', 'profil', 'fa fa-user', 1, 1, 6, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (121, 108, 'Laporan K7', 'Laporan K7', 'lap_k7', '', 1, 2, 3, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (122, 108, 'Kunci Laporan', 'Kunci Laporan', 'kunci_lap', '', 1, 2, 20, 1, 1, 1);
+INSERT INTO `tbl_menu` VALUES (123, 108, 'Laporan K2', 'Laporan K2', 'lap_k2', ' ', 1, 2, 4, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for tbl_penggajian
@@ -688,6 +690,7 @@ CREATE TABLE `tbl_trans_masuk`  (
   `status` int(1) NULL DEFAULT 0 COMMENT '0: Belum diverifikasi, 1: sudah diverifikasi',
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
+  `is_bos` int(1) NULL DEFAULT 0 COMMENT '0: Bukan Bos, 1: Dari Bos',
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `user_id`(`user_id`) USING BTREE,
   CONSTRAINT `tbl_trans_masuk_ibfk_1` FOREIGN KEY (`user_id`) REFERENCES `tbl_user` (`id_user`) ON DELETE RESTRICT ON UPDATE RESTRICT
@@ -696,8 +699,8 @@ CREATE TABLE `tbl_trans_masuk`  (
 -- ----------------------------
 -- Records of tbl_trans_masuk
 -- ----------------------------
-INSERT INTO `tbl_trans_masuk` VALUES ('MSK101900001', 'USR00001', '2019-10-20', 1, '2019-10-20 23:27:05', NULL);
-INSERT INTO `tbl_trans_masuk` VALUES ('MSK111900001', 'USR00001', '2019-11-06', 1, '2019-11-06 09:57:03', NULL);
+INSERT INTO `tbl_trans_masuk` VALUES ('MSK101900001', 'USR00001', '2019-10-20', 1, '2019-10-20 23:27:05', NULL, 1);
+INSERT INTO `tbl_trans_masuk` VALUES ('MSK111900001', 'USR00001', '2019-11-06', 1, '2019-11-06 09:57:03', NULL, 1);
 
 -- ----------------------------
 -- Table structure for tbl_trans_masuk_detail
@@ -743,7 +746,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-21 00:15:43', '2019-10-05 21:34:14', '2019-11-21 00:15:43');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-21 08:07:38', '2019-10-05 21:34:14', '2019-11-21 08:07:38');
 INSERT INTO `tbl_user` VALUES ('USR00002', 'KEPSEK', 'zJWkpZad', 4, NULL, 1, NULL, '2019-11-09 19:36:13', '2019-11-10 13:05:37');
 INSERT INTO `tbl_user` VALUES ('USR00003', 'KEUANGAN', 'zJWpk5+Zkac=', 3, NULL, 1, '2019-11-10 21:30:57', '2019-11-09 19:43:19', '2019-11-10 21:30:57');
 INSERT INTO `tbl_user` VALUES ('USR00004', 'TATAUSAHA', '1ZGok6alkaGX', 2, NULL, 1, NULL, '2019-11-09 19:45:18', '2019-11-10 13:14:50');
