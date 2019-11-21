@@ -17,33 +17,7 @@ $(document).ready(function() {
         "pageLength": 50,
          "order": [],
     });
-
-    //update dt_read after click
-    $(document).on('click', '.linkNotif', function(){
-        var id = $(this).attr('id');
-        $.ajax({
-            url : "<?php echo site_url('inbox/update_read/')?>/" + id,
-            type: "POST",
-            dataType: "JSON",
-            success: function(data)
-            {
-                location.href = "<?php echo site_url('inbox/index')?>";
-            },
-            error: function (jqXHR, textStatus, errorThrown)
-            {
-                alert('Error get data from ajax');
-            }
-        });
-    });
 });	
-
-setInterval(function(){
-    $("#load_row").load('<?=base_url()?>pesan/load_row_notif')
-}, 2000); //menggunakan setinterval jumlah notifikasi akan selalu update setiap 2 detik diambil dari controller notifikasi fungsi load_row
- 
-setInterval(function(){
-    $("#load_data").load('<?=base_url()?>pesan/load_data_notif')
-}, 2000); //yang ini untuk selalu cek isi data notifikasinya sama setiap 2 detik diambil dari controller notifikasi fungsi load_data
 
 function reload_table()
 {

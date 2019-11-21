@@ -33,7 +33,13 @@ class Mod_lap_k2 extends CI_Model
 
 	public function get_penerimaan($tanggal_awal, $tanggal_akhir)
 	{
-		$query = $this->db->query("select sum(harga_total) as total_penerimaan FROM tbl_verifikasi where tipe_transaksi = 1 and tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
+		$query = $this->db->query("
+			SELECT 
+				sum(tv.harga_total) as total_penerimaan 
+			FROM tbl_verifikasi tv 
+			JOIN tbl_trans_masuk tm on tv.id_in = tm.id
+			where tv.tipe_transaksi = 1 and tv.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."' and tm.is_bos = '1'
+		");
 		return $query->row();
 	}
 

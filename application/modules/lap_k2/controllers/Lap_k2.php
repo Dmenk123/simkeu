@@ -43,51 +43,66 @@ class Lap_k2 extends CI_Controller {
 
 		
 		//get detail laporan jika belum dikunci
-		$tanggal_awal = date('Y-m-d', strtotime($tahun.'-01-01'));
-		$tanggal_akhir = date('Y-m-t', strtotime($tahun.'-12-01'));
-		$query = $this->lap->get_detail($tanggal_awal, $tanggal_akhir);
+		//triwulan 1
+		$tanggal_awal1 = date('Y-m-d', strtotime($tahun.'-01-01'));
+		$tanggal_akhir1 = date('Y-m-t', strtotime($tahun.'-03-01'));
+		$query1 = $this->lap->get_detail($tanggal_awal1, $tanggal_akhir1);
+
+		//triwulan 2
+		$tanggal_awal2 = date('Y-m-d', strtotime($tahun.'-04-01'));
+		$tanggal_akhir2 = date('Y-m-t', strtotime($tahun.'-06-01'));
+		$query2 = $this->lap->get_detail($tanggal_awal2, $tanggal_akhir2);
+
+		//triwulan 3
+		$tanggal_awal3 = date('Y-m-d', strtotime($tahun.'-07-01'));
+		$tanggal_akhir3 = date('Y-m-t', strtotime($tahun.'-09-01'));
+		$query3 = $this->lap->get_detail($tanggal_awal3, $tanggal_akhir3);
+
+		//triwulan 4
+		$tanggal_awal4 = date('Y-m-d', strtotime($tahun.'-10-01'));
+		$tanggal_akhir4 = date('Y-m-t', strtotime($tahun.'-12-01'));
+		$query4 = $this->lap->get_detail($tanggal_awal4, $tanggal_akhir4);
 
 		//ambil penerimaan (dana BOS)
-		$query_masuk = $this->lap->get_penerimaan($bulan_awal_fix, $bulan_akhir_fix);
+		$query_masuk = $this->lap->get_penerimaan($tanggal_awal1, $tanggal_akhir4);
 						
 		//assign satu row array untuk saldo awal
-		$arr_data[0]['kode'] = '-';
-		$arr_data[0]['kegiatan'] = 'Penerimaan';
-		$arr_data[0]['jumlah'] = $query_masuk->total_penerimaan;
-		$arr_data[0]['jumlah_raw'] = $query_masuk->total_penerimaan;
-		$arr_data[0]['tipe_out'] = null;
+		$no = 1;
+		$arr_data['penerimaan'][0]['no'] = $no;
+		$arr_data['penerimaan'][0]['kode'] = '3.1';
+		$arr_data['penerimaan'][0]['uraian'] = 'Penerimaan BOS';
+		$arr_data['penerimaan'][0]['jumlah'] = number_format($query_masuk->total_penerimaan,0,",",".");
+		$arr_data['penerimaan'][0]['jumlah_raw'] = $query_masuk->total_penerimaan;
 
 		//loop detail laporan dan assign array
-		foreach ($query as $key => $val) {
-			$arr_data[$key+1]['kode'] = $val->kode_in_text;
-			$arr_data[$key+1]['kegiatan'] = $val->nama;
-			$arr_data[$key+1]['jumlah'] = number_format($val->harga_total,0,",",".");
-			$arr_data[$key+1]['jumlah_raw'] = $val->harga_total;
-			$arr_data[$key+1]['tipe_out'] = $val->tipe;
-		}
-		
-		$arr_bulan_indo = $this->bulan_indo();
-		$txtPeriode = 'Triwulan '.$arr_pecah_bulan[2].' | '.$arr_bulan_indo[$arr_pecah_bulan[0]].' s.d '.$arr_bulan_indo[$arr_pecah_bulan[1]].' '.$tahun;
+		for ($i=1; $i <= 4 ; $i++) { 
+			foreach (${'query'.$i} as $key => $val) {
+				$no++;
+				$arr_data['triwulan'.$i][$key]['no'] = $no;
+				$arr_data['triwulan'.$i][$key]['kode'] = $val->kode_sing_di_group_by;
+				$arr_data['triwulan'.$i][$key]['uraian'] = $val->nama;
+				$arr_data['triwulan'.$i][$key]['jumlah'] = number_format($val->harga_total,0,",",".");
+				$arr_data['triwulan'.$i][$key]['jumlah_raw'] = ($val->harga_total == null) ? 0 : $val->harga_total; 
+			}
 
+			$no = 1;
+		}
+
+		
 		$data = array(
 			'title' => 'SMP Darul Ulum Surabaya',
 			'data_user' => $data_user,
 			'arr_bulan' => $this->bulan_indo(),
 			'hasil_data' => $arr_data,
-			'periode' => $txtPeriode,
-			'bln_awal' => $arr_pecah_bulan[0],
-			'bln_akhir' => $arr_pecah_bulan[1],
+			//'periode' => $txtPeriode,
+			//'bln_awal' => $arr_pecah_bulan[0],
+			//'bln_akhir' => $arr_pecah_bulan[1],
 			'tahun' => $tahun
 		);
 
-		/*echo "<pre>";
-		print_r ($data);
-		echo "</pre>";
-		exit;*/
-
-	    $html = $this->load->view('view_lap_k7_cetak', $data, true);
+	    $html = $this->load->view('view_lap_k2_cetak', $data, true);
 	    
-	    $filename = 'laporan_k7_'.time();
+	    $filename = 'laporan_k2_'.time();
 	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'landscape');
 	}
 
