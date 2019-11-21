@@ -172,6 +172,7 @@ class Penerimaan extends CI_Controller {
 		$harga_total_raw = $this->input->post('i_harga_total_raw');
 		$gambar = $this->input->post('i_gambar');
 		$ceklis = $this->input->post('ceklis');
+		$is_bos = ($this->input->post('is_bos') == NULL) ? 0 : 1;
 		$bln_int = (int)date('m');
 		$thn_int = (int)date('Y');
 
@@ -202,7 +203,8 @@ class Penerimaan extends CI_Controller {
 					'user_id' => $this->session->userdata('id_user'),
 					'tanggal' => date('Y-m-d'),
 					'status' => 1,
-					'created_at' => $timestamp
+					'created_at' => $timestamp,
+					'is_bos' => $is_bos
 				];
 
 				$data_isi = [
@@ -349,6 +351,7 @@ class Penerimaan extends CI_Controller {
 		$harga_raw = $this->input->post('i_harga_raw');
 		$harga_total_raw = $this->input->post('i_harga_total_raw');
 		$gambar = $this->input->post('i_gambar');
+		$is_bos = ($this->input->post('is_bos') == NULL) ? 0 : 1;
 		$ceklis = $this->input->post('ceklis');
 		$bln_int = (int)date('m');
 		$thn_int = (int)date('Y');
@@ -375,7 +378,8 @@ class Penerimaan extends CI_Controller {
 				$data_header = [
 					'user_id' => $this->session->userdata('id_user'),
 					'status' => 1,
-					'updated_at' => $timestamp
+					'updated_at' => $timestamp,
+					'is_bos' => $is_bos
 				];
 
 				$this->m_in->update_data(['id' => $kode], $data_header, 'tbl_trans_masuk');
