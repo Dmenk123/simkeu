@@ -1,48 +1,54 @@
-<?php require_once(APPPATH.'views/template/temp_img_cetak_header.php'); ?>
-<html><head>
+<?php require_once(APPPATH . 'views/template/temp_img_cetak_header.php'); ?>
+<html>
+
+<head>
   <title><?php echo $title; ?></title>
   <style type="text/css">
-    #outtable{
+    #outtable {
       padding: 20px;
-      border:1px solid #e3e3e3;
-      width:600px;
+      border: 1px solid #e3e3e3;
+      width: 600px;
       border-radius: 5px;
     }
-    .short{
+
+    .short {
       width: 50px;
     }
-    .normal{
+
+    .normal {
       width: 150px;
     }
-    .tbl-outer{
-      color:#070707;
+
+    .tbl-outer {
+      color: #070707;
       margin-bottom: 10px;
     }
 
-    .text-center{
-      text-align:center;
+    .text-center {
+      text-align: center;
     }
 
-    .text-left{
-      text-align:left;
+    .text-left {
+      text-align: left;
     }
 
-    .text-right{
-      text-align:right;
+    .text-right {
+      text-align: right;
     }
 
     .tebal {
       font-weight: bold;
     }
-    
-    .outer-left{
+
+    .outer-left {
       padding: 2px;
       border: 0px solid white;
       border-color: white;
       margin: 0px;
       background: white;
     }
-    .head-left{
+
+    .head-left {
       padding-top: 5px;
       padding-bottom: 0px;
       border: 0px solid white;
@@ -50,62 +56,74 @@
       margin: 0px;
       background: white;
     }
-    .tbl-footer{
+
+    .tbl-footer {
       width: 100%;
-      color:#070707;
+      color: #070707;
       border-top: 0px solid white;
       border-color: white;
-      padding-top: 75px;
+      padding-top: 0px;
     }
-    .head-right{
-       padding-bottom: 0px;
-       border: 0px solid white;
-       border-color: white;
-       margin: 0px;
+
+    .head-right {
+      padding-bottom: 0px;
+      border: 0px solid white;
+      border-color: white;
+      margin: 0px;
     }
-    .tbl-header{
+
+    .tbl-header {
       width: 100%;
-      color:#070707;
+      color: #070707;
       border-color: #070707;
       border-top: 2px solid #070707;
     }
-    #tbl_content{
+
+    #tbl_content {
       padding-top: 10px;
-      margin-left: -20px;
-    } 
-    .tbl-footer td{
+      margin-left: -10px;
+    }
+
+    .tbl-footer td {
       border-top: 0px;
       padding: 10px;
     }
-    .tbl-footer tr{
+
+    .tbl-footer tr {
       background: white;
     }
-    .foot-center{
+
+    .foot-center {
       padding-left: 70px;
     }
-    .inner-head-left{
-       padding-top: 20px;
-       border: 0px solid white;
-       border-color: white;
-       margin: 0px;
-       background: white;
+
+    .inner-head-left {
+      padding-top: 20px;
+      border: 0px solid white;
+      border-color: white;
+      margin: 0px;
+      background: white;
     }
-    .tbl-content-footer{
+
+    .tbl-content-footer {
       width: 100%;
-      color:#070707;
+      color: #070707;
       padding-top: 0px;
     }
-    table{
+
+    table {
       border-collapse: collapse;
       font-family: arial;
-      color:black;
+      color: black;
       font-size: 12px;
     }
-    thead th{
+
+    thead th {
       text-align: center;
       padding: 10px;
       font-style: bold;
     }
+
     /*tbody td{
       padding: 10px;
     }
@@ -115,21 +133,22 @@
     tbody tr:hover{
       background: #EAE9F5
     }*/
-    .clear{
-        clear:both;
+    .clear {
+      clear: both;
     }
 
-    .kolom-pink{
+    .kolom-pink {
       background: #f765bd;
     }
 
-    .kolom-biru{
+    .kolom-biru {
       background: #7570fa;
     }
-
   </style>
-</head><body>
-  <div class="container">   
+</head>
+
+<body>
+  <div class="container">
     <table class="tbl-outer">
       <tr>
         <td align="left" class="outer-left">
@@ -143,34 +162,34 @@
         </td>
       </tr>
     </table>
-    <h4 style="text-align: center;"><strong>REALISASI PENGGUNAAN DANA TIAP JENIS ANGGARAN (K7)</strong></h4>
-    
+    <h5 style="text-align: center;"><strong>REALISASI PENGGUNAAN DANA TIAP JENIS ANGGARAN (K7)</strong></h5>
+
     <table class="tbl-header">
       <tr>
         <td align="center" class="head-center">
           <p style="text-align: center; font-size: 14px" class="head-left"><strong>Periode <?php echo $periode; ?></strong></p>
         </td>
-      </tr> 
+      </tr>
     </table>
     <table>
       <tr>
-        <td>Nama Sekolah :</td>
-        <td width="700px;">Smp Darul Ulum Surabaya</td>
+        <td>Nama Sekolah </td>
+        <td width="700px;">: Smp Darul Ulum Surabaya</td>
         <td width="200px;" style="text-align: center;border: 1px solid black;">Formulir BOS K-7</td>
       </tr>
       <tr>
-        <td>Desa/Kecamatan :</td>
-        <td width="700px;">Tandes</td>
+        <td>Desa/Kecamatan </td>
+        <td width="700px;">: Tandes</td>
         <td width="200px;" style="text-align: center;border: 1px solid black;">Diisi Oleh Sekolah</td>
       </tr>
       <tr>
-        <td>Kabupaten/Kota :</td>
-        <td width="700px;">Surabaya</td>
+        <td>Kabupaten/Kota </td>
+        <td width="700px;">: Surabaya</td>
         <td width="200px;" style="text-align: center;border: 1px solid black;">Dikirim ke Tim Manajemen BOS Kab/Kota</td>
       </tr>
       <tr>
-        <td>Provinsi :</td>
-        <td width="700px;">Jawa Timur</td>
+        <td>Provinsi </td>
+        <td width="700px;">: Jawa Timur</td>
         <td width="200px;"></td>
       </tr>
     </table>
@@ -195,72 +214,96 @@
         </tr>
       </thead>
       <tbody>
-      <?php 
+        <?php
+        $total_penerimaan = 0;
         $total_out_reg = 0;
         $total_out_gaji = 0;
-        foreach ($hasil_data as $val ) : ?>
-          <?php if ($val['tipe_out'] == 2): ?>
+        foreach ($hasil_data as $val) : ?>
+          <?php if ($val['tipe_out'] == 2) : ?>
             <?php break; ?>
           <?php endif ?>
           <tr>
-            <td class="text-center <?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>"><?php echo $val['kode'] ?></td>
-            <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>"><?php echo $val['kegiatan'] ?></td>
-            <?php if ($val['kode'] == '-'){ ?>
-              <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>">
-                <?php if ($val['jumlah'] != 0){ ?>
+            <td class="text-center <?php if (strlen($val['kode']) == 1) {
+              echo "tebal";
+            } ?>"><?php echo $val['kode'] ?></td>
+            <td class="<?php if (strlen($val['kode']) == 1) {
+              echo "tebal";
+            } ?>"><?php echo $val['kegiatan'] ?></td>
+            <?php if ($val['kode'] == '-') { ?>
+              <?php $total_penerimaan += $val['jumlah'];?>
+              <td class="<?php if (strlen($val['kode']) == 1) {
+                echo "tebal";
+              } ?>">
+                <?php if ($val['jumlah'] != 0) { ?>
                   <div>
-                    <span style="float: left;">Rp. </span>
-                    <span style="float: right;"><?= number_format($val['jumlah'],0,",",".");?></span>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= number_format($val['jumlah'], 0, ",", "."); ?></span>
                     <div class="clear"></div>
                   </div>
-                <?php }else { ?>
-                  
+                <?php } else { ?>
+
                 <?php } ?>
               </td>
-            <?php }else{ ?>
-              <?php $total_out_reg += $val['jumlah_raw'];?>
-              <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>">
-                <?php if ($val['jumlah'] != 0){ ?>
+            <?php } else { ?>
+              <?php $total_out_reg += $val['jumlah_raw']; ?>
+              <td class="<?php if (strlen($val['kode']) == 1) {
+                echo "tebal";
+              } ?>">
+                <?php if ($val['jumlah'] != 0) { ?>
                   <div>
-                    <span style="float: left;">Rp. </span>
-                    <span style="float: right;"><?= $val['jumlah'];?></span>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= $val['jumlah']; ?></span>
                     <div class="clear"></div>
                   </div>
-                <?php }else { ?>
-                  
-                <?php } ?>
-              </td>
-            <?php } ?>
-            <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>"></td>  
-            <?php if ($val['kode'] == '-'){ ?>
-              <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>">
-                <?php if ($val['jumlah'] != 0){ ?>
-                  <div>
-                    <span style="float: left;">Rp. </span>
-                    <span style="float: right;"><?= number_format($val['jumlah'],0,",",".");?></span>
-                    <div class="clear"></div>
-                  </div>
-                <?php }else { ?>
-                  
-                <?php } ?>
-              </td>
-            <?php }else{ ?>
-              <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>">
-                <?php if ($val['jumlah'] != 0){ ?>
-                  <div>
-                    <span style="float: left;">Rp. </span>
-                    <span style="float: right;"><?= $val['jumlah'];?></span>
-                    <div class="clear"></div>
-                  </div>
-                <?php }else { ?>
-                  
+                <?php } else { ?>
+
                 <?php } ?>
               </td>
             <?php } ?>
-            <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>"></td>
-            <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>"></td>
-            <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>"></td>
-            <td class="<?php if(strlen($val['kode']) == 1) {echo "tebal";} ?>"></td>
+            <td class="<?php if (strlen($val['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <?php if ($val['kode'] == '-') { ?>
+              <td class="<?php if (strlen($val['kode']) == 1) {
+                echo "tebal";
+              } ?>">
+                <?php if ($val['jumlah'] != 0) { ?>
+                  <div>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= number_format($val['jumlah'], 0, ",", "."); ?></span>
+                    <div class="clear"></div>
+                  </div>
+                <?php } else { ?>
+
+                <?php } ?>
+              </td>
+            <?php } else { ?>
+              <td class="<?php if (strlen($val['kode']) == 1) {
+                echo "tebal";
+              } ?>">
+                <?php if ($val['jumlah'] != 0) { ?>
+                  <div>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= $val['jumlah']; ?></span>
+                    <div class="clear"></div>
+                  </div>
+                <?php } else { ?>
+
+                <?php } ?>
+              </td>
+            <?php } ?>
+            <td class="<?php if (strlen($val['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <td class="<?php if (strlen($val['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <td class="<?php if (strlen($val['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <td class="<?php if (strlen($val['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
           </tr>
         <?php endforeach ?>
 
@@ -269,16 +312,16 @@
           <td class="tebal">Sub Total Penggunaan Dana</td>
           <td class="tebal">
             <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format($total_out_reg,0,",",".");?></span>
+              <span style="float: left;margin-left:5px;">Rp. </span>
+              <span style="float: right;margin-right:5px;"><?= number_format($total_out_reg, 0, ",", "."); ?></span>
               <div class="clear"></div>
             </div>
-          </td>  
+          </td>
           <td class="tebal"></td>
           <td class="tebal">
             <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format($total_out_reg,0,",",".");?></span>
+              <span style="float: left;margin-left:5px;">Rp. </span>
+              <span style="float: right;margin-right:5px;"><?= number_format($total_out_reg, 0, ",", "."); ?></span>
               <div class="clear"></div>
             </div>
           </td>
@@ -288,41 +331,59 @@
           <td class="tebal"></td>
         </tr>
 
-        <?php foreach ($hasil_data as $val2 ) : ?>
-          <?php if ($val2['tipe_out'] != 2): ?>
+        <?php foreach ($hasil_data as $val2) : ?>
+          <?php if ($val2['tipe_out'] != 2) : ?>
             <?php continue; ?>
           <?php endif ?>
           <tr>
-            <td class="text-center <?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>"><?php echo $val2['kode'] ?></td>
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>"><?php echo $val2['kegiatan'] ?></td>
-            <?php $total_out_gaji += $val2['jumlah_raw'];?>
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>">
-              <?php if ($val2['jumlah'] != 0){ ?>
+            <td class="text-center <?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>"><?php echo $val2['kode'] ?></td>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>"><?php echo $val2['kegiatan'] ?></td>
+            <?php $total_out_gaji += $val2['jumlah_raw']; ?>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>">
+              <?php if ($val2['jumlah'] != 0) { ?>
                 <div>
-                  <span style="float: left;">Rp. </span>
-                  <span style="float: right;"><?= $val2['jumlah'];?></span>
+                  <span style="float: left;margin-left:5px;">Rp. </span>
+                  <span style="float: right;margin-right:5px;"><?= $val2['jumlah']; ?></span>
                   <div class="clear"></div>
                 </div>
-              <?php }else { ?>
-                
+              <?php } else { ?>
+
               <?php } ?>
             </td>
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>"></td>  
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>">
-              <?php if ($val2['jumlah'] != 0){ ?>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>">
+              <?php if ($val2['jumlah'] != 0) { ?>
                 <div>
-                  <span style="float: left;">Rp. </span>
-                  <span style="float: right;"><?= $val2['jumlah'];?></span>
+                  <span style="float: left;margin-left:5px;">Rp. </span>
+                  <span style="float: right;margin-right:5px;"><?= $val2['jumlah']; ?></span>
                   <div class="clear"></div>
                 </div>
-              <?php }else { ?>
-                
+              <?php } else { ?>
+
               <?php } ?>
             </td>
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>"></td>
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>"></td>
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>"></td>
-            <td class="<?php if(strlen($val2['kode']) == 1) {echo "tebal";} ?>"></td>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
+            <td class="<?php if (strlen($val2['kode']) == 1) {
+              echo "tebal";
+            } ?>"></td>
           </tr>
         <?php endforeach ?>
 
@@ -331,16 +392,16 @@
           <td class="tebal">Sub Total Penggunaan Dana Lainnya</td>
           <td class="tebal">
             <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format($total_out_gaji,0,",",".");?></span>
+              <span style="float: left;margin-left:5px;">Rp. </span>
+              <span style="float: right;margin-right:5px;"><?= number_format($total_out_gaji, 0, ",", "."); ?></span>
               <div class="clear"></div>
             </div>
-          </td>  
+          </td>
           <td class="tebal"></td>
           <td class="tebal">
             <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format($total_out_gaji,0,",",".");?></span>
+              <span style="float: left;margin-left:5px;">Rp. </span>
+              <span style="float: right;margin-right:5px;"><?= number_format($total_out_gaji, 0, ",", "."); ?></span>
               <div class="clear"></div>
             </div>
           </td>
@@ -355,16 +416,34 @@
           <td class="tebal">Total Penggunaan Dana</td>
           <td class="tebal">
             <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format(($total_out_reg + $total_out_gaji),0,",",".");?></span>
+              <span style="float: left;margin-left:5px;">Rp. </span>
+              <span style="float: right;margin-right:5px;"><?= number_format(($total_out_reg + $total_out_gaji), 0, ",", "."); ?></span>
               <div class="clear"></div>
             </div>
-          </td>  
+          </td>
           <td class="tebal"></td>
           <td class="tebal">
             <div>
-              <span style="float: left;">Rp. </span>
-              <span style="float: right;"><?= number_format(($total_out_reg + $total_out_gaji),0,",",".");?></span>
+              <span style="float: left;margin-left:5px;">Rp. </span>
+              <span style="float: right;margin-right:5px;"><?= number_format(($total_out_reg + $total_out_gaji), 0, ",", "."); ?></span>
+              <div class="clear"></div>
+            </div>
+          </td>
+          <td class="tebal"></td>
+          <td class="tebal"></td>
+          <td class="tebal"></td>
+          <td class="tebal"></td>
+        </tr>
+
+        <tr class="kolom-pink">
+          <td></td>
+          <td class="tebal">SISA DANA = I-II</td>
+          <td class="tebal"></td>
+          <td class="tebal"></td>
+          <td class="tebal">
+            <div>
+              <span style="float: left;margin-left:5px;">Rp. </span>
+              <span style="float: right;margin-right:5px;"><?= number_format(($total_penerimaan - $total_out_reg + $total_out_gaji), 0, ",", "."); ?></span>
               <div class="clear"></div>
             </div>
           </td>
@@ -375,14 +454,7 @@
         </tr>
       </tbody>
     </table>
-    <!-- <table class="tbl-content-footer">
-      <tr class="content-footer-left"> 
-        <td align="left" class="content-footer-left" colspan="5">
-          <p style="text-align: left; font-size: 12px" class="content-footer-left">Pada hari ini, <?= $arr_hari[date('w', strtotime(date('Y-m-d')))]; ?> Tanggal <?= date('d'); ?> Bulan <?= date('m'); ?> Tahun <?= date('Y'); ?>, Buku Kas Umum ditutup dengan keadaan sebagai berikut : </p>
-          <p style="text-align: left; font-size: 12px" class="content-footer-left">Saldo Buku Kas Umum bulan <?=$arr_bulan[date('m')]?>   2015 Rp. 24.749.800,-   terdiri dari :</p>
-        </td>
-      </tr>  
-    </table> -->
+
     <table class="tbl-footer">
       <tr>
         <td align="left">
@@ -390,7 +462,7 @@
           <p style="text-align: left;" class="foot-left"><strong>Kepala Sekolah</strong> </p>
         </td>
         <td align="right">
-          <p style="text-align: right;" class="foot-left"><strong>Surabaya, <?= date('d').' '.$arr_bulan[date('m')].' '.date('Y');?></strong> </p>
+          <p style="text-align: right;" class="foot-left"><strong>Surabaya, <?= date('d') . ' ' . $arr_bulan[date('m')] . ' ' . date('Y'); ?></strong> </p>
           <p style="text-align: right;" class="foot-right"><strong>Bendahara</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </td>
       </tr>
@@ -404,5 +476,7 @@
         </td>
       </tr>
     </table>
-  </div>          
-</body></html>
+  </div>
+</body>
+
+</html>
