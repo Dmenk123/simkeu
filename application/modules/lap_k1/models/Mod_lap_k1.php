@@ -61,6 +61,18 @@ class Mod_lap_k1 extends CI_Model
 		return $query->row();
 	}
 
+	public function get_penerimaan_non_bos($tanggal_awal, $tanggal_akhir)
+	{
+		$query = $this->db->query("
+			SELECT 
+				sum(tv.harga_total) as total_penerimaan 
+			FROM tbl_verifikasi tv 
+			JOIN tbl_trans_masuk tm on tv.id_in = tm.id
+			where tv.tipe_transaksi = 1 and tv.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."' and tm.is_bos = '0'
+		");
+		return $query->row();
+	}
+
 	public function get_detail_laporan($bulan, $tahun, $kode_header)
 	{
 		$tanggal_awal = date('Y-m-d', strtotime($tahun.'-'.$bulan.'-01'));

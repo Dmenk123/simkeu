@@ -54,13 +54,21 @@ class Lap_k1 extends CI_Controller {
 
 		//ambil penerimaan (dana BOS)
 		$query_masuk = $this->lap->get_penerimaan($tanggal_awal, $tanggal_akhir);
+		//penerimaan NON BOS
+		$query_masuk2 = $this->lap->get_penerimaan_non_bos($tanggal_awal, $tanggal_akhir);
 						
 		//assign satu row array untuk saldo awal
 		$no = 1;
-		$arr_data['penerimaan']['no'] = $no;
-		$arr_data['penerimaan']['kode'] = '3.1';
-		$arr_data['penerimaan']['jumlah'] = number_format($query_masuk->total_penerimaan,0,",",".");
-		$arr_data['penerimaan']['jumlah_raw'] = $query_masuk->total_penerimaan;
+		$arr_data['penerimaan'][0]['no'] = $no;
+		$arr_data['penerimaan'][0]['kode'] = '3.1';
+		$arr_data['penerimaan'][0]['jumlah'] = number_format($query_masuk->total_penerimaan,0,",",".");
+		$arr_data['penerimaan'][0]['jumlah_raw'] = $query_masuk->total_penerimaan;
+
+		$arr_data['penerimaan'][1]['no'] = $no;
+		$arr_data['penerimaan'][1]['kode'] = '';
+		$arr_data['penerimaan'][1]['jumlah'] = number_format($query_masuk2->total_penerimaan,0,",",".");
+		$arr_data['penerimaan'][1]['jumlah_raw'] = $query_masuk2->total_penerimaan;
+
 
 		//loop detail laporan dan assign array
 		foreach ($query as $key => $val) {

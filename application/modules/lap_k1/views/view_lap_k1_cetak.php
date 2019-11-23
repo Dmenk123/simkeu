@@ -59,7 +59,7 @@
       color: #070707;
       border-top: 0px solid white;
       border-color: white;
-      padding-top: 15px;
+      padding-top: 0px;
     }
 
     .head-right {
@@ -216,13 +216,15 @@
 
             <tbody>
               <?php
-              $total_tri1 = 0;
-              $total_tri2 = 0;
-              $total_tri3 = 0;
-              $total_tri4 = 0;
+              $counter_baris_in = 0;
+              $jumlah_penerimaan = 0;
+              foreach ($hasil_data['penerimaan'] as $key => $val) {
+                $jumlah_penerimaan += $val['jumlah_raw'];
+              }
               ?>      
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center tebal">I</td>
                 <td class="text-center tebal">1</td>
                 <td class="tebal">Sisa Tahun Lalu</td>
@@ -236,6 +238,7 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center tebal">II</td>
                 <td class="text-center tebal">2</td>
                 <td class="tebal">Pendapatan Rutin</td>
@@ -249,58 +252,56 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">2.1</td>
                 <td>Gaji PNS</td>
                 <td>
                   <div>
-                    <span style="float: left;margin-left:5px;"></span>
-                    <span style="float: right;margin-right:5px;"></span>
-                    <td>
-                      <div>
-                        <span style="float: left;margin-left:5px;color: white;">Rp. </span>
-                        <span style="float: right;margin-right:5px;color: white;">0</span>
-                        <div class="clear"></div>
-                      </div>
-                    </td>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
                   </div>
                 </td>
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">2.2</td>
                 <td>Gaji Pegawai Tidak Tetap</td>
                 <td>
                   <div>
-                    <span style="float: left;margin-left:5px;color: white"></span>
-                    <span style="float: right;margin-right:5px;color: white"></span>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
                     <div class="clear"></div>
                   </div>
                 </td>
               </tr>
               
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">2.3</td>
                 <td>Belanja Barang dan Jasa</td>
                 <td>
                   <div>
-                    <span style="float: left;margin-left:5px;color: white"></span>
-                    <span style="float: right;margin-right:5px;color: white"></span>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
                     <div class="clear"></div>
                   </div>
                 </td>
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">2.4</td>
                 <td>Belanja Pemeliharaan</td>
                 <td>
                   <div>
-                    <span style="float: left;margin-left:5px;color: white"></span>
-                    <span style="float: right;margin-right:5px;color: white"></span>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
                     <div class="clear"></div>
                   </div>
                 </td>
@@ -308,6 +309,7 @@
 
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">2.5</td>
                 <td>Belanja Lain - Lain</td>
@@ -321,6 +323,7 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center tebal">III</td>
                 <td class="text-center tebal">3</td>
                 <td class="tebal">Bantuan Operasional Sekolah</td>
@@ -334,19 +337,21 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">3.1</td>
                 <td>BOS Pusat</td>
                 <td>
                   <div>
                     <span style="float: left;margin-left:5px;">Rp. </span>
-                    <span style="float: right;margin-right:5px;"><?= $hasil_data['penerimaan']['jumlah']; ?></span>
+                    <span style="float: right;margin-right:5px;"><?= $hasil_data['penerimaan'][0]['jumlah']; ?></span>
                     <div class="clear"></div>
                   </div>
                 </td>
               </tr>
 
-              <tr>
+              <!-- <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">3.2</td>
                 <td>BOS Provinsi</td>
@@ -360,6 +365,7 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">3.3</td>
                 <td>BOS Kabupaten/Kota</td>
@@ -370,9 +376,10 @@
                     <div class="clear"></div>
                   </div>
                 </td>
-              </tr>
+              </tr> -->
               
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center tebal">IV</td>
                 <td class="text-center tebal">4</td>
                 <td class="tebal">Bantuan</td>
@@ -386,6 +393,7 @@
               </tr>
               
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">4.1</td>
                 <td>Dana Dekosentrasi</td>
@@ -399,6 +407,7 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">4.2</td>
                 <td>Dana Tugas Pembantuan</td>
@@ -412,6 +421,7 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">4.3</td>
                 <td>Dana Alokasi Khusus</td>
@@ -425,13 +435,40 @@
               </tr>
 
               <tr>
+                <?php $counter_baris_in++; ?>
                 <td class="text-center"></td>
                 <td class="text-center">4.4</td>
                 <td>Dana Lain-Lain</td>
                 <td>
                   <div>
-                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
-                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= $hasil_data['penerimaan'][1]['jumlah']; ?></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="kolom-pink">
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="tebal">Jumlah Penerimaan</td>
+                <td> 
+                  <div>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= number_format($jumlah_penerimaan,0,",",".");?></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="kolom-pink">
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td></td>
+                <td> 
+                  <div>
+                    <span style="float: left;margin-left:5px; color: #f765bd;">Rp. </span>
+                    <span style="float: right;margin-right:5px; color: #f765bd;">0</span>
                     <div class="clear"></div>
                   </div>
                 </td>
@@ -443,7 +480,7 @@
         <!-- !penerimaan -->
 
         <!-- pengeluaran -->
-        <td style="width:500px;">
+        <td style="width:530px;">
           <table class="table table-bordered table-hover tbl_content" cellspacing="0" width="100%" border="1">
             <thead>
               <tr>
@@ -459,10 +496,7 @@
 
             <tbody>
               <?php
-              $total_out1 = 0;
-              $total_out2 = 0;
-              $total_out3 = 0;
-              $total_out4 = 0;
+              $total_out = 0;
               ?>      
 
               <tr>
@@ -478,7 +512,10 @@
                   </td>
               </tr>
 
-              <?php foreach ($hasil_data['pengeluaran_reg'] as $key => $value) { ?>
+              <?php 
+              foreach ($hasil_data['pengeluaran_reg'] as $key => $value) { 
+              $total_out += $value['jumlah_raw'];
+              ?>
                 <tr>
                   <td class="text-center"></td>
                   <td class="text-center"><?= $value['kode'] ?></td>
@@ -506,7 +543,10 @@
                 </td>
               </tr>
 
-              <?php foreach ($hasil_data['pengeluaran_gaji'] as $key => $value) { ?>
+              <?php 
+              foreach ($hasil_data['pengeluaran_gaji'] as $key => $value) { 
+              $total_out += $value['jumlah_raw'];
+              ?>
                 <tr>
                   <td class="text-center"></td>
                   <td class="text-center"><?= $value['kode'] ?></td>
@@ -521,14 +561,27 @@
                 </tr>
               <?php } ?>
 
-              <tr>
-                <td class="text-center tebal"></td>
-                <td class="text-center tebal"></td>
-                <td class="tebal"></td>
-                <td class="tebal">
+              <tr class="kolom-pink">
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="tebal">Jumlah Pengeluaran</td>
+                <td> 
                   <div>
-                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
-                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= number_format($total_out,0,",",".");?></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr class="kolom-pink">
+                <td class="text-center"></td>
+                <td class="text-center"></td>
+                <td class="tebal">SALDO</td>
+                <td> 
+                  <div>
+                    <span style="float: left;margin-left:5px">Rp. </span>
+                    <span style="float: right;margin-right:5px"><?= number_format($jumlah_penerimaan - $total_out,0,",",".");?></span>
                     <div class="clear"></div>
                   </div>
                 </td>
