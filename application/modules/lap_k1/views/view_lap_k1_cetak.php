@@ -77,10 +77,15 @@
       border-top: 2px solid #070707;
     }
 
-    #tbl_content {
+    .tbl_content {
       padding-top: 10px;
       margin-left: -1px;
+      /*line-height: 20px;*/
     }
+
+    /*.tbl_content td {
+      padding: 20px;
+    }*/
 
     .tbl-footer td {
       border-top: 0px;
@@ -191,129 +196,351 @@
         <td width="200px;"></td>
       </tr>
     </table>
-    <table id="tbl_content" class="table table-bordered table-hover" cellspacing="0" width="100%" border="1">
-      <thead>
-        <tr>
-          <th colspan="4" style="width: 30px; text-align: center;">Penerimaan</th>
-          <th colspan="4" style="width: 50px; text-align: center;">Pengeluaran</th>
-        </tr>
-        <tr>
-          <th rowspan="2" style="text-align: center;">No Urut</th>
-          <th rowspan="2" style="text-align: center;">No Kode</th>
-          <th rowspan="2" style="text-align: center;">Uraian</th>
-          <th rowspan="2" style="text-align: center;">Jumlah</th>
-          <th rowspan="2" style="text-align: center;">No Urut</th>
-          <th rowspan="2" style="text-align: center;">No Kode</th>
-          <th rowspan="2" style="text-align: center;">Uraian</th>
-          <th rowspan="2" style="text-align: center;">Jumlah</th>
-        </tr>
-      </thead>
+    <!-- =============================== -->
+    <table> 
+      <tr>
+        <!-- penerimaan -->
+        <td style="width:500px;">
+          <table class="table table-bordered table-hover tbl_content" cellspacing="0" width="100%" border="1">
+            <thead>
+              <tr>
+                <th colspan="4" style="text-align: center;">Penerimaan</th>
+              </tr>
+              <tr>
+                <th style="text-align: center;">No Urut</th>
+                <th style="text-align: center;">No Kode</th>
+                <th style="text-align: center;">Uraian</th>
+                <th style="text-align: center;">Jumlah</th>
+              </tr>
+            </thead>
 
-      <tbody>
-        <?php
-        $total_tri1 = 0;
-        $total_tri2 = 0;
-        $total_tri3 = 0;
-        $total_tri4 = 0;
+            <tbody>
+              <?php
+              $total_tri1 = 0;
+              $total_tri2 = 0;
+              $total_tri3 = 0;
+              $total_tri4 = 0;
+              ?>      
 
-        foreach ($hasil_data['penerimaan'] as $val) : ?>
-          <tr>
-            <td class="text-center"><?= $val['no']; ?></td>
-            <td class="text-center"><?= $val['kode']; ?></td>
-            <td><?= $val['uraian']; ?></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-            <td class="text-center"></td>
-          </tr>
-        <?php endforeach ?>
+              <tr>
+                <td class="text-center tebal">I</td>
+                <td class="text-center tebal">1</td>
+                <td class="tebal">Sisa Tahun Lalu</td>
+                <td class="tebal">
+                  <div>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= number_format($saldo_awal, 0, ",", "."); ?></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
 
-        <?php
-        for ($i = 0; $i < count($hasil_data['triwulan1']); $i++) {
-          $total_tri1 += $hasil_data['triwulan1'][$i]['jumlah_raw'];
-          $total_tri2 += $hasil_data['triwulan2'][$i]['jumlah_raw'];
-          $total_tri3 += $hasil_data['triwulan3'][$i]['jumlah_raw'];
-          $total_tri4 += $hasil_data['triwulan4'][$i]['jumlah_raw'];
-          ?>
-          <tr>
-            <td class="text-center"><?= $hasil_data['triwulan1'][$i]['no']; ?></td>
-            <td class="text-center"><?= $hasil_data['triwulan1'][$i]['kode']; ?></td>
-            <td><?= $hasil_data['triwulan1'][$i]['uraian']; ?></td>
-            <td class="text-center"></td>
-            <td>
-              <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= $hasil_data['triwulan1'][$i]['jumlah']; ?></span>
-                <div class="clear"></div>
-              </div>
-            </td>
-            <td>
-              <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= $hasil_data['triwulan2'][$i]['jumlah']; ?></span>
-                <div class="clear"></div>
-              </div>
-            </td>
-            <td>
-              <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= $hasil_data['triwulan3'][$i]['jumlah']; ?></span>
-                <div class="clear"></div>
-              </div>
-            </td>
-            <td>
-              <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= $hasil_data['triwulan4'][$i]['jumlah']; ?></span>
-                <div class="clear"></div>
-              </div>
-            </td>
-          </tr>
-        <?php } ?>
+              <tr>
+                <td class="text-center tebal">II</td>
+                <td class="text-center tebal">2</td>
+                <td class="tebal">Pendapatan Rutin</td>
+                <td class="tebal">
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
 
-        <tr class="kolom-pink">
-          <td></td>
-          <td></td>
-          <td class="tebal">JUMLAH</td>
-          <td class="tebal">
-            <div>
-              <span style="float: left;margin-left:5px;">Rp. </span>
-              <span style="float: right;margin-right:5px;"><?= number_format($hasil_data['penerimaan'][0]['jumlah_raw'], 0, ",", "."); ?></span>
-              <div class="clear"></div>
-            </div>
-          </td>
-          <td class="tebal">
-            <div>
-              <span style="float: left;margin-left:5px;">Rp. </span>
-              <span style="float: right;margin-right:5px;"><?= number_format($total_tri1, 0, ",", "."); ?></span>
-              <div class="clear"></div>
-            </div>
-          </td>
-          <td class="tebal">
-            <div>
-              <span style="float: left;margin-left:5px;">Rp. </span>
-              <span style="float: right;margin-right:5px;"><?= number_format($total_tri2, 0, ",", "."); ?></span>
-              <div class="clear"></div>
-            </div>
-          </td>
-          <td class="tebal">
-            <div>
-              <span style="float: left;margin-left:5px;">Rp. </span>
-              <span style="float: right;margin-right:5px;"><?= number_format($total_tri3, 0, ",", "."); ?></span>
-              <div class="clear"></div>
-            </div>
-          </td>
-          <td class="tebal">
-            <div>
-              <span style="float: left;margin-left:5px;">Rp. </span>
-              <span style="float: right;margin-right:5px;"><?= number_format($total_tri4, 0, ",", "."); ?></span>
-              <div class="clear"></div>
-            </div>
-          </td>
-        </tr>
-      </tbody>
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">2.1</td>
+                <td>Gaji PNS</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;"></span>
+                    <span style="float: right;margin-right:5px;"></span>
+                    <td>
+                      <div>
+                        <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                        <span style="float: right;margin-right:5px;color: white;">0</span>
+                        <div class="clear"></div>
+                      </div>
+                    </td>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">2.2</td>
+                <td>Gaji Pegawai Tidak Tetap</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white"></span>
+                    <span style="float: right;margin-right:5px;color: white"></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">2.3</td>
+                <td>Belanja Barang dan Jasa</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white"></span>
+                    <span style="float: right;margin-right:5px;color: white"></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">2.4</td>
+                <td>Belanja Pemeliharaan</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white"></span>
+                    <span style="float: right;margin-right:5px;color: white"></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">2.5</td>
+                <td>Belanja Lain - Lain</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center tebal">III</td>
+                <td class="text-center tebal">3</td>
+                <td class="tebal">Bantuan Operasional Sekolah</td>
+                <td class="tebal">
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">3.1</td>
+                <td>BOS Pusat</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;">Rp. </span>
+                    <span style="float: right;margin-right:5px;"><?= $hasil_data['penerimaan']['jumlah']; ?></span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">3.2</td>
+                <td>BOS Provinsi</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">3.3</td>
+                <td>BOS Kabupaten/Kota</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="text-center tebal">IV</td>
+                <td class="text-center tebal">4</td>
+                <td class="tebal">Bantuan</td>
+                <td class="tebal">
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+              
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">4.1</td>
+                <td>Dana Dekosentrasi</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">4.2</td>
+                <td>Dana Tugas Pembantuan</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">4.3</td>
+                <td>Dana Alokasi Khusus</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-center"></td>
+                <td class="text-center">4.4</td>
+                <td>Dana Lain-Lain</td>
+                <td>
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </td>
+        <!-- !penerimaan -->
+
+        <!-- pengeluaran -->
+        <td style="width:500px;">
+          <table class="table table-bordered table-hover tbl_content" cellspacing="0" width="100%" border="1">
+            <thead>
+              <tr>
+                <th colspan="4" style="text-align: center;">Pengeluaran</th>
+              </tr>
+              <tr>
+                <th style="text-align: center;">No Urut</th>
+                <th style="text-align: center;">No Kode</th>
+                <th style="text-align: center;">Uraian</th>
+                <th style="text-align: center;">Jumlah</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <?php
+              $total_out1 = 0;
+              $total_out2 = 0;
+              $total_out3 = 0;
+              $total_out4 = 0;
+              ?>      
+
+              <tr>
+                <td class="text-center tebal">I</td>
+                <td class="text-center tebal">1</td>
+                <td class="tebal">Program Sekolah</td>
+                <td class="tebal">
+                    <div>
+                      <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                      <span style="float: right;margin-right:5px;color: white;">0</span>
+                      <div class="clear"></div>
+                    </div>
+                  </td>
+              </tr>
+
+              <?php foreach ($hasil_data['pengeluaran_reg'] as $key => $value) { ?>
+                <tr>
+                  <td class="text-center"></td>
+                  <td class="text-center"><?= $value['kode'] ?></td>
+                  <td><?= $value['uraian'] ?></td>
+                  <td>
+                    <div>
+                      <span style="float: left;margin-left:5px;">Rp. </span>
+                      <span style="float: right;margin-right:5px;"><?= $value['jumlah']; ?></span>
+                      <div class="clear"></div>
+                    </div>
+                  </td>
+                </tr>
+              <?php } ?>
+
+              <tr>
+                <td class="text-center tebal">II</td>
+                <td class="text-center tebal">2</td>
+                <td class="tebal">Belanja Lainnya</td>
+                <td class="tebal">
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+              <?php foreach ($hasil_data['pengeluaran_gaji'] as $key => $value) { ?>
+                <tr>
+                  <td class="text-center"></td>
+                  <td class="text-center"><?= $value['kode'] ?></td>
+                  <td><?= $value['uraian'] ?></td>
+                  <td>
+                    <div>
+                      <span style="float: left;margin-left:5px;">Rp. </span>
+                      <span style="float: right;margin-right:5px;"><?= $value['jumlah']; ?></span>
+                      <div class="clear"></div>
+                    </div>
+                  </td>
+                </tr>
+              <?php } ?>
+
+              <tr>
+                <td class="text-center tebal"></td>
+                <td class="text-center tebal"></td>
+                <td class="tebal"></td>
+                <td class="tebal">
+                  <div>
+                    <span style="float: left;margin-left:5px;color: white;">Rp. </span>
+                    <span style="float: right;margin-right:5px;color: white;">0</span>
+                    <div class="clear"></div>
+                  </div>
+                </td>
+              </tr>
+
+            </tbody>
+          </table>
+        </td>
+        <!-- !pengeluaran -->
+      </tr>
     </table>
+    <!-- =============================== -->
     <table class="tbl-footer">
       <tr>
         <td align="left">

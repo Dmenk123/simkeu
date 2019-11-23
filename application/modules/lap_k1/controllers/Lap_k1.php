@@ -47,6 +47,7 @@ class Lap_k1 extends CI_Controller {
 		$tanggal_awal = date('Y-m-d', strtotime($tahun.'-01-01'));
 		$tanggal_akhir = date('Y-m-t', strtotime($tahun.'-12-01'));
 		$query = $this->lap->get_detail($tanggal_awal, $tanggal_akhir);
+		$query2 = $this->lap->get_detail_pengeluaran_lain($tanggal_awal, $tanggal_akhir);
 
 		//cek saldo tahun lalu
 		$ambil_saldo = $this->lap->get_last_saldo((int)$this->input->get('tahun')-1);
@@ -63,19 +64,22 @@ class Lap_k1 extends CI_Controller {
 
 		//loop detail laporan dan assign array
 		foreach ($query as $key => $val) {
-			if ($val->tipe == '2') {
-				$arr_data['pengeluaran_gaji'][0]['no'] = $no;
-				$arr_data['pengeluaran_gaji'][0]['kode'] = $val->kode_sing_di_group_by;
-				$arr_data['pengeluaran_gaji'][0]['uraian'] = $val->nama;
-				$arr_data['pengeluaran_gaji'][0]['jumlah'] = number_format($val->harga_total, 0, ",", ".");
-				$arr_data['pengeluaran_gaji'][0]['jumlah_raw'] = ($val->harga_total == null) ? 0 : $val->harga_total; 
-			}else{
+			if ($val->tipe == '1') {
 				$arr_data['pengeluaran_reg'][$key]['no'] = $no;
 				$arr_data['pengeluaran_reg'][$key]['kode'] = $val->kode_sing_di_group_by;
 				$arr_data['pengeluaran_reg'][$key]['uraian'] = $val->nama;
 				$arr_data['pengeluaran_reg'][$key]['jumlah'] = number_format($val->harga_total, 0, ",", ".");
 				$arr_data['pengeluaran_reg'][$key]['jumlah_raw'] = ($val->harga_total == null) ? 0 : $val->harga_total; 
 			}
+		}
+
+		//loop detail laporan dan assign array
+		foreach ($query2 as $key => $val) {
+			$arr_data['pengeluaran_gaji'][$key]['no'] = $no;
+			$arr_data['pengeluaran_gaji'][$key]['kode'] = $val->kode_in_text;
+			$arr_data['pengeluaran_gaji'][$key]['uraian'] = $val->nama;
+			$arr_data['pengeluaran_gaji'][$key]['jumlah'] = number_format($val->harga_total, 0, ",", ".");
+			$arr_data['pengeluaran_gaji'][$key]['jumlah_raw'] = ($val->harga_total == null) ? 0 : $val->harga_total; 
 		}
 
 		$data = array(
@@ -87,15 +91,14 @@ class Lap_k1 extends CI_Controller {
 			'saldo_awal' => $ambil_saldo
 		);
 
-		
-		echo "<pre>";
+		/*echo "<pre>";
 		print_r ($data);
 		echo "</pre>";
-		exit;
+		exit;*/
 
-	    $html = $this->load->view('view_lap_k2_cetak', $data, true);
+	    $html = $this->load->view('view_lap_k1_cetak', $data, true);
 	    
-	    $filename = 'laporan_k2_'.time();
+	    $filename = 'laporan_k1_'.time();
 	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'landscape');
 	}
 

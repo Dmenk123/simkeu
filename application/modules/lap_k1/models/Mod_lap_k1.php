@@ -31,6 +31,24 @@ class Mod_lap_k1 extends CI_Model
        
 	}
 
+	public function get_detail_pengeluaran_lain($tanggal_awal, $tanggal_akhir)
+	{
+		$query = $this->db->query("
+			SELECT tmka.*, sum(tv.harga_total) as harga_total, concat(tmka.tipe,'.',tmka.kode_in_text) as idx_column
+			FROM
+				tbl_master_kode_akun AS tmka 
+			left JOIN 
+				tbl_verifikasi tv on 
+					CONCAT(tmka.tipe, tmka.kode, tmka.sub_1, IFNULL(tmka.sub_2, 0)) = CONCAT(tv.tipe_akun, tv.kode_akun, tv.sub1_akun, IFNULL(tv.sub2_akun, 0)) and tv.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."' 
+			WHERE
+				tmka.is_aktif = 1 and tipe = 2
+				GROUP BY kode_in_text
+			ORDER BY tmka.tipe, tmka.kode, tmka.sub_1, tmka.sub_2
+		");
+
+		return $query->result();
+	}
+
 	public function get_penerimaan($tanggal_awal, $tanggal_akhir)
 	{
 		$query = $this->db->query("
