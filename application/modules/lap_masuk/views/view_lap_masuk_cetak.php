@@ -160,7 +160,7 @@
       </tr>
     </table>
 
-    <h5 style="text-align: center;margin-top:-100px;"><strong>Laporan Pengeluaran Sekolah</strong></h5>
+    <h4 style="text-align: center;margin-top:-100px;"><strong>Laporan Penerimaan Sekolah</strong></h4>
 
     <table class="tbl-header">
       <tr>
@@ -216,7 +216,7 @@
         <?php endforeach ?>
 
         <tr class="tebal kolom-pink">
-          <td colspan="8" class="text-center">Total Pengeluaran</td>
+          <td colspan="8" class="text-center">Total Penerimaan</td>
           <td>
             <div>
                 <span style="float: left;margin-left:5px;">Rp. </span>
