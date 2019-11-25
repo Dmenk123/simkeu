@@ -3,19 +3,21 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Mod_trans_rapbs extends CI_Model
 {
 	var $column_search = array(
-		"tm.id",
-		"tm.tanggal",
-		"tud.nama_lengkap_user"
+		"tr.id",
+		"tr.tahun",
+		"tr.created_at",
+		"tud.nama_lengkap_user",
 	);
 
 	var $column_order = array(
-		"tm.id",
-		"tm.tanggal",
+		"tr.id",
+		"tr.tahun",
+		"tr.created_at",
 		"tud.nama_lengkap_user",
-		null,
+		null
 	);
 
-	var $order = array('tr.id_pembelian' => 'desc'); // default order
+	var $order = array('tr.created_at' => 'desc');
 
 	public function __construct()
 	{
@@ -23,73 +25,22 @@ class Mod_trans_rapbs extends CI_Model
 		$this->load->database();
 	}
 
-	private function _get_datatables_query($term='', $status, $tanggal_awal, $tanggal_akhir)
-	{		
-		if ($status == 1) {
-			$column_search = array(
-				"tv.id as id_verifikasi",
-				"tm.id",
-				"tm.tanggal",
-				"tud.nama_lengkap_user"
-			);
+	private function _get_datatables_query($term='', $tahun)
+	{
+		$column = array(
+			"tr.id",
+			"tr.tahun",
+			"tm.created_at",
+			"tud.nama_lengkap_user",
+			null,
+		);
 
-			$column_order = array(
-				"tv.id as id_verifikasi",
-				"tm.id",
-				"tm.tanggal",
-				"tud.nama_lengkap_user",
-				null,
-			);
-
-			$column = array(
-				"tv.id as id_verifikasi",
-				"tm.id",
-				"tm.tanggal",
-				"tud.nama_lengkap_user",
-				null,
-			);
-
-			$this->db->select("
-				tm.id,
-				tv.id as id_verifikasi,
-				tm.user_id,
-				tud.nama_lengkap_user,
-				tm.tanggal,
-				tm.status,
-				tm.created_at,
-				tm.updated_at
-			");
-		}
-		else
-		{
-			$column = array(
-				"tm.id",
-				"tm.tanggal",
-				"tud.nama_lengkap_user",
-				null,
-			);
-
-			$this->db->select("
-				tm.id,
-				tm.user_id,
-				tud.nama_lengkap_user,
-				tm.tanggal,
-				tm.status,
-				tm.created_at,
-				tm.updated_at
-			");
-		}
-		
-		
-		$this->db->from('tbl_trans_masuk as tm');
-		$this->db->join('tbl_user as tu', 'tm.user_id = tu.id_user', 'left');
+		$this->db->select("tr.*, tud.nama_lengkap_user");
+		$this->db->from('tbl_rapbs as tr');
+		$this->db->join('tbl_user as tu', 'tr.user_id = tu.id_user', 'left');
 		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
-		if ($status == 1) {
-			$this->db->join('tbl_verifikasi tv', 'tm.id = tv.id_in');
-		}
-		$this->db->where('tm.status', $status);
-		$this->db->where("tm.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
-		
+		$this->db->where("tr.tahun = '".$tahun."' and tr.deleted_at is null");
+				
 		$i = 0;
 		foreach ($this->column_search as $item) 
 		{
@@ -121,10 +72,10 @@ class Mod_trans_rapbs extends CI_Model
 		}
 	}
 
-	function get_datatables($status = 0, $tanggal_awal, $tanggal_akhir)
+	function get_datatables($tahun)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term, $status, $tanggal_awal, $tanggal_akhir);
+		$this->_get_datatables_query($term, $tahun);
 
 		if($_REQUEST['length'] != -1)
 		$this->db->limit($_REQUEST['length'], $_REQUEST['start']);
@@ -133,48 +84,21 @@ class Mod_trans_rapbs extends CI_Model
 		return $query->result();
 	}
 
-	function count_filtered($status, $tanggal_awal, $tanggal_akhir)
+	function count_filtered($tahun)
 	{
 		$term = $_REQUEST['search']['value'];
-		$this->_get_datatables_query($term, $status, $tanggal_awal, $tanggal_akhir);
+		$this->_get_datatables_query($term, $tahun);
 		$query = $this->db->get();
 		return $query->num_rows();
 	}
 
-	public function count_all($status, $tanggal_awal, $tanggal_akhir)
+	public function count_all($tahun)
 	{
-		if ($status == 1) {
-			$this->db->select("
-				tm.id,
-				tv.id as id_verifikasi,
-				tm.user_id,
-				tud.nama_lengkap_user,
-				tm.tanggal,
-				tm.status,
-				tm.created_at,
-				tm.updated_at
-			");
-		}else{
-			$this->db->select("
-				tm.id,
-				tm.user_id,
-				tud.nama_lengkap_user,
-				tm.tanggal,
-				tm.status,
-				tm.created_at,
-				tm.updated_at
-			");
-		}
-		
-
-		$this->db->from('tbl_trans_masuk as tm');
-		$this->db->join('tbl_user as tu', 'tm.user_id = tu.id_user', 'left');
+		$this->db->select("tr.*, tud.nama_lengkap_user");
+		$this->db->from('tbl_rapbs as tr');
+		$this->db->join('tbl_user as tu', 'tr.user_id = tu.id_user', 'left');
 		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
-		if ($status == 1) {
-			$this->db->join('tbl_verifikasi tv', 'tm.id = tv.id_in');
-		}
-		$this->db->where('tm.status', $status);
-		$this->db->where("tm.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
+		$this->db->where("tr.tahun = '".$tahun."' and tr.deleted_at is null");
 		return $this->db->count_all_results();
 	}
 

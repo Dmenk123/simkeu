@@ -7,7 +7,6 @@
 	var table;
   var table2;
   var grandTotal = 0;
-  var bulan;
   var tahun;
 
 $(document).ready(function() {
@@ -15,8 +14,7 @@ $(document).ready(function() {
   var i = randString(5);
 	//addrow field inside modal
   
-  <?php if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') { ?>
-    bulan = <?= $this->input->get('bulan'); ?>;
+  <?php if ($this->input->get('tahun') != '') { ?>
     tahun = <?= $this->input->get('tahun'); ?>;
   <?php } ?>
 
@@ -26,15 +24,14 @@ $(document).ready(function() {
   });
 
   //datatables  
-  // tabel trans masuk
-	table = $('#tabelPenerimaan').DataTable({
+	table = $('#tabelRapbs').DataTable({
 		
 		"processing": true, 
 		"serverSide": true, 
 		"order":[[ 2, 'desc' ]], 
 		//load data for table content from ajax source
 		"ajax": {
-			"url": "<?php echo site_url('penerimaan/list_penerimaan/0/') ?>" + bulan + "/" + tahun,
+			"url": "<?php echo site_url('trans_rapbs/list_rapbs/') ?>" + tahun,
 			"type": "POST" 
 		},
 
@@ -46,30 +43,6 @@ $(document).ready(function() {
 			},
 		],
 	});
-
-  $('#tabelTransMasukDetail').DataTable({
-  });
-
-  // tabel verifikasi
-  table2 = $('#tabelVerifikasiFinish').DataTable({
-    
-    "processing": true, 
-    "serverSide": true, 
-    "order":[[ 2, 'desc' ]], 
-    //load data for table content from ajax source
-    "ajax": {
-      "url": "<?php echo site_url('penerimaan/list_penerimaan/1/') ?>" + bulan + "/" + tahun,
-      "type": "POST" 
-    },
-
-    //set column definition initialisation properties
-    "columnDefs": [
-      {
-        "targets": [-1], //last column
-        "orderable": false, //set not orderable
-      },
-    ],
-  });
 
   //datepicker
 	$('#form_tanggal_order').datepicker({

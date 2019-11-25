@@ -1,17 +1,17 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : localhost
+ Source Server         : lokal
  Source Server Type    : MySQL
- Source Server Version : 100129
+ Source Server Version : 100131
  Source Host           : localhost:3306
  Source Schema         : db_simkeu
 
  Target Server Type    : MySQL
- Target Server Version : 100129
+ Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 21/11/2019 16:01:29
+ Date: 26/11/2019 00:24:36
 */
 
 SET NAMES utf8mb4;
@@ -108,6 +108,7 @@ INSERT INTO `tbl_hak_akses` VALUES (100, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (101, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (102, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (103, 1, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (127, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (110, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (111, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (113, 1, 1, 1, 1);
@@ -120,6 +121,9 @@ INSERT INTO `tbl_hak_akses` VALUES (119, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (109, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (121, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (123, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (124, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (125, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (126, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (122, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (120, 1, 0, 0, 0);
 
@@ -314,7 +318,7 @@ INSERT INTO `tbl_master_kode_akun` VALUES ('Pengadaan sarana pendukung perkantor
 INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan supervisi,Monitoring dan Evaluasi', 1, 6, 3, NULL, '6.3', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Program supervisi,Monitoring dan Evaluasi', 1, 6, 3, 1, '6.3.1', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('supervisi akademik', 1, 6, 3, 2, '6.3.2', 1);
-INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan Hubungan Masyarakat', 1, 6, 4, NULL, '6,4', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('Kegiatan Hubungan Masyarakat', 1, 6, 4, NULL, '6.4', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan sistem informasi manajemen', 1, 6, 4, 1, '6.4.1', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Penyusunan Leafleat', 1, 6, 4, 2, '6.4.2', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Pengembangan standar pembiayaan', 1, 7, NULL, NULL, '7', 1);
@@ -357,12 +361,12 @@ INSERT INTO `tbl_master_kode_akun` VALUES ('Penggunaan Dana Lainnya', 2, 2, NULL
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Alat tulis kantor', 2, 2, 1, NULL, '2.1', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Bahan dan alat habis pakai', 2, 2, 2, NULL, '2.2', 1);
 INSERT INTO `tbl_master_kode_akun` VALUES ('Belanja Pegawai', 2, 2, 3, NULL, '2.3', 1);
-INSERT INTO `tbl_master_kode_akun` VALUES ('coba coba', 1, 1, 5, NULL, '1.5', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('coba coba', 1, 1, 5, NULL, '1.5', 0);
 INSERT INTO `tbl_master_kode_akun` VALUES ('coba sub 2', 1, 1, NULL, NULL, NULL, 0);
 INSERT INTO `tbl_master_kode_akun` VALUES ('coba sub 2', 1, 1, NULL, NULL, NULL, 0);
 INSERT INTO `tbl_master_kode_akun` VALUES ('coba sub 2', 1, 1, NULL, NULL, NULL, 0);
-INSERT INTO `tbl_master_kode_akun` VALUES ('coba migelas', 1, 1, 5, 1, '1.5.1', 1);
-INSERT INTO `tbl_master_kode_akun` VALUES ('coba migelas yang kedua puluh', 1, 1, 5, 2, '1.5.2', 1);
+INSERT INTO `tbl_master_kode_akun` VALUES ('coba migelas', 1, 1, 5, 1, '1.5.1', 0);
+INSERT INTO `tbl_master_kode_akun` VALUES ('coba migelas yang kedua puluh', 1, 1, 5, 2, '1.5.2', 0);
 
 -- ----------------------------
 -- Table structure for tbl_master_kode_akun_internal
@@ -529,6 +533,10 @@ INSERT INTO `tbl_menu` VALUES (120, 0, 'Profil', 'Profil', 'profil', 'fa fa-user
 INSERT INTO `tbl_menu` VALUES (121, 108, 'Laporan K7', 'Laporan K7', 'lap_k7', '', 1, 2, 3, 0, 0, 0);
 INSERT INTO `tbl_menu` VALUES (122, 108, 'Kunci Laporan', 'Kunci Laporan', 'kunci_lap', '', 1, 2, 20, 1, 1, 1);
 INSERT INTO `tbl_menu` VALUES (123, 108, 'Laporan K2', 'Laporan K2', 'lap_k2', ' ', 1, 2, 4, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (124, 108, 'Laporan K1', 'Laporan K1', 'lap_k1', '', 1, 2, 5, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (125, 108, 'Laporan Pengeluaran', 'Laporan Pengeluaran', 'lap_keluar', ' ', 1, 2, 6, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (126, 108, 'Laporan Penerimaan', 'Laporan Penerimaan', 'lap_masuk', ' ', 1, 2, 7, 0, 0, 0);
+INSERT INTO `tbl_menu` VALUES (127, 100, 'RAPBS', 'RAPBS', 'trans_rapbs', ' ', 1, 2, 4, 1, 1, 1);
 
 -- ----------------------------
 -- Table structure for tbl_penggajian
@@ -570,6 +578,45 @@ INSERT INTO `tbl_penggajian` VALUES (6, 3, 3, 11, '2019', 0, 1200000.00, 0.00, 0
 INSERT INTO `tbl_penggajian` VALUES (7, 5, 2, 10, '2019', 1, 0.00, 2500.00, 1235000.00, 8000000.00, 60, 30000.00, 9355000.00, '2019-10-20 23:28:53', 1, 1);
 INSERT INTO `tbl_penggajian` VALUES (8, 2, 6, 10, '2019', 0, 1000000.00, 0.00, 0.00, 100000.00, 40, 30000.00, 1100000.00, '2019-10-20 23:29:21', 1, 1);
 INSERT INTO `tbl_penggajian` VALUES (9, 3, 3, 10, '2019', 0, 1200000.00, 2500.00, 0.00, 600000.00, 40, 30000.00, 1900000.00, '2019-10-20 23:29:48', 1, 1);
+
+-- ----------------------------
+-- Table structure for tbl_rapbs
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_rapbs`;
+CREATE TABLE `tbl_rapbs`  (
+  `id` int(14) NOT NULL AUTO_INCREMENT,
+  `tahun` varchar(4) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `user_id` varchar(50) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL,
+  `deleted_at` datetime(0) NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for tbl_rapbs_detail
+-- ----------------------------
+DROP TABLE IF EXISTS `tbl_rapbs_detail`;
+CREATE TABLE `tbl_rapbs_detail`  (
+  `id_header` int(14) NULL DEFAULT NULL,
+  `uraian` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `qty` int(32) NULL DEFAULT NULL,
+  `id_satuan` int(32) NULL DEFAULT NULL,
+  `harga_satuan` double(20, 2) NULL DEFAULT NULL,
+  `harga_total` double(20, 2) NULL DEFAULT NULL,
+  `gaji_swasta` double(20, 2) NULL DEFAULT NULL,
+  `bosnas` double(20, 2) NULL DEFAULT NULL,
+  `hibah_bopda` double(20, 2) NULL DEFAULT NULL,
+  `jumlah_total` double(20, 2) NULL DEFAULT NULL,
+  `keterangan_belanja` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
+  `is_sub` int(1) NULL DEFAULT 1,
+  `urut` int(32) NULL DEFAULT NULL,
+  `created_at` datetime(0) NULL DEFAULT NULL,
+  `updated_at` datetime(0) NULL DEFAULT NULL,
+  `deleted_at` datetime(0) NULL DEFAULT NULL,
+  INDEX `id_header`(`id_header`) USING BTREE,
+  CONSTRAINT `tbl_rapbs_detail_ibfk_1` FOREIGN KEY (`id_header`) REFERENCES `tbl_rapbs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -746,7 +793,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-21 08:07:38', '2019-10-05 21:34:14', '2019-11-21 08:07:38');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-25 20:22:54', '2019-10-05 21:34:14', '2019-11-25 20:22:54');
 INSERT INTO `tbl_user` VALUES ('USR00002', 'KEPSEK', 'zJWkpZad', 4, NULL, 1, NULL, '2019-11-09 19:36:13', '2019-11-10 13:05:37');
 INSERT INTO `tbl_user` VALUES ('USR00003', 'KEUANGAN', 'zJWpk5+Zkac=', 3, NULL, 1, '2019-11-10 21:30:57', '2019-11-09 19:43:19', '2019-11-10 21:30:57');
 INSERT INTO `tbl_user` VALUES ('USR00004', 'TATAUSAHA', '1ZGok6alkaGX', 2, NULL, 1, NULL, '2019-11-09 19:45:18', '2019-11-10 13:14:50');

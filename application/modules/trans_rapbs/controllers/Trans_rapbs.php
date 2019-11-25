@@ -47,66 +47,38 @@ class Trans_rapbs extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function list_penerimaan($status=0, $bulan, $tahun)
+	public function list_rapbs($tahun)
 	{
-		$tanggal_awal = date('Y-m-d', strtotime($tahun . '-' . $bulan . '-01'));
-		$tanggal_akhir = date('Y-m-t', strtotime($tahun . '-' . $bulan . '-01'));
-		$list = $this->m_rapbs->get_datatables($status, $tanggal_awal, $tanggal_akhir);
+		$list = $this->m_rapbs->get_datatables($tahun);
 		$data = array();
 		$no =$_POST['start'];
-		foreach ($list as $list_in) {
-			$link_edit = site_url('penerimaan/penerimaan_edit/').$list_in->id;
+		foreach ($list as $datalist) {
 			$no++;
 			$row = array();
-			if ($status == 1) {
-				$row[] = $list_in->id_verifikasi;
-			}
-			$row[] = $list_in->id;
-			$row[] = date('d-m-Y', strtotime($list_in->tanggal));
-			$row[] = $list_in->nama_lengkap_user;
-			if ($list_in->status == 0) {
-				//belum di verifikasi
-				$row[] = '<span style="color:red">Belum Di Verifikasi</span>';
-			}else{
-				$row[] = '<span style="color:green">Sudah Di Verifikasi</span>';
-			}
-			//cek kuncian
-			$cek_kunci = $this->cek_status_kuncian(date('m', strtotime($list_in->tanggal)), date('Y', strtotime($list_in->tanggal)));
-			if ($cek_kunci) {
-				if ($list_in->status == 0) {
-					$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id . '/awal';
-					//belum di verifikasi
-					$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
-				} else {
-					$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id;
-					$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
-				}
-			}else{
-				if ($list_in->status == 0) {
-					$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id . '/awal';
-					//belum di verifikasi
-					$row[] = '
-						<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick="">
-							<i class="glyphicon glyphicon-info-sign"></i></a>
-						<a class="btn btn-sm btn-primary" href="' . $link_edit . '" title="Edit" id="btn_edit" onclick=""><i class="glyphicon glyphicon-pencil"></i></a>
-					';
-				} else {
-					$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id;
-					$row[] = '
-						<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>
-						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan(' . "'" . $list_in->id_verifikasi . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
-					';
-				}
-			}
+			$row[] = $datalist->id;
+			$row[] = $datalist->tahun;
+			$row[] = date('d-m-Y', strtotime($datalist->created_at));
+			$row[] = $datalist->nama_lengkap_user;
 			
+			//cek kuncian
+			// $cek_kunci = $this->cek_status_kuncian(date('m', strtotime($datalist->tanggal)), date('Y', strtotime($datalist->tanggal)));
+			$link_edit = site_url('trans_rapbs/rapbs_edit/').$datalist->id;
+			$link_detail = site_url('trans_rapbs/rapbs_detail/') . $datalist->id;
+			//belum di verifikasi
+			$row[] = '
+				<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail">
+					<i class="glyphicon glyphicon-info-sign"></i></a>
+				<a class="btn btn-sm btn-primary" href="'.$link_edit.'" title="Edit" id="btn_edit" ><i class="glyphicon glyphicon-pencil"></i></a>
+				<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deleteData(' . "'" . $datalist->id . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
+			';
 			
 			$data[] = $row;
 		}//end loop
 
 		$output = array(
 						"draw" => $_POST['draw'],
-						"recordsTotal" => $this->m_rapbs->count_all($status, $tanggal_awal, $tanggal_akhir),
-						"recordsFiltered" => $this->m_rapbs->count_filtered($status, $tanggal_awal, $tanggal_akhir),
+						"recordsTotal" => $this->m_rapbs->count_all($tahun),
+						"recordsFiltered" => $this->m_rapbs->count_filtered($tahun),
 						"data" => $data,
 					);
 		//output to json format
@@ -143,7 +115,7 @@ class Trans_rapbs extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function add_penerimaan()
+	public function add_rapbs()
 	{
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
