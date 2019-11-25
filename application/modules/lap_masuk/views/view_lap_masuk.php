@@ -1,11 +1,11 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        LAPORAN PENGELUARAN
+        LAPORAN PENERIMAAN
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i>Laporan</a></li>
-        <li class="active">LAPORAN PENGELUARAN</li>
+        <li class="active">LAPORAN PENERIMAAN</li>
       </ol>
     </section>
 

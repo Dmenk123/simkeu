@@ -32,10 +32,25 @@ class Penerimaan extends CI_Controller {
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
 
-		$data = array(
-			'data_user' => $data_user,
-			'arr_bulan' => $arr_bulan
-		);
+		if ($this->input->get('bulan') != '' && $this->input->get('tahun') != '') {
+			$bulan = $this->input->get('bulan');
+			$tahun = $this->input->get('tahun');
+
+			//cek kunci
+			$cek_kunci = $this->cek_status_kuncian($bulan, $tahun);
+
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan,
+				'cek_kunci' => $cek_kunci
+			);
+		} else {
+			$data = array(
+				'data_user' => $data_user,
+				'arr_bulan' => $arr_bulan,
+				'cek_kunci' => TRUE
+			);
+		}
 
 		$content = [
 			'css' 	=> 'cssPenerimaan',
@@ -131,8 +146,11 @@ class Penerimaan extends CI_Controller {
 			'sts' => $sts
 		);
 
-		// echo $this->db->last_query();
-		
+		/*echo "<pre>";
+		print_r ($data);
+		echo "</pre>";
+		exit;*/
+				
 		$content = [
 			'css' 	=> 'cssPenerimaan',
 			'modal' => null,
@@ -450,11 +468,7 @@ class Penerimaan extends CI_Controller {
 		}	
 	}
 
-	// =====================================================================================================================
-
-	
-
-	public function cetak_nota_pengeluaran()
+	public function cetak_nota_penerimaan($id)
 	{
 		$this->load->library('Pdf_gen');
 
@@ -463,16 +477,21 @@ class Penerimaan extends CI_Controller {
 		$query = $this->m_in->get_detail($id);
 
 		$data = array(
-			'title' => 'Report Pencatatan Pengeluaran',
+			'title' => 'Report Pencatatan Penerimaan',
 			'hasil_header' => $query_header,
 			'hasil_data' => $query, 
 		);
 
-	    $html = $this->load->view('view_detail_pengeluaran_report', $data, true);
+		
+	    $html = $this->load->view('view_detail_penerimaan_report', $data, true);
 	    
-	    $filename = 'nota_pengeluaran_'.$id.'_'.time();
+	    $filename = 'nota_penerimaan_'.$id.'_'.time();
 	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
 	}
+
+	// =====================================================================================================================
+
+	
 
 	// ====================================================================================================
 

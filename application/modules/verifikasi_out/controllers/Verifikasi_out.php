@@ -296,6 +296,7 @@ class Verifikasi_out extends CI_Controller {
 		$tanggal_awal = date('Y-m-d', strtotime($tahun . '-' . $bulan . '-01'));
 		$tanggal_akhir = date('Y-m-t', strtotime($tahun . '-' . $bulan . '-01'));
 		$list = $this->m_vout->get_datatables_finish($tanggal_awal, $tanggal_akhir);
+		
 		$data = array();
 		$no =$_POST['start'];
 		foreach ($list as $listFinish) {

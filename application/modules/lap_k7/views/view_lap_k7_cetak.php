@@ -459,20 +459,27 @@
       <tr>
         <td align="left">
           <p style="text-align: left;" class="foot-left"><strong>Mengetahui</strong> </p>
-          <p style="text-align: left;" class="foot-left"><strong>Kepala Sekolah</strong> </p>
+          <p style="text-align: left;" class="foot-left"><strong>Ketua Komite Sekolah</strong> </p>
+        </td>
+        <td align="center" style="padding-left:-120px;">
+          <p style="text-align: center;" class="foot-center"><strong>Menyetujui</strong> </p>
+          <p style="text-align: center;" class="foot-center"><strong>Kepala Sekolah</strong> </p>
         </td>
         <td align="right">
           <p style="text-align: right;" class="foot-left"><strong>Surabaya, <?= date('d') . ' ' . $arr_bulan[date('m')] . ' ' . date('Y'); ?></strong> </p>
           <p style="text-align: right;" class="foot-right"><strong>Bendahara</strong>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
         </td>
       </tr>
+
       <tr>
         <td align="left">
-          <p style="text-align: left;" class="foot-left">(KHUSNUL KHOTIMAH,S.Pd) </p>
+          <p style="text-align: left;margin-top:50px;" class="foot-left">(KHUSNUL KHOTIMAH,S.Pd) </p>
         </td>
-
+        <td align="left" style="padding-left:-120px;">
+          <p style="text-align: center;margin-top:50px;" class="foot-center">(KHUSNUL KHOTIMAH,S.Pd) </p>
+        </td>
         <td align="right">
-          <p style="text-align: right;" class="foot-right">(SITI CHOLIFAH)</p>
+          <p style="text-align: right;margin-top:50px;" class="foot-right">(SITI CHOLIFAH)</p>
         </td>
       </tr>
     </table>

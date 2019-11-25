@@ -168,9 +168,9 @@ class Mod_verifikasi_out extends CI_Model
 		$this->db->join('tbl_user as tu', 'tv.user_id = tu.id_user', 'left');
 		$this->db->join('tbl_trans_keluar_detail as tkd', 'tv.id_out_detail = tkd.id', 'left');
 		$this->db->join('tbl_satuan as ts', 'tkd.satuan = ts.id', 'left');
-		$this->db->where("tv.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."'");
+		$this->db->where("tv.tanggal between '".$tanggal_awal."' and '".$tanggal_akhir."' and tv.tipe_transaksi = '2'");
 		$this->db->where('tv.status', '1');
-		
+
 		$i = 0;
 		foreach ($this->column_search2 as $item) 
 		{

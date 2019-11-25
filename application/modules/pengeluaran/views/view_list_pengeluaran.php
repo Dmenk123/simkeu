@@ -78,7 +78,9 @@
                 showData(<?= $this->input->get('bulan'); ?>, <?= $this->input->get('tahun'); ?>);
               </script>
               <div class="box-header">
-                <button class="btn btn-success" onclick="addPengeluaran()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
+                <?php if ($cek_kunci == FALSE) { ?>
+                  <button class="btn btn-success" onclick="addPengeluaran()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>
+                <?php } ?>
                 <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
               </div>
               <!-- /.box-header -->

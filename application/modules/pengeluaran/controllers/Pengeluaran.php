@@ -35,16 +35,19 @@ class Pengeluaran extends CI_Controller {
 			$bulan = $this->input->get('bulan');
 			$tahun = $this->input->get('tahun');
 
-			//$hasildata = $this->list_pengeluaran($tanggal_awal, $tanggal_akhir);
+			//cek kunci
+			$cek_kunci = $this->cek_status_kuncian($bulan, $tahun);
 
 			$data = array(
 				'data_user' => $data_user,
-				'arr_bulan' => $arr_bulan
+				'arr_bulan' => $arr_bulan,
+				'cek_kunci' => $cek_kunci
 			);
 		} else {
 			$data = array(
 				'data_user' => $data_user,
-				'arr_bulan' => $arr_bulan
+				'arr_bulan' => $arr_bulan,
+				'cek_kunci' => TRUE
 			);
 		}
 

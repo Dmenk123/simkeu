@@ -33,7 +33,7 @@
                   <table id="tabelTransMasukDetail" class="table table-bordered table-hover" cellspacing="0" width="100%">
                     <thead>
                       <tr>
-                        <th style="width: 10px; text-align: center;">No</th>
+                        <th style="width: 10px; text-align: center;">Gambar</th>
                         <th style="width: 50px; text-align: center;">Kode</th>
                         <th style="width: 30px; text-align: center;">Jumlah</th>
                         <th style="width: 30px; text-align: center;">Satuan</th>
@@ -48,7 +48,7 @@
                     <?php if ($hasil_data): ?>
                     <?php $no = 1; ?>
                         <tr>
-                        <td><?php echo $no++; ?></td>  
+                        <td><?php echo '<img src="'.base_url().'/assets/img/bukti_verifikasi/'.$hasil_data->gambar_bukti.'" width="50" height="50">';?></td>   
                         <td><?php echo $hasil_data->id_trans_masuk; ?></td>
                         <td><?php echo $hasil_data->qty; ?></td>
                         <td><?php echo $hasil_data->nama_satuan; ?></td>
@@ -74,7 +74,7 @@
                   <div style="padding-top: 30px; padding-bottom: 10px;">
                     <a class="btn btn-sm btn-danger" title="Kembali" onclick="javascript:history.back()"><i class="glyphicon glyphicon-menu-left"></i> Kembali</a>
                     <?php $id = $this->uri->segment(3); ?>
-                    <?php $link_print = site_url('pengeluaran/cetak_nota_pengeluaran/').$id; ?>
+                    <?php $link_print = site_url('penerimaan/cetak_nota_penerimaan/').$id; ?>
                     <?php echo '<a class="btn btn-sm btn-success" href="'.$link_print.'" title="Print" id="btn_print_pengeluaran_detail" target="_blank"><i class="glyphicon glyphicon-print"></i> Cetak</a>';?>
                   </div>
               </div>  

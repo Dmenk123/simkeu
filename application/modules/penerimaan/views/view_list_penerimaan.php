@@ -48,7 +48,7 @@
                     <div class="col-sm-4">
                       <select id="tahun" class="form-control col-sm-3" style="margin-right: 5px;" name="tahun">
                         <option value="">Silahkan Pilih Tahun</option>
-                        <?php for ($i = 2018; $i <= 2025; $i++) {
+                        <?php for ($i = 2017; $i <= 2025; $i++) {
                           if ($i == $this->input->get('tahun')) {
                             echo '<option value="' . $i . '" selected>' . $i . '</option>';
                           } else {
@@ -83,7 +83,9 @@
               <div class="tab-content">
                 <div class="tab-pane active" id="tab_progress">
                   <div class="box-header">
-                    <a class="btn btn-success" href="<?= base_url('penerimaan/add_penerimaan/')?>"><i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                    <?php if ($cek_kunci == FALSE) { ?>
+                      <a class="btn btn-success" href="<?= base_url('penerimaan/add_penerimaan/')?>"><i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                    <?php } ?>
                     <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
                   </div>
                   <!-- /.box-header -->
