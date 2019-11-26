@@ -102,6 +102,14 @@ class Mod_trans_rapbs extends CI_Model
 		return $this->db->count_all_results();
 	}
 
+	public function get_data_field()
+	{
+		$query = $this->db->query("SELECT * FROM tbl_master_kode_akun_internal where is_aktif = 1 ORDER BY kode, sub_1 asc")->result();
+		return $query;
+	}
+
+	// ================================================================================
+
 	public function save($data_header=null, $data_detail=null, $data_verifikasi=null)
 	{ 
 		if ($data_header != null) {

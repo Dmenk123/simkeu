@@ -13,12 +13,36 @@
 
     <!-- Main content -->
     <section class="content">
-      <div class="row">
-        <div class="col-xs-s12">
-          <div class="box">
-            <!-- /.box-header -->
-            <div class="box-body">
-              <form method="post" enctype="multipart/form-data" action="<?= base_url('penerimaan/proses_penerimaan'); ?>">
+
+      <div class="col-xs-s12">
+        <div class="box">
+          <!-- /.box-header -->
+          <div class="box-body">
+            <form method="post" action="<?= base_url('trans_rapbs/saveimport'); ?>" class="form-horizontal" enctype="multipart/form-data">
+
+              <div class="form-group">
+                <label for="inputEmail3" class="col-sm-2 control-label">Lampirkan File</label>
+                <div class="col-sm-10">
+                  <input type="file" name="file" class="form-control" id="file" required accept=".xls, .xlsx" /></p>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <div class="col-md-2 pull-right">
+                  <input type="submit" class="btn btn-block btn-primary" value="Import" name="import">
+                </div>
+              </div>
+
+            <!--   <div class="col-md-2 pull-right">
+                <div class="form-group" style="text-align:center; margin:10%">
+                  <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                </div>
+              </div> -->
+
+            </form>
+
+
+            <!-- <form method="post" enctype="multipart/form-data" action="<?= base_url('penerimaan/proses_penerimaan'); ?>">
 
                 <div class="form-group col-md-12">
                   <label>Keterangan : </label>
@@ -52,49 +76,24 @@
                   <input type="hidden" class="form-control" id="i_harga_total_raw" name="i_harga_total_raw" value="" />
                 </div>
 
-                <div class="form-group col-md-9">
-                  <label>Bukti : </label>
-                  <input type="file" id="i_gambar" class="i_gambar" name="i_gambar" ; />
+                <div class="col-md-6">
+                  <h3>Grand Total : </h3>
                 </div>
 
-                <div class="form-group col-md-3">
-                  <img id="i_gambar-img" src="#" alt="Preview Gambar" height="75" width="75" class="pull-right" />
+                <div class="col-md-4">
+                  <h3 id="grand_total"></h3>
                 </div>
-
-                <div class="form-group col-md-12">
-                  <label><strong>Ceklist Pilihan ini Apabila dana dari BOS</strong></label>
-                  <div class="checkbox">
-                    <label>
-                      <input type="checkbox" name="is_bos" value="t"> Dana dari BOS (bantuan Operasional Sekolah)
-                    </label>
+                <div class="col-md-2 pull-right">
+                  <div class="form-group" style="text-align:center; margin:10%">
+                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
                   </div>
-              </div>
-
-            <div class="form-group col-md-12">
-              <label><strong>Ceklist Pilihan Setuju Apabila Data Sudah di Verifikasi</strong></label>
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="ceklis" onchange="eventCeklis(this)" value="t"> Setuju, Saya Sudah Memastikan data Telah Benar
-                </label>
-              </div>
-            </div>
-            <div class="col-md-6">
-              <h3>Grand Total : </h3>
-            </div>
-            <div class="col-md-4">
-              <h3 id="grand_total"></h3>
-            </div>
-            <div class="col-md-2 pull-right">
-              <div class="form-group" style="text-align:center; margin:10%">
-                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
-              </div>
-            </div>
-            </form>
+                </div>
+              </form> -->
           </div>
           <!-- /.box-body -->
         </div>
         <!-- /.box -->
       </div>
-      </div>
+
     </section>
     <!-- /.content -->

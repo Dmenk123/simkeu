@@ -10,6 +10,7 @@ class Trans_rapbs extends CI_Controller {
 		$this->load->model('profil/mod_profil','prof');
 		$this->load->model('mod_trans_rapbs','m_rapbs');
 		$this->load->model('verifikasi_out/mod_verifikasi_out','m_vout');
+		$this->load->library('excel');
 	}
 
 	public function index()
@@ -119,19 +120,62 @@ class Trans_rapbs extends CI_Controller {
 	{
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);
+		$get_field = $this->m_rapbs->get_data_field();
 
 		$data = array(
-			'data_user' => $data_user
+			'data_user' => $data_user,
+			'data_field' => $get_field
 		);
 
 		$content = [
-			'css' 	=> 'cssPenerimaan',
+			'css' 	=> 'cssTransRapbs',
 			'modal' =>  null,
-			'js'	=> 'jsPenerimaan',
-			'view'	=> 'view_add_penerimaan'
+			'js'	=> 'jsTransRapbs',
+			'view'	=> 'view_add_trans_rapbs'
 		];
 
 		$this->template_view->load_view($content, $data);
+	}
+
+	public function saveimport()
+	{
+		if (isset($_FILES["file"]["name"])) {
+			$arr_data = [];
+			$path = $_FILES["file"]["tmp_name"];
+			$objPHPExcel = PHPExcel_IOFactory::load($path);
+
+			//get only the Cell Collection
+			$cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
+			
+			echo "<pre>";
+			print_r ($cell_collection);
+			echo "</pre>";
+			exit;
+			//extract to a PHP readable array format
+			foreach ($cell_collection as $cell) {
+				$column = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
+				$row = $objPHPExcel->getActiveSheet()->getCell($cell)->getRow();
+				$data_value = $objPHPExcel->getActiveSheet()->getCell($cell)->getFormattedValue();
+
+				//The header will/should be in row 1 only. of course, this can be modified to suit your need.
+				if ($row == 1) {
+					$header[$row][$column] = $data_value;
+				}else{
+					$arr_data[$row][$column] = $data_value;
+				} 
+				
+				// else {
+				// 	if ($column <> "D") {
+				// 		$arr_data[$row][$column] = str_replace(' ', '', $data_value);
+				// 	} else {
+				// 		$arr_data[$row][$column] = $data_value;
+				// 	}
+				// }
+				// if ($row == 12) {
+				// break;
+				// }
+			}	
+		}
 	}
 
 	public function proses_penerimaan()
