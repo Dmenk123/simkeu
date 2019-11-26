@@ -2,6 +2,8 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 class Mod_trans_rapbs extends CI_Model
 {
+	var $table = 'tbl_rapbs';
+
 	var $column_search = array(
 		"tr.id",
 		"tr.tahun",
@@ -108,6 +110,25 @@ class Mod_trans_rapbs extends CI_Model
 		return $query;
 	}
 
+	public function get_data_row($table, $where)
+	{
+		$this->db->from($table);
+		$this->db->where($where);
+		$query = $this->db->get();
+		
+		if ($query->num_rows > 0) {
+			return $query->row();
+		}else{
+			return false;
+		}
+	}
+
+	public function update_data($where, $data, $table)
+	{
+		$this->db->update($table, $data, $where);
+		return $this->db->affected_rows();
+	}
+
 	// ================================================================================
 
 	public function save($data_header=null, $data_detail=null, $data_verifikasi=null)
@@ -125,78 +146,7 @@ class Mod_trans_rapbs extends CI_Model
 		}
 	}
 
-	function getKodePenerimaan(){
-		$q = $this->db->query("SELECT MAX(RIGHT(id,5)) as kode_max from tbl_trans_masuk WHERE DATE_FORMAT(tanggal, '%Y-%m') = DATE_FORMAT(CURRENT_DATE(), '%Y-%m')");
-		$kd = "";
-		if($q->num_rows()>0){
-			foreach($q->result() as $k){
-				$tmp = ((int)$k->kode_max)+1;
-				$kd = sprintf("%05s", $tmp);
-			}
-		}else{
-			$kd = "00001";
-		}
-		return "MSK".date('my').$kd;
-	}
 	
-	function getKodePenerimaanDetail(){
-		$q = $this->db->query("SELECT MAX(id) as kode_detail from tbl_trans_masuk_detail")->row();
-		if ($q) {
-			$kode = (int)$q->kode_detail + 1;
-		}else{
-			$kode = 1;
-		}
-
-		return $kode;
-    }
-
-	public function get_detail_header($id)
-	{
-		$this->db->select('tm.*,tud.nama_lengkap_user');
-		$this->db->from('tbl_trans_masuk tm');
-		$this->db->join('tbl_user tu', 'tm.user_id = tu.id_user','left');
-		$this->db->join('tbl_user_detail tud', 'tu.id_user = tud.id_user', 'left');
-        $this->db->where('tm.id', $id);
-
-        $query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->result();
-        }
-	}
-
-	public function get_detail($id_header, $edit='')
-	{
-		if ($edit == '') {
-			$this->db->select('tmd.*, tv.*, ts.nama as nama_satuan');
-			$this->db->from('tbl_trans_masuk_detail tmd');
-			$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
-			$this->db->join('tbl_verifikasi tv', 'tv.id_in = tmd.id_trans_masuk');
-		}else{
-			$this->db->select('tm.*, tmd.id as id_detail, tmd.id_trans_masuk, tmd.keterangan, tmd.satuan, tmd.qty, ts.nama as nama_satuan');
-			$this->db->from('tbl_trans_masuk tm');
-			$this->db->join('tbl_trans_masuk_detail tmd', 'tm.id = tmd.id_trans_masuk');
-			$this->db->join('tbl_satuan ts', 'tmd.satuan = ts.id','left');
-		}
-				
-        $this->db->where('tmd.id_trans_masuk', $id_header);
-
-        $query = $this->db->get();
-        
-        if ($query->num_rows() > 0) {
-            if ($edit = '') {
-            	return $query->result();
-            }else{
-            	return $query->row();
-            }
-        }
-	}
-
-	public function update_data($where, $data, $table)
-	{
-		$this->db->update($table, $data, $where);
-		return $this->db->affected_rows();
-	}
 
 	public function insert_update($data_order_detail)
 	{
@@ -205,14 +155,7 @@ class Mod_trans_rapbs extends CI_Model
 
 	// ============================================================================================
 
-	public function get_by_id($id)
-	{
-		$this->db->from('tbl_trans_order');
-		$this->db->where('id_trans_order',$id);
-		$query = $this->db->get();
-
-		return $query->row();
-	}
+	
 
 	
 

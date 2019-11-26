@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 26/11/2019 00:24:36
+ Date: 26/11/2019 22:40:49
 */
 
 SET NAMES utf8mb4;
@@ -601,7 +601,7 @@ CREATE TABLE `tbl_rapbs_detail`  (
   `id_header` int(14) NULL DEFAULT NULL,
   `uraian` varchar(255) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `qty` int(32) NULL DEFAULT NULL,
-  `id_satuan` int(32) NULL DEFAULT NULL,
+  `nama_satuan` varchar(100) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   `harga_satuan` double(20, 2) NULL DEFAULT NULL,
   `harga_total` double(20, 2) NULL DEFAULT NULL,
   `gaji_swasta` double(20, 2) NULL DEFAULT NULL,
@@ -793,7 +793,7 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-25 20:22:54', '2019-10-05 21:34:14', '2019-11-25 20:22:54');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-26 19:44:35', '2019-10-05 21:34:14', '2019-11-26 19:44:35');
 INSERT INTO `tbl_user` VALUES ('USR00002', 'KEPSEK', 'zJWkpZad', 4, NULL, 1, NULL, '2019-11-09 19:36:13', '2019-11-10 13:05:37');
 INSERT INTO `tbl_user` VALUES ('USR00003', 'KEUANGAN', 'zJWpk5+Zkac=', 3, NULL, 1, '2019-11-10 21:30:57', '2019-11-09 19:43:19', '2019-11-10 21:30:57');
 INSERT INTO `tbl_user` VALUES ('USR00004', 'TATAUSAHA', '1ZGok6alkaGX', 2, NULL, 1, NULL, '2019-11-09 19:45:18', '2019-11-10 13:14:50');

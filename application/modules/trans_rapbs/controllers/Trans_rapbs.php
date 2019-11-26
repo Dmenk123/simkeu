@@ -139,6 +139,9 @@ class Trans_rapbs extends CI_Controller {
 
 	public function saveimport()
 	{
+		$tahun = date('Y');
+		$now = date('Y-m-d H:i:s');
+
 		if (isset($_FILES["file"]["name"])) {
 			$arr_data = [];
 			$path = $_FILES["file"]["tmp_name"];
@@ -147,10 +150,6 @@ class Trans_rapbs extends CI_Controller {
 			//get only the Cell Collection
 			$cell_collection = $objPHPExcel->getActiveSheet()->getCellCollection();
 			
-			echo "<pre>";
-			print_r ($cell_collection);
-			echo "</pre>";
-			exit;
 			//extract to a PHP readable array format
 			foreach ($cell_collection as $cell) {
 				$column = $objPHPExcel->getActiveSheet()->getCell($cell)->getColumn();
@@ -162,19 +161,125 @@ class Trans_rapbs extends CI_Controller {
 					$header[$row][$column] = $data_value;
 				}else{
 					$arr_data[$row][$column] = $data_value;
-				} 
-				
-				// else {
-				// 	if ($column <> "D") {
-				// 		$arr_data[$row][$column] = str_replace(' ', '', $data_value);
-				// 	} else {
-				// 		$arr_data[$row][$column] = $data_value;
-				// 	}
-				// }
-				// if ($row == 12) {
-				// break;
-				// }
+				}
 			}	
+
+			//cek ada tidaknya laporan
+			$cek_exist = $this->m_rapbs->get_data('tbl_rapbs', [
+				'tahun' => $tahun,
+				'deleted_at' => null
+			]);
+
+			if ($cek_exist) {
+				//update header
+				$this->m_rapbs->update_data(['tahun' => $tahun], ['deleted_at' => $now], 'tbl_rapbs');	
+				//update detail
+				$this->m_rapbs->update_data(['id_header' => $cek_exist->id], ['deleted_at' => $now], 'tbl_rapbs_detail');
+			}
+
+			//insert tbl header
+			$header_data = [
+				'tahun' => $tahun,
+				'user_id' => $this->session->userdata('id_user'),
+				'created_at' => date('Y-m-d H:i:s')
+			];
+
+			$this->db->insert('tbl_rapbs', $header_data);
+
+			$last_insert = $this->m_rapbs->get_data('tbl_rapbs', [
+				'tahun' => $tahun,
+				'deleted_at' => null
+			]);
+
+			foreach ($arr_data as $key => $kolom) {
+				$detil['id_header'] = $last_insert->id;
+				$detil['uraian'] = trim($kolom['C']);
+				$detil['qty'] = ($kolom['D'] == '' || $kolom['D'] == null) ? null : trim($kolom['D']);
+				$detil['nama_satuan'] = ($kolom['E'] == '' || $kolom['E'] == null) ? null : trim(strtoupper($kolom['E']));
+				
+				if ($kolom['F'] == '' || $kolom['F'] == null) {
+					$detil['harga_satuan'] = null;
+				}else{
+					$pecah_harga_sat = explode('Rp', $kolom['F']);
+					$harga_sat_step1 = (count($pecah_harga_sat) > 1) ? trim($pecah_harga_sat[1]) : trim($pecah_harga_sat[0]);
+
+					$pecah_harga_sat_step1 = explode(',', $harga_sat_step1);
+					$harga_sat_fix = str_replace(".", "", $pecah_harga_sat_step1[0]);
+
+					$detil['harga_satuan'] = $harga_sat_fix;
+				}
+
+				if ($kolom['G'] == '' || $kolom['G'] == null) {
+					$detil['harga_total'] = null;
+				}else{
+					$pecah_harga_tot = explode('Rp', $kolom['G']);
+					$harga_tot_step1 = (count($pecah_harga_tot) > 1) ? trim($pecah_harga_tot[1]) : trim($pecah_harga_tot[0]);
+
+					$pecah_harga_tot_step1 = explode(',', $harga_tot_step1);
+					$harga_tot_fix = str_replace(".", "", $pecah_harga_tot_step1[0]);
+
+					$detil['harga_total'] = $harga_tot_fix;
+				}
+
+				if ($kolom['H'] == '' || $kolom['H'] == null) {
+					$detil['gaji_swasta'] = null;
+				}else{
+					$pecah_gaji_swasta = explode('Rp', $kolom['H']);
+					$gaji_swasta_step1 = (count($pecah_gaji_swasta) > 1) ? trim($pecah_gaji_swasta[1]) : trim($pecah_gaji_swasta[0]);
+
+					$pecah_gaji_swasta_step1 = explode(',', $gaji_swasta_step1);
+					$gaji_swasta_fix = str_replace(".", "", $pecah_gaji_swasta_step1[0]);
+
+					$detil['gaji_swasta'] = $gaji_swasta_fix;
+				}
+
+				if ($kolom['I'] == '' || $kolom['I'] == null) {
+					$detil['bosnas'] = null;
+				}else{
+					$pecah_bosnas = explode('Rp', $kolom['I']);
+					$bosnas_step1 = (count($pecah_bosnas) > 1) ? trim($pecah_bosnas[1]) : trim($pecah_bosnas[0]);
+
+					$pecah_bosnas_step1 = explode(',', $bosnas_step1);
+					$bosnas_fix = str_replace(".", "", $pecah_bosnas_step1[0]);
+
+					$detil['bosnas'] = $bosnas_fix;
+				}
+
+				if ($kolom['L'] == '' || $kolom['L'] == null) {
+					$detil['hibah_bopda'] = null;
+				}else{
+					$pecah_hibah_bopda = explode('Rp', $kolom['L']);
+					$hibah_bopda_step1 = (count($pecah_hibah_bopda) > 1) ? trim($pecah_hibah_bopda[1]) : trim($pecah_hibah_bopda[0]);
+
+					$pecah_hibah_bopda_step1 = explode(',', $hibah_bopda_step1);
+					$hibah_bopda_fix = str_replace(".", "", $pecah_hibah_bopda_step1[0]);
+
+					$detil['hibah_bopda'] = $hibah_bopda_fix;
+				}
+
+				if ($kolom['N'] == '' || $kolom['N'] == null) {
+					$detil['jumlah_total'] = null;
+				}else{
+					$pecah_jumlah_total = explode('Rp', $kolom['N']);
+					$jumlah_total_step1 = (count($pecah_jumlah_total) > 1) ? trim($pecah_jumlah_total[1]) : trim($pecah_jumlah_total[0]);
+
+					$pecah_jumlah_total_step1 = explode(',', $jumlah_total_step1);
+					$jumlah_total_fix = str_replace(".", "", $pecah_jumlah_total_step1[0]);
+
+					$detil['jumlah_total'] = $jumlah_total_fix;
+				}
+
+				$detil['keterangan_belanja'] = trim(strtoupper($kolom['O']));
+
+				$arr_kol_b = explode('.', $kolom['B'])
+				$detil['is_sub'] = (count($arr_kol_b) > 1) ? 0 : 1;
+				$detil['urut'] = $kolom['A'];
+				$detil['created_at'] = $now;
+
+
+				$this->db->insert('tbl_rapbs_detail', $detil);
+			}
+
 		}
 	}
 
