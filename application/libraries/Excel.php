@@ -8,4 +8,10 @@ class Excel extends PHPExcel
 	{
 		parent::__construct();
 	}
+
+	public function number_format()
+	{
+		$number_format = new PHPExcel_Style_NumberFormat();
+		return $number_format;
+	}
 }
