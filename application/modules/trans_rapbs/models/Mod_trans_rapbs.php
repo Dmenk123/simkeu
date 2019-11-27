@@ -112,15 +112,16 @@ class Mod_trans_rapbs extends CI_Model
 
 	public function get_data_row($table, $where)
 	{
+		$this->db->select('*');
 		$this->db->from($table);
 		$this->db->where($where);
-		$query = $this->db->get();
+		return $query = $this->db->get()->row();
 		
-		if ($query->num_rows > 0) {
+		/* if ($query->num_rows > 0) {
 			return $query->row();
 		}else{
 			return false;
-		}
+		} */
 	}
 
 	public function update_data($where, $data, $table)

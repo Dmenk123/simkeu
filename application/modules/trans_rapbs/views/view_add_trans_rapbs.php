@@ -18,6 +18,36 @@
         <div class="box">
           <!-- /.box-header -->
           <div class="box-body">
+
+            <div class="col-md-12">
+              <div class="box box-solid">
+                <div class="box-header with-border">
+                  <i class="fa fa-info"></i>
+
+                  <h3 class="box-title">Upload data excel RAPBS</h3>
+                </div>
+                <!-- /.box-header -->
+                <div class="box-body">
+                  <blockquote>
+                    <p>Mohon upload data excel RAPBS ke dalam sistem</p>
+                    <p>Berikut data Template Format Excel. Dimohon mengikuti aturan penulisan pada Excelnya</p>
+                    <small>
+                      <a target="_blank" href="<?php echo base_url('assets/img/contoh-excel.xlsx') ?>">
+                        <cite title="Source Title">Download Contoh Format Pengisian Excel</cite>
+                      </a>
+                    </small>
+                    <small>
+                      <a target="_blank" href="<?php echo base_url('trans_rapbs/get_template') ?>">
+                        <cite title="Source Title">Download Template Format Pengisian Excel</cite>
+                      </a>
+                    </small>
+                  </blockquote>
+                </div>
+                <!-- /.box-body -->
+              </div>
+              <!-- /.box -->
+            </div>
+
             <form method="post" action="<?= base_url('trans_rapbs/saveimport'); ?>" class="form-horizontal" enctype="multipart/form-data">
 
               <div class="form-group">
@@ -33,7 +63,7 @@
                 </div>
               </div>
 
-            <!--   <div class="col-md-2 pull-right">
+              <!--   <div class="col-md-2 pull-right">
                 <div class="form-group" style="text-align:center; margin:10%">
                   <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
                 </div>
