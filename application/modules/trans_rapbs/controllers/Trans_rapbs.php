@@ -97,27 +97,24 @@ class Trans_rapbs extends CI_Controller {
 	{
 		$id_user = $this->session->userdata('id_user'); 
 		$query_user = $this->prof->get_detail_pengguna($id_user);
-
+		
 		$id = $this->uri->segment(3); 
-		$status = $this->uri->segment(4);
-		$query_header = $this->m_rapbs->get_detail_header($id, $status);
-		$query = $this->m_rapbs->get_detail($id, $status);
-		$sts = ($status == 'awal') ? 'awal' : 'finish';
-
+		$query_header = $this->m_rapbs->get_detail_header($id);
+		$query = $this->m_rapbs->get_detail($id);
+		
 		$data = array(
 			'data_user' => $query_user,
 			'hasil_header' => $query_header,
-			'hasil_data' => $query,
-			'sts' => $sts
+			'hasil_data' => $query
 		);
 
 		// echo $this->db->last_query();
 		
 		$content = [
-			'css' 	=> 'cssPenerimaan',
+			'css' 	=> 'cssTransRapbs',
 			'modal' => null,
-			'js'	=> 'jsPenerimaan',
-			'view'	=> 'view_detail_penerimaan'
+			'js'	=> 'jsTransRapbs',
+			'view'	=> 'view_detail_trans_rapbs'
 		];
 
 		$this->template_view->load_view($content, $data);
@@ -280,7 +277,7 @@ class Trans_rapbs extends CI_Controller {
 
 				$detil['keterangan_belanja'] = trim(strtoupper($kolom['O']));
 
-				$arr_kol_b = explode('.', $kolom['B']);
+				$arr_kol_b = explode(',', $kolom['B']);
 				$detil['is_sub'] = (count($arr_kol_b) > 1) ? 0 : 1;
 				$detil['urut'] = $kolom['A'];
 				$detil['kode'] = trim(str_replace(",", ".", $kolom['B']));
@@ -427,6 +424,67 @@ class Trans_rapbs extends CI_Controller {
 		$write->save('php://output');
 	}
 
+	public function cetak_lap_rapbs()
+	{
+		$arr_bulan = [
+			1 => 'Januari',
+			2 => 'Februari',
+			3 => 'Maret',
+			4 => 'April',
+			5 => 'Mei',
+			6 => 'Juni',
+			7 => 'Juli',
+			8 => 'Agustus',
+			9 => 'September',
+			10 => 'Oktober',
+			11 => 'November',
+			12 => 'Desember'
+		];
+
+		$this->load->library('Pdf_gen');
+
+		$id = $this->uri->segment(3);
+		$id_user = $this->session->userdata('id_user');
+		$query_user = $this->prof->get_detail_pengguna($id_user);
+
+		$id = $this->uri->segment(3);
+		$query_header = $this->m_rapbs->get_detail_header($id);
+		$query = $this->m_rapbs->get_detail($id);
+
+		// $data = array(
+		// 	'data_user' => $query_user,
+		// 	'hasil_header' => $query_header,
+		// 	'hasil_data' => $query,
+		// 	'arr_bulan' => $arr_bulan,
+		// 	'tahun' => $query_header->tahun
+		// );
+
+		// // echo $this->db->last_query();
+
+		// $content = [
+		// 	'css' 	=> 'cssTransRapbs',
+		// 	'modal' => null,
+		// 	'js'	=> 'jsTransRapbs',
+		// 	'view'	=> 'view_trans_rapbs_cetak'
+		// ];
+
+		// $this->template_view->load_view($content, $data);
+
+		
+		$data = array(
+			'title' => 'Report RAPBS',
+			'hasil_header' => $query_header,
+			'hasil_data' => $query,
+			'arr_bulan' => $arr_bulan,
+			'tahun' => $query_header->tahun
+		);
+
+		$html = $this->load->view('view_trans_rapbs_cetak', $data, true);
+
+		$filename = 'laporan_RAPBS_' . $id . '_' . time();
+		$this->pdf_gen->generate($html, $filename, true, 'A4', 'landscape');
+	}
+
 	//------------------------------------------------------------------------
 	
 	public function cek_status_kuncian($bulan, $tahun)
@@ -445,29 +503,5 @@ class Trans_rapbs extends CI_Controller {
 	}
 
 	// =====================================================================================================================
-
-	
-
-	public function cetak_nota_pengeluaran()
-	{
-		$this->load->library('Pdf_gen');
-
-		$id = $this->uri->segment(3);
-		$query_header = $this->m_rapbs->get_detail_header($id);
-		$query = $this->m_rapbs->get_detail($id);
-
-		$data = array(
-			'title' => 'Report Pencatatan Pengeluaran',
-			'hasil_header' => $query_header,
-			'hasil_data' => $query, 
-		);
-
-	    $html = $this->load->view('view_detail_pengeluaran_report', $data, true);
-	    
-	    $filename = 'nota_pengeluaran_'.$id.'_'.time();
-	    $this->pdf_gen->generate($html, $filename, true, 'A4', 'portrait');
-	}
-
-	// ====================================================================================================
 
 }

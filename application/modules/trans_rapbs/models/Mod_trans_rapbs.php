@@ -124,6 +124,29 @@ class Mod_trans_rapbs extends CI_Model
 		} */
 	}
 
+	public function get_detail_header($id)
+	{
+		$this->db->select("tr.*, tud.nama_lengkap_user");
+		$this->db->from('tbl_rapbs as tr');
+		$this->db->join('tbl_user as tu', 'tr.user_id = tu.id_user', 'left');
+		$this->db->join('tbl_user_detail as tud', 'tu.id_user = tud.id_user', 'left');
+		$this->db->where("tr.id = '" . $id . "' and tr.deleted_at is null");
+		$query = $this->db->get();
+		return $query->row();
+		
+	}
+
+	public function get_detail($id)
+	{
+		$this->db->select("*");
+		$this->db->from('tbl_rapbs_detail as trd');
+		$this->db->where("trd.id_header = '" . $id . "' and trd.deleted_at is null");
+		$this->db->order_by('urut', 'asc');
+		
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function update_data($where, $data, $table)
 	{
 		$this->db->update($table, $data, $where);
