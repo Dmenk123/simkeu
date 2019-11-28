@@ -220,7 +220,7 @@
           $tot_bosnas += $val->bosnas;
           $tot_hibah_bopda += $val->hibah_bopda;
           $tot_jml_total += $val->jumlah_total; ?>
-          <tr>
+          <tr <?= ($val->is_sub == '1') ? "class = 'tebal'" : ""; ?>>
             <td class="text-center"><?php echo $val->kode; ?></td>
             <td class="text-center"><?php echo $val->uraian; ?></td>
             <td class="text-center"><?php echo $val->qty; ?></td>
@@ -228,32 +228,48 @@
 
             <td>
               <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= number_format($val->harga_satuan, 0, ",", "."); ?></span>
+                <span style="float: left;margin-left:5px;">
+                  <?= ($val->harga_satuan == '' || $val->harga_satuan == null) ? '' : 'Rp.'; ?> 
+                </span>
+                <span style="float: right;margin-right:5px;">
+                  <?= ($val->harga_satuan == '' || $val->harga_satuan == null) ? '' : number_format($val->harga_satuan, 0, ",", "."); ?>
+                </span>
                 <div class="clear"></div>
               </div>
             </td>
 
             <td>
               <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= number_format($val->harga_total, 0, ",", "."); ?></span>
+                <span style="float: left;margin-left:5px;">
+                  <?= ($val->harga_total == '' || $val->harga_total == null) ? '' : 'Rp.'; ?>
+                </span>
+                <span style="float: right;margin-right:5px;">
+                  <?= ($val->harga_total == '' || $val->harga_total == null) ? '' : number_format($val->harga_total, 0, ",", "."); ?>
+                </span>
                 <div class="clear"></div>
               </div>
             </td>
 
             <td>
               <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= number_format($val->gaji_swasta, 0, ",", "."); ?></span>
+                <span style="float: left;margin-left:5px;">
+                  <?= ($val->gaji_swasta == '' || $val->gaji_swasta == null) ? '' : 'Rp.'; ?>
+                </span>
+                <span style="float: right;margin-right:5px;">
+                  <?= ($val->gaji_swasta == '' || $val->gaji_swasta == null) ? '' : number_format($val->gaji_swasta, 0, ",", "."); ?>
+                </span>
                 <div class="clear"></div>
               </div>
             </td>
 
             <td>
               <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= number_format($val->bosnas, 0, ",", "."); ?></span>
+                <span style="float: left;margin-left:5px;">
+                  <?= ($val->bosnas == '' || $val->bosnas == null) ? '' : 'Rp.'; ?> 
+                </span>
+                <span style="float: right;margin-right:5px;">
+                  <?= ($val->bosnas == '' || $val->bosnas == null) ? '' : number_format($val->bosnas, 0, ",", "."); ?>
+                </span>
                 <div class="clear"></div>
               </div>
             </td>
@@ -263,8 +279,12 @@
 
             <td>
               <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= number_format($val->hibah_bopda, 0, ",", "."); ?></span>
+                <span style="float: left;margin-left:5px;">
+                  <?= ($val->hibah_bopda == '' || $val->hibah_bopda == null) ? '' : 'Rp.'; ?>  
+                </span>
+                <span style="float: right;margin-right:5px;">
+                  <?= ($val->hibah_bopda == '' || $val->hibah_bopda == null) ? '' : number_format($val->hibah_bopda, 0, ",", "."); ?>
+                </span>
                 <div class="clear"></div>
               </div>
             </td>
@@ -273,8 +293,12 @@
 
             <td>
               <div>
-                <span style="float: left;margin-left:5px;">Rp. </span>
-                <span style="float: right;margin-right:5px;"><?= number_format($val->jumlah_total, 0, ",", "."); ?></span>
+                <span style="float: left;margin-left:5px;">
+                  <?= ($val->jumlah_total == '' || $val->jumlah_total == null) ? '' : 'Rp.'; ?> 
+                </span>
+                <span style="float: right;margin-right:5px;">
+                  <?= ($val->jumlah_total == '' || $val->jumlah_total == null) ? '' : number_format($val->jumlah_total, 0, ",", "."); ?>
+                </span>
                 <div class="clear"></div>
               </div>
             </td>
