@@ -23,6 +23,12 @@
       <!-- Small boxes (Stat box) -->
       <div class="box">
         <div class="box-body">
+
+          <?php
+          if ($component) {
+             $this->load->view($component, $data_dashboard); 
+          } 
+          ?>
         </div>
       </div>       
     </section>

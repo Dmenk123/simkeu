@@ -158,9 +158,7 @@ class Profil extends CI_Controller {
 			$data_user = $this->prof->get_detail_pegawai($id_user);
 			$hasil_data = $this->m_user->get_detail_pegawai($id_user);
 		}
-		
-		
-		
+				
 		$data = array(
 			'data_user' => $data_user,
 			'hasil_data' => $hasil_data

@@ -70,4 +70,13 @@ class Mod_profil extends CI_Model
             }
             return "USR".$kd;
     }
+
+    public function get_detail_guru($nip)
+    {
+    	$this->db->select('*');
+    	$this->db->from('tbl_guru');
+    	$this->db->where('nip', $nip);
+    	$query = $this->db->get();
+    	return $query->row();
+    }
 }

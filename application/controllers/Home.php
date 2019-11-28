@@ -22,36 +22,21 @@ class Home extends CI_Controller {
 		$id_user = $this->session->userdata('id_user');
 		if ($this->session->userdata('id_level_user') != '5') {
 			$query = $this->prof->get_detail_pengguna($id_user);
+			$data_dashboard = '';
+			$component = null;
 		}else{
 			$query = $this->prof->get_detail_pegawai($id_user);
+			$data_dashboard = $this->prof->get_detail_guru($id_user);
+			$component = 'dashboard_user';
 		}
 		
-
-		/*$jumlah_notif = $this->psn->notif_count($id_user);  //menghitung jumlah post
-		$notif= $this->psn->get_notifikasi($id_user); //menampilkan isi postingan
-
-		$count_barang = $this->Mod_home->get_count_barang();
-		$count_user = $this->Mod_home->get_count_user();
-		$count_user_level = $this->Mod_home->get_count_user_level(); 
-		$count_supplier = $this->Mod_home->get_count_supplier();
-		$count_stok = $this->Mod_home->get_stok_barang();
-		$count_pembelian = $this->Mod_home->get_pembelian_supplier();
-		$count_borongan = $this->Mod_home->get_count_borongan();
-		$count_pengambilan = $this->Mod_home->get_pengambilan_borongan();
-		$count_trans_order = $this->Mod_home->get_count_order();
-		$count_order_detail = $this->Mod_home->get_count_order_detail();
-		$count_trans_beli = $this->Mod_home->get_count_beli();
-		$count_beli_detail = $this->Mod_home->get_count_beli_detail();
-		$count_trans_masuk = $this->Mod_home->get_count_masuk();
-		$count_masuk_detail = $this->Mod_home->get_count_masuk_detail();
-		$count_trans_keluar = $this->Mod_home->get_count_keluar();
-		$count_keluar_detail = $this->Mod_home->get_count_keluar_detail();*/
+		
 
 		$data = array(
-			'title' => 'PT.Surya Putra Barutama',
+			'title' => 'SMP DARUL ULUM SURABAYA',
 			'data_user' => $query,
-			// 'content' => 'dashboard/view_list_dashboard',
-			// 'js' => 'dashboard/jsDashboard',
+			'data_dashboard' => $data_dashboard,
+			'component' => $component
 			// 'counter_barang' => $count_barang,
 			// 'counter_stok' => $count_stok,
 			// 'counter_supplier' => $count_supplier,
@@ -81,6 +66,7 @@ class Home extends CI_Controller {
 
 		$this->template_view->load_view($content, $data);
 	}
+
 
 	public function oops()
 	{	
