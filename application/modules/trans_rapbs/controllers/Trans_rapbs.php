@@ -382,7 +382,23 @@ class Trans_rapbs extends CI_Controller {
 		$excel->getActiveSheet()
 	            ->getStyle('B2:B'.($jumlah_baris + 1))
 	            ->getNumberFormat()
-	            ->setFormatCode($numberFormat::FORMAT_TEXT);
+				->setFormatCode($numberFormat::FORMAT_TEXT);
+
+		/* //image processing
+		$gdImage = imagecreatefromjpeg(base_url('assets/img/foto_guru/sugiono-1572969124.jpg'));
+		// Add a drawing to the worksheetecho date('H:i:s') . " Add a drawing to the worksheet\n";
+		$objDrawing = new PHPExcel_Worksheet_MemoryDrawing();
+		$objDrawing->setName('Sample image');
+		$objDrawing->setDescription('Sample image');
+		$objDrawing->setImageResource($gdImage);
+		$objDrawing->setRenderingFunction(PHPExcel_Worksheet_MemoryDrawing::RENDERING_JPEG);
+		$objDrawing->setMimeType(PHPExcel_Worksheet_MemoryDrawing::MIMETYPE_DEFAULT);
+		$objDrawing->setHeight(150);
+		$objDrawing->setWorksheet($excel->getActiveSheet());
+		$objWriter = PHPExcel_IOFactory::createWriter($excel, 'Excel2007');
+		$objWriter->save(str_replace('.php', '.xlsx', __FILE__));
+		//end image processing
+		$objDrawing->setCoordinates('P3'); */
 
 		$no = 1; 
 		$numrow = 2; // Set baris pertama untuk isi tabel adalah baris ke 2
@@ -405,12 +421,9 @@ class Trans_rapbs extends CI_Controller {
 			$excel->getActiveSheet()->getStyle('M'.$numrow)->applyFromArray($style_row);
 			$excel->getActiveSheet()->getStyle('N'.$numrow)->applyFromArray($style_row);
 			$excel->getActiveSheet()->getStyle('O'.$numrow)->applyFromArray($style_row);
-
 			$no++;
 			$numrow++;
 		}
-
-
 
 		// Set judul file excel nya
 		$excel->getActiveSheet(0)->setTitle("template-excel");
