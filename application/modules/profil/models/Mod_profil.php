@@ -97,7 +97,41 @@ class Mod_profil extends CI_Model
 		$this->db->where('is_aktif', '1');
 		$this->db->where('is_guru', '0');
 		
+		return $query = $this->db->get()->num_rows();
+	}
+
+	public function get_jumlah_belum_verifikasi()
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_trans_keluar_detail');
+		$this->db->where('status', '0');
 
 		return $query = $this->db->get()->num_rows();
+	}
+
+	public function get_jumlah_sudah_verifikasi($bulan, $tahun)
+	{
+		$strBulanTahun = $tahun.'-'.$bulan;
+		$query = $this->db->query("
+			SELECT tkd.*, tk.tanggal 
+			from tbl_trans_keluar_detail tkd 
+			join tbl_trans_keluar tk on tkd.id_trans_keluar = tk.id
+			where DATE_FORMAT(tk.tanggal, '%Y-%m') = '".$strBulanTahun."'
+		")->num_rows();
+		
+		return $query;
+	}
+
+	public function get_jumlah_penerimaan($bulan, $tahun)
+	{
+		$strBulanTahun = $tahun . '-' . $bulan;
+		$query = $this->db->query("
+			SELECT tmd.*, tm.tanggal 
+			from tbl_trans_masuk_detail tmd 
+			join tbl_trans_masuk tm on tmd.id_trans_masuk = tm.id
+			where DATE_FORMAT(tm.tanggal, '%Y-%m') = '" . $strBulanTahun . "'
+		")->num_rows();
+
+		return $query;
 	}
 }

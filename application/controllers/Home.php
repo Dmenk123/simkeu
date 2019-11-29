@@ -23,6 +23,9 @@ class Home extends CI_Controller {
 
 	public function index()
 	{	
+		$tahun = date('Y');
+		$bulan = date('m');
+		$hari = date('d');
 		$id_user = $this->session->userdata('id_user');
 		$data_dashboard = [];
 
@@ -40,10 +43,12 @@ class Home extends CI_Controller {
 		} else if ($this->session->userdata('id_level_user') == KEUANGAN) {
 			$query = $this->prof->get_detail_pengguna($id_user);
 			$data_dashboard = [
-				'jumlah_guru' => $this->prof->get_jumlah_guru(),
-				'jumlah_karyawan' => $this->prof->get_jumlah_karyawan()
+				'jumlah_belum_verifikasi' => $this->prof->get_jumlah_belum_verifikasi(),
+				'jumlah_sudah_verifikasi' => $this->prof->get_jumlah_sudah_verifikasi($bulan, $tahun),
+				'jumlah_penerimaan' => $this->prof->get_jumlah_penerimaan($bulan, $tahun),
+				'bulan_indo' => $this->bulan_indo($bulan)
 			];
-			$component = 'dashboard_guru';
+			$component = 'dashboard_keuangan';
 		} else if ($this->session->userdata('id_level_user') == KEPSEK) {
 			$query = $this->prof->get_detail_pengguna($id_user);
 			$data_dashboard = [
@@ -97,6 +102,15 @@ class Home extends CI_Controller {
 	public function oops()
 	{	
 		$this->load->view('login/view_404');
+	}
+
+	public function bulan_indo($bulan)
+	{
+		$arr_bulan =  [
+			1 => 'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
+		];
+
+		return $arr_bulan[(int) $bulan];
 	}
 
 }
