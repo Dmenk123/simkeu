@@ -30,7 +30,7 @@
                     <option value="">Pilih Tahun</option>
                     <?php
                       $thn = date('Y'); 
-                      for ($z=$thn; $z <= (int)$thn + 3; $z++) { 
+                      for ($z=(int)$thn-10; $z <= (int)$thn + 10; $z++) { 
                       echo "<option value='$z'>$z</option>";
                     } ?>
                   </select>

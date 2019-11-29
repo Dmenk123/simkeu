@@ -48,7 +48,7 @@
                     <div class="col-sm-4">
                       <select id="tahun" class="form-control col-sm-3" style="margin-right: 5px;" name="tahun">
                         <option value="">Silahkan Pilih Tahun</option>
-                        <?php for ($i = 2017; $i <= 2025; $i++) {
+                        <?php for ($i = 2010; $i <= 2025; $i++) {
                           if ($i == $this->input->get('tahun')) {
                             echo '<option value="' . $i . '" selected>' . $i . '</option>';
                           } else {

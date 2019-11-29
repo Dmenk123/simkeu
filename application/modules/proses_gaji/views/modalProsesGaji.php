@@ -44,7 +44,7 @@ $arr_bulan = [
                             <div class="col-md-9">
                                 <select name="tahun" id="tahun" class="form-control">
                                     <option value="">Pilih Tahun</option>
-                                    <?php for ($i=(int)date('Y')-1; $i <= 2025; $i++) { 
+                                    <?php for ($i=(int)date('Y')-10; $i <= 2025; $i++) { 
                                         echo '<option value="'.$i.'">'.$i.'</option>';
                                     } ?>
                                 </select>
