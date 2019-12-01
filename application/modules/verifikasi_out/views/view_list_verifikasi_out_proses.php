@@ -111,7 +111,7 @@
                 </div>
                 <div class="col-md-2 pull-right">
                   <div class="form-group" style="text-align:center; margin:10%">
-                    <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Simpan</button>
+                    <button type="submit" class="btn btn-primary tombol-simpan"><i class="fa fa-save"></i> Simpan</button>
                   </div>
                 </div>
               </form>

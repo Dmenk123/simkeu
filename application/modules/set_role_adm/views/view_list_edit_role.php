@@ -48,7 +48,7 @@
               </div>
               <div class="form-group">
                 <div class="col-sm-offset-3 col-sm-9">
-                  <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> Ubah Data</button>
+                  <button type="submit" class="btn btn-primary tombol-simpan"><i class="fa fa-save"></i> Ubah Data</button>
                   <a href="<?=base_url()."".$this->uri->segment(1);?>">
                     <span class="btn btn-warning"><i class="glyphicon glyphicon-remove"></i> Batal</span>
                   </a>

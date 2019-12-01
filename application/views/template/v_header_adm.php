@@ -4,7 +4,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Dmenk Clothing e-shop">
+    <meta name="description" content="Rizky Yuanda">
     <meta name="author" content="Rizki Yuanda | rizkiyuandaa@gmail.com">
     <meta name="dmenk-toko-online-ecommerce" content="">
 
@@ -86,7 +86,7 @@
     <!-- cek id level to unset notif stok if true -->
     <div class="content-wrapper">
       <!-- loader -->
-      <div id="CssLoader" class="hidden">
+      <div id="CssLoader">
           <div class='spinftw'></div>
       </div>
       <!-- end loader -->

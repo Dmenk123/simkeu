@@ -320,11 +320,18 @@ class Verifikasi_out extends CI_Controller {
 					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
 						<i class="glyphicon glyphicon-info-sign"></i></a>';
 			}else{
-				$row[] = '
-					<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
-						<i class="glyphicon glyphicon-info-sign"></i></a>
-					<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deleteVerifyFinish('."'".$listFinish->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
-				';
+				if ($this->session->userdata('id_level_user') == '4') {
+					$row[] = '
+						<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+							<i class="glyphicon glyphicon-info-sign"></i></a>
+					';
+				}else{
+					$row[] = '
+						<a class="btn btn-sm btn-success" href="'.$link_detail.'" title="Detail" id="btn_detail" onclick="">
+							<i class="glyphicon glyphicon-info-sign"></i></a>
+						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deleteVerifyFinish('."'".$listFinish->id."'".')"><i class="glyphicon glyphicon-trash"></i></a>
+					';
+				}	
 			}
 
 			$data[] = $row;

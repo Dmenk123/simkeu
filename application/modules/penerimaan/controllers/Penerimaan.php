@@ -97,20 +97,27 @@ class Penerimaan extends CI_Controller {
 					$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
 				}
 			}else{
-				if ($list_in->status == 0) {
-					$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id . '/awal';
-					//belum di verifikasi
-					$row[] = '
-						<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick="">
-							<i class="glyphicon glyphicon-info-sign"></i></a>
-						<a class="btn btn-sm btn-primary" href="' . $link_edit . '" title="Edit" id="btn_edit" onclick=""><i class="glyphicon glyphicon-pencil"></i></a>
-					';
-				} else {
+				if ($this->session->userdata('id_level_user') == '4') {
 					$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id;
-					$row[] = '
-						<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>
-						<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan(' . "'" . $list_in->id_verifikasi . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
-					';
+						$row[] = '
+							<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>
+						';
+				}else{
+					if ($list_in->status == 0) {
+						$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id . '/awal';
+						//belum di verifikasi
+						$row[] = '
+							<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick="">
+								<i class="glyphicon glyphicon-info-sign"></i></a>
+							<a class="btn btn-sm btn-primary" href="' . $link_edit . '" title="Edit" id="btn_edit" onclick=""><i class="glyphicon glyphicon-pencil"></i></a>
+						';
+					} else {
+						$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id;
+						$row[] = '
+							<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>
+							<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaan(' . "'" . $list_in->id_verifikasi . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
+						';
+					}
 				}
 			}
 			
@@ -161,7 +168,7 @@ class Penerimaan extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function add_penerimaan()
+	public function add()
 	{
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);

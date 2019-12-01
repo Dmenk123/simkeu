@@ -84,7 +84,7 @@
                 <div class="tab-pane active" id="tab_progress">
                   <div class="box-header">
                     <?php if ($cek_kunci == FALSE) { ?>
-                      <a class="btn btn-success" href="<?= base_url('penerimaan/add_penerimaan/')?>"><i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                      <?php $this->template_view->getAddButton() ?>
                     <?php } ?>
                     <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
                   </div>

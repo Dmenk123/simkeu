@@ -120,7 +120,7 @@ class Trans_rapbs extends CI_Controller {
 		$this->template_view->load_view($content, $data);
 	}
 
-	public function add_rapbs()
+	public function add()
 	{
 		$id_user = $this->session->userdata('id_user'); 
 		$data_user = $this->prof->get_detail_pengguna($id_user);

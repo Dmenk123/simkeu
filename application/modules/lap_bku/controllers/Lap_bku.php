@@ -528,10 +528,16 @@ class Lap_bku extends CI_Controller {
 	public function cek_status_kuncian($bulan, $tahun)
 	{
 		$q = $this->db->query("SELECT * FROM tbl_log_kunci WHERE bulan = '".$bulan."' and tahun ='".$tahun."'")->row();
-		if ($q->is_kunci == '1') {
-			 return TRUE;
+		if ($q) {
+			if ($q->is_kunci == '1') {
+			 	$retval = TRUE;
+			}else{
+				$retval = FALSE;
+			}
 		}else{
-			return FALSE;
+			$retval = FALSE;
 		}
+		
+		return $retval;
 	}
 }

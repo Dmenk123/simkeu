@@ -10,6 +10,7 @@
   var tahun;
 
   $(document).ready(function() {
+    //$('#CssLoader').removeClass('hidden');
     //declare variable for row count
     var i = randString(5);
     //addrow field inside modal

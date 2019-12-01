@@ -60,6 +60,15 @@
 
   <script>
     $(document).ready(function() {
+      $(window).load(function() {
+         // $('#loading').hide();
+         $('#CssLoader').addClass('hidden');
+      });
+
+      $('.tombol-simpan').click(function(event) {
+        $('#CssLoader').removeClass('hidden');
+      });
+
       //update dt_read after click
       $(document).on('click', '.linkNotif', function(){
           var id = $(this).attr('id');

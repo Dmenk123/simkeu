@@ -53,7 +53,8 @@
 
             <?php if ($this->input->get('tahun') != "") { ?>
               <div class="box-header">
-                <a class="btn btn-success" href="<?= base_url('trans_rapbs/add_rapbs/') ?>"><i class="glyphicon glyphicon-plus"></i> Tambah Data</a>
+                <!-- <a class="btn btn-success" href="<?= base_url('trans_rapbs/add_rapbs/') ?>"><i class="glyphicon glyphicon-plus"></i> Tambah Data</a> -->
+                <?php $this->template_view->getAddButton() ?>
                 <button class="btn btn-default" onclick="reload_table()"><i class="glyphicon glyphicon-refresh"></i> Reload</button>
               </div>
               <!-- /.box-header -->
