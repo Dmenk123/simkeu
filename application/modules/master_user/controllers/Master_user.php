@@ -266,7 +266,25 @@ class Master_user extends CI_Controller {
 	{
 		$flag_upload_foto = FALSE;
 		$flag_ganti_pass = FALSE;
+		$flag_guru = FALSE;
+
 		$arr_valid = $this->_validate();
+		$id_level_user = $this->session->userdata('id_level_user');
+		$id_user = $this->input->post('id');
+		$flag_guru = ($id_level_user != '5') ? false : true;
+		
+		if ($flag_guru) {
+			$pass_lama = $this->prof->cek_pass_lama('guru', $id_user);
+			
+			if ($pass_lama['flag_pass_guru'] == 'nip') {
+				$pass_lama_txt = $pass_lama['password'];
+			}else{
+				$pass_lama_txt = $this->enkripsi->decrypt($pass_lama['password']);
+			}
+		}else{
+			$pass_lama = $this->prof->cek_pass_lama('user', $id_user);
+			$pass_lama_txt = $this->enkripsi->decrypt($pass_lama['password']);
+		}
 
 		if ($this->input->post('ceklistpwd') != 'Y') {
 			$flag_ganti_pass = TRUE;
@@ -276,6 +294,12 @@ class Master_user extends CI_Controller {
 			$hasil_password = $this->enkripsi->encrypt($passwordnew);
 
 			if ($password != $repassword) {
+				$this->session->set_flashdata('feedback_failed','Terdapat ketidak cocokan Password Lama'); 
+				echo json_encode(['status' => true]);
+				return;
+			}
+
+			if ($repassword != $pass_lama_txt) {
 				$this->session->set_flashdata('feedback_failed','Terdapat ketidak cocokan Password Lama'); 
 				echo json_encode(['status' => true]);
 				return;
@@ -291,7 +315,6 @@ class Master_user extends CI_Controller {
 		$alamat = trim($this->input->post('alamat'));
 		$jenkel = $this->input->post('jenkel');
 		$telp = $this->input->post('telp');
-		$id_user = $this->input->post('id');
 		$namafileseo = $this->seoUrl($username.' '.time());
 		$output_thumb = '';
 		

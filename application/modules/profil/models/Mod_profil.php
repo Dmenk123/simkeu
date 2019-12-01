@@ -57,6 +57,38 @@ class Mod_profil extends CI_Model
         }
 	}
 
+	public function cek_pass_lama($tipe, $id)
+	{
+		$flag_pass_guru = 'nip';
+
+		if ($tipe == 'guru') {
+			$this->db->select('*');
+			$this->db->from('tbl_guru');
+			$this->db->where('id', $id);
+			$query = $this->db->get()->row();
+
+			if ($query->password == null) {
+				$password = $query->nip;
+				$flag_pass_guru = 'nip';
+			}else{
+				$password = $query->password;
+				$flag_pass_guru = 'enkripsi';
+			}
+
+		}else{
+			$this->db->select('*');
+			$this->db->from('tbl_user');
+			$this->db->where('id_user', $id);
+			$query = $this->db->get()->row();
+			$password = $query->password;
+		}
+		
+		return [
+			'password' => $query->password,
+			'flag_pass_guru' => $flag_pass_guru
+		];
+	}
+
 	function getKodeUser(){
             $q = $this->db->query("select MAX(RIGHT(id_user,5)) as kode_max from tbl_user");
             $kd = "";

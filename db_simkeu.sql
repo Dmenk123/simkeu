@@ -11,7 +11,7 @@
  Target Server Version : 100131
  File Encoding         : 65001
 
- Date: 26/11/2019 22:40:49
+ Date: 01/12/2019 22:50:21
 */
 
 SET NAMES utf8mb4;
@@ -67,31 +67,6 @@ CREATE TABLE `tbl_hak_akses`  (
 -- ----------------------------
 -- Records of tbl_hak_akses
 -- ----------------------------
-INSERT INTO `tbl_hak_akses` VALUES (1, 4, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (108, 4, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (119, 4, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (109, 4, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (120, 4, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (1, 2, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (104, 2, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (105, 2, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (101, 2, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (120, 2, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (1, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (104, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (106, 3, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (107, 3, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (100, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (102, 3, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (103, 3, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (110, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (111, 3, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (113, 3, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (118, 3, 1, 1, 1);
-INSERT INTO `tbl_hak_akses` VALUES (108, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (119, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (109, 3, 0, 0, 0);
-INSERT INTO `tbl_hak_akses` VALUES (120, 3, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (1, 5, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (108, 5, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (119, 5, 0, 0, 0);
@@ -126,6 +101,49 @@ INSERT INTO `tbl_hak_akses` VALUES (125, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (126, 1, 0, 0, 0);
 INSERT INTO `tbl_hak_akses` VALUES (122, 1, 1, 1, 1);
 INSERT INTO `tbl_hak_akses` VALUES (120, 1, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (1, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (104, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (106, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (107, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (100, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (102, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (103, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (127, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (110, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (111, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (113, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (118, 3, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (108, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (119, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (109, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (121, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (123, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (124, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (125, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (126, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (120, 3, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (1, 2, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (104, 2, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (105, 2, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (114, 2, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (117, 2, 1, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (100, 2, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (101, 2, 1, 1, 1);
+INSERT INTO `tbl_hak_akses` VALUES (120, 2, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (1, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (100, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (102, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (103, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (127, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (108, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (119, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (109, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (121, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (123, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (124, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (125, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (126, 4, 0, 0, 0);
+INSERT INTO `tbl_hak_akses` VALUES (120, 4, 0, 0, 0);
 
 -- ----------------------------
 -- Table structure for tbl_jabatan
@@ -237,7 +255,7 @@ CREATE TABLE `tbl_log_kunci`  (
 -- ----------------------------
 -- Records of tbl_log_kunci
 -- ----------------------------
-INSERT INTO `tbl_log_kunci` VALUES ('11', '2019', 'USR00001', 1, '2019-11-19 23:46:59', NULL);
+INSERT INTO `tbl_log_kunci` VALUES ('11', '2019', 'USR00001', 0, '2019-11-19 23:46:59', NULL);
 INSERT INTO `tbl_log_kunci` VALUES ('02', '2019', 'USR00001', 1, '2019-11-19 23:58:05', NULL);
 INSERT INTO `tbl_log_kunci` VALUES ('10', '2019', 'USR00001', 1, '2019-10-20 23:07:11', NULL);
 
@@ -591,7 +609,13 @@ CREATE TABLE `tbl_rapbs`  (
   `updated_at` datetime(0) NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_rapbs
+-- ----------------------------
+INSERT INTO `tbl_rapbs` VALUES (4, '2019', 'USR00001', '2019-11-27 23:23:58', NULL, '2019-11-28 20:19:30');
+INSERT INTO `tbl_rapbs` VALUES (5, '2019', 'USR00001', '2019-11-28 20:19:30', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for tbl_rapbs_detail
@@ -614,9 +638,184 @@ CREATE TABLE `tbl_rapbs_detail`  (
   `created_at` datetime(0) NULL DEFAULT NULL,
   `updated_at` datetime(0) NULL DEFAULT NULL,
   `deleted_at` datetime(0) NULL DEFAULT NULL,
+  `kode` varchar(5) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL,
   INDEX `id_header`(`id_header`) USING BTREE,
   CONSTRAINT `tbl_rapbs_detail_ibfk_1` FOREIGN KEY (`id_header`) REFERENCES `tbl_rapbs` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of tbl_rapbs_detail
+-- ----------------------------
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Alat Tulis Sekolah', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 1, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'spidol boardmarkers', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 2, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'pulpen', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 3, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Penghapus White board', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 4, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'FD Kingston 16 GB', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 5, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'FD Kingston 8 GB', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 6, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Mouse', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 7, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pensil', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 8, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.7');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Penghapus pensil', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 9, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.8');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Stipo', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 10, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.9');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'CD-R', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 11, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.10');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'CD-RW', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 12, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.11');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Keplek', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 13, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.12');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Kupluk', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 14, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '1.13');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Bahan dan Alat Habis Pakai', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 15, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Penyusunan pembagian tugas guru dan jadwal pelajaran', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 16, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'foto copy', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 17, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'kertas cd', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 18, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'map snel', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 19, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Minum', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 20, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'matrei 6000', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 21, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Matrei 3000', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 22, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.7');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'tinta print hitam', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 23, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.8');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'tinta print warna', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 24, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.9');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'service komputer dan printer', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 25, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.10');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'kertas kop', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 1, 26, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.11');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'amplop kop', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 1, 27, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.12');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Isi spidol boardmarker', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 28, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.13');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Isi Steples kecil', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 29, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.14');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'isolasi besar putih', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 30, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.15');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Isolasi besar hitam', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 31, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.16');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Kapur tulis', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 32, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.17');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Service Kipas angin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 33, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '2.18');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pemeliharaan dan perbaikan ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 34, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Perbaikan Kelas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 35, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '3.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pengecatan Ruang kelas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 36, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '3.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pengecatan Ruang kantor', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 37, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '3.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Perbaikan meja dan kursi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 38, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '3.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Transport', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 39, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Perjalanan Dinas Luar kota', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 40, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '4.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Perjalanan Dalam Kota', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 41, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '4.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Konsumsi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 42, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '5');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Konsumsi Rapat UTS dan UAS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 43, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '5.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Konsumsi Kegiatan Keagamaan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 44, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '5.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Konsumsi Ujian nasional', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 45, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '5.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Konsumsi Kegiatan LDKS dan KTS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 46, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '5.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Pembinaan siswa/Ekstrakulikuler', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 47, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '6');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'LDKS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 48, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '6.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'PMB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 49, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '6.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'MOS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 50, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '6.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Kegiatan Keagamaan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 51, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '6.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'KTS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 52, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '6.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya uji kompetensi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 53, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '7');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Coba ya', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 54, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '7.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Praktek kerja industri', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 55, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '8');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Pelaporan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 56, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '9');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pelaporan Proposal BOS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 57, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '9.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pelaporan SPJ Bopda', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 58, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '9.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Peningkatan Mutu Pendidik dan Tenaga Kependidikan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 59, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '10');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Penyusunan RPP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 60, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '10.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'MGMP Ma\'arif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 61, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '10.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Iuran MGMP MKKS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 62, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '10.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Transportasi MGMP MKKS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 63, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '10.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Work shop', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 64, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '10.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Rapat kerja kepala sekolah', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 65, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '10.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pengembangan Kurikulum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 66, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'UTS Semester I dan II', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 67, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'UAS Semester I dan II', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 68, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Ujian Ma\'arif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 69, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Ujian Sekolah', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 70, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Ujian Praktek', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 71, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Tri Out', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 72, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Ujian Nasional', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 73, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.7');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Ulangan Harian sem.I dan II', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 74, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '11.8');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pembelian/Pengadaan sarana dan prasarana  Pemb', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 75, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '12');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pembelian sarana Olah raga', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 76, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '12.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pembelian sarana dan bahan kebersihan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 77, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '12.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pembelian Perlengkapan kelas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 78, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '12.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Pengadaan buku', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 79, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '12.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Daya dan Jasa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 80, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '13');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Rekening telepon', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 81, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '13.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Rekening listrik', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 82, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '13.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Biaya Upah /Gaji /Honorarium tenaga pendidik dan tenaga kependidikan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 83, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '14');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Honorarium Guru dan karyawan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 84, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '14.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (4, 'Honorarium Pemb.ekstra,satpam,pak bon', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 85, '2019-11-27 23:23:57', NULL, '2019-11-28 20:19:30', '14.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Alat Tulis Sekolah', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 1, '2019-11-28 20:19:30', NULL, NULL, '1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'spidol boardmarkers', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 2, '2019-11-28 20:19:30', NULL, NULL, '1.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'pulpen', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 3, '2019-11-28 20:19:30', NULL, NULL, '1.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Penghapus White board', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 4, '2019-11-28 20:19:30', NULL, NULL, '1.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'FD Kingston 16 GB', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 5, '2019-11-28 20:19:30', NULL, NULL, '1.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'FD Kingston 8 GB', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 6, '2019-11-28 20:19:30', NULL, NULL, '1.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Mouse', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 7, '2019-11-28 20:19:30', NULL, NULL, '1.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pensil', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 8, '2019-11-28 20:19:30', NULL, NULL, '1.7');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Penghapus pensil', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 9, '2019-11-28 20:19:30', NULL, NULL, '1.8');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Stipo', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 10, '2019-11-28 20:19:30', NULL, NULL, '1.9');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'CD-R', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 11, '2019-11-28 20:19:30', NULL, NULL, '1.10');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'CD-RW', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 12, '2019-11-28 20:19:30', NULL, NULL, '1.11');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Keplek', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 13, '2019-11-28 20:19:30', NULL, NULL, '1.12');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Kupluk', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 14, '2019-11-28 20:19:30', NULL, NULL, '1.13');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Bahan dan Alat Habis Pakai', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 15, '2019-11-28 20:19:30', NULL, NULL, '2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Penyusunan pembagian tugas guru dan jadwal pelajaran', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 16, '2019-11-28 20:19:30', NULL, NULL, '2.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'foto copy', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 17, '2019-11-28 20:19:30', NULL, NULL, '2.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'kertas cd', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 18, '2019-11-28 20:19:30', NULL, NULL, '2.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'map snel', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 19, '2019-11-28 20:19:30', NULL, NULL, '2.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Minum', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 20, '2019-11-28 20:19:30', NULL, NULL, '2.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'matrei 6000', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 21, '2019-11-28 20:19:30', NULL, NULL, '2.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Matrei 3000', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 22, '2019-11-28 20:19:30', NULL, NULL, '2.7');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'tinta print hitam', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 23, '2019-11-28 20:19:30', NULL, NULL, '2.8');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'tinta print warna', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 24, '2019-11-28 20:19:30', NULL, NULL, '2.9');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'service komputer dan printer', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 25, '2019-11-28 20:19:30', NULL, NULL, '2.10');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'kertas kop', 29, 'PACK', 800000.00, 90000000.00, 891000.00, NULL, 1000000.00, NULL, 'ONDE-ONDE', 0, 26, '2019-11-28 20:19:30', NULL, NULL, '2.11');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'amplop kop', 80, 'KLEP', 90000.00, 8002900.00, NULL, NULL, 90000.00, NULL, 'JAJUK', 0, 27, '2019-11-28 20:19:30', NULL, NULL, '2.12');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Isi spidol boardmarker', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 28, '2019-11-28 20:19:30', NULL, NULL, '2.13');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Isi Steples kecil', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 29, '2019-11-28 20:19:30', NULL, NULL, '2.14');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'isolasi besar putih', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 30, '2019-11-28 20:19:30', NULL, NULL, '2.15');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Isolasi besar hitam', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 31, '2019-11-28 20:19:30', NULL, NULL, '2.16');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Kapur tulis', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 32, '2019-11-28 20:19:30', NULL, NULL, '2.17');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Service Kipas angin', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 33, '2019-11-28 20:19:30', NULL, NULL, '2.18');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pemeliharaan dan perbaikan ringan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 34, '2019-11-28 20:19:30', NULL, NULL, '3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Perbaikan Kelas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 35, '2019-11-28 20:19:30', NULL, NULL, '3.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pengecatan Ruang kelas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 36, '2019-11-28 20:19:30', NULL, NULL, '3.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pengecatan Ruang kantor', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 37, '2019-11-28 20:19:30', NULL, NULL, '3.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Perbaikan meja dan kursi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 38, '2019-11-28 20:19:30', NULL, NULL, '3.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Transport', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 39, '2019-11-28 20:19:30', NULL, NULL, '4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Perjalanan Dinas Luar kota', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 40, '2019-11-28 20:19:30', NULL, NULL, '4.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Perjalanan Dalam Kota', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 41, '2019-11-28 20:19:30', NULL, NULL, '4.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Konsumsi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 42, '2019-11-28 20:19:30', NULL, NULL, '5');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Konsumsi Rapat UTS dan UAS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 43, '2019-11-28 20:19:30', NULL, NULL, '5.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Konsumsi Kegiatan Keagamaan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 44, '2019-11-28 20:19:30', NULL, NULL, '5.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Konsumsi Ujian nasional', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 45, '2019-11-28 20:19:30', NULL, NULL, '5.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Konsumsi Kegiatan LDKS dan KTS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 46, '2019-11-28 20:19:30', NULL, NULL, '5.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Pembinaan siswa/Ekstrakulikuler', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 47, '2019-11-28 20:19:30', NULL, NULL, '6');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'LDKS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 48, '2019-11-28 20:19:30', NULL, NULL, '6.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'PMB', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 49, '2019-11-28 20:19:30', NULL, NULL, '6.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'MOS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 50, '2019-11-28 20:19:30', NULL, NULL, '6.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Kegiatan Keagamaan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 51, '2019-11-28 20:19:30', NULL, NULL, '6.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'KTS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 52, '2019-11-28 20:19:30', NULL, NULL, '6.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya uji kompetensi', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 53, '2019-11-28 20:19:30', NULL, NULL, '7');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Coba ya', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 54, '2019-11-28 20:19:30', NULL, NULL, '7.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Praktek kerja industri', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 55, '2019-11-28 20:19:30', NULL, NULL, '8');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Pelaporan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 56, '2019-11-28 20:19:30', NULL, NULL, '9');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pelaporan Proposal BOS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 57, '2019-11-28 20:19:30', NULL, NULL, '9.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pelaporan SPJ Bopda', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 58, '2019-11-28 20:19:30', NULL, NULL, '9.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Peningkatan Mutu Pendidik dan Tenaga Kependidikan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 59, '2019-11-28 20:19:30', NULL, NULL, '10');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Penyusunan RPP', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 60, '2019-11-28 20:19:30', NULL, NULL, '10.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'MGMP Ma\'arif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 61, '2019-11-28 20:19:30', NULL, NULL, '10.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Iuran MGMP MKKS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 62, '2019-11-28 20:19:30', NULL, NULL, '10.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Transportasi MGMP MKKS', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 63, '2019-11-28 20:19:30', NULL, NULL, '10.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Work shop', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 64, '2019-11-28 20:19:30', NULL, NULL, '10.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Rapat kerja kepala sekolah', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 65, '2019-11-28 20:19:30', NULL, NULL, '10.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pengembangan Kurikulum', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 66, '2019-11-28 20:19:30', NULL, NULL, '11');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'UTS Semester I dan II', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 67, '2019-11-28 20:19:30', NULL, NULL, '11.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'UAS Semester I dan II', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 68, '2019-11-28 20:19:30', NULL, NULL, '11.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Ujian Ma\'arif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 69, '2019-11-28 20:19:30', NULL, NULL, '11.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Ujian Sekolah', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 70, '2019-11-28 20:19:30', NULL, NULL, '11.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Ujian Praktek', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 71, '2019-11-28 20:19:30', NULL, NULL, '11.5');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Tri Out', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 72, '2019-11-28 20:19:30', NULL, NULL, '11.6');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Ujian Nasional', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 73, '2019-11-28 20:19:30', NULL, NULL, '11.7');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Ulangan Harian sem.I dan II', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 74, '2019-11-28 20:19:30', NULL, NULL, '11.8');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pembelian/Pengadaan sarana dan prasarana  Pemb', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 75, '2019-11-28 20:19:30', NULL, NULL, '12');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pembelian sarana Olah raga', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 76, '2019-11-28 20:19:30', NULL, NULL, '12.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pembelian sarana dan bahan kebersihan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 77, '2019-11-28 20:19:30', NULL, NULL, '12.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pembelian Perlengkapan kelas', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 78, '2019-11-28 20:19:30', NULL, NULL, '12.3');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Pengadaan buku', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 79, '2019-11-28 20:19:30', NULL, NULL, '12.4');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Daya dan Jasa', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 80, '2019-11-28 20:19:30', NULL, NULL, '13');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Rekening telepon', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 81, '2019-11-28 20:19:30', NULL, NULL, '13.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Rekening listrik', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 82, '2019-11-28 20:19:30', NULL, NULL, '13.2');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Biaya Upah /Gaji /Honorarium tenaga pendidik dan tenaga kependidikan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 1, 83, '2019-11-28 20:19:30', NULL, NULL, '14');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Honorarium Guru dan karyawan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 84, '2019-11-28 20:19:30', NULL, NULL, '14.1');
+INSERT INTO `tbl_rapbs_detail` VALUES (5, 'Honorarium Pemb.ekstra,satpam,pak bon', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '', 0, 85, '2019-11-28 20:19:30', NULL, NULL, '14.2');
 
 -- ----------------------------
 -- Table structure for tbl_satuan
@@ -696,6 +895,7 @@ INSERT INTO `tbl_trans_keluar` VALUES ('OUT101900003', 'USR00001', 'GAJI BULANAN
 INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900002', 'USR00001', 'Sueb', '2019-11-05', 0, '2019-11-05 14:44:32', NULL);
 INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900003', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-07 23:31:23', NULL);
 INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900004', 'USR00001', 'GAJI BULANAN', '2019-11-30', 0, '2019-11-13 00:10:54', NULL);
+INSERT INTO `tbl_trans_keluar` VALUES ('OUT111900005', 'USR00001', 'yanto', '2019-11-29', 1, '2019-11-29 18:30:36', NULL);
 
 -- ----------------------------
 -- Table structure for tbl_trans_keluar_detail
@@ -713,7 +913,7 @@ CREATE TABLE `tbl_trans_keluar_detail`  (
   INDEX `satuan`(`satuan`) USING BTREE,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_1` FOREIGN KEY (`id_trans_keluar`) REFERENCES `tbl_trans_keluar` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `tbl_trans_keluar_detail_ibfk_2` FOREIGN KEY (`satuan`) REFERENCES `tbl_satuan` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 33 CHARACTER SET = latin1 COLLATE = latin1_swedish_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of tbl_trans_keluar_detail
@@ -725,6 +925,7 @@ INSERT INTO `tbl_trans_keluar_detail` VALUES (28, 'OUT111900004', 'Gaji Bulanan 
 INSERT INTO `tbl_trans_keluar_detail` VALUES (29, 'OUT101900001', 'kripik udang', 1, 6, 1);
 INSERT INTO `tbl_trans_keluar_detail` VALUES (30, 'OUT101900002', 'Gaji Bulanan Staff/Karyawan', 9, 1, 1);
 INSERT INTO `tbl_trans_keluar_detail` VALUES (31, 'OUT101900003', 'Gaji Bulanan Guru', 9, 1, 1);
+INSERT INTO `tbl_trans_keluar_detail` VALUES (32, 'OUT111900005', 'beli pensil', 1, 12, 0);
 
 -- ----------------------------
 -- Table structure for tbl_trans_masuk
@@ -747,7 +948,7 @@ CREATE TABLE `tbl_trans_masuk`  (
 -- Records of tbl_trans_masuk
 -- ----------------------------
 INSERT INTO `tbl_trans_masuk` VALUES ('MSK101900001', 'USR00001', '2019-10-20', 1, '2019-10-20 23:27:05', NULL, 1);
-INSERT INTO `tbl_trans_masuk` VALUES ('MSK111900001', 'USR00001', '2019-11-06', 1, '2019-11-06 09:57:03', NULL, 1);
+INSERT INTO `tbl_trans_masuk` VALUES ('MSK111900001', 'USR00001', '2019-11-06', 0, '2019-11-06 09:57:03', NULL, 1);
 
 -- ----------------------------
 -- Table structure for tbl_trans_masuk_detail
@@ -770,7 +971,7 @@ CREATE TABLE `tbl_trans_masuk_detail`  (
 -- ----------------------------
 -- Records of tbl_trans_masuk_detail
 -- ----------------------------
-INSERT INTO `tbl_trans_masuk_detail` VALUES (1, 'MSK111900001', 'Bantuan BOS November 2019', 9, 1, 1);
+INSERT INTO `tbl_trans_masuk_detail` VALUES (1, 'MSK111900001', 'Bantuan BOS November 2019', 9, 1, 0);
 INSERT INTO `tbl_trans_masuk_detail` VALUES (2, 'MSK101900001', 'BOS OKTOBER 2019', 9, 1, 1);
 
 -- ----------------------------
@@ -793,10 +994,10 @@ CREATE TABLE `tbl_user`  (
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', '05munaqTlKafrsXZ3JyymIo=', 1, NULL, 1, '2019-11-26 19:44:35', '2019-10-05 21:34:14', '2019-11-26 19:44:35');
-INSERT INTO `tbl_user` VALUES ('USR00002', 'KEPSEK', 'zJWkpZad', 4, NULL, 1, NULL, '2019-11-09 19:36:13', '2019-11-10 13:05:37');
-INSERT INTO `tbl_user` VALUES ('USR00003', 'KEUANGAN', 'zJWpk5+Zkac=', 3, NULL, 1, '2019-11-10 21:30:57', '2019-11-09 19:43:19', '2019-11-10 21:30:57');
-INSERT INTO `tbl_user` VALUES ('USR00004', 'TATAUSAHA', '1ZGok6alkaGX', 2, NULL, 1, NULL, '2019-11-09 19:45:18', '2019-11-10 13:14:50');
+INSERT INTO `tbl_user` VALUES ('USR00001', 'ADMIN', 'kmJnZmZo', 1, NULL, 1, NULL, '2019-10-05 21:34:14', '2019-12-01 22:50:04');
+INSERT INTO `tbl_user` VALUES ('USR00002', 'KEPSEK', 'kmJnZmZo', 4, NULL, 1, NULL, '2019-11-09 19:36:13', '2019-12-01 22:49:22');
+INSERT INTO `tbl_user` VALUES ('USR00003', 'KEUANGAN', 'kmJnZmZo', 3, NULL, 1, NULL, '2019-11-09 19:43:19', '2019-12-01 22:49:04');
+INSERT INTO `tbl_user` VALUES ('USR00004', 'TATAUSAHA', 'kmJnZmZo', 2, NULL, 1, NULL, '2019-11-09 19:45:18', '2019-12-01 22:49:40');
 
 -- ----------------------------
 -- Table structure for tbl_user_detail
@@ -865,7 +1066,6 @@ INSERT INTO `tbl_verifikasi` VALUES ('VRY101900003', 'OUT101900002', 30, NULL, N
 INSERT INTO `tbl_verifikasi` VALUES ('VRY101900004', 'OUT101900003', 31, NULL, NULL, 'USR00001', '2019-10-31', NULL, 9355000.00, 9355000.00, 2, 2, 2, 3, NULL, '2019-10-20 23:30:31', NULL, 2);
 INSERT INTO `tbl_verifikasi` VALUES ('VRY111900001', 'OUT111900002', 13, NULL, NULL, 'USR00001', '2019-11-05', 'images.jpg', 12000.00, 72000.00, 1, 1, 7, 1, 1, '2019-11-05 15:12:13', NULL, 2);
 INSERT INTO `tbl_verifikasi` VALUES ('VRY111900002', 'OUT111900002', 14, NULL, NULL, 'USR00001', '2019-11-05', 'images.jpg', 15000.00, 180000.00, 1, 1, 7, 1, 1, '2019-11-05 15:12:13', NULL, 2);
-INSERT INTO `tbl_verifikasi` VALUES ('VRY111900005', NULL, NULL, 'MSK111900001', 1, 'USR00001', '2019-11-06', 'images.jpg', 50000000.00, 50000000.00, 1, NULL, NULL, NULL, NULL, '2019-11-06 09:57:03', NULL, 1);
 INSERT INTO `tbl_verifikasi` VALUES ('VRY111900006', 'OUT111900003', 22, NULL, NULL, 'USR00001', '2019-11-30', NULL, 19295000.00, 19295000.00, 2, 2, 2, 3, NULL, '2019-11-07 23:31:23', NULL, 2);
 INSERT INTO `tbl_verifikasi` VALUES ('VRY111900007', 'OUT111900004', 28, NULL, NULL, 'USR00001', '2019-11-30', NULL, 2350000.00, 2350000.00, 2, 2, 2, 3, NULL, '2019-11-13 00:10:54', NULL, 2);
 
