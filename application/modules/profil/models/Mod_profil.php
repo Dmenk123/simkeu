@@ -148,7 +148,7 @@ class Mod_profil extends CI_Model
 			SELECT tkd.*, tk.tanggal 
 			from tbl_trans_keluar_detail tkd 
 			join tbl_trans_keluar tk on tkd.id_trans_keluar = tk.id
-			where DATE_FORMAT(tk.tanggal, '%Y-%m') = '".$strBulanTahun."'
+			where DATE_FORMAT(tk.tanggal, '%Y-%m') = '".$strBulanTahun."' and tkd.status = '1'
 		")->num_rows();
 		
 		return $query;
@@ -164,6 +164,109 @@ class Mod_profil extends CI_Model
 			where DATE_FORMAT(tm.tanggal, '%Y-%m') = '" . $strBulanTahun . "'
 		")->num_rows();
 
+		return $query;
+	}
+
+	public function get_nilai_pengeluaran($bulan, $tahun)
+	{
+		$strBulanTahun = $tahun.'-'.$bulan;
+		$query = $this->db->query("
+			SELECT sum(harga_total) as nilai_out
+			FROM tbl_verifikasi 
+			WHERE DATE_FORMAT(tbl_verifikasi.tanggal, '%Y-%m') = '".$strBulanTahun."' and tipe_transaksi = '2'
+		")->row();
+
+		if ($query->nilai_out == null) {
+			$retval = 0;
+		}else{
+			$retval = $query->nilai_out;
+		}
+		return $retval;
+	}
+
+	public function get_nilai_penerimaan($bulan, $tahun)
+	{
+		$strBulanTahun = $tahun.'-'.$bulan;
+		$query = $this->db->query("
+			SELECT sum(harga_total) as nilai_in
+			FROM tbl_verifikasi 
+			WHERE DATE_FORMAT(tbl_verifikasi.tanggal, '%Y-%m') = '".$strBulanTahun."' and tipe_transaksi = '1'
+		")->row();
+		
+		if ($query->nilai_in == null) {
+			$retval = 0;
+		}else{
+			$retval = $query->$nilai_in;
+		}
+		return $retval;
+	}
+
+	public function get_jumlah_gaji($bulan, $tahun)
+	{
+		$strBulanTahun = $tahun.'-'.$bulan;
+		$query = $this->db->query("
+			SELECT * FROM tbl_verifikasi 
+			WHERE DATE_FORMAT(tbl_verifikasi.tanggal, '%Y-%m') = '".$strBulanTahun."' and tipe_transaksi = '2' and status = '2'
+		")->num_rows();
+
+		return $query;
+	}
+
+	public function get_jumlah_user()
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_user');
+		$this->db->where('status', '1');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function get_jumlah_role()
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_level_user');
+		$this->db->where('aktif', '1');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function get_jumlah_menu()
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_menu');
+		$this->db->where('aktif_menu', '1');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function get_jumlah_satuan()
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_satuan');
+		$this->db->where('is_aktif', '1');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function get_jumlah_jabatan()
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_jabatan');
+		$this->db->where('is_aktif', '1');
+		$query = $this->db->get();
+		return $query->num_rows();
+	}
+
+	public function get_jumlah_out_all($bulan, $tahun)
+	{
+		$strBulanTahun = $tahun.'-'.$bulan;
+		$query = $this->db->query("
+			SELECT tkd.*, tk.tanggal 
+			from tbl_trans_keluar_detail tkd 
+			join tbl_trans_keluar tk on tkd.id_trans_keluar = tk.id
+			where DATE_FORMAT(tk.tanggal, '%Y-%m') = '".$strBulanTahun."'
+		")->num_rows();
+		
 		return $query;
 	}
 }

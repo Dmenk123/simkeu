@@ -31,30 +31,44 @@ class Home extends CI_Controller {
 
 		if ($this->session->userdata('id_level_user') == ADMINISTRATOR) {
 			$query = $this->prof->get_detail_pengguna($id_user);
-			$data_dashboard = '';
-			$component = null;
+			$data_dashboard = [
+				'jumlah_user' => $this->prof->get_jumlah_user(),
+				'jumlah_role' => $this->prof->get_jumlah_role(),
+				'jumlah_menu' => $this->prof->get_jumlah_menu()
+			];
+			$component = 'dashboard_admin';
 		} else if ($this->session->userdata('id_level_user') == TATAUSAHA) {
 			$query = $this->prof->get_detail_pengguna($id_user);
 			$data_dashboard = [
 				'jumlah_guru' => $this->prof->get_jumlah_guru(),
-				'jumlah_karyawan' => $this->prof->get_jumlah_karyawan()
+				'jumlah_karyawan' => $this->prof->get_jumlah_karyawan(),
+				'jumlah_satuan' => $this->prof->get_jumlah_satuan(),
+				'jumlah_jabatan' => $this->prof->get_jumlah_jabatan(),
+				'jumlah_pengeluaran' => $this->prof->get_jumlah_out_all($bulan, $tahun)
 			];
-			$component = 'dashboard_guru';
+			$component = 'dashboard_tu';
 		} else if ($this->session->userdata('id_level_user') == KEUANGAN) {
 			$query = $this->prof->get_detail_pengguna($id_user);
 			$data_dashboard = [
 				'jumlah_belum_verifikasi' => $this->prof->get_jumlah_belum_verifikasi(),
 				'jumlah_sudah_verifikasi' => $this->prof->get_jumlah_sudah_verifikasi($bulan, $tahun),
 				'jumlah_penerimaan' => $this->prof->get_jumlah_penerimaan($bulan, $tahun),
+				'nilai_out' => $this->prof->get_nilai_pengeluaran($bulan, $tahun),
+				'nilai_in' => $this->prof->get_nilai_penerimaan($bulan, $tahun),
+				'jumlah_gaji' => $this->prof->get_jumlah_gaji($bulan, $tahun),
 				'bulan_indo' => $this->bulan_indo($bulan)
 			];
 			$component = 'dashboard_keuangan';
 		} else if ($this->session->userdata('id_level_user') == KEPSEK) {
 			$query = $this->prof->get_detail_pengguna($id_user);
 			$data_dashboard = [
-				'jumlah_guru' => $this->prof->get_jumlah_guru()
+				'jumlah_sudah_verifikasi' => $this->prof->get_jumlah_sudah_verifikasi($bulan, $tahun),
+				'jumlah_penerimaan' => $this->prof->get_jumlah_penerimaan($bulan, $tahun),
+				'nilai_out' => $this->prof->get_nilai_pengeluaran($bulan, $tahun),
+				'nilai_in' => $this->prof->get_nilai_penerimaan($bulan, $tahun),
+				'bulan_indo' => $this->bulan_indo($bulan)
 			];
-			$component = 'dashboard_user';
+			$component = 'dashboard_kepsek';
 		} else if ($this->session->userdata('id_level_user') == GURU) {
 			$query = $this->prof->get_detail_pegawai($id_user);
 			$data_dashboard = [
