@@ -23,7 +23,7 @@ class Mod_verifikasi_out extends CI_Model
 
 	var $column_search2 = array(
 		"tv.id",
-		"tk.id_out",
+		"tv.id_out",
 		"tu.username",
 		"tkd.keterangan",
 		"tv.harga_total"
@@ -31,7 +31,7 @@ class Mod_verifikasi_out extends CI_Model
 
 	var $column_order2 = array(
 		"tv.id",
-		"tk.id_out",
+		"tv.id_out",
 		"tu.username",
 		"tkd.keterangan",
 		"tv.harga_total",
@@ -149,7 +149,7 @@ class Mod_verifikasi_out extends CI_Model
 	{
 		$column = array(
 			"tv.id",
-			"tk.id_out",
+			"tv.id_out",
 			"tu.username",
 			"tkd.keterangan",
 			"tv.harga_total",
