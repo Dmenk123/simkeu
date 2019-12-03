@@ -19,8 +19,6 @@ class Trans_rapbs extends CI_Controller {
 		$a =  $this->excel->number_format();
 		// NumberFormat::FORMAT_CURRENCY_USD_SIMPLE
 		var_dump($a::FORMAT_CURRENCY_USD_SIMPLE);
-
-
 	}
 
 	public function index()

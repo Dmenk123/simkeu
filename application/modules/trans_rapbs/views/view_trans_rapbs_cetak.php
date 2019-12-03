@@ -229,7 +229,7 @@
             <td>
               <div>
                 <span style="float: left;margin-left:5px;">
-                  <?= ($val->harga_satuan == '' || $val->harga_satuan == null) ? '' : 'Rp.'; ?> 
+                  <?= ($val->harga_satuan == '' || $val->harga_satuan == null) ? '' : 'Rp.'; ?>
                 </span>
                 <span style="float: right;margin-right:5px;">
                   <?= ($val->harga_satuan == '' || $val->harga_satuan == null) ? '' : number_format($val->harga_satuan, 0, ",", "."); ?>
@@ -265,7 +265,7 @@
             <td>
               <div>
                 <span style="float: left;margin-left:5px;">
-                  <?= ($val->bosnas == '' || $val->bosnas == null) ? '' : 'Rp.'; ?> 
+                  <?= ($val->bosnas == '' || $val->bosnas == null) ? '' : 'Rp.'; ?>
                 </span>
                 <span style="float: right;margin-right:5px;">
                   <?= ($val->bosnas == '' || $val->bosnas == null) ? '' : number_format($val->bosnas, 0, ",", "."); ?>
@@ -280,7 +280,7 @@
             <td>
               <div>
                 <span style="float: left;margin-left:5px;">
-                  <?= ($val->hibah_bopda == '' || $val->hibah_bopda == null) ? '' : 'Rp.'; ?>  
+                  <?= ($val->hibah_bopda == '' || $val->hibah_bopda == null) ? '' : 'Rp.'; ?>
                 </span>
                 <span style="float: right;margin-right:5px;">
                   <?= ($val->hibah_bopda == '' || $val->hibah_bopda == null) ? '' : number_format($val->hibah_bopda, 0, ",", "."); ?>
@@ -294,7 +294,7 @@
             <td>
               <div>
                 <span style="float: left;margin-left:5px;">
-                  <?= ($val->jumlah_total == '' || $val->jumlah_total == null) ? '' : 'Rp.'; ?> 
+                  <?= ($val->jumlah_total == '' || $val->jumlah_total == null) ? '' : 'Rp.'; ?>
                 </span>
                 <span style="float: right;margin-right:5px;">
                   <?= ($val->jumlah_total == '' || $val->jumlah_total == null) ? '' : number_format($val->jumlah_total, 0, ",", "."); ?>
@@ -309,7 +309,7 @@
 
         <tr class="tebal">
           <td></td>
-          <td class="tebal">TOTAL</td>
+          <td class="tebal text-center">TOTAL</td>
           <td></td>
           <td></td>
           <td></td>

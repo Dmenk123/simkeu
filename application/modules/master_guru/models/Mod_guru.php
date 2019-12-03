@@ -6,13 +6,13 @@ class Mod_guru extends CI_Model
 	var $column_order = array(
 		"tg.nip",
 		"tg.nama",
-		"tj.nama_jabatan",
+		"tj.nama",
 		null,
 	); //set column field database for datatable orderable
 	var $column_search = array(
 		"tg.nip",
 		"tg.nama",
-		"tj.nama_jabatan"
+		"tj.nama"
 	); //set column field database for datatable searchable just username are searchable
 	var $order = array('nama' => 'asc'); // default order 
 
@@ -29,7 +29,7 @@ class Mod_guru extends CI_Model
 		$column = array(
 			"tg.nip",
 			"tg.nama",
-			"tj.nama_jabatan",
+			"tj.nama",
 			null,
 		);
 		
