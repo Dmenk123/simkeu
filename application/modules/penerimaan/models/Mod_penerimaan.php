@@ -271,64 +271,14 @@ class Mod_Penerimaan extends CI_Model
 		$this->db->insert_batch('tbl_trans_keluar_detail',$data_order_detail);
 	}
 
+	public function delete_by_id($where, $table)
+	{
+		$this->db->where($where);
+		$this->db->delete($table);
+	}
+
 	// ============================================================================================
-
-	public function get_by_id($id)
-	{
-		$this->db->from('tbl_trans_order');
-		$this->db->where('id_trans_order',$id);
-		$query = $this->db->get();
-
-		return $query->row();
-	}
-
 	
-
-	public function delete_by_id($id)
-	{
-		$this->db->where('id_trans_order', $id);
-		$this->db->delete('tbl_trans_order');
-
-		$this->db->where('id_trans_order', $id);
-		$this->db->delete('tbl_trans_order_detail');
-	}
-
-	
-
-	public function get_id_trans_beli_detail($id_t_order)
-	{
-		$this->db->select('id_trans_beli_detail');
-		$this->db->from('tbl_trans_beli_detail');
-		$this->db->where('id_trans_order', $id_t_order);
-
-		$query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
-        }
-	}
-
-	public function get_id_trans_order_detail($id_t_order)
-	{
-		$this->db->select('id_trans_order_detail');
-		$this->db->from('tbl_trans_order_detail');
-		$this->db->where('id_trans_order', $id_t_order);
-
-		$query = $this->db->get();
-
-        if ($query->num_rows() > 0) {
-            return $query->result_array();
-        }
-	}
-
-   
-
-    function satuan(){
-		$this->db->order_by('name','ASC');
-		$namaSatuan= $this->db->get('tbl_satuan,tbl_barang');
-		return $namaSatuan->result_array();
-	}
-
 
 	public function lookup($keyword)
 	{

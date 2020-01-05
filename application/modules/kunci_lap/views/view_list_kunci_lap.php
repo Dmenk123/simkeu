@@ -97,7 +97,7 @@
                           <div class="col-sm-4">
                             <select id="tahun_kunci" class="form-control col-sm-3" style="margin-right: 5px;" name="tahun_kunci">
                               <option value="">Silahkan Pilih Tahun</option>
-                              <?php for ($i=2018; $i <=2025 ; $i++) {
+                              <?php for ($i=((int)date('Y')-10); $i <= ((int)date('Y') + 10); $i++) {
                                   echo '<option value="'.$i.'">'.$i.'</option>';
                               } ?>
                             </select>

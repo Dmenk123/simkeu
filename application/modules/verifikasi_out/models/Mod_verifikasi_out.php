@@ -266,6 +266,26 @@ class Mod_verifikasi_out extends CI_Model
 		return $query->result();
 	}
 
+	public function lookup_akun_external($kode_int, $kode_in_text_int)
+	{
+		$this->db->select('kodetext_akun_external, tipe_akun_external');
+		$this->db->from('tbl_master_kode_akun_internal');
+		$this->db->where('kode', $kode_int);
+		$this->db->where('kode_in_text', $kode_in_text_int);
+		$query = $this->db->get();
+		return $query->row();
+	}
+
+	public function get_data_akun_external($kodetext_akun_external, $tipe_akun_external)
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_master_kode_akun');
+		$this->db->where('tipe', $tipe_akun_external);
+		$this->db->where('kode_in_text', $kodetext_akun_external);
+		$query = $this->db->get();
+		return $query->row();
+	}
+
 	public function save($data_header, $data_detail)
 	{ 
 		$this->db->insert('tbl_trans_keluar',$data_header);

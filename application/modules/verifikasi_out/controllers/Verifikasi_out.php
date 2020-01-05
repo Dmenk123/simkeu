@@ -89,6 +89,26 @@ class Verifikasi_out extends CI_Controller {
 		$data_pengeluaran = $this->m_vout->get_by_id($id);
 		$data_detail = $this->m_vout->get_detail_by_id($id);
 
+		foreach ($data_detail as $key => $val) {
+			$arr_tipe_akun_internal = explode("-", $val->kode_in_text_akun);
+			$kode_int = trim($arr_tipe_akun_internal[0]);
+			$kode_in_text_int = trim($arr_tipe_akun_internal[1]);
+			$kode_akun_ext = $this->m_vout->lookup_akun_external($kode_int, $kode_in_text_int);
+
+			$data_kode[$key]['kodetext_akun_external'] = $kode_akun_ext->kodetext_akun_external;
+			$data_kode[$key]['tipe_akun_external'] =  $kode_akun_ext->tipe_akun_external;
+		}
+
+		foreach ($data_kode as $keys => $vals) {
+			$cek = $this->m_vout->get_data_akun_external($vals['kodetext_akun_external'], $vals['tipe_akun_external']);
+			$data_detail[$keys]->nama_akun_external = $cek->nama;
+		}
+		
+		echo "<pre>";
+		print_r ($data_detail);
+		echo "</pre>";
+		exit;
+		
 		$data = array(
 			'data_user'	 => $data_user,
 			'data_form'	 => $data_pengeluaran,

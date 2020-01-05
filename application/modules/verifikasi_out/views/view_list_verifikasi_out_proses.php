@@ -78,9 +78,9 @@
                           <input type="hidden" class="form-control" id="i_harga_total_raw-'.$key.'" name="i_harga_total_raw[]" value=""/>
                         </div>
 
-                        <div class="form-group col-md-12">
-                          <label>Kode Akun : </label>
-                            <select class="form-control i_akun" id="i_akun-'.$key.'" name="i_akun[]"></select>
+                        <div class="form-group col-md-6">
+                          <label>Kode Akun BOS : </label>
+                          <input type="text" class="form-control" id="i_akun-'.$key.'" name="i_akun[]" value="'.$value->qty.'" readonly>
                         </div>
 
                         <div class="form-group col-md-9">

@@ -160,7 +160,7 @@
       </tr>
     </table>
 
-    <h5 style="text-align: center;margin-top:-100px;"><strong>REALISASI KEGIATAN DAN ANGGARAN SEKOLAH (K2)</strong></h5>
+    <h5 style="text-align: center;margin-top:-100px;"><strong>RENCANA KEGIATAN DAN ANGGARAN SEKOLAH (RKAS)</strong></h5>
 
     <table class="tbl-header">
       <tr>

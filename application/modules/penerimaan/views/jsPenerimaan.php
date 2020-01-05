@@ -303,6 +303,28 @@ function save()
     });
 }
 
+function deletePenerimaanAwal(id)
+{
+    if(confirm('Anda yakin Hapus Data Ini ?'))
+    {
+        // ajax delete data to database
+        $.ajax({
+            url : "<?php echo site_url('penerimaan/hapus_penerimaan_awal')?>/"+id,
+            type: "POST",
+            dataType: "JSON",
+            success: function(data)
+            {
+                alert(data.pesan);
+                reload_table();
+            },
+            error: function (jqXHR, textStatus, errorThrown)
+            {
+                alert('Error deleting data');
+            }
+        });
+    }
+}
+
 function deletePenerimaan(id)
 {
     if(confirm('Anda yakin Hapus Data Ini ?'))

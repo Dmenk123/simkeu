@@ -235,13 +235,12 @@ class Mod_pengeluaran extends CI_Model
 	}
 
 
-	public function lookup($keyword)
+	public function lookup_pengeluaran($keyword)
 	{
-		$this->db->select('tbl_barang.nama_barang,tbl_barang.id_barang,tbl_satuan.id_satuan,tbl_satuan.nama_satuan,tbl_barang.status');
-		$this->db->from('tbl_barang');
-		$this->db->join('tbl_satuan','tbl_barang.id_satuan = tbl_satuan.id_satuan','left');
-		$this->db->like('tbl_barang.nama_barang',$keyword);
-		$this->db->where('tbl_barang.status', 'aktif');
+		$this->db->select('*');
+		$this->db->from('tbl_master_kode_akun_internal');
+		$this->db->like('nama', $keyword);
+		$this->db->where('is_aktif', '1');
 		$this->db->limit(5);
 		$query = $this->db->get();
 		return $query->result();

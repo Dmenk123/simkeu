@@ -112,6 +112,18 @@ class Mod_master_akun_internal extends CI_Model
 		return $query->result();
 	}
 
+	public function lookup_kode_akun_external($keyword="")
+	{
+		$this->db->select('*');
+		$this->db->from('tbl_master_kode_akun');
+		$this->db->like('nama',$keyword);
+		$this->db->where('is_aktif', '1');
+		$this->db->order_by('kode, sub_1, sub_2', 'asc');
+		
+		$query = $this->db->get();
+		return $query->result();
+	}
+
 	public function get_detail_user($id_user)
 	{
 		$this->db->select('*');

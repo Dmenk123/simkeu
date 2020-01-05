@@ -110,6 +110,7 @@ class Penerimaan extends CI_Controller {
 							<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick="">
 								<i class="glyphicon glyphicon-info-sign"></i></a>
 							<a class="btn btn-sm btn-primary" href="' . $link_edit . '" title="Edit" id="btn_edit" onclick=""><i class="glyphicon glyphicon-pencil"></i></a>
+							<a class="btn btn-sm btn-danger" href="javascript:void(0)" title="Hapus" onclick="deletePenerimaanAwal(' . "'" . $list_in->id . "'" . ')"><i class="glyphicon glyphicon-trash"></i></a>
 						';
 					} else {
 						$link_detail = site_url('penerimaan/penerimaan_detail/') . $list_in->id;
@@ -312,6 +313,32 @@ class Penerimaan extends CI_Controller {
 	    $this->load->library('image_lib',$config); //load image library
 	    $this->image_lib->initialize($config);
 	    $this->image_lib->resize();
+	}
+
+	public function hapus_penerimaan_awal($id)
+	{
+		$this->db->trans_begin();
+
+		//delete penerimaan detil
+		$this->m_in->delete_by_id(['id_trans_masuk' => $id], 'tbl_trans_masuk_detail');
+		//delete penerimaan
+		$this->m_in->delete_by_id(['id' => $id], 'tbl_trans_masuk');
+		
+		if ($this->db->trans_status() === FALSE){
+			$this->db->trans_rollback();
+			echo json_encode(array(
+				"status" => FALSE,
+				"pesan" => 'Data gagal dihapus'
+			));
+		}
+		else {
+			$this->db->trans_commit();
+			echo json_encode(array(
+				"status" => TRUE,
+				"pesan" => 'Data Sukses dihapus'
+			));
+		}
+		
 	}
 
 	public function hapus_penerimaan_finish($id)

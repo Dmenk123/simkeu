@@ -70,7 +70,7 @@
     });
 
     //select2
-    $(".i_akun").select2({
+    /*$(".i_akun").select2({
       ajax: {
         url: '<?php echo site_url('verifikasi_out/suggest_kode_akun'); ?>/',
         dataType: 'json',
@@ -82,7 +82,7 @@
         },
         cache: true
       },
-    });
+    });*/
 
     //datepicker
     $('#form_tanggal_order').datepicker({

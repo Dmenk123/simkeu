@@ -50,6 +50,21 @@ $(document).ready(function() {
         },
     });
 
+    //select2
+    $( "#kat_akun_ext" ).select2({ 
+        ajax: {
+        url: '<?php echo site_url('master_akun_internal/get_kategori_akun_external'); ?>/',
+        dataType: 'json',
+        delay: 250,
+        processResults: function (data) {
+            return {
+                results: data
+            };
+        },
+        cache: true
+        },
+    });
+
     $('#modal_form').on('hidden.bs.modal', function () {
         $(this).find("input,textarea,select").val('').end();
         $('#form')[0].reset();
@@ -87,6 +102,9 @@ function edit_akun(id)
             
             var $newOption = $("<option selected='selected'></option>").val(data.kat_id).text(data.kat_text)
             $('[name="kat_akun"]').append($newOption).trigger('change');
+
+            var $newOption2 = $("<option selected='selected'></option>").val(data.kat_id2).text(data.kat_text2)
+            $('[name="kat_akun_ext"]').append($newOption2).trigger('change');
             
             $('#modal_form').modal('show'); // show bootstrap modal when complete loaded
             $('.modal-title').text('Edit Master Akun Internal'); // Set title to Bootstrap modal title

@@ -74,9 +74,9 @@
             </div>
 
             <?php if ($this->input->get('bulan') != "" && $this->input->get('tahun') != "") { ?>
-              <script>
+              <!-- <script>
                 showData(<?= $this->input->get('bulan'); ?>, <?= $this->input->get('tahun'); ?>);
-              </script>
+              </script> -->
               <div class="box-header">
                 <?php if ($cek_kunci == FALSE) { ?>
                   <button class="btn btn-success" onclick="addPengeluaran()"><i class="glyphicon glyphicon-plus"></i> Tambah Data</button>

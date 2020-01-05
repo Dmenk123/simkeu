@@ -16,16 +16,18 @@
     $('#btn_add_row').click(function() {
       var ambilId = $('#form_id_tbl').val();
       var ambilKeterangan = $('#form_keterangan_tbl').val();
+      var ambilIdAkun = $('#form_id_akun').val();
       var ambilIJumlah = $('#form_jumlah_tbl').val();
       var ambilSatuan = $('#form_satuan_tbl').val();
       var ambilSatuanText = $("#form_satuan_tbl option:selected").text();
-      if (ambilKeterangan == "" || ambilIJumlah == "" || ambilSatuan == "") {
+      if (ambilKeterangan == "" || ambilIJumlah == "" || ambilIJumlah == '0' || ambilSatuan == "" || ambilIdAkun == "") {
         alert('ada field yang tidak diisi, Mohon cek lagi!!');
       } else {
         $('#tabel_pengeluaran').append(
           '<tr class="tbl_modal_row" id="row' + i + '">' +
           '<td style="width: 40%;">' +
           '<input type="text" name="i_keterangan[]" value="' + ambilKeterangan + '" id="i_keterangan" class="form-control" required readonly style="width: 100%;">' +
+          '<input type="hidden" name="i_idakun[]" value="' + ambilIdAkun + '" id="i_idakun" class="form-control" required readonly style="width: 100%;">' +
           '</td>' +
           '<td style="width: 10%;">' +
           '<input type="text" name="i_jumlah[]" value="' + ambilIJumlah + '" id="i_jumlah" class="form-control" required readonly style="width: 100%;">' +
@@ -104,15 +106,18 @@
     });
 
     //autocomplete
-    $('#form_nama_barang_order').autocomplete({
+    $('#form_keterangan_tbl').autocomplete({
       minLength: 2,
       delay: 0,
-      source: '<?php echo site_url('trans_order/suggest_barang'); ?>',
+      source: '<?php echo site_url('pengeluaran/suggest_pengeluaran'); ?>',
       select: function(event, ui) {
-        $('#form_id_barang_order').val(ui.item.id_barang);
-        $('#form_nama_satuan_order').val(ui.item.nama_satuan);
-        $('#form_id_satuan_order').val(ui.item.id_satuan);
+        $('#form_id_akun').val(ui.item.id);
       }
+    });
+
+    $('#form_keterangan_tbl').click(function(event) {
+      $(this).val('');
+      $('#form_id_akun').val('');
     });
 
     //set input/textarea/select event when change value, remove class error and remove text help block
@@ -170,6 +175,7 @@
             '<tr class="tbl_modal_row" id="row' + i + '">' +
             '<td style="width: 40%;">' +
             '<input type="text" name="i_keterangan[]" value="' + data.data_isi[key_isi - 1].keterangan + '" id="i_keterangan" class="form-control" required readonly style="width: 100%;">' +
+            '<input type="hidden" name="i_idakun[]" value="' + data.data_isi[key_isi - 1].kode_in_text_akun + '" id="i_idakun" class="form-control" required readonly style="width: 100%;">' +
             '</td>' +
             '<td style="width: 10%;">' +
             '<input type="text" name="i_jumlah[]" value="' + data.data_isi[key_isi - 1].qty + '" id="i_jumlah" class="form-control" required readonly style="width: 100%;">' +

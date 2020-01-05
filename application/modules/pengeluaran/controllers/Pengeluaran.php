@@ -84,7 +84,8 @@ class Pengeluaran extends CI_Controller {
 			}
 
 			//cek kuncian
-			$cek_kunci = $this->cek_status_kuncian(date('m', strtotime($listOut->tanggal)), date('Y', strtotime($listOut->tanggal)));
+			/*$cek_kunci = $this->cek_status_kuncian(date('m', strtotime($listOut->tanggal)), date('Y', strtotime($listOut->tanggal)));*/
+			$cek_kunci = FALSE;
 			if ($cek_kunci) {
 				$row[] = '<a class="btn btn-sm btn-success" href="' . $link_detail . '" title="Detail" id="btn_detail" onclick=""><i class="glyphicon glyphicon-info-sign"></i></a>';
 			}else{
@@ -145,6 +146,7 @@ class Pengeluaran extends CI_Controller {
 				'keterangan' => $this->input->post('i_keterangan')[$i],
 				'satuan' => $this->input->post('i_satuan')[$i],
 				'qty' => $this->input->post('i_jumlah')[$i],
+				'kode_in_text_akun' => $this->input->post('i_idakun')[$i]
 			);
 		}
 							
@@ -200,7 +202,8 @@ class Pengeluaran extends CI_Controller {
 				'id_trans_keluar' => $id,
 				'keterangan' => $this->input->post('i_keterangan')[$i],
 				'satuan' => $this->input->post('i_satuan')[$i],
-				'qty' => $this->input->post('i_jumlah')[$i]
+				'qty' => $this->input->post('i_jumlah')[$i],
+				'kode_in_text_akun' => $this->input->post('i_idakun')[$i]
 			);
 		}
 
@@ -328,22 +331,18 @@ class Pengeluaran extends CI_Controller {
         }
 	}
 
-	public function suggest_barang()
+	public function suggest_pengeluaran()
 	{
-		// $q = $this->input->post('kode',TRUE);
 		$q = strtolower($_GET['term']);
-		$query = $this->m_out->lookup($q);
-		//$barang = array();
-
+		$query = $this->m_out->lookup_pengeluaran($q);
+		
 		foreach ($query as $row) {
-			$barang[] = array(
-						'label' => $row->nama_barang,
-						'id_barang' => $row->id_barang,
-						'nama_satuan' => $row->nama_satuan,
-						'id_satuan' => $row->id_satuan
-					);
+			$resultset[] = [
+						'label' => $row->nama,
+						'id' => $row->kode.'-'.$row->kode_in_text
+					];
 		}
-		echo json_encode($barang);
+		echo json_encode($resultset);
 	}
 
 	public function get_data_barang($rowIdBrg)

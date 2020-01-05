@@ -38,7 +38,8 @@
                                  <td style="width: 50%;">
                                     <div class="form-group" style="width: 100%;">
                                         <input type="text" name="formKeteranganTbl" class="form-control" id="form_keterangan_tbl" placeholder="Keterangan" style="width: 100%;"/>
-                                        <input type="hidden" name="formIdDetail" class="form-control" id="form_id_detail" placeholder="Keterangan" style="width: 100%;"/>
+                                        <input type="hidden" name="formIdAkun" class="form-control" id="form_id_akun" />
+                                        <input type="hidden" name="formIdDetail" class="form-control" id="form_id_detail" />
                                     </div>    
                                  </td>
                                  <td style="width: 20%;">

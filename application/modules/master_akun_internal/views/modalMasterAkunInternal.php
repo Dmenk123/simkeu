@@ -17,6 +17,12 @@
                             </div>
                         </div>
                         <div class="form-group">
+                            <label class="control-label col-md-3">Akun BOS (Eksternal)</label>
+                            <div class="col-md-9">
+                                <select class="form-control kat_akun" id="kat_akun_ext" name="kat_akun_ext"></select>
+                            </div>
+                        </div>
+                        <div class="form-group">
                             <label class="control-label col-md-3">Nama</label>
                             <div class="col-md-9">
                                 <input name="nama" placeholder="Nama Akun" class="form-control" type="text">
